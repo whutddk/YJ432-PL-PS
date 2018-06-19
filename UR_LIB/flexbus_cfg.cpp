@@ -211,12 +211,12 @@ void YJ_FB_init()
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
     /* Initialize and configure FLEXBUS module */
-    FLEXBUS_Init(FB, &flexbusUserConfig);
+    // FLEXBUS_Init(FB, &flexbusUserConfig);
     
     flexbusUserConfig.chip = 0;
     flexbusUserConfig.waitStates = 2U;                      /* Wait 2 states */
     flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
-    flexbusUserConfig.chipBaseAddressMask = 0x1f;             /* 512 Kbytes memory size */
+    flexbusUserConfig.chipBaseAddressMask = 0x0f;             /* 512 Kbytes memory size */
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
     /* Initialize and configure FLEXBUS module */
@@ -239,8 +239,8 @@ int flexbus_test()
 {
 	uint32_t n,j;
 	bool result = true;
-	const uint16_t wdata = 0xBBAAU;
-	for (n = 0x0; n < 0xFU; n++)
+	const uint16_t wdata = 0xaaAAU;
+	for (n = 0x0; n < 0x7ffff; n++)
     {
         /* Write data to MRAM */
         *(p_mram + n) = wdata;
@@ -250,7 +250,7 @@ int flexbus_test()
     {
         __NOP();
     }
-    for (n = 0x0; n < 0xFU; n++)
+    for (n = 0x0; n < 0x7ffffU; n++)
     {
         /* Read data back from MRAM */
         rdata = *(p_mram + n);
