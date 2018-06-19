@@ -8,6 +8,13 @@
 
 #define SOPT2_CLKOUTSEL_FLEXBUS 0x00u /*!<@brief CLKOUT select: FlexBus CLKOUT */
 
+<<<<<<< HEAD:PS_repository/TJ432-A/UR_LIB/flexbus/flexbus_cfg.cpp
+=======
+#define MRAM_START_ADDRESS 0x60000000U
+
+uint16_t rdata;
+int16_t *p_mram = (int16_t *)0x60000000U;
+>>>>>>> e5105ca... 挂载在0x60000000上，开CLKOUT:UR_LIB/flexbus_cfg.cpp
 
 void flexbus_pin_mux()
 {
@@ -183,9 +190,15 @@ void YJ_FB_init()
     // FLEXBUS_Init(FB, &flexbusUserConfig);
     
     flexbusUserConfig.chip = 0;
+<<<<<<< HEAD:PS_repository/TJ432-A/UR_LIB/flexbus/flexbus_cfg.cpp
     flexbusUserConfig.waitStates = 0U;                      /* Wait 2 states */
     flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
     flexbusUserConfig.chipBaseAddressMask = 0x3FFFFFU;             /* 512 Kbytes memory size */
+=======
+    flexbusUserConfig.waitStates = 2U;                      /* Wait 2 states */
+    flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
+    flexbusUserConfig.chipBaseAddressMask = 0x1f;             /* 512 Kbytes memory size */
+>>>>>>> e5105ca... 挂载在0x60000000上，开CLKOUT:UR_LIB/flexbus_cfg.cpp
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
     /* Initialize and configure FLEXBUS module */
