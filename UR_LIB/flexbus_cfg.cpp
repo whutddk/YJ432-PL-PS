@@ -10,7 +10,7 @@
 #define MRAM_START_ADDRESS 0x60000000U
 
 uint16_t rdata;
-int16_t *p_mram = (int16_t *)0x80000000U;
+int16_t *p_mram = (int16_t *)0x60000000U;
 
 void flexbus_pin_mux()
 {
@@ -142,11 +142,11 @@ void flexbus_pin_mux()
 	PORT_SetPinMux(PORTD, 6U, kPORT_MuxAlt5);
 
 //输出flexbus时钟：40MHz
-	// SIM->SOPT2 = ((SIM->SOPT2 &
-	// /* Mask bits to zero which are setting */
-	// 			(~(SIM_SOPT2_CLKOUTSEL_MASK)))
-	// /* CLKOUT select: FlexBus CLKOUT. */
-	// 			| SIM_SOPT2_CLKOUTSEL(SOPT2_CLKOUTSEL_FLEXBUS));
+	SIM->SOPT2 = ((SIM->SOPT2 &
+	/* Mask bits to zero which are setting */
+				(~(SIM_SOPT2_CLKOUTSEL_MASK)))
+	/* CLKOUT select: FlexBus CLKOUT. */
+				| SIM_SOPT2_CLKOUTSEL(SOPT2_CLKOUTSEL_FLEXBUS));
 }
 
 
@@ -215,7 +215,7 @@ void YJ_FB_init()
     
     flexbusUserConfig.chip = 0;
     flexbusUserConfig.waitStates = 2U;                      /* Wait 2 states */
-    flexbusUserConfig.chipBaseAddress = 0x80000000U; /* MRAM address for using FlexBus */
+    flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
     flexbusUserConfig.chipBaseAddressMask = 0x1f;             /* 512 Kbytes memory size */
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
