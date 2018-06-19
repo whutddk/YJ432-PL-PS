@@ -197,8 +197,12 @@ void YJ_FB_init()
 =======
     flexbusUserConfig.waitStates = 2U;                      /* Wait 2 states */
     flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
+<<<<<<< HEAD:PS_repository/TJ432-A/UR_LIB/flexbus/flexbus_cfg.cpp
     flexbusUserConfig.chipBaseAddressMask = 0x1f;             /* 512 Kbytes memory size */
 >>>>>>> e5105ca... 挂载在0x60000000上，开CLKOUT:UR_LIB/flexbus_cfg.cpp
+=======
+    flexbusUserConfig.chipBaseAddressMask = 0x0f;             /* 512 Kbytes memory size */
+>>>>>>> 257de18... 挂6000000上,0f掩盖，7ffff读写通过:UR_LIB/flexbus_cfg.cpp
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
     /* Initialize and configure FLEXBUS module */
@@ -212,5 +216,51 @@ void YJ_FB_init()
         __NOP();
     }
 
+<<<<<<< HEAD:PS_repository/TJ432-A/UR_LIB/flexbus/flexbus_cfg.cpp
+=======
+
+
+    // FLEXBUS_Deinit(FB);
+}
+extern Serial uartpc;
+int flexbus_test()
+{
+	uint32_t n,j;
+	bool result = true;
+	const uint16_t wdata = 0xaaAAU;
+	for (n = 0x0; n < 0x7ffff; n++)
+    {
+        /* Write data to MRAM */
+        *(p_mram + n) = wdata;
+    }
+    /* Waiting some times */
+    for (j = 0; j < 0xFFFFU; j++)
+    {
+        __NOP();
+    }
+    for (n = 0x0; n < 0x7ffffU; n++)
+    {
+        /* Read data back from MRAM */
+        rdata = *(p_mram + n);
+        /* Verify that rdata equals to wdata */
+        if (rdata != wdata)
+        {
+            result = false;
+            uartpc.printf( "\r\nindex:%d,wdata:0xbbaa,rdata:%d",n,rdata );
+            break;
+        }
+        // uartpc.printf( "done!!!");
+    }
+    if (result)
+    {
+    	uartpc.printf( "done!!!\r\n");
+        return 0;
+    }
+    else
+    {
+    	uartpc.printf( "Fail!!!\r\n");
+        return -1;
+    }
+>>>>>>> 257de18... 挂6000000上,0f掩盖，7ffff读写通过:UR_LIB/flexbus_cfg.cpp
 }
 
