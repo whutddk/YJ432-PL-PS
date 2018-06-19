@@ -200,8 +200,8 @@ void YJ_FB_init()
 	flexbusUserConfig.group1MultiplexControl = kFLEXBUS_MultiplexGroup1_FB_ALE;
 	flexbusUserConfig.group2MultiplexControl = kFLEXBUS_MultiplexGroup2_FB_BE_31_24;
 	flexbusUserConfig.group3MultiplexControl = kFLEXBUS_MultiplexGroup3_FB_BE_23_16;
-	// flexbusUserConfig.group4MultiplexControl = kFLEXBUS_MultiplexGroup4_FB_BE_15_8;
-	// flexbusUserConfig.group5MultiplexControl = kFLEXBUS_MultiplexGroup5_FB_BE_7_0;
+	flexbusUserConfig.group4MultiplexControl = kFLEXBUS_MultiplexGroup4_FB_BE_15_8;
+	flexbusUserConfig.group5MultiplexControl = kFLEXBUS_MultiplexGroup5_FB_BE_7_0;
 
     /* Configure some parameters when using MRAM */
     flexbusUserConfig.chip = 0;
