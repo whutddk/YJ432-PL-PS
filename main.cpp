@@ -1,75 +1,72 @@
 #include "mbed.h"
 
-DigitalOut buzzer(BZ, 0);
+#include "ITAC.h"
+
+#include "include.h"
+
+//人机交互任务
+Thread ITAC_thread(osPriorityLow);
+extern void itac_app();
+
+//上位机任务
+Thread FC_thread(osPriorityBelowNormal);
+extern void FC_app();
+
+//实时控制
+Thread CTL_thread(osPriorityRealtime);
+extern void CTL_app();
+
 
 extern void YJ_FB_init();
 extern int flexbus_test();
-DigitalOut LEDR(LED_RED,1);
-DigitalOut LEDG(LED_GREEN,1);
-DigitalOut LEDB(LED_BLUE,1);
 
-Serial uartpc(USBTX,USBRX);
 
-void delay(uint32_t i)
-{
-	uint32_t j;
-	for ( ;i>0;i-- )
-		for (j = 500;j>0;j--)
-		{
-			__NOP();
-		}
-}
+extern Serial fc;
 
-#define DELAY_CNT 1000
+
+
+uint32_t flexbus_data[5];
+
+
 
 int main(void)
 {
-	buzzer = 0;
+	// buzzer = 0;
+
 	YJ_FB_init();
-	LEDG = 1;
-	LEDB = 1;
+	fc.printf("flexbus INITIALIZATION COMPLETE!");
+	
+	ITAC_thread.start(itac_app);
+	FC_thread.start(FC_app);
+
+	bz_set(ready);
+
+	CTL_thread.start(CTL_app);
+
+	// *(bzled_reg + 0) = 50000;
+	// *(bzled_reg + 1) = 50000;
+	// *(bzled_reg + 2) = 50000;
+	// *(bzled_reg + 3) = 70000;
+	// *(bzled_reg + 4) = 20000;
+	// 
+	// wait(0.05);
+	// 	*(pwm0_reg + 0) = 10000;
+	// 	wait(0.05);
+	// 	*(pwm0_reg + 1) = 9000;
+	// 	wait(0.05);
+	// 	*(pwm0_reg + 2) = 8000;
+	// 	wait(0.05);
+	// 	*(pwm0_reg + 3) = 7000;
+	// 	wait(0.05);
+	// 	*(pwm0_reg + 4) = 6000;
 	while(1)
-	{
+	{		
+		//bz_set(datarec);
 		
-		LEDG = 0;
-		if ( 0 == flexbus_test() )
-		{
-			buzzer = 1;
-			LEDG = 0;
-			delay(DELAY_CNT);
-			buzzer = 0;
-			LEDG = 1;
-			delay(DELAY_CNT);
-			buzzer = 1;
-			LEDG = 0;
-			delay(DELAY_CNT);
-			buzzer = 0;
-			LEDG = 1;
-			delay(DELAY_CNT);
-			buzzer = 1;
-			LEDG = 0;
-			delay(DELAY_CNT);
-			buzzer = 0;
-			LEDG = 1;
-			delay(DELAY_CNT);
 
-		}
-		else
-		{
-			buzzer = 1;
-			delay(DELAY_CNT * 10);
-			buzzer = 0;
-			delay(DELAY_CNT * 10);
-			buzzer = 1;
-			delay(DELAY_CNT * 10);
-			buzzer = 0;
-			delay(DELAY_CNT * 10);
+		wait(1);
 
-			//LEDB=0;
-			//break;
-		}
 
-		delay(DELAY_CNT*100);
 	}
 	return 0;
 }
