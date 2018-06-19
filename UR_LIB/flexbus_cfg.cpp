@@ -76,7 +76,7 @@ void flexbus_pin_mux()
 	PORT_SetPinMux(PORTC, 12U, kPORT_MuxAlt5);
 
 	/* PORTC13 (pin D6) is configured as FB_AD26 */
-	// PORT_SetPinMux(PORTC, 13U, kPORT_MuxAlt5);
+	PORT_SetPinMux(PORTC, 13U, kPORT_MuxAlt5);
 
 	/* PORTC14 (pin C6) is configured as FB_AD25 */
 	PORT_SetPinMux(PORTC, 14U, kPORT_MuxAlt5);
