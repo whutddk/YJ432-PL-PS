@@ -21,6 +21,17 @@
 
 
 module FB_SWKEY(
+	RST_n,
+	CLK,
+	BUS_ADDR,
+	BUS_DATA,
+	BUS_CS,
 
+	BUS_read,
+	BUS_write,
+
+	SWKEY_BASE,
+
+	
     );
 endmodule
