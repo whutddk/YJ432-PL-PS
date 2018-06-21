@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: WUT
+// Engineer: WUT RUIGE LEE
 // 
 // Create Date: 2018/06/21 17:44:39
 // Design Name: 
-// Module Name: ip_QEI
+// Module Name: FB_3poPID
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ip_QEI(
+module FB_3poPID(
 
     );
 endmodule
