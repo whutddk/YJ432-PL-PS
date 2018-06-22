@@ -35,7 +35,7 @@ module FB_BZLED(
 	BZ,
 	LED_R,
 	LED_G,
-	LED_B,
+	LED_B
     );
 
 
@@ -60,6 +60,11 @@ reg BZ_reg = 1'b0;
 reg LED_R_reg = 1'b1;
 reg LED_G_reg = 1'b1;
 reg LED_B_reg = 1'b1;
+
+assign BZ = BZ_reg;
+assign LED_R = LED_R_reg;
+assign LED_G = LED_G_reg;
+assign LED_B = LED_B_reg;
 
 wire AD_TRI_n;//非高阻状态标志位
 wire ADD_COMF;
