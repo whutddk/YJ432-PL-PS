@@ -21,7 +21,7 @@
 
 
 module YJ431_PLTOP(
-    input i_RST_n,
+
     input i_sysclk,//暂时不区分FB时钟和sysclk，统一用100M进行测试
     
     
@@ -42,7 +42,7 @@ module YJ431_PLTOP(
         wire [31:0] i_fb_ad; 
     
     FB_AUTOTEST i_autotest(
-        .RST_n(i_RST_n),
+        .RST_n(1'b1),
         .CLK(i_sysclk),      // 给40MHZ 直通
     
 
@@ -65,7 +65,7 @@ module YJ431_PLTOP(
         
         ip_flexbus i_flexbus(
             .FB_CLK(i_fb_clk),
-            .RST_n(i_RST_n),
+            .RST_n(1'b1),
             .FB_OE(i_fb_oen),
             .FB_RW(i_fb_rw),
             .FB_CS(i_fb_csn),
@@ -84,7 +84,7 @@ module YJ431_PLTOP(
 
     
      FB_BZLED i_gzled(
-               .RST_n(i_RST_n),
+               .RST_n(1'b1),
                .CLK(i_sysclk),
                .BUS_ADDR(i_bus_addr),
                .BUS_DATA(i_bus_data),
@@ -93,7 +93,7 @@ module YJ431_PLTOP(
                .BUS_read(i_bus_read),
                .BUS_write(i_bus_write),
            
-               .BZLED_BASE(10'h200),
+               .BZLED_BASE(10'h180),
            
                .BZ(i_BZ_IO),
                .LED_R(i_LEDR_IO),
