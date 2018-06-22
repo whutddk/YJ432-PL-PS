@@ -48,7 +48,7 @@ input BUS_CS;
 input BUS_read;
 input BUS_write;
 
-input reg [9:0]BZLED_BASE;
+input [9:0]BZLED_BASE;
 
 output BZ;
 output LED_R;
@@ -61,7 +61,7 @@ reg LED_R_reg = 1'b1;
 reg LED_G_reg = 1'b1;
 reg LED_B_reg = 1'b1;
 
-wire AD_TRI_n;//éé«˜é˜»æ ‡å¿—ä½
+wire AD_TRI_n;//·Ç¸ß×è×´Ì¬±êÖ¾Î»
 wire ADD_COMF;
 // reg AD_READ = 1'b0;
 // assign AD_TRI = ~BUS_CS &
@@ -69,22 +69,23 @@ wire ADD_COMF;
 reg [31:0] BUS_DATA_REG = 32'b0;
 
 //Register
-reg [31:0] FREQ_Cnt_Reg;	//è¿˜æ˜¯ææˆåˆ†æ‰¹è®¡æ•°å§
+reg [31:0] FREQ_Cnt_Reg;	//×÷Îª¼ÆÊıÄ¿±ê£¬×Ô¼ºÍâ²¿¼ÆËã
 reg [31:0] BZ_Puty_Reg;
 reg [31:0] LEDR_Puty_Reg;
 reg [31:0] LEDG_Puty_Reg;
 reg [31:0] LEDB_Puty_Reg;
 
-assign ADD_COMF = ( BUS_ADDR[31:22] == BZLED_BASE[9:0] ) ? 1'b1:1'b0;	//ç”¨ç»„åˆé€»è¾‘ä»²è£åœ°å€
+assign ADD_COMF = ( BUS_ADDR[31:22] == BZLED_BASE[9:0] ) ? 1'b1:1'b0;	//µØÖ·ÖÙ²Ã
 
-assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ; //è¦äº§ç”Ÿéé«˜é˜»,å¿…é¡»åŒæ—¶æ»¡è¶³ä¸‰ä¸ªæ¡ä»¶
-//è¿›å…¥éé«˜é˜»ï¼š1åœ°å€ä»²è£é€šè¿‡ï¼Œå¤–éƒ¨è¦è¯»ä¿¡å·æœ‰æ•ˆï¼Œ2ç‰‡é€‰åˆ°æ¥
-//è„±ç¦»éé«˜é˜»æ€ï¼š1ç‰‡é€‰å¤±æ•ˆï¼Œæ‘†è„±ï¼Œ2åœ°å€å¤±æ•ˆï¼Œå®‰å…¨è„±ç¦»
+assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ; //Ê±ĞòÂß¼­ÅĞ¶ÏÊÇ·ñÉèÖÃ·Ç¸ß×è£ºÍ¬Ê±Âú×ã1µØÖ·£¬2Æ¬Ñ¡£¬3Íâ²¿ÇëÇó¶Á
+//½øÈë·Ç¸ß×èÌ¬£º1 µØÖ·ÖÙ²ÃÍ¨¹ı 2 Æ¬Ñ¡ÓĞĞ§ 3 ÎªÍâ²¿ÇëÇó¶Á?
+//ÍÑÀë¸ß×èÌ¬£º1Æ¬Ñ¡Ê§Ğ§ÍÑÀë 2µØÖ·Ê§Ğ§ Íâ²¿¶ÁĞ´ÇëÇóÊ§Ğ§°²È«ÍÑÀë?
 
 assign BUS_DATA = AD_TRI_n ? BUS_DATA_REG : 32'bz;
 
 
-//è¯»å†™å¯„å­˜å™¨
+//¼Ä´æÆ÷¶ÁĞ´
+
 always@( negedge BUS_CS or negedge RST_n )
 	if ( !RST_n ) begin
 		FREQ_Cnt_Reg <= 32'd1;
@@ -92,56 +93,59 @@ always@( negedge BUS_CS or negedge RST_n )
 		LEDR_Puty_Reg <= 32'b0;
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;
-		// AD_TRI <= 1'b1;
 		BUS_DATA_REG <= 32'b0;
 	end
 
 	else begin
-		if ( ADD_COMF ) begin		//ä»²è£
+		if ( ADD_COMF ) begin		//ÖÙ²ÃÍ¨¹ı£
 			if ( BUS_write == 1'b1 ) begin
 				BUS_DATA_REG <= BUS_DATA_REG;
 				case(BUS_ADDR[3:0])
-					4'd0:
-					FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
-					BZ_Puty_Reg   <= BZ_Puty_Reg;
-					LEDR_Puty_Reg <= LEDR_Puty_Reg;
-					LEDG_Puty_Reg <= LEDG_Puty_Reg;
-					LEDB_Puty_Reg <= LEDB_Puty_Reg;					
-					4'd1:
-					FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-					BZ_Puty_Reg [31:0] <= BUS_DATA [31:0];
-					LEDR_Puty_Reg <= LEDR_Puty_Reg;
-					LEDG_Puty_Reg <= LEDG_Puty_Reg;
-					LEDB_Puty_Reg <= LEDB_Puty_Reg;
-					4'd2:
-					FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-					BZ_Puty_Reg   <= BZ_Puty_Reg;
-					if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //ä¿æŠ¤å ç©ºæ¯”ä¸å¤§äºé¢‘ç‡è®¡æ•°
-						LEDR_Puty_Reg[31:0] <= BUS_DATA [31:0];
+					4'd0: begin				
+                        FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
+                        BZ_Puty_Reg   <= BZ_Puty_Reg;
+                        LEDR_Puty_Reg <= LEDR_Puty_Reg;
+                        LEDG_Puty_Reg <= LEDG_Puty_Reg;
+                        LEDB_Puty_Reg <= LEDB_Puty_Reg;	
+					end				
+					4'd1: begin
+                        FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
+                        BZ_Puty_Reg [31:0] <= BUS_DATA [31:0];
+                        LEDR_Puty_Reg <= LEDR_Puty_Reg;
+                        LEDG_Puty_Reg <= LEDG_Puty_Reg;
+                        LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					LEDG_Puty_Reg <= LEDG_Puty_Reg;
-					LEDB_Puty_Reg <= LEDB_Puty_Reg;
-					4'd3:
-					FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-					BZ_Puty_Reg   <= BZ_Puty_Reg;
-					LEDR_Puty_Reg <= LEDR_Puty_Reg;
-					if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //ä¿æŠ¤å ç©ºæ¯”ä¸å¤§äºé¢‘ç‡è®¡æ•°
-						LEDG_Puty_Reg[31:0] <= BUS_DATA [31:0];
+					4'd2: begin
+                        FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
+                        BZ_Puty_Reg   <= BZ_Puty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //±£»¤£ºÕ¼¿Õ±È²»ÄÜ´óÓÚÆµÂÊ¼ÆÊı
+                            LEDR_Puty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        LEDG_Puty_Reg <= LEDG_Puty_Reg;
+                        LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					LEDB_Puty_Reg <= LEDB_Puty_Reg;
-					4'd4:
-					FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-					BZ_Puty_Reg   <= BZ_Puty_Reg;
-					LEDR_Puty_Reg <= LEDR_Puty_Reg;
-					LEDG_Puty_Reg <= LEDG_Puty_Reg;
-					if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //ä¿æŠ¤å ç©ºæ¯”ä¸å¤§äºé¢‘ç‡è®¡æ•°
-						LEDB_Puty_Reg[31:0] <= BUS_DATA [31:0];
+					4'd3: begin
+                        FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
+                        BZ_Puty_Reg   <= BZ_Puty_Reg;
+                        LEDR_Puty_Reg <= LEDR_Puty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //±£»¤£ºÕ¼¿Õ±È²»ÄÜ´óÓÚÆµÂÊ¼ÆÊı
+                            LEDG_Puty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        LEDB_Puty_Reg <= LEDB_Puty_Reg;
+					end
+					4'd4: begin
+                        FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
+                        BZ_Puty_Reg   <= BZ_Puty_Reg;
+                        LEDR_Puty_Reg <= LEDR_Puty_Reg;
+                        LEDG_Puty_Reg <= LEDG_Puty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //±£»¤£ºÕ¼¿Õ±È²»ÄÜ´óÓÚÆµÂÊ¼ÆÊı
+                            LEDB_Puty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
 					end
 				endcase
 			end		
 			else begin //if ( BUS_read == 1'b1 )  
 
-				// AD_TRI = 1'b0;
 				FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
 				BZ_Puty_Reg   <= BZ_Puty_Reg;
 				LEDR_Puty_Reg <= LEDR_Puty_Reg;
@@ -160,12 +164,11 @@ always@( negedge BUS_CS or negedge RST_n )
 					4'd4:
 					BUS_DATA_REG [31:0] = LEDB_Puty_Reg[31:0];
 				endcase
-				// AD_TRI = 1'b1;
 			end
 		end
 	end
 
-//æ—¶é’Ÿåˆ†é¢‘ä¿¡å·å‘ç”Ÿå™¨
+//LED¿ØÖÆ²¿·Ö?
 reg [31:0] RED_Cnt = 32'd0;
 reg [31:0] GREEN_Cnt = 32'd0;
 reg [31:0] BLUE_Cnt = 32'd0;
@@ -189,7 +192,7 @@ always @(posedge CLK or negedge RST_n) begin
 			GREEN_Cnt <= 32'd0;
 			BLUE_Cnt <= 32'd0;
 
-			LED_R_reg <= 1'b0;	//è´Ÿé€»è¾‘ï¼Œç‚¹äº®
+			LED_R_reg <= 1'b0;	//¸ºÂß¼­£¬µãÁÁ?
 			LED_G_reg <= 1'b0;
 			LED_B_reg <= 1'b0;
 		end
@@ -213,7 +216,7 @@ always @(posedge CLK or negedge RST_n) begin
 	end
 end
 
-//BZ
+//BZ ·äÃùÆ÷¿ØÖÆ²¿·Ö
 
 reg [31:0] BZ_Cnt = 32'd0;
 
@@ -227,7 +230,7 @@ always@( posedge CLK or negedge RST_n ) begin
 			BZ_Cnt <= 32'd0;
 			BZ_reg <= 1'd0;
 		end
-		else if ( BZ_Cnt == ( BZ_Puty_Reg >> 2) ) begin	//50%å ç©ºæ¯”	
+		else if ( BZ_Cnt == ( BZ_Puty_Reg >> 2) ) begin	//50%Õ¼¿Õ±È	
 			BZ_Cnt <= BZ_Cnt + 32'd1;
 			BZ_reg <= 1'd1;
 		end
