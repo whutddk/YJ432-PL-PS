@@ -19,16 +19,16 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-/**
+/*
 
-åœ°å€æ˜ å°„è¡¨ï¼š
+µØÖ·Ó³Éä±í£º
 
-èµ·å§‹ï¼š0x6000,0000
+ÆğÊ¼£º0x6000,0000
 
-IPç é€‰[27:22]:MASK:0x0FC0,0000;æ”¯æŒ64ä¸ªIPæ¯ä¸ªIPå¯ä»¥å¯»å€2MB
-ä»²è£æ‰€æœ‰é«˜ä½[31:22] 10'b MAST:0xFFC0,0000
+IPÂëÑ¡[27:22]:MASK:0x0FC0,0000;Ö§³Ö64¸öIPÃ¿¸öIP¿ÉÒÔÑ°Ö·2MB
+ÖÙ²ÃËùÓĞ¸ßÎ»[31:22] 10'b MAST:0xFFC0,0000
 
-BZLEDï¼š 0x00
+BZLED£º 0x00
 SWKEY : 0x01
 PWM:0x02,0x03,0x04,0x05
 QEI:0x06,0x07,0x08,0x09
@@ -36,9 +36,7 @@ TCI:0x0a,0x0b
 SARM:0X0c
 3po_PID:0x0d,0x0e,0x0f,0x10,
 3in_PID:0x11,0x12,x013,0x14,
-XADC:0X15
-
-
+XADC:0X15:0X15
 
 */
 
@@ -57,24 +55,28 @@ module ip_flexbus(
     inout [31:0] FB_AD,
     
     output [31:0] ip_ADDR,
-    input [31:0] ip_DATAin,
-    output [31:0] ip_DATAout,
+    inout [31:0] ip_DATA,
+
     output ip_Read,
     output ip_Write
     );
     
 reg ip_Read_reg = 1'b0;
 reg ip_Write_reg = 1'b0;
-reg [31:0] ip_ADDR_reg = 32'b0;;
+reg [31:0] ip_ADDR_reg = 32'b0;
 reg [31:0] FB_AD_reg = 32'b0;
-reg [31:0] ip_DATAout_reg = 32'b0;;
+reg [31:0] ip_DATA_reg = 32'b0;
 //reg FB_AD_TRI = 1'b1; //Flexbusæ€»çº¿é«˜é˜»æ ‡å¿—
+
+        
 
 
 assign ip_ADDR[31:0] = ip_ADDR_reg[31:0];    
-assign ip_DATAout[31:0] = ip_DATAout_reg[31:0];
 
-assign FB_AD[31:0] = ( FB_RW == 1'b1 && FB_ALE == 1'b0 ) ?  FB_AD_reg[31:0] : 32'bz ;//å¤–éƒ¨è¯»PLå†…å®¹åˆ™è¾“å‡ºï¼Œå¤–éƒ¨å†™å…¥åˆ™é«˜é˜»
+
+assign FB_AD[31:0] = ( FB_RW == 1'b1 && FB_ALE == 1'b0 ) ?  FB_AD_reg[31:0] : 32'bz ;//Íâ²¿¶ÁPLÄÚÈİÔòÊä³ö£¬Íâ²¿Ğ´ÈëÔò¸ß×è
+assign ip_DATA[31:0] = ( FB_RW == 1'b1 && FB_ALE == 1'b0 ) ? 32'bz  : ip_DATA_reg[31:0];
+   
    
 assign ip_Read = ip_Read_reg;
 assign ip_Write = ip_Write_reg;
@@ -92,20 +94,20 @@ always@( negedge FB_CLK or negedge RST_n )
         else
             { ip_Read_reg,ip_Write_reg } <= { 1'b1,1'b0 };
        
-        if ( FB_ALE == 1'b1 )  //åœ°å€é”å­˜æœ‰æ•ˆ
+        if ( FB_ALE == 1'b1 )  //µØÖ·Ëø´æÓĞĞ§
         begin 
-             ip_ADDR_reg[31:0] <= FB_AD[31:0];//æ”¾å…¥åœ°å€è¿›è¡Œé”å­˜
+             ip_ADDR_reg[31:0] <= FB_AD[31:0];//·ÅÈëµØÖ·½øĞĞËø´æ
         end
     
         else if ( FB_CS == 1'b0 )
         begin
-            if( FB_RW == 1'b1  ) //ä»å…¶ä»–IPè¯»å…¥æ•°æ®ï¼Œä»FBè¾“å‡º
+            if( FB_RW == 1'b1  ) //´ÓÆäËûIP¶ÁÈëÊı¾İ£¬´ÓFBÊä³ö
             begin
-                FB_AD_reg[31:0] <= ip_DATAin [31:0];
+                FB_AD_reg[31:0] <= ip_DATA [31:0];      //²»Ö±Í¨£¬¶àÅÄÒ»ÏÂ
             end
-            else if ( FB_RW == 1'b0 )    //FBè¾“å…¥ï¼Œå†™å…¥åˆ°å…¶ä»–IP
+            else if ( FB_RW == 1'b0 )    //FBÊäÈë£¬Ğ´Èëµ½ÆäËûIP
             begin
-                ip_DATAout_reg[31:0] <= FB_AD[31:0];
+                ip_DATA_reg[31:0] <= FB_AD[31:0];       //²»Ö±Í¨£¬¶àÅÄÒ»ÏÂ
             end
         end
     end
