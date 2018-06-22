@@ -235,7 +235,7 @@ always@( posedge CLK or negedge RST_n ) begin
 			BZ_Cnt <= 32'd0;
 			BZ_reg <= 1'd0;
 		end
-		else if ( BZ_Cnt == ( BZ_Puty_Reg >> 2) ) begin	//50%占空比	
+		else if ( BZ_Cnt == ( BZ_Puty_Reg >> 1) ) begin	//50%占空比	
 			BZ_Cnt <= BZ_Cnt + 32'd1;
 			BZ_reg <= 1'd1;
 		end
