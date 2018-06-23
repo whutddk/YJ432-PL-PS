@@ -11,16 +11,6 @@ tips:   强烈建议小伙伴们使用FreeCars出品的蓝牙模块套装，无线上位机从这里开始！
 #ifndef _FREECARS_H_
 #define _FREECARS_H_
 
-//1 头文件 
-#if  USE_UART5
-#define FreeCarsUARTPort UART5
-#else
-#define FreeCarsUARTPort UART0
-#endif
-
-#define FreeCarsIRQ      IRQ_UART0
-#define FreeCarsBR       115200       //波特率
-
 //FreeCars上位机 串口数据显示框 接收通道数，按照上位机设置改变
 #define UartDataNum      40 //17	    
 
@@ -48,12 +38,13 @@ extern uint8_t uSendBuf[UartDataNum*2];
 extern SerialPortType SerialPortRx;
 extern double UartData[9];
 
-extern void freecars_isr();//接收中断
-extern void UartDebug();
-extern void UartCmd(uint8_t cmdnum,uint8_t cmddata);
+// extern void freecars_isr();//接收中断
+// extern void UartDebug();
+// extern void UartCmd(uint8_t cmdnum,uint8_t cmddata);
 extern void sendDataToScope();
 extern void push(uint8_t,uint16_t);
-extern void fuzzy_release();
+extern void freecars_init();
+// extern void fuzzy_release();
 
 // #if     FUZZY 
 
