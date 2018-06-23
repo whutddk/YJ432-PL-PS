@@ -1,9 +1,12 @@
 #include "mbed.h"
 
-//任务1
-Thread ITAC_thread(osPriorityRealtime);
+//人机交互任务
+Thread ITAC_thread(osPriorityLow);
 extern void itac_app();
 
+//上位机任务
+Thread FC_thread(osPriorityBelowNormal);
+extern void FC_app();
 
 extern void YJ_FB_init();
 extern int flexbus_test();
@@ -29,12 +32,14 @@ int main(void)
 
 	//YJ_FB_init();
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
+	
 	ITAC_thread.start(itac_app);
-
+	FC_thread.start(FC_app);
 
 
 	while(1)
 	{		
+		wait(100);
 		// if ( 0 == flexbus_test() )
 		// {
 

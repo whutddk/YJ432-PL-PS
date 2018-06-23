@@ -57,9 +57,9 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-	UartData[0] = (int16_t)UartData[0]; 
+	push(0,(int16_t)(UartData[0])); 
 
-	UartData[1] = (uint8_t)(UartData[8]);
+	push(1,(uint8_t)(UartData[1]));
 	bz_set(datarec);
 }
 
