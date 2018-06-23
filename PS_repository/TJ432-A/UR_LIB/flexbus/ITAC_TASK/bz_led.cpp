@@ -5,8 +5,10 @@ enum _bz_style bz_style = norm;
 
 DigitalOut buzzer(BZ, 0);
 DigitalOut comled(LED1,1);
-
-
+Timer timer;
+ // *     timer.start();
+ // *     begin = timer.read_us();
+ //  *     end = timer.read_us();
 void bzled_work()
 {
 	switch(bz_style)
