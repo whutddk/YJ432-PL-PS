@@ -40,7 +40,7 @@ int main(void)
 	//YJ_FB_init();
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
-	ITAC_thread.start(itac_app);
+	// ITAC_thread.start(itac_app);
 	FC_thread.start(FC_app);
 
 	bz_set(ready);

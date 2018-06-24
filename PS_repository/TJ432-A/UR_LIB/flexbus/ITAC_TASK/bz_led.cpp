@@ -121,7 +121,7 @@ void bz_norm()
 	if ( bz_cnt < 100 ) {
 		BZ_ON;
 		LED_ON;
-	} else if ( bz_cnt < 5000 ) {
+	} else if ( bz_cnt < 10000 ) {
 		BZ_OFF;
 		LED_OFF;
 	} else
