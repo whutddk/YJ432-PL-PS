@@ -7,8 +7,9 @@
 #include "include.h"
 
 PwmOut motor1_CHA(PTA6);
-PwmOut motor1_CHB(PTA7);
-
+// PwmOut motor1_CHB(PTA7);
+DigitalOut motor_side1(PTA24);
+DigitalOut motor_side2(PTA19);
 
 void motor_init()
 {
@@ -34,8 +35,8 @@ void motor_init()
 	FTM_SetQuadDecoderModuloValue(FTM2, 0U, 0xFFFF);
 
 	/* Enable the Quad Decoder mode. */
-	phaseParamsConfigStruct.enablePhaseFilter = false;
-	phaseParamsConfigStruct.phaseFilterVal = 16;
+	phaseParamsConfigStruct.enablePhaseFilter = true;
+	phaseParamsConfigStruct.phaseFilterVal = 15;
 	phaseParamsConfigStruct.phasePolarity = kFTM_QuadPhaseNormal;
 	FTM_SetupQuadDecode(FTM1, &phaseParamsConfigStruct, /* Phase A. */
 						&phaseParamsConfigStruct,                    /* Phase B. */
@@ -46,10 +47,12 @@ void motor_init()
 
 
 	motor1_CHA.period_us(100);
-	motor1_CHB.period_us(100);
+	// motor1_CHB.period_us(100);
 
 	motor1_CHA = 0.00;
-	motor1_CHB = 0.00;
+	// motor1_CHB = 0.90;
+	motor_side1 = 0;
+	motor_side2 = 0;
 }
 
 int16_t QEI1 = 0;

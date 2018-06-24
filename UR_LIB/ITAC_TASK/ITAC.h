@@ -14,6 +14,7 @@ enum _bz_style
 
 extern DigitalOut buzzer;
 extern DigitalOut comled;
+extern Timer timer;
 extern Serial fc;
 
 #define LED_ON     (comled = 0)

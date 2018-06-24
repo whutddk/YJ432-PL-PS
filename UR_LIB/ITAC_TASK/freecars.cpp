@@ -10,6 +10,7 @@ tips:   强烈建议小伙伴们使用FreeCars出品的蓝牙模块套装，无线上位机从这里开始！
 #include "mbed.h"
 #include "ITAC.h"
 
+#include "include.h"
 
 Serial fc(USBTX, USBRX,115200);
 
@@ -57,9 +58,20 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-	// push(0,(int16_t)(UartData[0])); 
+	ctl.pend.Kp_s = UartData[0]; 
+	ctl.pend.Kd_s = UartData[1];
 
-	// push(1,(uint8_t)(UartData[1]));
+	ctl.pend.Kp_m = UartData[2]; 
+	ctl.pend.Kd_m = UartData[3];
+		
+	ctl.pend.Kp_b = UartData[4]; 
+	ctl.pend.Kd_b = UartData[5];
+
+	ctl.pend.aim =(int32_t)( UartData[6]*1000);
+
+	ctl.motto.Kp_s = UartData[7];
+	ctl.motto.Kd_s = UartData[8];
+
 	bz_set(datarec);
 }
 
@@ -75,10 +87,10 @@ static void UartCmd(uint8_t cmdnum,uint8_t cmddata)///
 		case(11):break;//F11
 		case(12):break;//F12
 		case(100):break;//PAUSE
-		case(101):break;//HOME
+		case(101):ctl.flag_end = 0;break;//HOME
 		case(102):break;//PG UP
 		case(103):break;//PF DN
-		case(104):break;//END
+		case(104):ctl.flag_end = 1;break;//END
 // #if FUZZY
 //     case(105):send_rule();break;
 //     case(106):send_delta();break;
