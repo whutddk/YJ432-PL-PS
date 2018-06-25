@@ -63,17 +63,91 @@ void control()
 		
 		push( 3,(int16_t)(ctl.pend.result) );
 	}
-	if ( parallel_cnt == 3 )		//位置控制 位置式
+	if ( parallel_cnt == 10 )		//位置控制 位置式
 	{
 		parallel_cnt = 0;
 
 		ctl.motto.error[0] = ctl.motto.cur = (double)(QEI1 / 1.0);
 
-		ctl.motto.result = ctl.motto.Kp_s * ctl.motto.error[0];
-		ctl.motto.result += ctl.motto.Kd_s * ( ctl.motto.error[0] - ctl.motto.error[1] );
 
+		if ( ctl.motto.error[0] < 5.00 && ctl.motto.error[0] > -5.00 )
+		{
+			ctl.motto.result = 0;
+			ctl.motto.sum = 0 ;
+		}
+		else if ( ctl.motto.error[0] < 8.00 && ctl.motto.error[0] > -8.00 )
+		{
+			ctl.motto.result = ctl.motto.Kp_s * ctl.motto.error[0];
+			ctl.motto.sum += ctl.motto.Ki_s * ctl.motto.error[0];
+
+			if ( ctl.motto.sum > 5000.000 )
+			{
+				ctl.motto.sum = 5000.000;
+			}
+			else if ( ctl.motto.sum < -5000.000 )
+			{
+				ctl.motto.sum = -5000.000;
+			}
+
+			ctl.motto.result += ctl.motto.sum;
+			ctl.motto.result += ctl.motto.Kd_s * ( ctl.motto.error[0] - ctl.motto.error[3] );
+		}
+		else if ( ctl.motto.error[0] < 20.00 && ctl.motto.error[0] > -20.00 )
+		{
+			ctl.motto.result = ctl.motto.Kp_m * ctl.motto.error[0];
+			ctl.motto.sum += ctl.motto.Ki_m * ctl.motto.error[0];
+			
+
+			if ( ctl.motto.sum > 5000.000 )
+			{
+				ctl.motto.sum = 5000.000;
+			}
+			else if ( ctl.motto.sum < -5000.000 )
+			{
+				ctl.motto.sum = -5000.000;
+			}
+
+			ctl.motto.result += ctl.motto.sum;
+			ctl.motto.result += ctl.motto.Kd_m * ( ctl.motto.error[0] - ctl.motto.error[3] );
+
+		}
+		else
+		{
+			ctl.motto.result = ctl.motto.Kp_b * ctl.motto.error[0];
+			ctl.motto.sum += ctl.motto.Ki_b * ctl.motto.error[0];
+
+			if ( ctl.motto.sum > 5000.000 )
+			{
+				ctl.motto.sum = 5000.000;
+			}
+			else if ( ctl.motto.sum < -5000.000 )
+			{
+				ctl.motto.sum = -5000.000;
+			}
+
+			ctl.motto.result += ctl.motto.sum;	
+
+			ctl.motto.result += ctl.motto.Kd_b * ( ctl.motto.error[0] - ctl.motto.error[3] );
+		
+		}
+
+		// ctl.motto.sum += ctl.motto.Ki_s * ctl.motto.error[0];
+		// ctl.motto.result += ctl.motto.sum;
+
+		// if ( ctl.motto.sum > 7000.000 )
+		// {
+		// 	ctl.motto.sum = 7000.000;
+		// }
+		// else if ( ctl.motto.sum < -7000.000 )
+		// {
+		// 	ctl.motto.sum = -7000.000;
+		// }
+		//ctl.motto.result += ctl.motto.Kd_s * ( ctl.motto.error[0] - ctl.motto.error[1] );
+
+		ctl.motto.error[3] = ctl.motto.error[2];
+		ctl.motto.error[2] = ctl.motto.error[1];
 		ctl.motto.error[1] = ctl.motto.error[0];
-		ctl_out = ( ctl.motto.result + ctl.pend.result ) / 10000.;
+		ctl_out = ( ctl.motto.result ) / 10000.;
 
 		push( 4,(int16_t)(ctl.motto.result) );
 	}

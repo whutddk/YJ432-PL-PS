@@ -43,7 +43,7 @@ int main(void)
 	// ITAC_thread.start(itac_app);
 	FC_thread.start(FC_app);
 
-	bz_set(ready);
+	//bz_set(ready);
 
 	CTL_thread.start(CTL_app);
 
