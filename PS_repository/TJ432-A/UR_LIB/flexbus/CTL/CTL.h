@@ -22,7 +22,7 @@ struct _pid
 	double result;
 	double sum;
 	double out;
-	double error[4];
+	double error[11];
   
 };
 
