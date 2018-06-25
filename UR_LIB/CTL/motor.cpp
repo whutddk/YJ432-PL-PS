@@ -26,7 +26,7 @@ void motor_init()
  
 	/* Initialize FTM module */
 	FTM_GetDefaultConfig(&ftmInfo);
-	ftmInfo.prescale = kFTM_Prescale_Divide_32;
+	ftmInfo.prescale = kFTM_Prescale_Divide_1;
 	FTM_Init(FTM1, &ftmInfo);
 	FTM_Init(FTM2, &ftmInfo);
 
