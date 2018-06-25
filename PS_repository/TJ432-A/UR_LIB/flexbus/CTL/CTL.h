@@ -20,6 +20,7 @@ struct _pid
 	double Kd_b;
     
 	double result;
+	double sum;
 	double out;
 	double error[4];
   

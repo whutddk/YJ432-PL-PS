@@ -58,19 +58,25 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-	ctl.pend.Kp_s = UartData[0]; 
-	ctl.pend.Kd_s = UartData[1];
+	ctl.pend.Kp_s = 6;//UartData[0]; 
+	ctl.pend.Kd_s = 203;//UartData[1];
 
-	ctl.pend.Kp_m = UartData[2]; 
-	ctl.pend.Kd_m = UartData[3];
+	ctl.pend.Kp_m = 6;//UartData[2]; 
+	ctl.pend.Kd_m = 208;//UartData[3];
 		
-	ctl.pend.Kp_b = UartData[4]; 
-	ctl.pend.Kd_b = UartData[5];
+	ctl.pend.Kp_b = 6;//UartData[4]; 
+	ctl.pend.Kd_b = 208;//UartData[5];
 
 	ctl.pend.aim =(int32_t)( UartData[6]*1000);
 
-	ctl.motto.Kp_s = UartData[7];
-	ctl.motto.Kd_s = UartData[8];
+	ctl.motto.Kp_s = UartData[0];
+	ctl.motto.Ki_s = UartData[1];
+
+	ctl.motto.Kp_m = UartData[2];
+	ctl.motto.Ki_m = UartData[3];
+
+	ctl.motto.Kp_b = UartData[4];
+	ctl.motto.Ki_b = UartData[5];
 
 	bz_set(datarec);
 }
