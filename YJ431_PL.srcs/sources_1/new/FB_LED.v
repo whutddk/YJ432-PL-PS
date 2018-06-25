@@ -146,15 +146,17 @@ always@( negedge BUS_CS or negedge RST_n )
 
 				case(BUS_ADDR[3:0])
 					4'd0:
-					BUS_DATA_REG [31:0] = FREQ_Cnt_Reg [31:0];
+					BUS_DATA_REG [31:0] <= FREQ_Cnt_Reg [31:0];
 					4'd1:
-					BUS_DATA_REG [31:0] = BZ_Puty_Reg [31:0];
+					BUS_DATA_REG [31:0] <= BZ_Puty_Reg [31:0];
 					4'd2:
-					BUS_DATA_REG [31:0] = LEDR_Puty_Reg[31:0];
+					BUS_DATA_REG [31:0] <= LEDR_Puty_Reg[31:0];
 					4'd3:
-					BUS_DATA_REG [31:0] = LEDG_Puty_Reg[31:0];
+					BUS_DATA_REG [31:0] <= LEDG_Puty_Reg[31:0];
 					4'd4:
-					BUS_DATA_REG [31:0] = LEDB_Puty_Reg[31:0];
+					BUS_DATA_REG [31:0] <= LEDB_Puty_Reg[31:0];
+					default:
+					BUS_DATA_REG[31:0] <=  32'xffffffff;
 				endcase
 			end
 		end
