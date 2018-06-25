@@ -69,7 +69,7 @@ void control()
 	}
 
 
-	if ( parallel_cnt == 10 )		//位置控制 位置式
+	if ( parallel_cnt == 4 )		//位置控制 位置式
 	{
 		parallel_cnt = 0;
 
@@ -105,7 +105,7 @@ void control()
 		}
 
 
-		ctl_out = ctl.motto.result  / 10000.;
+		ctl_out = -ctl.motto.result  / 10000.;
 	}
 
 
