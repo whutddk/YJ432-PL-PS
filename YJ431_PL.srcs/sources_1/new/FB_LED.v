@@ -36,7 +36,7 @@ module FB_BZLEDREG(
 	BZ_Puty_Reg,
 	LEDR_Puty_Reg,
 	LEDG_Puty_Reg,
-	LEDB_Puty_Reg,
+	LEDB_Puty_Reg
     );
 
 
@@ -197,7 +197,7 @@ output LED_G;
 output LED_B;
 
 reg BZ_reg;
-reg ED_R_reg;
+reg LED_R_reg;
 reg LED_G_reg;
 reg LED_B_reg;
 

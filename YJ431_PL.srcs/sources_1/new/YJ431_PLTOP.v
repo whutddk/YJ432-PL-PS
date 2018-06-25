@@ -28,8 +28,8 @@ module YJ431_PLTOP(
     output i_BZ_IO,
     output i_LEDR_IO,
     output i_LEDG_IO,
-    output i_LEDB_IO,
-    output [7:0] i_data_out
+    output i_LEDB_IO
+    //output [7:0] i_data_out
     
     );
     
@@ -53,7 +53,7 @@ module YJ431_PLTOP(
         .FB_ALE(i_fb_ale),
         .FB_AD(i_fb_ad),
         
-        .data_out(i_data_out) 
+        .data_out()//i_data_out) 
     
         );
         
@@ -82,25 +82,52 @@ module YJ431_PLTOP(
             .ip_Write( i_bus_write )
             );
 
-    
-     FB_BZLED i_gzled(
-               .RST_n(1'b1),
-               .CLK(i_sysclk),
-               .BUS_ADDR(i_bus_addr),
-               .BUS_DATA(i_bus_data),
-               .BUS_CS(i_fb_csn),
-           
-               .BUS_read(i_bus_read),
-               .BUS_write(i_bus_write),
-           
-               .BZLED_BASE(10'h180),
-           
-               .BZ(i_BZ_IO),
-               .LED_R(i_LEDR_IO),
-               .LED_G(i_LEDG_IO),
-               .LED_B(i_LEDB_IO)
-               );
-    
-    
-    
+wire [31:0] FREQ_Cnt_wire;
+wire [31:0] BZ_Puty_wire;
+wire [31:0] LEDR_Puty_wire;
+wire [31:0] LEDG_Puty_wire;
+wire [31:0] LEDB_Puty_wire;
+
+
+FB_BZLEDREG(
+	.RST_n(1'b1),
+	.BUS_ADDR(i_bus_addr),
+	.BUS_DATA(i_bus_data),
+	.BUS_CS(i_fb_csn),
+
+	.BUS_read(i_bus_read),
+	.BUS_write(i_bus_write),
+
+	.BZLED_BASE(10'h180),
+
+//Register
+	.FREQ_Cnt_Reg(FREQ_Cnt_wire),	//作为计数目标，自己外部计算
+	.BZ_Puty_Reg(BZ_Puty_wire),
+	.LEDR_Puty_Reg(LEDR_Puty_wire),
+	.LEDG_Puty_Reg(LEDG_Puty_wire),
+	.LEDB_Puty_Reg(LEDB_Puty_wire)
+    );
+
+
+BZLED(
+	.RST_n(1'b1),
+	.CLK(i_sysclk),
+	
+	
+	.FREQ_Cnt_Set(FREQ_Cnt_wire),	//作为计数目标，自己外部计算
+	.BZ_Puty_Set(BZ_Puty_wire),
+	.LEDR_Puty_Set(LEDR_Puty_wire),
+	.LEDG_Puty_Set(LEDG_Puty_wire),
+	.LEDB_Puty_Set(LEDB_Puty_wire),
+
+	.BZ(i_BZ_IO),
+	.LED_R(i_LEDR_IO),
+	.LED_G(i_LEDG_IO),
+	.LED_B(i_LEDB_IO)
+	);
+
+     
 endmodule
+
+
+
