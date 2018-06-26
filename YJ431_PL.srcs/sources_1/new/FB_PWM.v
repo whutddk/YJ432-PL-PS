@@ -257,7 +257,7 @@ module FB_PWMREG(
 					4'd8:
 						BUS_DATA_REG[31:0] <= CH7_duty_Reg[31:0];
 					default:
-						BUS_DATA_REG[31:0] <=32'xffffffff;
+						BUS_DATA_REG[31:0] <=32'hffffffff;
 				endcase
 			end
 		end

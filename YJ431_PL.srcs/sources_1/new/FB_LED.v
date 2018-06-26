@@ -156,7 +156,7 @@ always@( negedge BUS_CS or negedge RST_n )
 					4'd4:
 					BUS_DATA_REG [31:0] <= LEDB_Puty_Reg[31:0];
 					default:
-					BUS_DATA_REG[31:0] <=  32'xffffffff;
+					BUS_DATA_REG[31:0] <=  32'hffffffff;
 				endcase
 			end
 		end

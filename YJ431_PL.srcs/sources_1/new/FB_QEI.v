@@ -32,8 +32,8 @@ module FB_QEIREG(
 	BZLED_BASE,
 
 //Register
-	QEI_CLEAR_Reg,	//è¯»å®Œæ˜¯å¦æ¸…é›¶?
-	QEI_CH0_Read,	//åªè¯»å¯„å­˜å™¨
+	QEI_CLEAR_Reg,	//ÊÇ·ñÇåÁã?
+	QEI_CH0_Read,	//Ö»¶Á¼Ä´æÆ÷
 	QEI_CH1_Read,
 	QEI_CH2_Read,
 	QEI_CH3_Read
@@ -51,8 +51,8 @@ input BUS_write;
 
 input [9:0] BZLED_BASE;
 
-output reg [31:0] QEI_CLEAR_Reg;	//è¯»å®Œæ˜¯å¦æ¸…é›¶?
-input [31:0] QEI_CH0_Read;	//åªè¯»å¯„å­˜å™¨
+output reg [31:0] QEI_CLEAR_Reg;	//¶ÁÍêÊÇ·ñÇåÁã?
+input [31:0] QEI_CH0_Read;	//Ö»¶Á¼Ä´æÆ÷
 input [31:0] QEI_CH1_Read;
 input [31:0] QEI_CH2_Read;
 input [31:0] QEI_CH3_Read;
@@ -67,56 +67,224 @@ input [31:0] QEI_CH3_Read;
 // assign QEI_CH2_Reg[31:0] = QEI_CH2_Read[31:0];
 // assign QEI_CH3_Reg[31:0] = QEI_CH3_Read[31:0];
 
-wire AD_TRI_n;//éé«˜é˜»çŠ¶æ€æ ‡å¿—ä½
+wire AD_TRI_n;//·Ç¸ß×è×´Ì¬±êÖ¾Î»
 wire ADD_COMF;
 
 reg [31:0] BUS_DATA_REG = 32'b0;
 
-assign ADD_COMF = ( BUS_ADDR[31:22] == BZLED_BASE[9:0] ) ? 1'b1:1'b0;    //åœ°å€ä»²è£ 
-assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ; //æ—¶åºé€»è¾‘åˆ¤æ–­æ˜¯å¦è®¾ç½®éé«˜é˜»ï¼šåŒæ—¶æ»¡è¶³1åœ°å€ï¼Œ2ç‰‡é€‰ï¼Œ3å¤–éƒ¨è¯·æ±‚è¯»
-//è¿›å…¥éé«˜é˜»æ€ï¼š1 åœ°å€ä»²è£é€šè¿‡ 2 ç‰‡é€‰æœ‰æ•ˆ 3 ä¸ºå¤–éƒ¨è¯·æ±‚è¯»?
-//è„±ç¦»é«˜é˜»æ€ï¼š1ç‰‡é€‰å¤±æ•ˆè„±ç¦» 2åœ°å€å¤±æ•ˆ å¤–éƒ¨è¯»å†™è¯·æ±‚å¤±æ•ˆå®‰å…¨è„±ç¦»?
+assign ADD_COMF = ( BUS_ADDR[31:22] == BZLED_BASE[9:0] ) ? 1'b1:1'b0;    //µØÖ·ÖÙ²Ã  
+assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ; //Ê±ĞòÂß¼­ÅĞ¶ÏÊÇ·ñÉèÖÃ·Ç¸ß×è£ºÍ¬Ê±Âú×ã1µØÖ·£¬2Æ¬Ñ¡£¬3Íâ²¿ÇëÇó¶Á
+//½øÈë·Ç¸ß×èÌ¬£º1 µØÖ·ÖÙ²ÃÍ¨¹ı 2 Æ¬Ñ¡ÓĞĞ§ 3 ÎªÍâ²¿ÇëÇó¶Á?
+//ÍÑÀë¸ß×èÌ¬£º1Æ¬Ñ¡Ê§Ğ§ÍÑÀë 2µØÖ·Ê§Ğ§ Íâ²¿¶ÁĞ´ÇëÇóÊ§Ğ§°²È«ÍÑÀë?
 
 assign BUS_DATA = AD_TRI_n ? BUS_DATA_REG : 32'bz;
 
-//å¯„å­˜å™¨è¯»å†™
+//¼Ä´æÆ÷¶ÁĞ´
    
-	always@( negedge BUS_CS or negedge RST_n )
-	if ( !RST_n ) begin
-		QEI_CLEAR_Reg <= 32'd0;
+always@( negedge BUS_CS or negedge RST_n )
+if ( !RST_n ) begin
+	QEI_CLEAR_Reg <= 32'd0;
+end
+
+else begin
+	if ( ADD_COMF ) begin        //ÖÙ²ÃÍ¨¹ı
+		if ( BUS_write == 1'b1 ) begin
+			BUS_DATA_REG <= BUS_DATA_REG;
+			case(BUS_ADDR[3:0])
+				4'd0: begin
+					QEI_CLEAR_Reg [31:0] <= BUS_DATA [31:0];
+				end
+            endcase
+		end
+		else begin //if ( BUS_read == 1'b1 )  
+   
+			QEI_CLEAR_Reg <= QEI_CLEAR_Reg;
+
+
+			case(BUS_ADDR[3:0])
+				4'd0:
+					BUS_DATA_REG[31:0] <= QEI_CLEAR_Reg[31:0];
+				4'd1:
+					BUS_DATA_REG[31:0] <= QEI_CH0_Read[31:0];
+				4'd2:
+					BUS_DATA_REG[31:0] <= QEI_CH1_Read[31:0];
+				4'd3:
+					BUS_DATA_REG[31:0] <= QEI_CH2_Read[31:0];
+				4'd4:
+					BUS_DATA_REG[31:0] <= QEI_CH3_Read[31:0];
+				default:
+					BUS_DATA_REG[31:0] <=32'hffffffff;
+			endcase
+		end
+	end
+end
+
+endmodule
+
+
+module QEI(
+
+	CLK,
+	RST_n,
+
+	//Register
+	QEI_CLEAR_Set,	//ÊÇ·ñÇåÁã?
+	QEI_CH0_Read,	//Ö»¶Á¼Ä´æÆ÷
+	QEI_CH1_Read,
+	QEI_CH2_Read,
+	QEI_CH3_Read,
+
+	CH0_PHASEA,
+	CH0_PHASEB,
+
+	CH1_PHASEA,
+	CH1_PHASEB,
+
+	CH2_PHASEA,
+	CH2_PHASEB,
+
+	CH3_PHASEA,
+	CH3_PHASEB
+
+	);
+
+input CLK;
+input RST_n;
+
+	//Register
+input [31:0] QEI_CLEAR_Set;	//ÊÇ·ñÇåÁã?
+output reg [31:0] QEI_CH0_Read = 32'd0;
+output reg [31:0] QEI_CH1_Read = 32'd0;
+output reg [31:0] QEI_CH2_Read = 32'd0;
+output reg [31:0] QEI_CH3_Read = 32'd0;
+
+input CH0_PHASEA;
+input CH0_PHASEB;
+
+input CH1_PHASEA;
+input CH1_PHASEB;
+
+input CH2_PHASEA;
+input CH2_PHASEB;
+
+input CH3_PHASEA;
+input CH3_PHASEB;
+
+reg [1:0] CH0_state = 2'b0;
+reg [1:0] CH1_state = 2'b0;
+reg [1:0] CH2_state = 2'b0;
+reg [1:0] CH3_state = 2'b0;
+
+reg [1:0] CH0_prestate = 2'b0;
+reg [1:0] CH1_prestate = 2'b0;
+reg [1:0] CH2_prestate = 2'b0;
+reg [1:0] CH3_prestate = 2'b0;
+
+always @( posedge CLK or negedge RST_n )
+if ( !RST_n ) begin 
+
+	//¼Ä´æÆ÷ÇåÁã
+	QEI_CH0_Read <= 32'd0;
+	QEI_CH1_Read <= 32'd0;
+	QEI_CH2_Read <= 32'd0;
+	QEI_CH3_Read <= 32'd0;
+
+	CH0_state[1:0] <= 2'b0;
+	CH1_state[1:0] <= 2'b0;
+	CH2_state[1:0] <= 2'b0;
+	CH3_state[1:0] <= 2'b0;
+
+	CH0_prestate[1:0] <= 2'b0;
+	CH1_prestate[1:0] <= 2'b0;
+	CH2_prestate[1:0] <= 2'b0;
+	CH3_prestate[1:0] <= 2'b0;
+end
+
+else begin 
+
+	//Ê±ÖÓ¿ì£¬Ã»¹ØÏµ£¬¶àÅÄÒ»ÏÂ
+	CH0_state[1:0] <= {CH0_PHASEB , CH0_PHASEA};
+	CH1_state[1:0] <= {CH1_PHASEB , CH1_PHASEA};
+	CH2_state[1:0] <= {CH2_PHASEB , CH2_PHASEA};
+	CH3_state[1:0] <= {CH3_PHASEB , CH3_PHASEA};
+
+	CH0_prestate[1:0] <= CH0_state[1:0];
+	CH1_prestate[1:0] <= CH1_state[1:0];
+	CH2_prestate[1:0] <= CH2_state[1:0];
+	CH3_prestate[1:0] <= CH3_state[1:0];
+
+//QEI_CH0
+	if ( QEI_CLEAR_Set[0]  == 1'b1 ) begin 
+		QEI_CH0_Read <= 32'd0;
 	end
 
 	else begin
-		if ( ADD_COMF ) begin        //ä»²è£é€šè¿‡î—†
-			if ( BUS_write == 1'b1 ) begin
-				BUS_DATA_REG <= BUS_DATA_REG;
-				case(BUS_ADDR[3:0])
-					4'd0: begin                
-						QEI_CLEAR_Reg [31:0] <= BUS_DATA [31:0];
-					end                
-			end        
-			else begin //if ( BUS_read == 1'b1 )  
-	   
-				QEI_CLEAR_Reg <= QEI_CLEAR_Reg;
+		case({CH0_prestate[1:0],CH0_state[1:0]})
+			4'b1011,4'b0100,4'b0010,4'b1101:	
+				QEI_CH0_Read <= QEI_CH0_Read - 32'd1;
 
+			4'b1110,4'b0001,4'b0111,4'b1000:	
+				QEI_CH0_Read <= QEI_CH0_Read + 32'd1;
 
-				case(BUS_ADDR[3:0])
-					4'd0:
-						BUS_DATA_REG[31:0] <= QEI_CLEAR_Reg[31:0];
-					4'd1:
-						BUS_DATA_REG[31:0] <= QEI_CH0_Read[31:0];
-					4'd2:
-						BUS_DATA_REG[31:0] <= QEI_CH1_Read[31:0];
-					4'd3:
-						BUS_DATA_REG[31:0] <= QEI_CH2_Read[31:0];
-					4'd4:
-						BUS_DATA_REG[31:0] <= QEI_CH3_Read[31:0];
-					default:
-						BUS_DATA_REG[31:0] <=32'xffffffff;
-				endcase
-			end
-		end
+			default:	QEI_CH0_Read <= QEI_CH0_Read;
+		endcase
+	end
+
+//QEI_CH1
+	if ( QEI_CLEAR_Set[1]  == 1'b1 ) begin
+		QEI_CH1_Read <= 32'd0;
+	end
+
+	else begin
+		case({CH1_prestate[1:0],CH1_state[1:0]})
+			4'b1011,4'b0100,4'b0010,4'b1101:	
+				QEI_CH1_Read <= QEI_CH1_Read - 32'd1;
+
+			4'b1110,4'b0001,4'b0111,4'b1000:	
+				QEI_CH1_Read <= QEI_CH1_Read + 32'd1;
+
+			default:	QEI_CH1_Read <= QEI_CH1_Read;
+		endcase
+	end
+
+//QEI_CH2
+	if ( QEI_CLEAR_Set[2]  == 1'b1 ) begin
+		QEI_CH2_Read <= 32'd0;
+	end
+
+	else begin
+		case({CH2_prestate[1:0],CH2_state[1:0]})
+			4'b1011,4'b0100,4'b0010,4'b1101:	
+				QEI_CH2_Read <= QEI_CH2_Read - 32'd1;
+
+			4'b1110,4'b0001,4'b0111,4'b1000:	
+				QEI_CH2_Read <= QEI_CH2_Read + 32'd1;
+
+			default:	QEI_CH2_Read <= QEI_CH2_Read;
+		endcase
+	end
+
+//QEI_CH3
+	if ( QEI_CLEAR_Set[3]  == 1'b1 ) begin
+		QEI_CH3_Read <= 32'd0;
+	end
+
+	else begin
+		case({CH3_prestate[1:0],CH3_state[1:0]})
+			4'b1011,4'b0100,4'b0010,4'b1101:	
+				QEI_CH3_Read <= QEI_CH3_Read - 32'd1;
+
+			4'b1110,4'b0001,4'b0111,4'b1000:	
+				QEI_CH3_Read <= QEI_CH3_Read + 32'd1;
+
+			default:	QEI_CH3_Read <= QEI_CH3_Read;
+		endcase
 	end
 
 
+end
+
+
 endmodule
+
+
