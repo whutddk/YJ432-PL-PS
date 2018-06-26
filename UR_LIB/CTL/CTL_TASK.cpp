@@ -17,6 +17,61 @@ void control()
 
 
 
+
+
+
+	if ( parallel_cnt == 2 )		//位置控制 位置式
+	{
+		parallel_cnt = 0;
+
+		ctl.motto.error[0] = ctl.motto.cur = (double)(QEI1 / 1.0);
+
+
+		// if ( ctl.motto.error[0] < 100.00 && ctl.motto.error[0] > -100.00 )
+		// {
+		// 	ctl.motto.result = 0;
+		// 	ctl.motto.sum = 0 ;
+		// }
+		// else 
+			if ( ctl.motto.error[0] < 300.00 && ctl.motto.error[0] > -300.00 )
+		{
+			ctl.motto.result = ctl.motto.Kp_s * ctl.motto.error[0];
+
+			ctl.motto.result += ctl.motto.Kd_s * ( ctl.motto.error[0] - ctl.motto.error[1] );
+		}
+		else if ( ctl.motto.error[0] < 600.00 && ctl.motto.error[0] > -600.00 )
+		{
+			ctl.motto.result = ctl.motto.Kp_m * ctl.motto.error[0];
+
+			ctl.motto.result += ctl.motto.Kd_m * ( ctl.motto.error[0] - ctl.motto.error[1] );
+		}		
+		else 
+		{
+			ctl.motto.result = ctl.motto.Kp_b * ctl.motto.error[0];
+
+			ctl.motto.result += ctl.motto.Kd_b * ( ctl.motto.error[0] - ctl.motto.error[1] );
+		}
+
+		ctl.motto.error[3] = ctl.motto.error[2];
+		ctl.motto.error[2] = ctl.motto.error[1];
+		ctl.motto.error[1] = ctl.motto.error[0];
+		// ctl_out = ( ctl.motto.result ) / 10000.;
+
+		push( 4,(int16_t)(ctl.motto.result) );
+
+		if ( ctl.motto.result > 5000.00 )
+		{
+			ctl.motto.result = 5000.00;
+		}
+		else if ( ctl.motto.result < -5000.00 )
+		{
+			ctl.motto.result = -5000.00;
+		}
+
+
+		
+	}
+
 		//倒立控制
 	{
 		parallel_cnt ++;
@@ -54,61 +109,22 @@ void control()
 			ctl_out = 0.00000;
 		}
 
-		if ( ctl.pend.result > 9000.00 )
+		if ( ctl.pend.result > 10000.00 )
 		{
-			ctl.pend.result = 9000.00;
+			ctl.pend.result = 10000.00;
 		}
-		else if ( ctl.pend.result < -9000.00 )
+		else if ( ctl.pend.result < -10000.00 )
 		{
-			ctl.pend.result = -9000.00;
+			ctl.pend.result = -10000.00;
 		}
 
-		ctl_out = ctl.pend.result / 10000.;
+		// ctl_out = ctl.pend.result / 10000.;
 
 		push( 3,(int16_t)(ctl.pend.result) );
 	}
 
 
-	if ( parallel_cnt == 3 )		//位置控制 位置式
-	{
-		parallel_cnt = 0;
-
-		ctl.motto.error[0] = ctl.motto.cur = (double)(QEI1 / 1.0);
-
-
-		if ( ctl.motto.error[0] < 2.00 && ctl.motto.error[0] > -2.00 )
-		{
-			ctl.motto.result = 0;
-			ctl.motto.sum = 0 ;
-		}
-		else //if ( ctl.motto.error[0] < 8.00 && ctl.motto.error[0] > -8.00 )
-		{
-			ctl.motto.result = ctl.motto.Kp_s * ctl.motto.error[0];
-
-			ctl.motto.result += ctl.motto.Kd_s * ( ctl.motto.error[0] - ctl.motto.error[1] );
-		}
-
-		ctl.motto.error[3] = ctl.motto.error[2];
-		ctl.motto.error[2] = ctl.motto.error[1];
-		ctl.motto.error[1] = ctl.motto.error[0];
-		// ctl_out = ( ctl.motto.result ) / 10000.;
-
-		push( 4,(int16_t)(ctl.motto.result) );
-
-		if ( ctl.motto.result > 9000.00 )
-		{
-			ctl.motto.result = 9000.00;
-		}
-		else if ( ctl.motto.result < -9000.00 )
-		{
-			ctl.motto.result = -9000.00;
-		}
-
-
-		ctl_out = -ctl.motto.result  / 10000.;
-	}
-
-
+	ctl_out = ( ctl.pend.result - ctl.motto.result ) / 10000.;
 
 	
 
@@ -181,7 +197,7 @@ void CTL_app()
 		control();
 
 		push(20,timer.read_us() - perf_record);
-		wait(0.001);
+		wait(0.005);
 	}
 }
 
