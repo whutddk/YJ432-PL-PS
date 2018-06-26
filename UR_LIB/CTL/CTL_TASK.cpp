@@ -69,7 +69,7 @@ void control()
 	}
 
 
-	if ( parallel_cnt == 4 )		//位置控制 位置式
+	if ( parallel_cnt == 3 )		//位置控制 位置式
 	{
 		parallel_cnt = 0;
 
