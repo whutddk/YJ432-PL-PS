@@ -21,22 +21,38 @@
 
 
 module YJ431_PLTOP(
-    input i_sysclk,
-    input i_fb_clk,//暂时不区分FB时钟和sysclk，统一用100M进行测试
+    i_sysclk,
+    i_fb_clk,
 
-    input i_fb_oen,
-    input i_fb_rw,
-    input i_fb_csn,
-    input i_fb_ale,
-    input [31:0] i_fb_ad,
- 
-    output i_BZ_IO,
-    output i_LEDR_IO,
-    output i_LEDG_IO,
-    output i_LEDB_IO
-    //output [7:0] i_data_out
-    
+    i_fb_oen,
+    i_fb_rw,
+    i_fb_csn,
+    i_fb_ale,
+    i_fb_ad,
+
+    i_BZ_IO,
+    i_LEDR_IO,
+    i_LEDG_IO,
+    i_LEDB_IO    
+
     );
+    
+    input i_sysclk;
+    input i_fb_clk;
+
+    input i_fb_oen;
+    input i_fb_rw;
+    input i_fb_csn;
+    input i_fb_ale;
+    inout [31:0] i_fb_ad;
+ 
+    output i_BZ_IO;
+    output i_LEDR_IO;
+    output i_LEDG_IO;
+    output i_LEDB_IO;   
+   
+   
+   
      
 wire [31:0] i_bus_addr;
 wire [31:0] i_bus_data;

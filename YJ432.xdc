@@ -10,13 +10,13 @@
 
 # Clock signal 100 MHz
 
-set_property -dict {PACKAGE_PIN E3 IOSTANDARD LVCMOS33} [get_ports i_sysclk]
-create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 41.660} -add [get_ports i_sysclk]
+set_property -dict {PACKAGE_PIN N11 IOSTANDARD LVCMOS33} [get_ports i_sysclk]
+create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.0000} -add [get_ports i_sysclk]
 
 # Flexbus
 ## -CLK_OUT 40MHz
 set_property -dict {PACKAGE_PIN D13 IOSTANDARD LVCMOS33} [get_ports i_fb_clk]
-create_clock -period 25.000 -name sys_clk_pin -waveform {0.000 41.660} -add [get_ports i_fb_clk]
+create_clock -period 25.000 -name sys_clk_pin -waveform {0.000 12.500} -add [get_ports i_fb_clk]
 
 ## FB_OE
 set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen]
@@ -46,11 +46,11 @@ set_property -dict {PACKAGE_PIN E13 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[11]]
 set_property -dict {PACKAGE_PIN C11 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[12]]
 set_property -dict {PACKAGE_PIN B11 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[13]]
 set_property -dict {PACKAGE_PIN D10 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[14]]
-set_property -dict {PACKAGE_PIN B9 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[15]]
+set_property -dict {PACKAGE_PIN B9  IOSTANDARD LVCMOS33} [get_ports i_fb_ad[15]]
 set_property -dict {PACKAGE_PIN A13 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[16]]
 set_property -dict {PACKAGE_PIN C12 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[17]]
-set_property -dict {PACKAGE_PIN A9 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[18]]
-set_property -dict {PACKAGE_PIN D9 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[19]]
+set_property -dict {PACKAGE_PIN A9  IOSTANDARD LVCMOS33} [get_ports i_fb_ad[18]]
+set_property -dict {PACKAGE_PIN D9  IOSTANDARD LVCMOS33} [get_ports i_fb_ad[19]]
 set_property -dict {PACKAGE_PIN B12 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[20]]
 set_property -dict {PACKAGE_PIN A12 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[21]]
 set_property -dict {PACKAGE_PIN C8  IOSTANDARD LVCMOS33} [get_ports i_fb_ad[22]]
@@ -83,13 +83,13 @@ set_property -dict {PACKAGE_PIN C13 IOSTANDARD LVCMOS33} [get_ports i_fb_ad[31]]
 
 
 
-set_property -dict { PACKAGE_PIN M1   IOSTANDARD LVCMOS33 } [get_ports { i_LEDB_IO }]; #IO_L14N_T2_SRCC_16 Sch=led0_b
+set_property -dict { PACKAGE_PIN K13   IOSTANDARD LVCMOS33 } [get_ports { i_LEDB_IO }]; 
 
-set_property -dict { PACKAGE_PIN M4   IOSTANDARD LVCMOS33 } [get_ports { i_LEDG_IO }]; #IO_L13N_T2_MRCC_16 Sch=led0_g
+set_property -dict { PACKAGE_PIN L13   IOSTANDARD LVCMOS33 } [get_ports { i_LEDG_IO }]; 
 
-set_property -dict { PACKAGE_PIN N4   IOSTANDARD LVCMOS33 } [get_ports { i_LEDR_IO }]; #IO_L14P_T2_SRCC_16 Sch=led0_r
+set_property -dict { PACKAGE_PIN L14   IOSTANDARD LVCMOS33 } [get_ports { i_LEDR_IO }];
 
-set_property -dict { PACKAGE_PIN L4   IOSTANDARD LVCMOS33 } [get_ports { i_BZ_IO   }];
+set_property -dict { PACKAGE_PIN M12   IOSTANDARD LVCMOS33 } [get_ports { i_BZ_IO   }];
 
 
 
