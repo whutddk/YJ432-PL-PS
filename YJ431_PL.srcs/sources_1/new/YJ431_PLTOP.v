@@ -21,10 +21,15 @@
 
 
 module YJ431_PLTOP(
+    input i_sysclk,
+    input i_fb_clk,//暂时不区分FB时钟和sysclk，统一用100M进行测试
 
-    input i_sysclk,//暂时不区分FB时钟和sysclk，统一用100M进行测试
-    
-    
+    input i_fb_oen,
+    input i_fb_rw,
+    input i_fb_csn,
+    input i_fb_ale,
+    input [31:0] i_fb_ad,
+ 
     output i_BZ_IO,
     output i_LEDR_IO,
     output i_LEDG_IO,
@@ -32,55 +37,28 @@ module YJ431_PLTOP(
     //output [7:0] i_data_out
     
     );
+     
+wire [31:0] i_bus_addr;
+wire [31:0] i_bus_data;
+wire i_bus_read;
+wire i_bus_write;
     
-        wire i_fb_clk;
-        wire i_fb_oen;
-        wire i_fb_rw;
-        wire i_fb_csn;
-        wire i_fb_ale;
-        
-        wire [31:0] i_fb_ad; 
     
-    FB_AUTOTEST i_autotest(
-        .RST_n(1'b1),
-        .CLK(i_sysclk),      // 给40MHZ 直通
+ip_flexbus i_flexbus(
+    .FB_CLK(i_fb_clk),
+    .RST_n(1'b1),
+    .FB_OE(i_fb_oen),
+    .FB_RW(i_fb_rw),
+    .FB_CS(i_fb_csn),
+    .FB_ALE(i_fb_ale),
+    .FB_AD(i_fb_ad),
     
-
-        .FB_CLK(i_fb_clk),
-        .FB_OE_n(i_fb_oen),
-        .FB_RW(i_fb_rw),
-        .FB_CS_n(i_fb_csn),
-        .FB_ALE(i_fb_ale),
-        .FB_AD(i_fb_ad),
-        
-        .data_out()//i_data_out) 
     
-        );
-        
-        wire [31:0] i_bus_addr;
-        wire [31:0] i_bus_data;
-        wire i_bus_read;
-        wire i_bus_write;
-        
-        
-        ip_flexbus i_flexbus(
-            .FB_CLK(i_fb_clk),
-            .RST_n(1'b1),
-            .FB_OE(i_fb_oen),
-            .FB_RW(i_fb_rw),
-            .FB_CS(i_fb_csn),
-            .FB_ALE(i_fb_ale),
-
-
-            .FB_AD(i_fb_ad),
-   
-           
-            .ip_ADDR(i_bus_addr),
-            .ip_DATA(i_bus_data),
-        
-            .ip_Read( i_bus_read ),
-            .ip_Write( i_bus_write )
-            );
+    .ip_ADDR(i_bus_addr),
+    .ip_DATA(i_bus_data),     
+    .ip_Read( i_bus_read ),
+    .ip_Write( i_bus_write )
+);
 
 wire [31:0] FREQ_Cnt_wire;
 wire [31:0] BZ_Puty_wire;
@@ -98,7 +76,7 @@ FB_BZLEDREG(
 	.BUS_read(i_bus_read),
 	.BUS_write(i_bus_write),
 
-	.BZLED_BASE(10'h180),
+	.BZLED_BASE(10'h180),//0x6000,0000
 
 //Register
 	.FREQ_Cnt_Reg(FREQ_Cnt_wire),	//作为计数目标，自己外部计算
@@ -112,8 +90,7 @@ FB_BZLEDREG(
 BZLED(
 	.RST_n(1'b1),
 	.CLK(i_sysclk),
-	
-	
+		
 	.FREQ_Cnt_Set(FREQ_Cnt_wire),	//作为计数目标，自己外部计算
 	.BZ_Puty_Set(BZ_Puty_wire),
 	.LEDR_Puty_Set(LEDR_Puty_wire),
