@@ -26,7 +26,7 @@ set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33} [get_ports i_fb_rw]
 
 ## FB_CS
 set_property -dict {PACKAGE_PIN D16 IOSTANDARD LVCMOS33} [get_ports i_fb_csn]
-
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets i_fb_csn_IBUF] 
 ## FB_ALE
 set_property -dict {PACKAGE_PIN G15 IOSTANDARD LVCMOS33} [get_ports i_fb_ale]
 
