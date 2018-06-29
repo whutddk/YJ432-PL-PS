@@ -32,7 +32,13 @@ extern Serial fc;
 // }
 
 // #define DELAY_CNT 1000
-uint32_t *bzled_reg = (uint32_t*)(0x60000000);
+
+#define PL_START_ADDRESS 0x60000000U
+#define BZLED_BASE  0x00000000U
+#define PWM0_BASE   0x00800000U
+
+uint32_t *bzled_reg = (uint32_t*)( PL_START_ADDRESS | BZLED_BASE );
+uint32_t *pwm0_reg = (uint32_t*)( PL_START_ADDRESS | PWM0_BASE );
 
 uint32_t flexbus_data[5];
 
@@ -57,11 +63,11 @@ int main(void)
 	// *(bzled_reg + 4) = 20000;
 	while(1)
 	{		
-		flexbus_data[0] = *(bzled_reg + 0);
-		flexbus_data[1] = *(bzled_reg + 1);
-		flexbus_data[2] = *(bzled_reg + 2);
-		flexbus_data[3] = *(bzled_reg + 3);
-		flexbus_data[4] = *(bzled_reg + 4);
+		flexbus_data[0] = *(pwm0_reg + 0);
+		flexbus_data[1] = *(pwm0_reg + 1);
+		flexbus_data[2] = *(pwm0_reg + 2);
+		flexbus_data[3] = *(pwm0_reg + 3);
+		flexbus_data[4] = *(pwm0_reg + 4);
 
 		fc.printf("reg0 = %d\n\r",flexbus_data[0]);
 		fc.printf("reg1 = %d\n\r",flexbus_data[1]);
@@ -70,15 +76,15 @@ int main(void)
 		fc.printf("reg4 = %d\n\r\n\r",flexbus_data[4]);
 
 		wait(0.05);
-		*(bzled_reg + 0) = 1000000;
+		*(pwm0_reg + 0) = 1000000;
 		wait(0.05);
-		*(bzled_reg + 1) = 2000000;
+		*(pwm0_reg + 1) = 2000000;
 		wait(0.05);
-		*(bzled_reg + 2) = 600000;
+		*(pwm0_reg + 2) = 600000;
 		wait(0.05);
-		*(bzled_reg + 3) = 700000;
+		*(pwm0_reg + 3) = 700000;
 		wait(0.05);
-		*(bzled_reg + 4) = 600000;
+		*(pwm0_reg + 4) = 600000;
 
 		//bz_set(datarec);
 		
