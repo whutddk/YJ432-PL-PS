@@ -80,188 +80,188 @@ module FB_PWMREG(
 	assign BUS_DATA = AD_TRI_n ? BUS_DATA_REG : 32'bz;
    
    
-	//寄存器读写
-   
-	always@( negedge BUS_CS or negedge RST_n )
-	if ( !RST_n ) begin
-		FREQ_Cnt_Reg <= 32'd1;
-		CH0_duty_Reg <= 32'b0;
-		CH1_duty_Reg <= 32'b0;
-		CH2_duty_Reg <= 32'b0;
-		CH3_duty_Reg <= 32'b0;
-		CH4_duty_Reg <= 32'b0;
-		CH5_duty_Reg <= 32'b0;
-		CH6_duty_Reg <= 32'b0;
-		CH7_duty_Reg <= 32'b0;
-	end
+//寄存器读写
+//外部写入
+always@( negedge BUS_CS or negedge RST_n )
+    if ( !RST_n ) begin
+        FREQ_Cnt_Reg <= 32'd1;
+        CH0_duty_Reg <= 32'b0;
+        CH1_duty_Reg <= 32'b0;
+        CH2_duty_Reg <= 32'b0;
+        CH3_duty_Reg <= 32'b0;
+        CH4_duty_Reg <= 32'b0;
+        CH5_duty_Reg <= 32'b0;
+        CH6_duty_Reg <= 32'b0;
+        CH7_duty_Reg <= 32'b0;
+    end
+    
+    else begin
+        if ( ADD_COMF ) begin        //仲裁通过
+            if ( BUS_write == 1'b1 ) begin
+                case(BUS_ADDR[5:0])
+                    6'b000000: begin                
+                        FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg;
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;  
+                    end                
+                    6'b000100: begin
+                        FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
+    
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin
+                            CH0_duty_Reg [31:0] <= BUS_DATA [31:0];
+                        end
+    
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg;
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;
+                    end
+                    6'b001000: begin
+                        FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH1_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        CH2_duty_Reg <= CH2_duty_Reg;
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;
+                    end
+                    
+                    6'b001100: begin
+                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH2_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;
+                    end
+                           
+                    6'b010000: begin
+                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH3_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;
+                    end
+                           
+                    6'b010100:begin
+                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg; 
+                        CH3_duty_Reg <= CH4_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH4_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;
+                    end
+                           
+                    6'b011000:begin
+                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg; 
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH5_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        CH7_duty_Reg <= CH7_duty_Reg;                    	
+                    end
+                           
+                    6'b011100:begin
+                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg; 
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH6_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end
+                        CH7_duty_Reg <= CH7_duty_Reg;
+                    end
+                           
+                    6'b100000:begin 
+                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
+                        CH0_duty_Reg <= CH0_duty_Reg;
+                        CH1_duty_Reg <= CH1_duty_Reg;
+                        CH2_duty_Reg <= CH2_duty_Reg; 
+                        CH3_duty_Reg <= CH4_duty_Reg;   
+                        CH4_duty_Reg <= CH4_duty_Reg;
+                        CH5_duty_Reg <= CH5_duty_Reg;
+                        CH6_duty_Reg <= CH6_duty_Reg;
+                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
+                            CH7_duty_Reg[31:0] <= BUS_DATA [31:0];
+                        end 
+                    end
+                endcase
+            end        
+        end
+    end
 
-	else begin
-		if ( ADD_COMF ) begin        //仲裁通过
-			if ( BUS_write == 1'b1 ) begin
-				BUS_DATA_REG <= BUS_DATA_REG;
-				case(BUS_ADDR[3:0])
-					4'd0: begin                
-						FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg;
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;  
-					end                
-					4'd1: begin
-						FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin
-							CH0_duty_Reg [31:0] <= BUS_DATA [31:0];
-						end
-
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg;
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;
-					end
-					4'd2: begin
-						FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH1_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end
-						CH2_duty_Reg <= CH2_duty_Reg;
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;
-					end
-					
-					4'd3: begin
-						FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH2_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;
-					end
-	                       
-					4'd4: begin
-						FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH3_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;
-					end
-	                       
-					4'd5:begin
-						FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg; 
-						CH3_duty_Reg <= CH4_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH4_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;
-					end
-	                       
-					4'd6:begin
-						FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg; 
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH5_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end
-						CH6_duty_Reg <= CH6_duty_Reg;
-						CH7_duty_Reg <= CH7_duty_Reg;                    	
-					end
-	                       
-					4'd7:begin
-						FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg; 
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH6_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end
-						CH7_duty_Reg <= CH7_duty_Reg;
-					end
-	                       
-					4'd8:begin 
-						FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-						CH0_duty_Reg <= CH0_duty_Reg;
-						CH1_duty_Reg <= CH1_duty_Reg;
-						CH2_duty_Reg <= CH2_duty_Reg; 
-						CH3_duty_Reg <= CH4_duty_Reg;   
-						CH4_duty_Reg <= CH4_duty_Reg;
-						CH5_duty_Reg <= CH5_duty_Reg;
-						CH6_duty_Reg <= CH6_duty_Reg;
-						if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-							CH7_duty_Reg[31:0] <= BUS_DATA [31:0];
-						end 
-					end
-				endcase
-			end        
-			else begin //if ( BUS_read == 1'b1 )  
-	   
-				FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-				CH0_duty_Reg <= CH0_duty_Reg;
-				CH1_duty_Reg <= CH1_duty_Reg;
-				CH2_duty_Reg <= CH2_duty_Reg; 
-				CH3_duty_Reg <= CH4_duty_Reg;   
-				CH4_duty_Reg <= CH4_duty_Reg;
-				CH5_duty_Reg <= CH5_duty_Reg;
-				CH6_duty_Reg <= CH6_duty_Reg;
-				CH7_duty_Reg <= CH7_duty_Reg;
-
-				case(BUS_ADDR[3:0])
-					4'd0:
-						BUS_DATA_REG[31:0] <= FREQ_Cnt_Reg[31:0];
-					4'd1:
-						BUS_DATA_REG[31:0] <= CH0_duty_Reg[31:0];
-					4'd2:
-						BUS_DATA_REG[31:0] <= CH1_duty_Reg[31:0];
-					4'd3:
-						BUS_DATA_REG[31:0] <= CH2_duty_Reg[31:0];
-					4'd4:
-						BUS_DATA_REG[31:0] <= CH3_duty_Reg[31:0];
-					4'd5:
-						BUS_DATA_REG[31:0] <= CH4_duty_Reg[31:0];
-					4'd6:
-						BUS_DATA_REG[31:0] <= CH5_duty_Reg[31:0];
-					4'd7:
-						BUS_DATA_REG[31:0] <= CH6_duty_Reg[31:0];
-					4'd8:
-						BUS_DATA_REG[31:0] <= CH7_duty_Reg[31:0];
-					default:
-						BUS_DATA_REG[31:0] <=32'hffffffff;
-				endcase
-			end
-		end
-	end
+//寄存器读写
+//外部读出
+always@( posedge BUS_CS or negedge RST_n )
+    if ( !RST_n ) begin
+        BUS_DATA_REG <= 32'b0;
+    end
+    
+    else begin
+        if ( ADD_COMF ) begin        //仲裁通过
+            if ( BUS_read == 1'b1 ) begin
+                case(BUS_ADDR[5:0])
+                    6'b000000:
+                        BUS_DATA_REG[31:0] <= FREQ_Cnt_Reg[31:0];
+                    6'b000100:
+                        BUS_DATA_REG[31:0] <= CH0_duty_Reg[31:0];
+                    6'b001000:
+                        BUS_DATA_REG[31:0] <= CH1_duty_Reg[31:0];
+                    6'b001100:
+                        BUS_DATA_REG[31:0] <= CH2_duty_Reg[31:0];
+                    6'b010000:
+                        BUS_DATA_REG[31:0] <= CH3_duty_Reg[31:0];
+                    6'b010100:
+                        BUS_DATA_REG[31:0] <= CH4_duty_Reg[31:0];
+                    6'b011000:
+                        BUS_DATA_REG[31:0] <= CH5_duty_Reg[31:0];
+                    6'b011100:
+                        BUS_DATA_REG[31:0] <= CH6_duty_Reg[31:0];
+                    6'b100000:
+                        BUS_DATA_REG[31:0] <= CH7_duty_Reg[31:0];
+                    default:
+                        BUS_DATA_REG[31:0] <=32'hffffffff;
+                endcase
+            end
+        end
+    end
 
 endmodule
 
@@ -339,25 +339,12 @@ assign PWM_CH5 = PWM_CH5_reg;
 assign PWM_CH6 = PWM_CH6_reg;
 assign PWM_CH7 = PWM_CH7_reg;
 
-reg [31:0] ch0_cnt = 32'd0;
-reg [31:0] ch1_cnt = 32'd0;
-reg [31:0] ch2_cnt = 32'd0;
-reg [31:0] ch3_cnt = 32'd0;
-reg [31:0] ch4_cnt = 32'd0;
-reg [31:0] ch5_cnt = 32'd0;
-reg [31:0] ch6_cnt = 32'd0;
-reg [31:0] ch7_cnt = 32'd0;
+reg [31:0] pwm_cnt = 32'd0;
+
 
 always@( posedge CLK or negedge RST_n )begin
 	if ( !RST_n ) begin
-		ch0_cnt <= 32'd0;
-		ch1_cnt <= 32'd0;
-		ch2_cnt <= 32'd0;
-		ch3_cnt <= 32'd0;
-		ch4_cnt <= 32'd0;
-		ch5_cnt <= 32'd0;
-		ch6_cnt <= 32'd0;
-		ch7_cnt <= 32'd0;
+		pwm_cnt <= 32'd0;
 
 		PWM_CH0_reg <= 1'b0;
 		PWM_CH1_reg <= 1'b0;
@@ -370,16 +357,10 @@ always@( posedge CLK or negedge RST_n )begin
 
 	end
 	else begin
-		ch0_cnt <= ch0_cnt + 32'd1;
-		ch1_cnt <= ch1_cnt + 32'd1;
-		ch2_cnt <= ch2_cnt + 32'd1;
-		ch3_cnt <= ch3_cnt + 32'd1;
-		ch4_cnt <= ch4_cnt + 32'd1;
-		ch5_cnt <= ch5_cnt + 32'd1;
-		ch6_cnt <= ch6_cnt + 32'd1;
-		ch7_cnt <= ch7_cnt + 32'd1;
+		pwm_cnt <= pwm_cnt + 32'd1;
 
-		if ( ch0_cnt == FREQ_Cnt_Set) begin	//对齐
+
+		if ( pwm_cnt >= FREQ_Cnt_Set) begin	//对齐
 			PWM_CH0_reg <= 1'b1;
 			PWM_CH1_reg <= 1'b1;
 			PWM_CH2_reg <= 1'b1;
@@ -389,25 +370,17 @@ always@( posedge CLK or negedge RST_n )begin
 			PWM_CH6_reg <= 1'b1;
 			PWM_CH7_reg <= 1'b1;
 
-			ch0_cnt <= 32'd0;
-			ch1_cnt <= 32'd0;
-			ch2_cnt <= 32'd0;
-			ch3_cnt <= 32'd0;
-			ch4_cnt <= 32'd0;
-			ch5_cnt <= 32'd0;
-			ch6_cnt <= 32'd0;
-			ch7_cnt <= 32'd0;
-
+			pwm_cnt <= 32'd0;
 		end
 //占空比
-		if ( ch0_cnt == PWM_CH0_reg ) PWM_CH0_reg <= 1'b0;
-		if ( ch1_cnt == PWM_CH1_reg ) PWM_CH1_reg <= 1'b0;
-		if ( ch2_cnt == PWM_CH2_reg ) PWM_CH2_reg <= 1'b0;
-		if ( ch3_cnt == PWM_CH3_reg ) PWM_CH3_reg <= 1'b0;
-		if ( ch4_cnt == PWM_CH4_reg ) PWM_CH4_reg <= 1'b0;
-		if ( ch5_cnt == PWM_CH5_reg ) PWM_CH5_reg <= 1'b0;
-		if ( ch6_cnt == PWM_CH6_reg ) PWM_CH6_reg <= 1'b0;
-		if ( ch7_cnt == PWM_CH7_reg ) PWM_CH7_reg <= 1'b0;
+		if ( pwm_cnt == CH0_duty_Set ) PWM_CH0_reg <= 1'b0;
+		if ( pwm_cnt == CH1_duty_Set ) PWM_CH1_reg <= 1'b0;
+		if ( pwm_cnt == CH2_duty_Set ) PWM_CH2_reg <= 1'b0;
+		if ( pwm_cnt == CH3_duty_Set ) PWM_CH3_reg <= 1'b0;
+		if ( pwm_cnt == CH4_duty_Set ) PWM_CH4_reg <= 1'b0;
+		if ( pwm_cnt == CH5_duty_Set ) PWM_CH5_reg <= 1'b0;
+		if ( pwm_cnt == CH6_duty_Set ) PWM_CH6_reg <= 1'b0;
+		if ( pwm_cnt == CH7_duty_Set ) PWM_CH7_reg <= 1'b0;
 
 
 	end
