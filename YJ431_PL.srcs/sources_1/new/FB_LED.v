@@ -77,21 +77,18 @@ assign BUS_DATA = AD_TRI_n ? BUS_DATA_REG : 32'bz;
 
 
 //寄存器读写
-
-always@( negedge BUS_CS or negedge RST_n )
+//外面写入
+always@( posedge BUS_CS or negedge RST_n )
 	if ( !RST_n ) begin
 		FREQ_Cnt_Reg <= 32'd1;
 		BZ_Puty_Reg <= 32'b0;
 		LEDR_Puty_Reg <= 32'b0;
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;
-		BUS_DATA_REG <= 32'b0;
 	end
-
 	else begin
 		if ( ADD_COMF ) begin		//仲裁通过
 			if ( BUS_write == 1'b1 ) begin
-				BUS_DATA_REG <= BUS_DATA_REG;
 				case(BUS_ADDR[4:0])
 					5'b00000: begin				
                         FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
@@ -136,14 +133,19 @@ always@( negedge BUS_CS or negedge RST_n )
 					end
 				endcase
 			end		
-			else begin //if ( BUS_read == 1'b1 )  
+		end
+	end
 
-				FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
-				BZ_Puty_Reg   <= BZ_Puty_Reg;
-				LEDR_Puty_Reg <= LEDR_Puty_Reg;
-				LEDG_Puty_Reg <= LEDG_Puty_Reg;
-				LEDB_Puty_Reg <= LEDB_Puty_Reg;
+//寄存器
+//外面读出
+always@( negedge BUS_CS or negedge RST_n )
+	if ( !RST_n ) begin
+		BUS_DATA_REG <= 32'b0;
+	end
 
+	else begin
+		if ( ADD_COMF ) begin		//仲裁通过
+			if ( BUS_write == 1'b0 ) begin //if ( BUS_read == 1'b1 )  
 				case(BUS_ADDR[4:0])
 					5'b00000:
 					BUS_DATA_REG [31:0] <= FREQ_Cnt_Reg [31:0];
@@ -161,9 +163,6 @@ always@( negedge BUS_CS or negedge RST_n )
 			end
 		end
 	end
-
-
-
 
 endmodule //FB_BZLEDREG
 
