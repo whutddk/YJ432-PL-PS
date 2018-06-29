@@ -241,15 +241,15 @@ always @(posedge CLK or negedge RST_n) begin
 			BLUE_Cnt 	<= BLUE_Cnt + 32'd1;
 		end
 
-		if ( RED_Cnt >= LEDR_Puty_Set ) begin
+		if ( RED_Cnt == LEDR_Puty_Set ) begin
 			LED_R_reg <= 1'b1;
 		end
 
-		if ( GREEN_Cnt >= LEDG_Puty_Set) begin
+		if ( GREEN_Cnt == LEDG_Puty_Set) begin
 			LED_G_reg <= 1'b1;
 		end
 
-		if ( BLUE_Cnt >= LEDB_Puty_Set ) begin
+		if ( BLUE_Cnt == LEDB_Puty_Set ) begin
 			LED_B_reg <= 1'b1;
 		end
 	end
