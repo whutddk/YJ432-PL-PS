@@ -17,10 +17,10 @@ extern DigitalOut comled;
 extern Timer timer;
 extern Serial fc;
 
-#define LED_ON     (comled = 0)
-#define LED_OFF    (comled = 1)
+#define LED_ON     (comled = 1)
+#define LED_OFF    (comled = 0)
 
-#define BZ_ON     (buzzer = 1)
+#define BZ_ON     //(buzzer = 1)
 #define BZ_OFF    (buzzer = 0)
 
 extern enum _bz_style bz_style;
