@@ -7,10 +7,7 @@
 
 #define SOPT2_CLKOUTSEL_FLEXBUS 0x00u /*!<@brief CLKOUT select: FlexBus CLKOUT */
 
-#define MRAM_START_ADDRESS 0x60000000U
-
-uint16_t rdata;
-int16_t *p_mram = (int16_t *)0x60000000U;
+#define PL_START_ADDRESS 0x60000000U
 
 void flexbus_pin_mux()
 {
@@ -158,45 +155,17 @@ void YJ_FB_init()
 
 	flexbus_pin_mux();
 
-	/*
-     * Initialize configurations for MRAM.
-     * Refer application note: AN4393.
-     */
-    /* Get default config */
-    /*
-     * flexbusUserConfig.writeProtect = 0;
-     * flexbusUserConfig.burstWrite = 0;
-     * flexbusUserConfig.burstRead = 0;
-     * flexbusUserConfig.byteEnableMode = 0;
-     * flexbusUserConfig.autoAcknowledge = true;
-     * flexbusUserConfig.extendTransferAddress = 0;
-     * flexbusUserConfig.secondaryWaitStates = 0;
-     * flexbusUserConfig.byteLaneShift = kFLEXBUS_NotShifted;
-     * flexbusUserConfig.writeAddressHold = kFLEXBUS_Hold1Cycle;
-     * flexbusUserConfig.readAddressHold = kFLEXBUS_Hold1Or0Cycles;
-     * flexbusUserConfig.addressSetup = kFLEXBUS_FirstRisingEdge;
-     * flexbusUserConfig.portSize = kFLEXBUS_1Byte;
-     * flexbusUserConfig.group1MultiplexControl = kFLEXBUS_MultiplexGroup1_FB_ALE;
-     * flexbusUserConfig.group2MultiplexControl = kFLEXBUS_MultiplexGroup2_FB_CS4;
-     * flexbusUserConfig.group3MultiplexControl = kFLEXBUS_MultiplexGroup3_FB_CS5;
-     * flexbusUserConfig.group4MultiplexControl = kFLEXBUS_MultiplexGroup4_FB_TBST;
-     * flexbusUserConfig.group5MultiplexControl = kFLEXBUS_MultiplexGroup5_FB_TA;
-     */
     FLEXBUS_GetDefaultConfig(&flexbusUserConfig);
 
-
-	// flexbusUserConfig.writeProtect = 0;
-	// flexbusUserConfig.burstWrite = 0;
-	// flexbusUserConfig.burstRead = 0;
 	flexbusUserConfig.byteEnableMode = 1;
 	flexbusUserConfig.autoAcknowledge = true;
 	flexbusUserConfig.extendTransferAddress = 0;
-	flexbusUserConfig.secondaryWaitStates = 2;
+	flexbusUserConfig.secondaryWaitStates = 0;
 	flexbusUserConfig.byteLaneShift = kFLEXBUS_Shifted;
-	flexbusUserConfig.writeAddressHold = kFLEXBUS_Hold3Cycles;
-	flexbusUserConfig.readAddressHold = kFLEXBUS_Hold3Or2Cycle;
-	flexbusUserConfig.addressSetup = kFLEXBUS_SecondRisingEdge;
-	flexbusUserConfig.portSize = kFLEXBUS_2Bytes;
+	flexbusUserConfig.writeAddressHold = kFLEXBUS_Hold1Cycle;
+	flexbusUserConfig.readAddressHold = kFLEXBUS_Hold1Or0Cycles;
+	flexbusUserConfig.addressSetup = kFLEXBUS_FirstRisingEdge;
+	flexbusUserConfig.portSize = kFLEXBUS_4Bytes;
 	flexbusUserConfig.group1MultiplexControl = kFLEXBUS_MultiplexGroup1_FB_ALE;
 	flexbusUserConfig.group2MultiplexControl = kFLEXBUS_MultiplexGroup2_FB_BE_31_24;
 	flexbusUserConfig.group3MultiplexControl = kFLEXBUS_MultiplexGroup3_FB_BE_23_16;
@@ -205,8 +174,8 @@ void YJ_FB_init()
 
     /* Configure some parameters when using MRAM */
     flexbusUserConfig.chip = 0;
-    flexbusUserConfig.waitStates = 2U;                      /* Wait 2 states */
-    flexbusUserConfig.chipBaseAddress = MRAM_START_ADDRESS; /* MRAM address for using FlexBus */
+    flexbusUserConfig.waitStates = 0U;                      /* Wait 2 states */
+    flexbusUserConfig.chipBaseAddress = PL_START_ADDRESS; /* MRAM address for using FlexBus */
     flexbusUserConfig.chipBaseAddressMask = 7U;             /* 512 Kbytes memory size */
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
@@ -214,7 +183,7 @@ void YJ_FB_init()
     // FLEXBUS_Init(FB, &flexbusUserConfig);
     
     flexbusUserConfig.chip = 0;
-    flexbusUserConfig.waitStates = 2U;                      /* Wait 2 states */
+    flexbusUserConfig.waitStates = 0U;                      /* Wait 2 states */
     flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
     flexbusUserConfig.chipBaseAddressMask = 0x0f;             /* 512 Kbytes memory size */
 
@@ -230,47 +199,5 @@ void YJ_FB_init()
         __NOP();
     }
 
-
-
-    // FLEXBUS_Deinit(FB);
 }
-extern Serial uartpc;
-int flexbus_test()
-{
-	uint32_t n,j;
-	bool result = true;
-	const uint16_t wdata = 0xaaAAU;
-	for (n = 0x0; n < 0x7ffff; n++)
-    {
-        /* Write data to MRAM */
-        *(p_mram + n) = wdata;
-    }
-    /* Waiting some times */
-    for (j = 0; j < 0xFFFFU; j++)
-    {
-        __NOP();
-    }
-    for (n = 0x0; n < 0x7ffffU; n++)
-    {
-        /* Read data back from MRAM */
-        rdata = *(p_mram + n);
-        /* Verify that rdata equals to wdata */
-        if (rdata != wdata)
-        {
-            result = false;
-            uartpc.printf( "\r\nindex:%d,wdata:0xbbaa,rdata:%d",n,rdata );
-            break;
-        }
-        // uartpc.printf( "done!!!");
-    }
-    if (result)
-    {
-    	uartpc.printf( "done!!!\r\n");
-        return 0;
-    }
-    else
-    {
-    	uartpc.printf( "Fail!!!\r\n");
-        return -1;
-    }
-}
+
