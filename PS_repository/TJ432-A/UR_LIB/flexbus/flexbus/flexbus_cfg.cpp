@@ -176,7 +176,7 @@ void YJ_FB_init()
     flexbusUserConfig.chip = 0;
     flexbusUserConfig.waitStates = 0U;                      /* Wait 2 states */
     flexbusUserConfig.chipBaseAddress = PL_START_ADDRESS; /* MRAM address for using FlexBus */
-    flexbusUserConfig.chipBaseAddressMask = 7U;             /* 512 Kbytes memory size */
+    flexbusUserConfig.chipBaseAddressMask = 0x3FFFFFU;             /* 512 Kbytes memory size */
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
     /* Initialize and configure FLEXBUS module */
@@ -185,7 +185,7 @@ void YJ_FB_init()
     flexbusUserConfig.chip = 0;
     flexbusUserConfig.waitStates = 0U;                      /* Wait 2 states */
     flexbusUserConfig.chipBaseAddress = 0x60000000U; /* MRAM address for using FlexBus */
-    flexbusUserConfig.chipBaseAddressMask = 0x0f;             /* 512 Kbytes memory size */
+    flexbusUserConfig.chipBaseAddressMask = 0x3FFFFFU;             /* 512 Kbytes memory size */
 
     // PRINTF("\r\nInitialize FLEXBUS.\r\n");
     /* Initialize and configure FLEXBUS module */
