@@ -51,11 +51,11 @@ input BUS_write;
 input [9:0]BZLED_BASE;
 
 //Register
-output reg [31:0] FREQ_Cnt_Reg;	//作为计数目标，自己外部计算
-output reg [31:0] BZ_Puty_Reg;
-output reg [31:0] LEDR_Puty_Reg;
-output reg [31:0] LEDG_Puty_Reg;
-output reg [31:0] LEDB_Puty_Reg;
+output reg [31:0] FREQ_Cnt_Reg = 32'd100000;	//作为计数目标，自己外部计算
+output reg [31:0] BZ_Puty_Reg = 32'd1000000000;
+output reg [31:0] LEDR_Puty_Reg = 32'd50000;
+output reg [31:0] LEDG_Puty_Reg = 32'd50000;
+output reg [31:0] LEDB_Puty_Reg = 32'd50000;
 
 
 
@@ -92,22 +92,22 @@ always@( negedge BUS_CS or negedge RST_n )
 		if ( ADD_COMF ) begin		//仲裁通过
 			if ( BUS_write == 1'b1 ) begin
 				BUS_DATA_REG <= BUS_DATA_REG;
-				case(BUS_ADDR[3:0])
-					4'd0: begin				
+				case(BUS_ADDR[4:0])
+					5'b00000: begin				
                         FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
                         LEDG_Puty_Reg <= LEDG_Puty_Reg;
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;	
 					end				
-					4'd1: begin
+					5'b00100: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg [31:0] <= BUS_DATA [31:0];
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
                         LEDG_Puty_Reg <= LEDG_Puty_Reg;
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					4'd2: begin
+					5'b01000: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
@@ -116,7 +116,7 @@ always@( negedge BUS_CS or negedge RST_n )
                         LEDG_Puty_Reg <= LEDG_Puty_Reg;
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					4'd3: begin
+					5'b01100: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
@@ -125,7 +125,7 @@ always@( negedge BUS_CS or negedge RST_n )
                         end
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					4'd4: begin
+					5'b10000: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
@@ -144,16 +144,16 @@ always@( negedge BUS_CS or negedge RST_n )
 				LEDG_Puty_Reg <= LEDG_Puty_Reg;
 				LEDB_Puty_Reg <= LEDB_Puty_Reg;
 
-				case(BUS_ADDR[3:0])
-					4'd0:
+				case(BUS_ADDR[4:0])
+					5'b00000:
 					BUS_DATA_REG [31:0] <= FREQ_Cnt_Reg [31:0];
-					4'd1:
+					5'b00100:
 					BUS_DATA_REG [31:0] <= BZ_Puty_Reg [31:0];
-					4'd2:
+					5'b01000:
 					BUS_DATA_REG [31:0] <= LEDR_Puty_Reg[31:0];
-					4'd3:
+					5'b01100:
 					BUS_DATA_REG [31:0] <= LEDG_Puty_Reg[31:0];
-					4'd4:
+					5'b10000:
 					BUS_DATA_REG [31:0] <= LEDB_Puty_Reg[31:0];
 					default:
 					BUS_DATA_REG[31:0] <=  32'hffffffff;
@@ -227,7 +227,7 @@ always @(posedge CLK or negedge RST_n) begin
 	end
 	else begin
 
-		if ( RED_Cnt == FREQ_Cnt_Set ) begin
+		if ( RED_Cnt >= FREQ_Cnt_Set ) begin
 			RED_Cnt <= 32'd0;
 			GREEN_Cnt <= 32'd0;
 			BLUE_Cnt <= 32'd0;
@@ -242,15 +242,15 @@ always @(posedge CLK or negedge RST_n) begin
 			BLUE_Cnt 	<= BLUE_Cnt + 32'd1;
 		end
 
-		if ( RED_Cnt == LEDR_Puty_Set ) begin
+		if ( RED_Cnt >= LEDR_Puty_Set ) begin
 			LED_R_reg <= 1'b1;
 		end
 
-		if ( GREEN_Cnt == LEDG_Puty_Set) begin
+		if ( GREEN_Cnt >= LEDG_Puty_Set) begin
 			LED_G_reg <= 1'b1;
 		end
 
-		if ( BLUE_Cnt == LEDB_Puty_Set ) begin
+		if ( BLUE_Cnt >= LEDB_Puty_Set ) begin
 			LED_B_reg <= 1'b1;
 		end
 	end
@@ -266,7 +266,7 @@ always@( posedge CLK or negedge RST_n ) begin
 			BZ_reg <= 1'b0;
 	end
 	else begin
-		if ( BZ_Cnt == BZ_Puty_Set ) begin
+		if ( BZ_Cnt >= BZ_Puty_Set ) begin
 			BZ_Cnt <= 32'd0;
 			BZ_reg <= 1'd0;
 		end
