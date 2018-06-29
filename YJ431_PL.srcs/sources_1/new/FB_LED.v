@@ -208,17 +208,12 @@ assign LED_G = LED_G_reg;
 assign LED_B = LED_B_reg;
 
 //LED控制部分
-reg [31:0] RED_Cnt = 32'd0;
-reg [31:0] GREEN_Cnt = 32'd0;
-reg [31:0] BLUE_Cnt = 32'd0;
-
+reg [31:0] LED_Cnt = 32'd0;
 
 always @(posedge CLK or negedge RST_n) begin
 	if ( !RST_n ) begin
 
-		RED_Cnt <= 32'd0;
-		GREEN_Cnt <= 32'd0;
-		BLUE_Cnt <= 32'd0;
+		LED_Cnt <= 32'd0;
 
 		LED_R_reg <= 1'b1;
 		LED_G_reg <= 1'b1;
@@ -226,30 +221,27 @@ always @(posedge CLK or negedge RST_n) begin
 	end
 	else begin
 
-		if ( RED_Cnt >= FREQ_Cnt_Set ) begin
-			RED_Cnt <= 32'd0;
-			GREEN_Cnt <= 32'd0;
-			BLUE_Cnt <= 32'd0;
-
+		if ( LED_Cnt >= FREQ_Cnt_Set ) begin
+			LED_Cnt <= 32'd0;
+			
 			LED_R_reg <= 1'b0;	//负逻辑，点亮?
 			LED_G_reg <= 1'b0;
 			LED_B_reg <= 1'b0;
 		end
 		else begin
-			RED_Cnt 	<= RED_Cnt + 32'd1;
-			GREEN_Cnt 	<= GREEN_Cnt + 32'd1;
-			BLUE_Cnt 	<= BLUE_Cnt + 32'd1;
+			LED_Cnt <= LED_Cnt + 32'd1;
+
 		end
 
-		if ( RED_Cnt == LEDR_Puty_Set ) begin
+		if ( LED_Cnt == LEDR_Puty_Set ) begin
 			LED_R_reg <= 1'b1;
 		end
 
-		if ( GREEN_Cnt == LEDG_Puty_Set) begin
+		if ( LED_Cnt == LEDG_Puty_Set) begin
 			LED_G_reg <= 1'b1;
 		end
 
-		if ( BLUE_Cnt == LEDB_Puty_Set ) begin
+		if ( LED_Cnt == LEDB_Puty_Set ) begin
 			LED_B_reg <= 1'b1;
 		end
 	end
