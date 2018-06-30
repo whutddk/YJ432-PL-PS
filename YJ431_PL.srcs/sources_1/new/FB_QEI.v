@@ -90,13 +90,11 @@ end
 //外部读出
 always@( negedge BUS_CS or negedge RST_n )
 if ( !RST_n ) begin
-	QEI_CLEAR_Reg <= 32'd0;
+
 end
 
 else begin
 	if ( ADD_COMF && BUS_write == 1'b0) begin         //仲裁通过
-        QEI_CLEAR_Reg <= QEI_CLEAR_Reg;
-
         case(BUS_ADDR[4:0])
             5'b00000:
                 BUS_DATA_REG[31:0] <= QEI_CLEAR_Reg[31:0];
