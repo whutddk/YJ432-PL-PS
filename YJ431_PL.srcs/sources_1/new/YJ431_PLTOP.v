@@ -151,7 +151,7 @@ FB_PWMREG i_pwm0reg(
 	.BUS_read(i_bus_read),
 	.BUS_write(i_bus_write),
 
-	.BZLED_BASE(10'h182),
+	.PWM_BASE(10'h182),
 
 //Register
 	.FREQ_Cnt_Reg(PWM0_FREQ_Cnt_wire),	//作为计数目标，自己外部计算

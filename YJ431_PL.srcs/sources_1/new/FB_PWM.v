@@ -29,7 +29,7 @@ module FB_PWMREG(
 	BUS_read,
 	BUS_write,
 
-	BZLED_BASE,
+	PWM_BASE,
 
 //Register
 	FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
@@ -52,7 +52,7 @@ module FB_PWMREG(
     input BUS_read;
     input BUS_write;
 
-    input [9:0] BZLED_BASE;
+    input [9:0] PWM_BASE;
 
 //Register
 	output reg [31:0] FREQ_Cnt_Reg;    //作为计数目标，自己外部计算
@@ -72,7 +72,7 @@ module FB_PWMREG(
 	
 	reg [31:0] BUS_DATA_REG = 32'b0;
 	
-	assign ADD_COMF = ( BUS_ADDR[31:22] == BZLED_BASE[9:0] ) ? 1'b1:1'b0;    //地址仲裁 
+	assign ADD_COMF = ( BUS_ADDR[31:22] == PWM_BASE[9:0] ) ? 1'b1:1'b0;    //地址仲裁 
 	assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ; //时序逻辑判断是否设置非高阻：同时满足1地址，2片选，3外部请求读
 	//进入非高阻态：1 地址仲裁通过 2 片选有效 3 为外部请求读?
 	//脱离高阻态：1片选失效脱离 2地址失效 外部读写请求失效安全脱离?
