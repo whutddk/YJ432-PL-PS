@@ -40,8 +40,12 @@ module YJ431_PLTOP(
     i_PWM0_CH2,
     i_PWM0_CH3,
     i_PWM0_CH0_EN,
-    i_PWM0_CH2_EN
-    );
+    i_PWM0_CH2_EN,
+    
+    i_QEI0_CH0_PA,
+    i_QEI0_CH0_PB
+    
+);
     
     input i_sysclk;
     input i_fb_clk;
@@ -63,6 +67,9 @@ module YJ431_PLTOP(
     output i_PWM0_CH3;
     output i_PWM0_CH0_EN;
     output i_PWM0_CH2_EN;
+    
+    input i_QEI0_CH0_PA;
+    input i_QEI0_CH0_PB;
 
 assign i_PWM0_CH0_EN = 1'b1;
 assign i_PWM0_CH2_EN = 1'b0;
@@ -193,6 +200,54 @@ PWM i_pwm0(
         .PWM_CH7()
     
         );
+ 
+wire [31:0] QEI_CLEAR_wire;
+wire [31:0] QEI_CH0_wire;
+//wire [31:0] QEI_CH1_wire;
+//wire [31:0] QEI_CH2_wire;
+//wire [31:0] QEI_CH3_wire;
+   
+ FB_QEIREG i_qei0reg(
+    .RST_n(1'b1),
+    .BUS_ADDR(i_bus_addr),
+    .BUS_DATA(i_bus_data),
+    .BUS_CS(i_fb_csn),
+    
+    .BUS_read(i_bus_read),
+    .BUS_write(i_bus_write),
+    
+    .QEI_BASE(10'h186),
+    
+    //Register
+    .QEI_CLEAR_Reg(QEI_CLEAR_wire),    //ÊÇ·ñÇåÁã?
+    .QEI_CH0_Read(QEI_CH0_wire),    //Ö»¶Á¼Ä´æÆ÷
+    .QEI_CH1_Read(32'hfffffffb),
+    .QEI_CH2_Read(32'hfffffffc),
+    .QEI_CH3_Read(32'hfffffffd)
+
+            );  
+ 
+ QEI i_qei0(
+    .CLK(i_sysclk),
+    .RST_n(1'b1),
+    
+    //Register
+    .QEI_CLEAR_Set(QEI_CLEAR_wire),    //ÊÇ·ñÇåÁã?
+    .QEI_CH0_Read(QEI_CH0_wire),    //Ö»¶Á¼Ä´æÆ÷
+    .QEI_CH1_Read(),
+    .QEI_CH2_Read(),
+    .QEI_CH3_Read(),
+        
+    .CH0_PHASEA(i_QEI0_CH0_PA),
+    .CH0_PHASEB(i_QEI0_CH0_PB),  
+    .CH1_PHASEA(1'b0),
+    .CH1_PHASEB(1'b0),
+    
+    .CH2_PHASEA(1'b0),
+    .CH2_PHASEB(1'b0),
+    .CH3_PHASEA(1'b0),
+    .CH3_PHASEB(1'b0)
+);  
      
 endmodule
 
