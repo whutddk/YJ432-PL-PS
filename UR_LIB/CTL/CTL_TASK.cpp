@@ -12,14 +12,6 @@ uint8_t parallel_cnt = 0;
 
 void control()
 {
-	
-	double ctl_out = 0;
-
-
-
-
-
-
 	if ( parallel_cnt == 2 )		//位置控制 位置式
 	{
 		parallel_cnt = 0;
@@ -55,7 +47,6 @@ void control()
 		ctl.motto.error[3] = ctl.motto.error[2];
 		ctl.motto.error[2] = ctl.motto.error[1];
 		ctl.motto.error[1] = ctl.motto.error[0];
-		// ctl_out = ( ctl.motto.result ) / 10000.;
 
 		push( 4,(int16_t)(ctl.motto.result) );
 
@@ -106,7 +97,6 @@ void control()
 		else
 		{
 			ctl.pend.result = .0;
-			ctl_out = 0.00000;
 		}
 
 		if ( ctl.pend.result > 10000.00 )
@@ -118,47 +108,42 @@ void control()
 			ctl.pend.result = -10000.00;
 		}
 
-		// ctl_out = ctl.pend.result / 10000.;
+
 
 		push( 3,(int16_t)(ctl.pend.result) );
 	}
 
 
-	ctl_out = ( ctl.pend.result - ctl.motto.result ) / 10000.;
+	ctl.out = (int32_t)( ctl.pend.result - ctl.motto.result ) ;
 
 	
 
 	if ( ctl.flag_end == 1 )
 	{	
-		motor1_CHA = 0.00;
-		motor_side1 = 0;
-		motor_side2 = 0;
+		* (PWM0_CH0_REG) = 1;
+		* (PWM0_CH1_REG) = 1;
 	}
 	else
 	{
-		if ( ctl_out > 1.0000 )
+		if ( ctl.out >= 10000 )
 		{
-			motor1_CHA = 0.9999;
-			motor_side1 = 0;
-			motor_side2 = 1;
+			* (PWM0_CH0_REG) = 9999;
+			* (PWM0_CH1_REG) = 1;
 		}
-		else if ( ctl_out > 0.0000 )
+		else if ( ctl.out > 0 )
 		{
-			motor1_CHA = ctl_out;
-			motor_side1 = 0;
-			motor_side2 = 1;
+			* (PWM0_CH0_REG) = (uint32_t)(ctl.out);
+			* (PWM0_CH1_REG) = 1;
 		}
-		else if ( ctl_out > -1.0000 )
+		else if ( ctl.out > -10000 )
 		{
-			motor1_CHA = -ctl_out;
-			motor_side1 = 1;
-			motor_side2 = 0;
+			* (PWM0_CH0_REG) = 1
+			* (PWM0_CH1_REG) = (uint32_t)(-ctl.out);
 		}
 		else
 		{
-			motor1_CHA = 0.99999;
-			motor_side1 = 1;
-			motor_side2 = 0;
+			* (PWM0_CH0_REG) = 1
+			* (PWM0_CH1_REG) = 9999;
 		}
 	}
 
