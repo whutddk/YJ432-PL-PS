@@ -4,10 +4,10 @@
 //#include "pin_mux.h"
 #include "fsl_flexbus.h"
 
+#include "PL_DEF.h"
 
 #define SOPT2_CLKOUTSEL_FLEXBUS 0x00u /*!<@brief CLKOUT select: FlexBus CLKOUT */
 
-#define PL_START_ADDRESS 0x60000000U
 
 void flexbus_pin_mux()
 {

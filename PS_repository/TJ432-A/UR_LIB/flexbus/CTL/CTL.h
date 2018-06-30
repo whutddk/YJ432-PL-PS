@@ -21,7 +21,7 @@ struct _pid
     
 	double result;
 	double sum;
-	double out;
+	int32_t out;
 	double error[11];
   
 };
@@ -35,13 +35,8 @@ struct _ctl
 
 extern struct _ctl ctl;
 
-extern PwmOut motor1_CHA;
-// extern PwmOut motor1_CHB;
-extern DigitalOut motor_side1;
-extern DigitalOut motor_side2;
+extern int32_t QEI1;
 
-extern int16_t QEI1;
-extern int16_t QEI2;
 
 extern void motor_init();
 extern void get_qei();

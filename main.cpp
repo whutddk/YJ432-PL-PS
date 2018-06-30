@@ -21,26 +21,6 @@ extern int flexbus_test();
 
 extern Serial fc;
 
-// void delay(uint32_t i)
-// {
-// 	uint32_t j;
-// 	for ( ;i>0;i-- )
-// 		for (j = 500;j>0;j--)
-// 		{
-// 			__NOP();
-// 		}
-// }
-
-// #define DELAY_CNT 1000
-
-#define PL_START_ADDRESS 0x60000000U
-#define BZLED_BASE  0x00000000U
-#define PWM0_BASE   0x00800000U
-#define QEI0_BASE	0x01800000U
-
-volatile uint32_t *bzled_reg = (uint32_t*)( PL_START_ADDRESS | BZLED_BASE );
-volatile uint32_t *pwm0_reg = (uint32_t*)( PL_START_ADDRESS | PWM0_BASE );
-volatile uint32_t *qei0_reg = (uint32_t*)( PL_START_ADDRESS | QEI0_BASE );
 
 
 uint32_t flexbus_data[5];
@@ -55,7 +35,7 @@ int main(void)
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
 	ITAC_thread.start(itac_app);
-	// FC_thread.start(FC_app);
+	FC_thread.start(FC_app);
 
 	bz_set(ready);
 
