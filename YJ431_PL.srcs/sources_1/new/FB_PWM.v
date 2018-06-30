@@ -82,7 +82,7 @@ module FB_PWMREG(
    
 //寄存器读写
 //外部写入
-always@( negedge BUS_CS or negedge RST_n )
+always@( posedge BUS_CS or negedge RST_n )
     if ( !RST_n ) begin
         FREQ_Cnt_Reg <= 32'd1;
         CH0_duty_Reg <= 32'b0;
@@ -229,7 +229,7 @@ always@( negedge BUS_CS or negedge RST_n )
 
 //寄存器读写
 //外部读出
-always@( posedge BUS_CS or negedge RST_n )
+always@( negedge BUS_CS or negedge RST_n )
     if ( !RST_n ) begin
         BUS_DATA_REG <= 32'b0;
     end
