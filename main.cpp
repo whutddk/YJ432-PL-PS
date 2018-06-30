@@ -61,6 +61,17 @@ int main(void)
 	// *(bzled_reg + 2) = 50000;
 	// *(bzled_reg + 3) = 70000;
 	// *(bzled_reg + 4) = 20000;
+	// 
+	wait(0.05);
+		*(pwm0_reg + 0) = 10000;
+		wait(0.05);
+		*(pwm0_reg + 1) = 9000;
+		wait(0.05);
+		*(pwm0_reg + 2) = 8000;
+		wait(0.05);
+		*(pwm0_reg + 3) = 7000;
+		wait(0.05);
+		*(pwm0_reg + 4) = 6000;
 	while(1)
 	{		
 		flexbus_data[0] = *(pwm0_reg + 0);
@@ -75,16 +86,7 @@ int main(void)
 		fc.printf("reg3 = %d\n\r",flexbus_data[3]);
 		fc.printf("reg4 = %d\n\r\n\r",flexbus_data[4]);
 
-		wait(0.05);
-		*(pwm0_reg + 0) = 1000000;
-		wait(0.05);
-		*(pwm0_reg + 1) = 2000000;
-		wait(0.05);
-		*(pwm0_reg + 2) = 600000;
-		wait(0.05);
-		*(pwm0_reg + 3) = 700000;
-		wait(0.05);
-		*(pwm0_reg + 4) = 600000;
+
 
 		//bz_set(datarec);
 		
