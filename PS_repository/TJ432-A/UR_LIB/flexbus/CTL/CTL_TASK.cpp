@@ -2,13 +2,29 @@
 
 #include "include.h"
 
-AnalogIn pos(PTB3);
+AnalogIn pos(PTB2);
 
 struct _ctl ctl;
 
 
 
 uint8_t parallel_cnt = 0;
+
+void get_pos()
+{
+	uint32_t pos_raw[2];
+	uint8_t i;
+	pos_raw[0] = pos.read_u16();
+
+	for ( i = 0; i < 9 ;i++ )
+	{
+		pos_raw[1] = pos.read_u16();
+		pos_raw[0] = ( pos_raw[0] + pos_raw[1] ) / 2;
+	}
+	ctl.pend.cur = pos_raw[0];
+}
+
+
 
 void control()
 {
@@ -67,7 +83,7 @@ void control()
 	{
 		parallel_cnt ++;
 	
-		ctl.pend.cur = (int32_t)(pos.read_u16());
+
 
 		//简单3分段pid控制(位置式)
 		ctl.pend.error[0] = (double)((ctl.pend.cur - ctl.pend.aim) / 1.0);
@@ -137,12 +153,12 @@ void control()
 		}
 		else if ( ctl.out > -10000 )
 		{
-			* (PWM0_CH0_REG) = 1
+			* (PWM0_CH0_REG) = 1;
 			* (PWM0_CH1_REG) = (uint32_t)(-ctl.out);
 		}
 		else
 		{
-			* (PWM0_CH0_REG) = 1
+			* (PWM0_CH0_REG) = 1;
 			* (PWM0_CH1_REG) = 9999;
 		}
 	}
@@ -176,12 +192,15 @@ void CTL_app()
 		perf_record = timer.read_us();
 
 		get_qei();
+		get_pos();
 		push(0,QEI1);
-		push(1,QEI2);
+		// push(1,QEI2);
 		push(2,(int16_t)(ctl.pend.error[0]));
 		control();
 
 		push(20,timer.read_us() - perf_record);
+
+
 		wait(0.005);
 	}
 }
