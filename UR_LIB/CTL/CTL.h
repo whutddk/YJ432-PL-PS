@@ -21,7 +21,7 @@ struct _pid
     
 	double result;
 	double sum;
-	int32_t out;
+	
 	double error[11];
   
 };
@@ -31,6 +31,7 @@ struct _ctl
  struct _pid pend;
  struct _pid motto;
  bool flag_end;
+ int32_t out;
 };
 
 extern struct _ctl ctl;

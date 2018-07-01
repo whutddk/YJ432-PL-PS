@@ -18,7 +18,7 @@ void motor_init()
 	* (QEI0_CLEAR_REG) = 0;
 }
 
-
+int32_t QEI1;
 void get_qei()
 {
 	QEI1 = (int32_t)(*(QEI0_CH0_REG));

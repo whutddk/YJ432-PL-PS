@@ -2,6 +2,8 @@
 
 #include "ITAC.h"
 
+#include "include.h"
+
 //人机交互任务
 Thread ITAC_thread(osPriorityLow);
 extern void itac_app();
@@ -39,7 +41,7 @@ int main(void)
 
 	bz_set(ready);
 
-	//CTL_thread.start(CTL_app);
+	CTL_thread.start(CTL_app);
 
 	// *(bzled_reg + 0) = 50000;
 	// *(bzled_reg + 1) = 50000;
@@ -59,20 +61,6 @@ int main(void)
 	// 	*(pwm0_reg + 4) = 6000;
 	while(1)
 	{		
-		flexbus_data[0] = *(qei0_reg + 0);
-		flexbus_data[1] = *(qei0_reg + 1);
-		flexbus_data[2] = *(qei0_reg + 2);
-		flexbus_data[3] = *(qei0_reg + 3);
-		flexbus_data[4] = *(qei0_reg + 4);
-
-		fc.printf("reg0 = %d\n\r",flexbus_data[0]);
-		fc.printf("reg1 = %d\n\r",flexbus_data[1]);
-		fc.printf("reg2 = %d\n\r",flexbus_data[2]);
-		fc.printf("reg3 = %d\n\r",flexbus_data[3]);
-		fc.printf("reg4 = %d\n\r\n\r",flexbus_data[4]);
-
-		*(qei0_reg ) = 1;
-		*(qei0_reg ) = 0;
 		//bz_set(datarec);
 		
 
