@@ -127,9 +127,9 @@ always@( posedge BUS_CS or negedge RST_n )
     else begin
         if ( ADD_COMF ) begin        //仲裁通过
             if ( BUS_write == 1'b1 ) begin
-                case(BUS_ADDR[6:0])
-                    7'b0000000: begin                
-						CTL_FREQ_REG [31:0] <= BUS_DATA [31:0];
+                case(BUS_ADDR[21:0])
+                    22'b0000000: begin                
+						CTL_FREQ_REG[31:0] <= BUS_DATA[31:0];
 						PID_AIM_REG <= PID_AIM_REG;
 						PID_CUR_REG <= PID_CUR_REG;
 
@@ -148,9 +148,9 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end                
-                    7'b0000100: begin
+                    22'b0000100: begin
 						CTL_FREQ_REG <= CTL_FREQ_REG;
-						PID_AIM_REG [31:0] <= BUS_DATA [31:0];
+						PID_AIM_REG[31:0] <= BUS_DATA[31:0];
 						PID_CUR_REG <= PID_CUR_REG;
 
 						PID_ERS_REG <= PID_ERS_REG;
@@ -168,10 +168,10 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end
-                    7'b0001000: begin
+                    22'b0001000: begin
 						CTL_FREQ_REG <= CTL_FREQ_REG;
 						PID_AIM_REG <= PID_AIM_REG;
-						PID_CUR_REG [31:0] <= BUS_DATA [31:0];
+						PID_CUR_REG[31:0] <= BUS_DATA[31:0];
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
@@ -189,12 +189,12 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                     
-                    7'b0001100: begin
+                    22'b0001100: begin
 						CTL_FREQ_REG <= CTL_FREQ_REG;
 						PID_AIM_REG <= PID_AIM_REG;
 						PID_CUR_REG <= PID_CUR_REG;
 
-						PID_ERS_REG [31:0] <= BUS_DATA [31:0];
+						PID_ERS_REG[31:0] <= BUS_DATA[31:0];
 						PID_KPS_REG <= PID_KPS_REG;
 						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
@@ -210,13 +210,13 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                            
-                    7'b0010000: begin
+                    22'b0010000: begin
 						CTL_FREQ_REG <= CTL_FREQ_REG;
 						PID_AIM_REG <= PID_AIM_REG;
 						PID_CUR_REG <= PID_CUR_REG;
 
 						PID_ERS_REG <= PID_ERS_REG;
-						PID_KPS_REG [31:0] <= BUS_DATA [31:0];
+						PID_KPS_REG[31:0] <= BUS_DATA[31:0];
 						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
@@ -231,14 +231,14 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                            
-                    7'b0010100:begin
+                    22'b0010100:begin
 						CTL_FREQ_REG <= CTL_FREQ_REG;
 						PID_AIM_REG <= PID_AIM_REG;
 						PID_CUR_REG <= PID_CUR_REG;
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG [31:0] <= BUS_DATA [31:0];
+						PID_KIS_REG[31:0] <= BUS_DATA[31:0];
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
@@ -252,7 +252,7 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                            
-                    7'b0011000:begin
+                    22'b0011000:begin
 						CTL_FREQ_REG <= CTL_FREQ_REG;
 						PID_AIM_REG <= PID_AIM_REG;
 						PID_CUR_REG <= PID_CUR_REG;
@@ -260,7 +260,7 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
 						PID_KIS_REG <= PID_KIS_REG;
-						PID_KDS_REG [31:0] <= BUS_DATA [31:0];
+						PID_KDS_REG[31:0] <= BUS_DATA[31:0];
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
@@ -273,33 +273,173 @@ always@( posedge BUS_CS or negedge RST_n )
 						PID_KDB_REG <= PID_KDB_REG;                   	
                     end
                            
-                    6'b011100:begin
-                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-                        CH0_duty_Reg <= CH0_duty_Reg;
-                        CH1_duty_Reg <= CH1_duty_Reg;
-                        CH2_duty_Reg <= CH2_duty_Reg; 
-                        CH3_duty_Reg <= CH4_duty_Reg;   
-                        CH4_duty_Reg <= CH4_duty_Reg;
-                        CH5_duty_Reg <= CH5_duty_Reg;
-                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-                            CH6_duty_Reg[31:0] <= BUS_DATA [31:0];
-                        end
-                        CH7_duty_Reg <= CH7_duty_Reg;
+                    22'b0011100:begin
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG[31:0] <= BUS_DATA[31:0];
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG <= PID_KDB_REG;  
                     end
                            
-                    6'b100000:begin 
-                        FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-                        CH0_duty_Reg <= CH0_duty_Reg;
-                        CH1_duty_Reg <= CH1_duty_Reg;
-                        CH2_duty_Reg <= CH2_duty_Reg; 
-                        CH3_duty_Reg <= CH4_duty_Reg;   
-                        CH4_duty_Reg <= CH4_duty_Reg;
-                        CH5_duty_Reg <= CH5_duty_Reg;
-                        CH6_duty_Reg <= CH6_duty_Reg;
-                        if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
-                            CH7_duty_Reg[31:0] <= BUS_DATA [31:0];
-                        end 
-                    end
+					22'b0100000:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG[31:0] <= BUS_DATA[31:0];
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG <= PID_KDB_REG; 
+					end 
+
+					22'b0100100:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG[31:0] <= BUS_DATA[31:0];
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG <= PID_KDB_REG;  
+					end
+
+					22'b0101000:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG[31:0] <= BUS_DATA[31:0];
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG <= PID_KDB_REG;  
+					end
+
+					22'b0101100:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG[31:0] <= BUS_DATA[31:0];
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG <= PID_KDB_REG;  
+					end
+
+					22'b0110000:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG[31:0] <= BUS_DATA[31:0];
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG <= PID_KDB_REG;  
+					end
+
+					22'b0110100:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG [31:0] <= BUS_DATA [31:0];
+						PID_KDB_REG <= PID_KDB_REG;  
+					end
+
+					22'b0111000:begin 
+						CTL_FREQ_REG <= CTL_FREQ_REG;
+						PID_AIM_REG <= PID_AIM_REG;
+						PID_CUR_REG <= PID_CUR_REG;
+
+						PID_ERS_REG <= PID_ERS_REG;
+						PID_KPS_REG <= PID_KPS_REG;
+						PID_KIS_REG <= PID_KIS_REG;
+						PID_KDS_REG <= PID_KDS_REG;
+
+						PID_ERM_REG <= PID_ERM_REG;
+						PID_KPM_REG <= PID_KPM_REG;
+						PID_KIM_REG <= PID_KIM_REG;
+						PID_KDM_REG <= PID_KDM_REG;
+
+						PID_ERB_REG <= PID_ERB_REG;
+						PID_KPB_REG <= PID_KPB_REG;
+						PID_KIB_REG <= PID_KIB_REG;
+						PID_KDB_REG [31:0] <= BUS_DATA [31:0];  
+					end
                 endcase
             end        
         end
@@ -315,27 +455,54 @@ always@( negedge BUS_CS or negedge RST_n )
     else begin
         if ( ADD_COMF ) begin        //仲裁通过
             if ( BUS_read == 1'b1 ) begin
-                case(BUS_ADDR[5:0])
-                    6'b000000:
-                        BUS_DATA_REG[31:0] <= FREQ_Cnt_Reg[31:0];
-                    6'b000100:
-                        BUS_DATA_REG[31:0] <= CH0_duty_Reg[31:0];
-                    6'b001000:
-                        BUS_DATA_REG[31:0] <= CH1_duty_Reg[31:0];
-                    6'b001100:
-                        BUS_DATA_REG[31:0] <= CH2_duty_Reg[31:0];
-                    6'b010000:
-                        BUS_DATA_REG[31:0] <= CH3_duty_Reg[31:0];
-                    6'b010100:
-                        BUS_DATA_REG[31:0] <= CH4_duty_Reg[31:0];
-                    6'b011000:
-                        BUS_DATA_REG[31:0] <= CH5_duty_Reg[31:0];
-                    6'b011100:
-                        BUS_DATA_REG[31:0] <= CH6_duty_Reg[31:0];
-                    6'b100000:
-                        BUS_DATA_REG[31:0] <= CH7_duty_Reg[31:0];
+                case(BUS_ADDR[21:0])
+                	22'b0000000:begin 
+						BUS_DATA_REG[31:0] <= CTL_FREQ_REG[31:0];
+					end
+					22'b0000100:begin
+						BUS_DATA_REG[31:0] <= PID_AIM_REG[31:0];
+					end
+					22'b0001000:begin
+						BUS_DATA_REG[31:0] <= PID_CUR_REG[31:0];
+					end
+					22'b0001100:begin
+						BUS_DATA_REG[31:0] <= PID_ERS_REG[31:0];
+					end
+					22'b0010000:begin
+						BUS_DATA_REG[31:0] <= PID_KPS_REG[31:0];
+					end
+					22'b0010100:begin
+						BUS_DATA_REG[31:0] <= PID_KIS_REG[31:0];
+					end
+					22'b0011000:begin
+						BUS_DATA_REG[31:0] <= PID_KDS_REG[31:0];
+					end
+					22'b0011100:begin
+						BUS_DATA_REG[31:0] <= PID_ERM_REG[31:0];
+					end
+					22'b0100000:begin
+						BUS_DATA_REG[31:0] <= PID_KPM_REG[31:0];
+					end
+					22'b0100100:begin
+						BUS_DATA_REG[31:0] <= PID_KIM_REG[31:0];
+					end
+					22'b0101000:begin
+						BUS_DATA_REG[31:0] <= PID_KDM_REG[31:0];
+					end
+					22'b0101100:begin
+						BUS_DATA_REG[31:0] <= PID_ERB_REG[31:0];
+					end
+					22'b0110000:begin
+						BUS_DATA_REG[31:0] <= PID_KPB_REG[31:0];
+					end
+					22'b0110100:begin
+						BUS_DATA_REG[31:0] <= PID_KIB_REG[31:0];
+					end
+					22'b0111000:begin
+						BUS_DATA_REG[31:0] <= BUS_DATA[31:0];
+					end
                     default:
-                        BUS_DATA_REG[31:0] <=32'hffffffff;
+                        BUS_DATA_REG[31:0] <= 32'hffffffff;
                 endcase
             end
         end
