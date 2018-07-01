@@ -55,11 +55,11 @@ module FB_PWMREG(
     input [9:0] PWM_BASE;
 
 //Register
-	output reg [31:0] FREQ_Cnt_Reg;    //作为计数目标，自己外部计算
-	output reg [31:0] CH0_duty_Reg;
-	output reg [31:0] CH1_duty_Reg;
-	output reg [31:0] CH2_duty_Reg;
-	output reg [31:0] CH3_duty_Reg;
+	output reg [31:0] FREQ_Cnt_Reg = 32'd10000;    //作为计数目标，自己外部计算
+	output reg [31:0] CH0_duty_Reg = 32'd1 ;
+	output reg [31:0] CH1_duty_Reg = 32'd1;
+	output reg [31:0] CH2_duty_Reg = 32'd1;
+	output reg [31:0] CH3_duty_Reg = 32'd1;
 	output reg [31:0] CH4_duty_Reg;
 	output reg [31:0] CH5_duty_Reg;
 	output reg [31:0] CH6_duty_Reg;
