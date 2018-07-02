@@ -98,8 +98,8 @@ always@( posedge BUS_CS or negedge RST_n )
     else begin
         if ( ADD_COMF ) begin        //仲裁通过
             if ( BUS_write == 1'b1 ) begin
-                case(BUS_ADDR[5:0])
-                    6'b000000: begin                
+                case(BUS_ADDR[21:0])
+                    22'b000000: begin                
                         FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -110,7 +110,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH6_duty_Reg <= CH6_duty_Reg;
                         CH7_duty_Reg <= CH7_duty_Reg;  
                     end                
-                    6'b000100: begin
+                    22'b000100: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
     
                         if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin
@@ -125,7 +125,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH6_duty_Reg <= CH6_duty_Reg;
                         CH7_duty_Reg <= CH7_duty_Reg;
                     end
-                    6'b001000: begin
+                    22'b001000: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
@@ -139,7 +139,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH7_duty_Reg <= CH7_duty_Reg;
                     end
                     
-                    6'b001100: begin
+                    22'b001100: begin
                         FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -153,7 +153,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH7_duty_Reg <= CH7_duty_Reg;
                     end
                            
-                    6'b010000: begin
+                    22'b010000: begin
                         FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -167,7 +167,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH7_duty_Reg <= CH7_duty_Reg;
                     end
                            
-                    6'b010100:begin
+                    22'b010100:begin
                         FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -181,7 +181,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH7_duty_Reg <= CH7_duty_Reg;
                     end
                            
-                    6'b011000:begin
+                    22'b011000:begin
                         FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -195,7 +195,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH7_duty_Reg <= CH7_duty_Reg;                    	
                     end
                            
-                    6'b011100:begin
+                    22'b011100:begin
                         FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -209,7 +209,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         CH7_duty_Reg <= CH7_duty_Reg;
                     end
                            
-                    6'b100000:begin 
+                    22'b100000:begin 
                         FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
                         CH0_duty_Reg <= CH0_duty_Reg;
                         CH1_duty_Reg <= CH1_duty_Reg;
@@ -237,24 +237,24 @@ always@( negedge BUS_CS or negedge RST_n )
     else begin
         if ( ADD_COMF ) begin        //仲裁通过
             if ( BUS_read == 1'b1 ) begin
-                case(BUS_ADDR[5:0])
-                    6'b000000:
+                case(BUS_ADDR[21:0])
+                    22'b000000:
                         BUS_DATA_REG[31:0] <= FREQ_Cnt_Reg[31:0];
-                    6'b000100:
+                    22'b000100:
                         BUS_DATA_REG[31:0] <= CH0_duty_Reg[31:0];
-                    6'b001000:
+                    22'b001000:
                         BUS_DATA_REG[31:0] <= CH1_duty_Reg[31:0];
-                    6'b001100:
+                    22'b001100:
                         BUS_DATA_REG[31:0] <= CH2_duty_Reg[31:0];
-                    6'b010000:
+                    22'b010000:
                         BUS_DATA_REG[31:0] <= CH3_duty_Reg[31:0];
-                    6'b010100:
+                    22'b010100:
                         BUS_DATA_REG[31:0] <= CH4_duty_Reg[31:0];
-                    6'b011000:
+                    22'b011000:
                         BUS_DATA_REG[31:0] <= CH5_duty_Reg[31:0];
-                    6'b011100:
+                    22'b011100:
                         BUS_DATA_REG[31:0] <= CH6_duty_Reg[31:0];
-                    6'b100000:
+                    22'b100000:
                         BUS_DATA_REG[31:0] <= CH7_duty_Reg[31:0];
                     default:
                         BUS_DATA_REG[31:0] <=32'hffffffff;

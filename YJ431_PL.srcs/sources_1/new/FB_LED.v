@@ -89,22 +89,22 @@ always@( posedge BUS_CS or negedge RST_n )
 	else begin
 		if ( ADD_COMF ) begin		//仲裁通过
 			if ( BUS_write == 1'b1 ) begin
-				case(BUS_ADDR[4:0])
-					5'b00000: begin				
+				case(BUS_ADDR[21:0])
+					22'b00000: begin				
                         FREQ_Cnt_Reg [31:0] <= BUS_DATA [31:0];
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
                         LEDG_Puty_Reg <= LEDG_Puty_Reg;
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;	
 					end				
-					5'b00100: begin
+					22'b00100: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg [31:0] <= BUS_DATA [31:0];
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
                         LEDG_Puty_Reg <= LEDG_Puty_Reg;
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					5'b01000: begin
+					22'b01000: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         if ( BUS_DATA [31:0] < FREQ_Cnt_Reg [31:0] ) begin //保护：占空比不能大于频率计数
@@ -113,7 +113,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         LEDG_Puty_Reg <= LEDG_Puty_Reg;
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					5'b01100: begin
+					22'b01100: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
@@ -122,7 +122,7 @@ always@( posedge BUS_CS or negedge RST_n )
                         end
                         LEDB_Puty_Reg <= LEDB_Puty_Reg;
 					end
-					5'b10000: begin
+					22'b10000: begin
                         FREQ_Cnt_Reg  <= FREQ_Cnt_Reg;
                         BZ_Puty_Reg   <= BZ_Puty_Reg;
                         LEDR_Puty_Reg <= LEDR_Puty_Reg;
@@ -146,16 +146,16 @@ always@( negedge BUS_CS or negedge RST_n )
 	else begin
 		if ( ADD_COMF ) begin		//仲裁通过
 			if ( BUS_write == 1'b0 ) begin //if ( BUS_read == 1'b1 )  
-				case(BUS_ADDR[4:0])
-					5'b00000:
+				case(BUS_ADDR[21:0])
+					22'b00000:
 					BUS_DATA_REG [31:0] <= FREQ_Cnt_Reg [31:0];
-					5'b00100:
+					22'b00100:
 					BUS_DATA_REG [31:0] <= BZ_Puty_Reg [31:0];
-					5'b01000:
+					22'b01000:
 					BUS_DATA_REG [31:0] <= LEDR_Puty_Reg[31:0];
-					5'b01100:
+					22'b01100:
 					BUS_DATA_REG [31:0] <= LEDG_Puty_Reg[31:0];
-					5'b10000:
+					22'b10000:
 					BUS_DATA_REG [31:0] <= LEDB_Puty_Reg[31:0];
 					default:
 					BUS_DATA_REG[31:0] <=  32'hffffffff;
