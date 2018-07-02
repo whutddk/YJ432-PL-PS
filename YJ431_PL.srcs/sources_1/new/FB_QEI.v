@@ -78,8 +78,8 @@ end
 
 else begin
 	if ( ADD_COMF && BUS_write == 1'b1) begin        //仲裁通过且为写
-        case(BUS_ADDR[5:0])
-            5'b00000: begin
+        case(BUS_ADDR[21:0])
+            22'b00000: begin
                 QEI_CLEAR_Reg [31:0] <= BUS_DATA [31:0];
             end
         endcase
@@ -95,16 +95,16 @@ end
 
 else begin
 	if ( ADD_COMF && BUS_write == 1'b0) begin         //仲裁通过
-        case(BUS_ADDR[4:0])
-            5'b00000:
+        case(BUS_ADDR[21:0])
+            22'b00000:
                 BUS_DATA_REG[31:0] <= QEI_CLEAR_Reg[31:0];
-            5'b00100:
+            22'b00100:
                 BUS_DATA_REG[31:0] <= QEI_CH0_Read[31:0];
-            5'b01000:
+            22'b01000:
                 BUS_DATA_REG[31:0] <= QEI_CH1_Read[31:0];
-            5'b01100:
+            22'b01100:
                 BUS_DATA_REG[31:0] <= QEI_CH2_Read[31:0];
-            5'b10000:
+            22'b10000:
                 BUS_DATA_REG[31:0] <= QEI_CH3_Read[31:0];
             default:
                 BUS_DATA_REG[31:0] <=32'hffffffff;
