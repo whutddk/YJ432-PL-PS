@@ -10,11 +10,10 @@
 # YJ432-PL
 
 #### 项目介绍
-WUT鹰击432开发板可编程逻辑设计图
+鹰击432开发板可编程逻辑设计图
 
-#### 软件架构
-软件架构说明
 
+<<<<<<< HEAD
 
 #### 安装教程
 
@@ -45,3 +44,5 @@ WUT鹰击432开发板可编程逻辑设计图
 5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
 6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
 >>>>>>> 5626c7d... Initial commit
+=======
+>>>>>>> ed1c472... readme
