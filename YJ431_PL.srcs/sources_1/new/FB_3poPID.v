@@ -129,7 +129,7 @@ always@( posedge BUS_CS or negedge RST_n )
             if ( BUS_write == 1'b1 ) begin
                 case(BUS_ADDR[21:0])
                     22'b0000000: begin    
-                    	if ( BUS_DATA[31:0] > 32'd10 ) begin       //pretect   
+                    	if ( BUS_DATA[31:0] > 32'd100 ) begin       //pretect   
 							CTL_FREQ_REG[31:0] <= BUS_DATA[31:0];
 						end 	
 						PID_AIM_REG <= PID_AIM_REG;
@@ -501,7 +501,10 @@ always@( negedge BUS_CS or negedge RST_n )
 						BUS_DATA_REG[31:0] <= PID_KIB_REG[31:0];
 					end
 					22'b0111000:begin
-						BUS_DATA_REG[31:0] <= BUS_DATA[31:0];
+						BUS_DATA_REG[31:0] <= PID_KDB_REG[31:0];
+					end
+					22'b0111100:begin
+					   BUS_DATA_REG[31:0] <= PID_OUT_REG[31:0];
 					end
                     default:
                         BUS_DATA_REG[31:0] <= 32'hffffffff;
@@ -572,15 +575,15 @@ output reg [31:0] PID_OUT_REG;
 reg [31:0] CTL_FREQ_REG = 32'd1000000000;
 reg signed [31:0] PID_AIM_REG = 32'd0;
 reg signed [31:0] PID_CUR_REG = 32'd0;
-reg [31:0] PID_ERS_REG = 32'd0;
+reg signed [31:0] PID_ERS_REG = 32'd0;
 reg signed [31:0] PID_KPS_REG = 32'd0;
 reg signed [31:0] PID_KIS_REG = 32'd0;
 reg signed [31:0] PID_KDS_REG = 32'd0;
-reg [31:0] PID_ERM_REG = 32'd0;
+reg signed [31:0] PID_ERM_REG = 32'd0;
 reg signed [31:0] PID_KPM_REG = 32'd0;
 reg signed [31:0] PID_KIM_REG = 32'd0;
 reg signed [31:0] PID_KDM_REG = 32'd0;
-reg [31:0] PID_ERB_REG = 32'd0;
+reg signed [31:0] PID_ERB_REG = 32'd0;
 reg signed [31:0] PID_KPB_REG = 32'd0;
 reg signed [31:0] PID_KIB_REG = 32'd0;
 reg signed [31:0] PID_KDB_REG = 32'd0;
@@ -649,14 +652,127 @@ reg [63:0] KD_CAL_PRE[31:0];
 
 reg signed [63:0] ERR0_CAL64_REG = 64'd0;       //Æ«²îµÄ64Î»À©Õ¹
 
+reg signed [31:0] PID_NERS_REG = 32'd0;
+reg signed [31:0] PID_NERM_REG = 32'd0;
+reg signed [31:0] PID_NERB_REG = 32'd0;
 
-always@ ( posedge CLK or negedge RST_n )begin
+reg clk_pre = 1'b0;
+
+always@ ( posedge CLK or negedge RST_n ) begin
+    if ( !RST_n ) begin
+        clk_pre <= 1'b0;
+    end
+    else begin
+        clk_pre <= ~clk_pre;
+    end  
+end
+
+always@ ( posedge clk_pre or negedge RST_n )begin
 	if ( !RST_n ) begin 
 		ctl_cnt <= 32'd0;
         ERROR[0] <= 32'd0;
         ERROR[1] <= 32'd0;
         ERROR[2] <= 32'd0;
+        
+        KP_CAL_PRE[0] <= 32'd0;
+        KD_CAL_PRE[0] <= 32'd0;
+        
+        KP_CAL_PRE[1] <= 32'd0;
+        KD_CAL_PRE[1] <= 32'd0;
+        
+        KP_CAL_PRE[2] <= 32'd0;
+        KD_CAL_PRE[2] <= 32'd0;
+        
+        KP_CAL_PRE[3] <= 32'd0;
+        KD_CAL_PRE[3] <= 32'd0;
+        
+        KP_CAL_PRE[4] <= 32'd0;
+        KD_CAL_PRE[4] <= 32'd0;
+        
+        KP_CAL_PRE[5] <= 32'd0;
+        KD_CAL_PRE[5] <= 32'd0;
+        
+        KP_CAL_PRE[6] <= 32'd0;
+        KD_CAL_PRE[6] <= 32'd0;
+        
+        KP_CAL_PRE[7] <= 32'd0;
+        KD_CAL_PRE[7] <= 32'd0;
+        
+        KP_CAL_PRE[8] <= 32'd0;
+        KD_CAL_PRE[8] <= 32'd0;
+        
+        KP_CAL_PRE[9] <= 32'd0;
+        KD_CAL_PRE[9] <= 32'd0;
+        
+        KP_CAL_PRE[10] <= 32'd0;
+        KD_CAL_PRE[10] <= 32'd0;
+        
+        KP_CAL_PRE[11] <= 32'd0;
+        KD_CAL_PRE[11] <= 32'd0;
+        
+        KP_CAL_PRE[12] <= 32'd0;
+        KD_CAL_PRE[12] <= 32'd0;
+        
+        KP_CAL_PRE[13] <= 32'd0;
+        KD_CAL_PRE[13] <= 32'd0;
+        
+        KP_CAL_PRE[14] <= 32'd0;
+        KD_CAL_PRE[14] <= 32'd0;
+        
+        KP_CAL_PRE[15] <= 32'd0;
+        KD_CAL_PRE[15] <= 32'd0;
+        
+        KP_CAL_PRE[16] <= 32'd0;
+        KD_CAL_PRE[16] <= 32'd0;
+        
+        KP_CAL_PRE[17] <= 32'd0;
+        KD_CAL_PRE[17] <= 32'd0;
+        
+        KP_CAL_PRE[18] <= 32'd0;
+        KD_CAL_PRE[18] <= 32'd0;
+        
+        KP_CAL_PRE[19] <= 32'd0;
+        KD_CAL_PRE[19] <= 32'd0;
+        
+        KP_CAL_PRE[20] <= 32'd0;
+        KD_CAL_PRE[20] <= 32'd0;
+        
+        KP_CAL_PRE[21] <= 32'd0;
+        KD_CAL_PRE[21] <= 32'd0;
+        
+        KP_CAL_PRE[22] <= 32'd0;
+        KD_CAL_PRE[22] <= 32'd0;
+        
+        KP_CAL_PRE[23] <= 32'd0;
+        KD_CAL_PRE[23] <= 32'd0;
+        
+        KP_CAL_PRE[24] <= 32'd0;
+        KD_CAL_PRE[24] <= 32'd0;
+        
+        KP_CAL_PRE[25] <= 32'd0;
+        KD_CAL_PRE[25] <= 32'd0;
+        
+        KP_CAL_PRE[26] <= 32'd0;
+        KD_CAL_PRE[26] <= 32'd0;
+        
+        KP_CAL_PRE[27] <= 32'd0;
+        KD_CAL_PRE[27] <= 32'd0;
+        
+        KP_CAL_PRE[28] <= 32'd0;
+        KD_CAL_PRE[28] <= 32'd0;
+        
+        KP_CAL_PRE[29] <= 32'd0;
+        KD_CAL_PRE[29] <= 32'd0;
+        
+        KP_CAL_PRE[30] <= 32'd0;
+        KD_CAL_PRE[30] <= 32'd0;
+        
+        KP_CAL_PRE[31] <= 32'd0;
+        KD_CAL_PRE[31] <= 32'd0;
 
+        PID_NERS_REG <= 32'd0;
+        PID_NERM_REG <= 32'd0;
+        PID_NERB_REG <= 32'd0;
 	end
 
 	else begin		
@@ -666,6 +782,10 @@ always@ ( posedge CLK or negedge RST_n )begin
             ERROR[0][31:0] <= PID_CUR_REG[31:0] - PID_AIM_REG[31:0];
             ERROR[1][31:0] <= ERROR[0][31:0];
             ERROR[2][31:0] <= ERROR[1][31:0];
+            
+            PID_NERS_REG <= -PID_ERS_REG;
+            PID_NERM_REG <= -PID_ERM_REG;
+            PID_NERB_REG <= -PID_ERB_REG;
 			
 			
 		end // if ( ctl_cnt == 32'd0 )end
@@ -674,13 +794,13 @@ always@ ( posedge CLK or negedge RST_n )begin
 			
 			KD_DIF32_REG [31:0] <=  ERROR[0][31:0] - ERROR[1][31:0];
 			
-			if (  ERROR[0] < PID_ERS_REG && ERROR[0] > -PID_ERS_REG ) begin
+			if (  ERROR[0] < PID_ERS_REG && ERROR[0] > PID_NERS_REG ) begin
 			
 			     KP_CAL32_REG <= PID_KPS_REG;
 			     KD_CAL32_REG <= PID_KDS_REG;
 			end
 			
-			else if ( ERROR[0] < PID_ERM_REG && ERROR[0] > -PID_ERM_REG ) begin
+			else if ( ERROR[0] < PID_ERM_REG && ERROR[0] > PID_NERM_REG ) begin
                  KP_CAL32_REG <= PID_KPM_REG;
                  KD_CAL32_REG <= PID_KDM_REG;
 			end
@@ -791,9 +911,7 @@ always@ ( posedge CLK or negedge RST_n )begin
                         			
             KP_CAL_PRE[31] <= KP_CAL32_REG[31] ? { ERROR[0][0],31'b0 } : 32'd0;
             KD_CAL_PRE[31] <= KD_CAL32_REG[31] ? { KD_DIF32_REG[0],31'b0 }: 32'd0;
-            
-			
-			
+            		
 		end // else if ( ctl_cnt == 32'd2 )
 		else if ( ctl_cnt == 32'd3 ) begin		//second tick KP*ERR KD*DIFF
 			ctl_cnt <= ctl_cnt + 32'd1;

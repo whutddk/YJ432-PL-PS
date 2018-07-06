@@ -16,7 +16,7 @@ create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_
 # Flexbus
 ## -CLK_OUT 40MHz
 set_property -dict {PACKAGE_PIN D13 IOSTANDARD LVCMOS33} [get_ports i_fb_clk];
-create_clock -period 25.000 -name fb_clk_pin -waveform {0.000 12.500} -add [get_ports i_fb_clk];
+create_clock -period 33.333 -name fb_clk_pin -waveform {0.000 16.666} -add [get_ports i_fb_clk];
 
 ## FB_OE
 set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen];
