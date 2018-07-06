@@ -638,8 +638,6 @@ reg signed [31:0] ERROR[2:0];
 reg signed [31:0] KP_CAL32_REG = 32'd0;     //PµÄ32Î»Ñ¡¶¨
 // reg signed [31:0] KP_OUT32_REG = 32'd0;     //P¼ÆËã½á¹û
 
-reg [63:0] KP_CAL_PRE[31:0];
-
 //reg signed [63:0] KI_CAL64_REG = 64'd0;     //IµÄ64Î»À©Õ¹
 //reg signed [63:0] KI_SUM64_REG = 64'd0;     //I¼ÆËã½á¹û
 //reg signed [63:0] KI_OUT64_REG = 64'd0;
@@ -647,10 +645,6 @@ reg [63:0] KP_CAL_PRE[31:0];
 reg signed [31:0] KD_CAL32_REG = 32'd0;         //DµÄ32Î»Ñ¡¶¨
 reg signed [31:0] KD_DIF32_REG = 32'd0;         //²î·Ö½á¹û
 // reg signed [31:0] KD_OUT32_REG = 32'd0;         //D¼ÆËã½á¹û
-reg [63:0] KD_CAL_PRE[31:0];
-
-
-reg signed [63:0] ERR0_CAL64_REG = 64'd0;       //Æ«²îµÄ64Î»À©Õ¹
 
 reg signed [31:0] PID_NERS_REG = 32'd0;
 reg signed [31:0] PID_NERM_REG = 32'd0;
@@ -673,102 +667,6 @@ always@ ( posedge clk_pre or negedge RST_n )begin
         ERROR[0] <= 32'd0;
         ERROR[1] <= 32'd0;
         ERROR[2] <= 32'd0;
-        
-        KP_CAL_PRE[0] <= 32'd0;
-        KD_CAL_PRE[0] <= 32'd0;
-        
-        KP_CAL_PRE[1] <= 32'd0;
-        KD_CAL_PRE[1] <= 32'd0;
-        
-        KP_CAL_PRE[2] <= 32'd0;
-        KD_CAL_PRE[2] <= 32'd0;
-        
-        KP_CAL_PRE[3] <= 32'd0;
-        KD_CAL_PRE[3] <= 32'd0;
-        
-        KP_CAL_PRE[4] <= 32'd0;
-        KD_CAL_PRE[4] <= 32'd0;
-        
-        KP_CAL_PRE[5] <= 32'd0;
-        KD_CAL_PRE[5] <= 32'd0;
-        
-        KP_CAL_PRE[6] <= 32'd0;
-        KD_CAL_PRE[6] <= 32'd0;
-        
-        KP_CAL_PRE[7] <= 32'd0;
-        KD_CAL_PRE[7] <= 32'd0;
-        
-        KP_CAL_PRE[8] <= 32'd0;
-        KD_CAL_PRE[8] <= 32'd0;
-        
-        KP_CAL_PRE[9] <= 32'd0;
-        KD_CAL_PRE[9] <= 32'd0;
-        
-        KP_CAL_PRE[10] <= 32'd0;
-        KD_CAL_PRE[10] <= 32'd0;
-        
-        KP_CAL_PRE[11] <= 32'd0;
-        KD_CAL_PRE[11] <= 32'd0;
-        
-        KP_CAL_PRE[12] <= 32'd0;
-        KD_CAL_PRE[12] <= 32'd0;
-        
-        KP_CAL_PRE[13] <= 32'd0;
-        KD_CAL_PRE[13] <= 32'd0;
-        
-        KP_CAL_PRE[14] <= 32'd0;
-        KD_CAL_PRE[14] <= 32'd0;
-        
-        KP_CAL_PRE[15] <= 32'd0;
-        KD_CAL_PRE[15] <= 32'd0;
-        
-        KP_CAL_PRE[16] <= 32'd0;
-        KD_CAL_PRE[16] <= 32'd0;
-        
-        KP_CAL_PRE[17] <= 32'd0;
-        KD_CAL_PRE[17] <= 32'd0;
-        
-        KP_CAL_PRE[18] <= 32'd0;
-        KD_CAL_PRE[18] <= 32'd0;
-        
-        KP_CAL_PRE[19] <= 32'd0;
-        KD_CAL_PRE[19] <= 32'd0;
-        
-        KP_CAL_PRE[20] <= 32'd0;
-        KD_CAL_PRE[20] <= 32'd0;
-        
-        KP_CAL_PRE[21] <= 32'd0;
-        KD_CAL_PRE[21] <= 32'd0;
-        
-        KP_CAL_PRE[22] <= 32'd0;
-        KD_CAL_PRE[22] <= 32'd0;
-        
-        KP_CAL_PRE[23] <= 32'd0;
-        KD_CAL_PRE[23] <= 32'd0;
-        
-        KP_CAL_PRE[24] <= 32'd0;
-        KD_CAL_PRE[24] <= 32'd0;
-        
-        KP_CAL_PRE[25] <= 32'd0;
-        KD_CAL_PRE[25] <= 32'd0;
-        
-        KP_CAL_PRE[26] <= 32'd0;
-        KD_CAL_PRE[26] <= 32'd0;
-        
-        KP_CAL_PRE[27] <= 32'd0;
-        KD_CAL_PRE[27] <= 32'd0;
-        
-        KP_CAL_PRE[28] <= 32'd0;
-        KD_CAL_PRE[28] <= 32'd0;
-        
-        KP_CAL_PRE[29] <= 32'd0;
-        KD_CAL_PRE[29] <= 32'd0;
-        
-        KP_CAL_PRE[30] <= 32'd0;
-        KD_CAL_PRE[30] <= 32'd0;
-        
-        KP_CAL_PRE[31] <= 32'd0;
-        KD_CAL_PRE[31] <= 32'd0;
 
         PID_NERS_REG <= 32'd0;
         PID_NERM_REG <= 32'd0;
@@ -809,245 +707,22 @@ always@ ( posedge clk_pre or negedge RST_n )begin
                  KP_CAL32_REG <= PID_KPB_REG;
                  KD_CAL32_REG <= PID_KDB_REG;
 			end
-			
-			
+					
 		end // else if ( ctl_cnt == 32'd1 )
-		else if ( ctl_cnt == 32'd2 ) begin	//first tick of mul? KP*err   KD*diff
+		else if ( ctl_cnt == 32'd2 ) begin	//mul? KP*err   KD*diff
 			ctl_cnt <= ctl_cnt + 32'd1;
-			
-		
-			KP_CAL_PRE[0] <= KP_CAL32_REG[0] ? ERROR[0][31:0]: 32'd0;
-			KD_CAL_PRE[0] <= KD_CAL32_REG[0] ? KD_DIF32_REG[31:0] : 32'd0;
-			
-			KP_CAL_PRE[1] <= KP_CAL32_REG[1] ? { ERROR[0][30:0],1'b0 } : 32'd0;
-            KD_CAL_PRE[1] <= KD_CAL32_REG[1] ? { KD_DIF32_REG[30:0],1'b0 }: 32'd0;
-            
-            KP_CAL_PRE[2] <= KP_CAL32_REG[2] ? { ERROR[0][29:0],2'b0 } : 32'd0;
-            KD_CAL_PRE[2] <= KD_CAL32_REG[2] ? { KD_DIF32_REG[29:0],2'b0 }: 32'd0;
-            
-            KP_CAL_PRE[3] <= KP_CAL32_REG[3] ? { ERROR[0][28:0],3'b0 } : 32'd0;
-            KD_CAL_PRE[3] <= KD_CAL32_REG[3] ? { KD_DIF32_REG[28:0],3'b0 }: 32'd0;
-            
-            KP_CAL_PRE[4] <= KP_CAL32_REG[4] ? { ERROR[0][27:0],4'b0 } : 32'd0;
-            KD_CAL_PRE[4] <= KD_CAL32_REG[4] ? { KD_DIF32_REG[27:0],4'b0 }: 32'd0;
-            
-            KP_CAL_PRE[5] <= KP_CAL32_REG[5] ? { ERROR[0][26:0],5'b0 } : 32'd0;
-            KD_CAL_PRE[5] <= KD_CAL32_REG[5] ? { KD_DIF32_REG[26:0],5'b0 }: 32'd0;
-			
-			KP_CAL_PRE[6] <= KP_CAL32_REG[6] ? { ERROR[0][25:0],6'b0 } : 32'd0;
-            KD_CAL_PRE[6] <= KD_CAL32_REG[6] ? { KD_DIF32_REG[25:0],6'b0 }: 32'd0;
-            
-           	KP_CAL_PRE[7] <= KP_CAL32_REG[7] ? { ERROR[0][24:0],7'b0 } : 32'd0;
-            KD_CAL_PRE[7] <= KD_CAL32_REG[7] ? { KD_DIF32_REG[24:0],7'b0 }: 32'd0;
-            			
-            KP_CAL_PRE[8] <= KP_CAL32_REG[8] ? { ERROR[0][23:0],8'b0 } : 32'd0;
-            KD_CAL_PRE[8] <= KD_CAL32_REG[8] ? { KD_DIF32_REG[23:0],8'b0 }: 32'd0;
-            
-            KP_CAL_PRE[9] <= KP_CAL32_REG[9] ? { ERROR[0][22:0],9'b0 } : 32'd0;
-            KD_CAL_PRE[9] <= KD_CAL32_REG[9] ? { KD_DIF32_REG[22:0],9'b0 }: 32'd0;
-            
-            KP_CAL_PRE[10] <= KP_CAL32_REG[10] ? { ERROR[0][21:0],10'b0 } : 32'd0;
-            KD_CAL_PRE[10] <= KD_CAL32_REG[10] ? { KD_DIF32_REG[21:0],10'b0 }: 32'd0;
-            
-            KP_CAL_PRE[11] <= KP_CAL32_REG[11] ? { ERROR[0][20:0],11'b0 } : 32'd0;
-            KD_CAL_PRE[11] <= KD_CAL32_REG[11] ? { KD_DIF32_REG[20:0],11'b0 }: 32'd0;
-            
-            KP_CAL_PRE[12] <= KP_CAL32_REG[12] ? { ERROR[0][19:0],12'b0 } : 32'd0;
-            KD_CAL_PRE[12] <= KD_CAL32_REG[12] ? { KD_DIF32_REG[19:0],12'b0 }: 32'd0;
-            
-            KP_CAL_PRE[13] <= KP_CAL32_REG[13] ? { ERROR[0][18:0],13'b0 } : 32'd0;
-            KD_CAL_PRE[13] <= KD_CAL32_REG[13] ? { KD_DIF32_REG[18:0],13'b0 }: 32'd0;
-            
-            KP_CAL_PRE[14] <= KP_CAL32_REG[14] ? { ERROR[0][17:0],14'b0 } : 32'd0;
-            KD_CAL_PRE[14] <= KD_CAL32_REG[14] ? { KD_DIF32_REG[17:0],14'b0 }: 32'd0;
-            
-            KP_CAL_PRE[15] <= KP_CAL32_REG[15] ? { ERROR[0][16:0],15'b0 } : 32'd0;
-            KD_CAL_PRE[15] <= KD_CAL32_REG[15] ? { KD_DIF32_REG[16:0],15'b0 }: 32'd0;			
-            
-            KP_CAL_PRE[16] <= KP_CAL32_REG[16] ? { ERROR[0][15:0],16'b0 } : 32'd0;
-            KD_CAL_PRE[16] <= KD_CAL32_REG[16] ? { KD_DIF32_REG[15:0],16'b0 }: 32'd0;
-                        
-            KP_CAL_PRE[17] <= KP_CAL32_REG[17] ? { ERROR[0][14:0],17'b0 } : 32'd0;
-            KD_CAL_PRE[17] <= KD_CAL32_REG[17] ? { KD_DIF32_REG[14:0],17'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[18] <= KP_CAL32_REG[18] ? { ERROR[0][13:0],18'b0 } : 32'd0;
-            KD_CAL_PRE[18] <= KD_CAL32_REG[18] ? { KD_DIF32_REG[13:0],18'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[19] <= KP_CAL32_REG[19] ? { ERROR[0][12:0],19'b0 } : 32'd0;
-            KD_CAL_PRE[19] <= KD_CAL32_REG[19] ? { KD_DIF32_REG[12:0],19'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[20] <= KP_CAL32_REG[20] ? { ERROR[0][11:0],20'b0 } : 32'd0;
-            KD_CAL_PRE[20] <= KD_CAL32_REG[20] ? { KD_DIF32_REG[11:0],20'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[21] <= KP_CAL32_REG[21] ? { ERROR[0][10:0],21'b0 } : 32'd0;
-            KD_CAL_PRE[21] <= KD_CAL32_REG[21] ? { KD_DIF32_REG[10:0],21'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[22] <= KP_CAL32_REG[22] ? { ERROR[0][9:0],22'b0 } : 32'd0;
-            KD_CAL_PRE[22] <= KD_CAL32_REG[22] ? { KD_DIF32_REG[9:0],22'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[23] <= KP_CAL32_REG[23] ? { ERROR[0][8:0],23'b0 } : 32'd0;
-            KD_CAL_PRE[23] <= KD_CAL32_REG[23] ? { KD_DIF32_REG[8:0],23'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[24] <= KP_CAL32_REG[24] ? { ERROR[0][7:0],24'b0 } : 32'd0;
-            KD_CAL_PRE[24] <= KD_CAL32_REG[24] ? { KD_DIF32_REG[7:0],24'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[25] <= KP_CAL32_REG[25] ? { ERROR[0][6:0],25'b0 } : 32'd0;
-            KD_CAL_PRE[25] <= KD_CAL32_REG[25] ? { KD_DIF32_REG[6:0],25'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[26] <= KP_CAL32_REG[26] ? { ERROR[0][5:0],26'b0 } : 32'd0;
-            KD_CAL_PRE[26] <= KD_CAL32_REG[26] ? { KD_DIF32_REG[5:0],26'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[27] <= KP_CAL32_REG[27] ? { ERROR[0][4:0],27'b0 } : 32'd0;
-            KD_CAL_PRE[27] <= KD_CAL32_REG[27] ? { KD_DIF32_REG[4:0],27'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[28] <= KP_CAL32_REG[28] ? { ERROR[0][3:0],28'b0 } : 32'd0;
-            KD_CAL_PRE[28] <= KD_CAL32_REG[28] ? { KD_DIF32_REG[3:0],28'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[29] <= KP_CAL32_REG[29] ? { ERROR[0][2:0],29'b0 } : 32'd0;
-            KD_CAL_PRE[29] <= KD_CAL32_REG[29] ? { KD_DIF32_REG[2:0],29'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[30] <= KP_CAL32_REG[30] ? { ERROR[0][1:0],30'b0 } : 32'd0;
-            KD_CAL_PRE[30] <= KD_CAL32_REG[30] ? { KD_DIF32_REG[1:0],30'b0 }: 32'd0;
-                        			
-            KP_CAL_PRE[31] <= KP_CAL32_REG[31] ? { ERROR[0][0],31'b0 } : 32'd0;
-            KD_CAL_PRE[31] <= KD_CAL32_REG[31] ? { KD_DIF32_REG[0],31'b0 }: 32'd0;
+
+			PID_OUT_REG <= KP_CAL32_REG * ERROR[0] + KD_CAL32_REG * KD_DIF32_REG;
             		
 		end // else if ( ctl_cnt == 32'd2 )
-		else if ( ctl_cnt == 32'd3 ) begin		//second tick KP*ERR KD*DIFF
-			ctl_cnt <= ctl_cnt + 32'd1;
 
-			KP_CAL_PRE[0] <= KP_CAL_PRE[0] + KP_CAL_PRE[1];
-			KD_CAL_PRE[0] <= KD_CAL_PRE[0] + KD_CAL_PRE[1];
-
-			KP_CAL_PRE[2] <= KP_CAL_PRE[2] + KP_CAL_PRE[3];
-			KD_CAL_PRE[2] <= KD_CAL_PRE[2] + KD_CAL_PRE[3];
-
-			KP_CAL_PRE[4] <= KP_CAL_PRE[4] + KP_CAL_PRE[5];
-			KD_CAL_PRE[4] <= KD_CAL_PRE[4] + KD_CAL_PRE[5];
-
-			KP_CAL_PRE[6] <= KP_CAL_PRE[6] + KP_CAL_PRE[7];
-			KD_CAL_PRE[6] <= KD_CAL_PRE[6] + KD_CAL_PRE[7];
-
-			KP_CAL_PRE[8] <= KP_CAL_PRE[8] + KP_CAL_PRE[9];
-			KD_CAL_PRE[8] <= KD_CAL_PRE[8] + KD_CAL_PRE[9];
-
-			KP_CAL_PRE[10] <= KP_CAL_PRE[10] + KP_CAL_PRE[11];
-			KD_CAL_PRE[10] <= KD_CAL_PRE[10] + KD_CAL_PRE[11];
-
-			KP_CAL_PRE[12] <= KP_CAL_PRE[12] + KP_CAL_PRE[13];
-			KD_CAL_PRE[12] <= KD_CAL_PRE[12] + KD_CAL_PRE[13];
-
-			KP_CAL_PRE[14] <= KP_CAL_PRE[14] + KP_CAL_PRE[15];
-			KD_CAL_PRE[14] <= KD_CAL_PRE[14] + KD_CAL_PRE[15];
-
-			KP_CAL_PRE[16] <= KP_CAL_PRE[16] + KP_CAL_PRE[17];
-			KD_CAL_PRE[16] <= KD_CAL_PRE[16] + KD_CAL_PRE[17];
-
-			KP_CAL_PRE[18] <= KP_CAL_PRE[18] + KP_CAL_PRE[19];
-			KD_CAL_PRE[18] <= KD_CAL_PRE[18] + KD_CAL_PRE[19];
-
-			KP_CAL_PRE[20] <= KP_CAL_PRE[20] + KP_CAL_PRE[21];
-			KD_CAL_PRE[20] <= KD_CAL_PRE[20] + KD_CAL_PRE[21];
-
-			KP_CAL_PRE[22] <= KP_CAL_PRE[22] + KP_CAL_PRE[23];
-			KD_CAL_PRE[22] <= KD_CAL_PRE[22] + KD_CAL_PRE[23];
-
-			KP_CAL_PRE[24] <= KP_CAL_PRE[24] + KP_CAL_PRE[25];
-			KD_CAL_PRE[24] <= KD_CAL_PRE[24] + KD_CAL_PRE[25];
-
-			KP_CAL_PRE[26] <= KP_CAL_PRE[26] + KP_CAL_PRE[27];
-			KD_CAL_PRE[26] <= KD_CAL_PRE[26] + KD_CAL_PRE[27];
-
-			KP_CAL_PRE[28] <= KP_CAL_PRE[28] + KP_CAL_PRE[29];
-			KD_CAL_PRE[28] <= KD_CAL_PRE[28] + KD_CAL_PRE[29];
-
-			KP_CAL_PRE[30] <= KP_CAL_PRE[30] + KP_CAL_PRE[31];
-			KD_CAL_PRE[30] <= KD_CAL_PRE[30] + KD_CAL_PRE[31];
-
-		end // else if ( ctl_cnt == 32'd3 )
-		else if ( ctl_cnt == 32'd4 ) begin	//tick 3
-			ctl_cnt <= ctl_cnt + 32'd1;
-
-			KP_CAL_PRE[0] <= KP_CAL_PRE[0] + KP_CAL_PRE[2];
-			KD_CAL_PRE[0] <= KD_CAL_PRE[0] + KD_CAL_PRE[2];
-
-			KP_CAL_PRE[4] <= KP_CAL_PRE[4] + KP_CAL_PRE[6];
-			KD_CAL_PRE[4] <= KD_CAL_PRE[4] + KD_CAL_PRE[6];
-
-			KP_CAL_PRE[8] <= KP_CAL_PRE[8] + KP_CAL_PRE[10];
-			KD_CAL_PRE[8] <= KD_CAL_PRE[8] + KD_CAL_PRE[10];
-
-			KP_CAL_PRE[12] <= KP_CAL_PRE[12] + KP_CAL_PRE[14];
-			KD_CAL_PRE[12] <= KD_CAL_PRE[12] + KD_CAL_PRE[14];
-
-			KP_CAL_PRE[16] <= KP_CAL_PRE[16] + KP_CAL_PRE[18];
-			KD_CAL_PRE[16] <= KD_CAL_PRE[16] + KD_CAL_PRE[18];
-
-			KP_CAL_PRE[20] <= KP_CAL_PRE[20] + KP_CAL_PRE[22];
-			KD_CAL_PRE[20] <= KD_CAL_PRE[20] + KD_CAL_PRE[22];
-
-			KP_CAL_PRE[24] <= KP_CAL_PRE[24] + KP_CAL_PRE[26];
-			KD_CAL_PRE[24] <= KD_CAL_PRE[24] + KD_CAL_PRE[26];
-
-			KP_CAL_PRE[28] <= KP_CAL_PRE[28] + KP_CAL_PRE[30];
-			KD_CAL_PRE[28] <= KD_CAL_PRE[28] + KD_CAL_PRE[30];
-
-		end // else if ( ctl_cnt == 32'd4 )
-		else if ( ctl_cnt == 32'd5 ) begin
-			ctl_cnt <= ctl_cnt + 32'd1;
-
-			KP_CAL_PRE[0] <= KP_CAL_PRE[0] + KP_CAL_PRE[4];
-			KD_CAL_PRE[0] <= KD_CAL_PRE[0] + KD_CAL_PRE[4];
-
-			KP_CAL_PRE[8] <= KP_CAL_PRE[8] + KP_CAL_PRE[12];
-			KD_CAL_PRE[8] <= KD_CAL_PRE[8] + KD_CAL_PRE[12];
-
-			KP_CAL_PRE[16] <= KP_CAL_PRE[16] + KP_CAL_PRE[20];
-			KD_CAL_PRE[16] <= KD_CAL_PRE[16] + KD_CAL_PRE[20];
-
-			KP_CAL_PRE[24] <= KP_CAL_PRE[24] + KP_CAL_PRE[28];
-			KD_CAL_PRE[24] <= KD_CAL_PRE[24] + KD_CAL_PRE[28];
-
-		end // else if ( ctl_cnt == 32'd5 )
-		else if ( ctl_cnt == 32'd6 ) begin
-			ctl_cnt <= ctl_cnt + 32'd1;
-
-			KP_CAL_PRE[0] <= KP_CAL_PRE[0] + KP_CAL_PRE[8];
-			KD_CAL_PRE[0] <= KD_CAL_PRE[0] + KD_CAL_PRE[8];
-
-			KP_CAL_PRE[16] <= KP_CAL_PRE[16] + KP_CAL_PRE[24];
-			KD_CAL_PRE[16] <= KD_CAL_PRE[16] + KD_CAL_PRE[24];
-		end // else if ( ctl_cnt == 32'd6 )
-		else if ( ctl_cnt == 32'd7 ) begin
-			ctl_cnt <= ctl_cnt + 32'd1;
-
-			KP_CAL_PRE[0] <= KP_CAL_PRE[0] + KP_CAL_PRE[16];
-			KD_CAL_PRE[0] <= KD_CAL_PRE[0] + KD_CAL_PRE[16];
-		end // else if ( ctl_cnt == 32'd7 )
-		else if ( ctl_cnt == 32'd8 ) begin
-			ctl_cnt <= ctl_cnt + 32'd1;
-
-			PID_OUT_REG <= KP_CAL_PRE[0] + KD_CAL_PRE[0];
-		end // else if ( ctl_cnt == 32'd8 )
-		// else if ( ctl_cnt == 32'd9 ) begin
-		// 	ctl_cnt <= ctl_cnt + 32'd1;
-		// end // else if ( ctl_cnt == 32'd9 )
-		// else if ( ctl_cnt == 32'd10 ) begin
-		// 	ctl_cnt <= ctl_cnt + 32'd1;
-		// end // else if ( ctl_cnt == 32'd10 )
-		// else if ( ctl_cnt == 32'd11 ) begin
-		// 	ctl_cnt <= ctl_cnt + 32'd1;
-		// end // else if ( ctl_cnt == 32'd11 )
-		// else if ( ctl_cnt == 32'd12 ) begin
-		// 	ctl_cnt <= ctl_cnt + 32'd1;
-		// end // else if ( ctl_cnt == 32'd12 )
 		else if ( ctl_cnt >= CTL_FREQ_REG )	begin
 			ctl_cnt <= 32'd0;
 		end // else if ( ctl_cnt >= CTL_FREQ_REG )
+		
 		else begin // < CTL_FREQ_REG
 			ctl_cnt <= ctl_cnt + 32'd1;
 		end
-
 
 	end
 end // always@ ( posedge CLK or negedge RST_n )
