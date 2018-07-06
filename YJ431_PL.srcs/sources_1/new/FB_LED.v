@@ -52,7 +52,7 @@ input [9:0]BZLED_BASE;
 
 //Register
 output reg [31:0] FREQ_Cnt_Reg = 32'd100000;	//作为计数目标，自己外部计算
-output reg [31:0] BZ_Puty_Reg = 32'd100000000000;
+output reg [31:0] BZ_Puty_Reg = 32'd1000000000;
 output reg [31:0] LEDR_Puty_Reg = 32'd50000;
 output reg [31:0] LEDG_Puty_Reg = 32'd50000;
 output reg [31:0] LEDB_Puty_Reg = 32'd80000;
