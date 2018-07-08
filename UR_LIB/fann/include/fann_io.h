@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
    	
    This function appears in FANN >= 1.0.0.
  */
-FANN_EXTERNAL struct fann *FANN_API fann_create_from_file(const char *configuration_file);
+struct fann *FANN_API fann_create_from_file(const char *configuration_file);
 
 
 /* Function: fann_save
@@ -60,7 +60,7 @@ FANN_EXTERNAL struct fann *FANN_API fann_create_from_file(const char *configurat
 
    This function appears in FANN >= 1.0.0.
  */
-FANN_EXTERNAL int FANN_API fann_save(struct fann *ann, const char *configuration_file);
+int FANN_API fann_save(struct fann *ann, const char *configuration_file);
 
 
 /* Function: fann_save_to_fixed
@@ -95,6 +95,6 @@ FANN_EXTERNAL int FANN_API fann_save(struct fann *ann, const char *configuration
 
    This function appears in FANN >= 1.0.0.
 */ 
-FANN_EXTERNAL int FANN_API fann_save_to_fixed(struct fann *ann, const char *configuration_file);
+int FANN_API fann_save_to_fixed(struct fann *ann, const char *configuration_file);
 	
 #endif

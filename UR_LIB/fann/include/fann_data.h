@@ -400,7 +400,7 @@ struct fann_train_data;
 	See also:
 		<fann_set_callback>, <fann_train_on_data>
  */ 
-FANN_EXTERNAL typedef int (FANN_API * fann_callback_type) (struct fann *ann, struct fann_train_data *train, 
+typedef int (FANN_API * fann_callback_type) (struct fann *ann, struct fann_train_data *train, 
 														   unsigned int max_epochs, 
 														   unsigned int epochs_between_reports, 
 														   float desired_error, unsigned int epochs);
