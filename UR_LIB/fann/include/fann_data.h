@@ -374,7 +374,7 @@ struct fann_train_data;
    This callback function can be called during training when using <fann_train_on_data>, 
    <fann_train_on_file> or <fann_cascadetrain_on_data>.
 	
-	>typedef int (FANN_API * fann_callback_type) (struct fann *ann, struct fann_train_data *train, 
+	>typedef int (* fann_callback_type) (struct fann *ann, struct fann_train_data *train, 
 	>											  unsigned int max_epochs, 
 	>                                             unsigned int epochs_between_reports, 
 	>                                             float desired_error, unsigned int epochs);
@@ -389,7 +389,7 @@ struct fann_train_data;
 	will terminate.
 	
 	Example of a callback function:
-		>int FANN_API test_callback(struct fann *ann, struct fann_train_data *train,
+		>int test_callback(struct fann *ann, struct fann_train_data *train,
 		>				            unsigned int max_epochs, unsigned int epochs_between_reports, 
 		>				            float desired_error, unsigned int epochs)
 		>{
@@ -400,7 +400,7 @@ struct fann_train_data;
 	See also:
 		<fann_set_callback>, <fann_train_on_data>
  */ 
-typedef int (FANN_API * fann_callback_type) (struct fann *ann, struct fann_train_data *train, 
+typedef int (* fann_callback_type) (struct fann *ann, struct fann_train_data *train, 
 														   unsigned int max_epochs, 
 														   unsigned int epochs_between_reports, 
 														   float desired_error, unsigned int epochs);

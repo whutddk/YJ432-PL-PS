@@ -400,7 +400,7 @@ namespace FANN {
         void create_train_from_callback(unsigned int num_data,
                                         unsigned int num_input,
                                         unsigned int num_output,
-                                        void (FANN_API *user_function)(unsigned int,
+                                        void (*user_function)(unsigned int,
                                                                        unsigned int,
                                                                        unsigned int,
                                                                        fann_type *,

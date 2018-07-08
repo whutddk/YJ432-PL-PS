@@ -28,7 +28,7 @@
 
 /* Create a network from a configuration file.
  */
-struct fann *FANN_API fann_create_from_file(const char *configuration_file)
+struct fann *fann_create_from_file(const char *configuration_file)
 {
 	struct fann *ann;
 	FILE *conf = fopen(configuration_file, "r");
@@ -45,14 +45,14 @@ struct fann *FANN_API fann_create_from_file(const char *configuration_file)
 
 /* Save the network.
  */
-int FANN_API fann_save(struct fann *ann, const char *configuration_file)
+int fann_save(struct fann *ann, const char *configuration_file)
 {
 	return fann_save_internal(ann, configuration_file, 0);
 }
 
 /* Save the network as fixed point data.
  */
-int FANN_API fann_save_to_fixed(struct fann *ann, const char *configuration_file)
+int fann_save_to_fixed(struct fann *ann, const char *configuration_file)
 {
 	return fann_save_internal(ann, configuration_file, 1);
 }

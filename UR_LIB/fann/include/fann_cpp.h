@@ -2913,7 +2913,7 @@ namespace FANN {
 #ifndef FIXEDFANN
 
         // Internal callback used to convert from pointers to class references
-        static int FANN_API internal_callback(struct fann *ann, struct fann_train_data *train,
+        static int internal_callback(struct fann *ann, struct fann_train_data *train,
                                               unsigned int max_epochs, unsigned int epochs_between_reports,
                                               float desired_error, unsigned int epochs) {
             user_context *user_data = static_cast<user_context *>(fann_get_user_data(ann));
