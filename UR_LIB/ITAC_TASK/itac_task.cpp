@@ -19,7 +19,7 @@ void FC_app()
 
 	while(1)
 	{
-		sendDataToScope();
+		// sendDataToScope();
 		wait(0.01);
 	}
 }
