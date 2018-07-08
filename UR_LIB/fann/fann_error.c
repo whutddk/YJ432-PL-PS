@@ -26,21 +26,12 @@
 #include "config.h"
 #include "fann.h"
 
-#ifdef _MSC_VER
-#define vsnprintf _vsnprintf
-#define snprintf _snprintf
-#endif
-
 /* define path max if not defined */
-#if defined(_WIN32) && !defined(__MINGW32__)
-#define PATH_MAX _MAX_PATH
-#endif
+
 #ifndef PATH_MAX
-#ifdef _POSIX_PATH_MAX
-#define PATH_MAX _POSIX_PATH_MAX
-#else
+
 #define PATH_MAX 4096
-#endif
+
 #endif
 
 FILE * fann_default_error_log = (FILE *)-1;
