@@ -29,7 +29,7 @@
 
 /* #define FANN_NO_SEED */
 
-FANN_EXTERNAL struct fann *FANN_API fann_create_standard(unsigned int num_layers, ...)
+struct fann *FANN_API fann_create_standard(unsigned int num_layers, ...)
 {
 	struct fann *ann;
 	va_list layer_sizes;
@@ -70,13 +70,13 @@ FANN_EXTERNAL struct fann *FANN_API fann_create_standard(unsigned int num_layers
 	return ann;
 }
 
-FANN_EXTERNAL struct fann *FANN_API fann_create_standard_array(unsigned int num_layers, 
+struct fann *FANN_API fann_create_standard_array(unsigned int num_layers, 
 															   const unsigned int *layers)
 {
 	return fann_create_sparse_array(1, num_layers, layers);	
 }
 
-FANN_EXTERNAL struct fann *FANN_API fann_create_sparse(float connection_rate, 
+struct fann *FANN_API fann_create_sparse(float connection_rate, 
 													   unsigned int num_layers, ...)
 {
 	struct fann *ann;
@@ -116,7 +116,7 @@ FANN_EXTERNAL struct fann *FANN_API fann_create_sparse(float connection_rate,
 	return ann;
 }
 
-FANN_EXTERNAL struct fann *FANN_API fann_create_sparse_array(float connection_rate,
+struct fann *FANN_API fann_create_sparse_array(float connection_rate,
 															 unsigned int num_layers,
 															 const unsigned int *layers)
 {
@@ -386,7 +386,7 @@ FANN_EXTERNAL struct fann *FANN_API fann_create_sparse_array(float connection_ra
 }
 
 
-FANN_EXTERNAL struct fann *FANN_API fann_create_shortcut(unsigned int num_layers, ...)
+struct fann *FANN_API fann_create_shortcut(unsigned int num_layers, ...)
 {
 	struct fann *ann;
 	int i;
@@ -426,7 +426,7 @@ FANN_EXTERNAL struct fann *FANN_API fann_create_shortcut(unsigned int num_layers
 	return ann;
 }
 
-FANN_EXTERNAL struct fann *FANN_API fann_create_shortcut_array(unsigned int num_layers,
+struct fann *FANN_API fann_create_shortcut_array(unsigned int num_layers,
 															   const unsigned int *layers)
 {
 	struct fann_layer *layer_it, *layer_it2, *last_layer;
@@ -556,7 +556,7 @@ FANN_EXTERNAL struct fann *FANN_API fann_create_shortcut_array(unsigned int num_
 	return ann;
 }
 
-FANN_EXTERNAL fann_type *FANN_API fann_run(struct fann * ann, fann_type * input)
+fann_type *FANN_API fann_run(struct fann * ann, fann_type * input)
 {
 	struct fann_neuron *neuron_it, *last_neuron, *neurons, **neuron_pointers;
 	unsigned int i, num_connections, num_input, num_output;
@@ -808,7 +808,7 @@ FANN_EXTERNAL fann_type *FANN_API fann_run(struct fann * ann, fann_type * input)
 	return ann->output;
 }
 
-FANN_EXTERNAL void FANN_API fann_destroy(struct fann *ann)
+void FANN_API fann_destroy(struct fann *ann)
 {
 	if(ann == NULL)
 		return;
@@ -842,7 +842,7 @@ FANN_EXTERNAL void FANN_API fann_destroy(struct fann *ann)
 	fann_safe_free(ann);
 }
 
-FANN_EXTERNAL void FANN_API fann_randomize_weights(struct fann *ann, fann_type min_weight,
+void FANN_API fann_randomize_weights(struct fann *ann, fann_type min_weight,
 												   fann_type max_weight)
 {
 	fann_type *last_weight;
@@ -863,7 +863,7 @@ FANN_EXTERNAL void FANN_API fann_randomize_weights(struct fann *ann, fann_type m
 }
 
 /* deep copy of the fann structure */
-FANN_EXTERNAL struct fann* FANN_API fann_copy(struct fann* orig)
+struct fann* FANN_API fann_copy(struct fann* orig)
 {
     struct fann* copy;
     unsigned int num_layers = (unsigned int)(orig->last_layer - orig->first_layer);
@@ -1100,7 +1100,7 @@ FANN_EXTERNAL struct fann* FANN_API fann_copy(struct fann* orig)
     return copy;
 }
 
-FANN_EXTERNAL void FANN_API fann_print_connections(struct fann *ann)
+void FANN_API fann_print_connections(struct fann *ann)
 {
 	struct fann_layer *layer_it;
 	struct fann_neuron *neuron_it;
@@ -1165,7 +1165,7 @@ FANN_EXTERNAL void FANN_API fann_print_connections(struct fann *ann)
 
 /* Initialize the weights using Widrow + Nguyen's algorithm.
 */
-FANN_EXTERNAL void FANN_API fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
+void FANN_API fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 {
 	fann_type smallest_inp, largest_inp;
 	unsigned int dat = 0, elem, num_connect, num_hidden_neurons;
@@ -1244,7 +1244,7 @@ FANN_EXTERNAL void FANN_API fann_init_weights(struct fann *ann, struct fann_trai
 #endif
 }
 
-FANN_EXTERNAL void FANN_API fann_print_parameters(struct fann *ann)
+void FANN_API fann_print_parameters(struct fann *ann)
 {
 	struct fann_layer *layer_it;
 #ifndef FIXEDFANN
@@ -1317,7 +1317,7 @@ FANN_EXTERNAL void FANN_API fann_print_parameters(struct fann *ann)
 FANN_GET(unsigned int, num_input)
 FANN_GET(unsigned int, num_output)
 
-FANN_EXTERNAL unsigned int FANN_API fann_get_total_neurons(struct fann *ann)
+unsigned int FANN_API fann_get_total_neurons(struct fann *ann)
 {
 	if(ann->network_type)
 	{
@@ -1332,24 +1332,24 @@ FANN_EXTERNAL unsigned int FANN_API fann_get_total_neurons(struct fann *ann)
 
 FANN_GET(unsigned int, total_connections)
 
-FANN_EXTERNAL enum fann_nettype_enum FANN_API fann_get_network_type(struct fann *ann)
+enum fann_nettype_enum FANN_API fann_get_network_type(struct fann *ann)
 {
     /* Currently two types: LAYER = 0, SHORTCUT = 1 */
     /* Enum network_types must be set to match the return values  */
     return ann->network_type;
 }
 
-FANN_EXTERNAL float FANN_API fann_get_connection_rate(struct fann *ann)
+float FANN_API fann_get_connection_rate(struct fann *ann)
 {
     return ann->connection_rate;
 }
 
-FANN_EXTERNAL unsigned int FANN_API fann_get_num_layers(struct fann *ann)
+unsigned int FANN_API fann_get_num_layers(struct fann *ann)
 {
     return (unsigned int)(ann->last_layer - ann->first_layer);
 }
 
-FANN_EXTERNAL void FANN_API fann_get_layer_array(struct fann *ann, unsigned int *layers)
+void FANN_API fann_get_layer_array(struct fann *ann, unsigned int *layers)
 {
     struct fann_layer *layer_it;
 
@@ -1376,7 +1376,7 @@ FANN_EXTERNAL void FANN_API fann_get_layer_array(struct fann *ann, unsigned int 
     }
 }
 
-FANN_EXTERNAL void FANN_API fann_get_bias_array(struct fann *ann, unsigned int *bias)
+void FANN_API fann_get_bias_array(struct fann *ann, unsigned int *bias)
 {
     struct fann_layer *layer_it;
 
@@ -1407,7 +1407,7 @@ FANN_EXTERNAL void FANN_API fann_get_bias_array(struct fann *ann, unsigned int *
     }
 }
 
-FANN_EXTERNAL void FANN_API fann_get_connection_array(struct fann *ann, struct fann_connection *connections)
+void FANN_API fann_get_connection_array(struct fann *ann, struct fann_connection *connections)
 {
     struct fann_neuron *first_neuron;
     struct fann_layer *layer_it;
@@ -1442,7 +1442,7 @@ FANN_EXTERNAL void FANN_API fann_get_connection_array(struct fann *ann, struct f
     }
 }
 
-FANN_EXTERNAL void FANN_API fann_set_weight_array(struct fann *ann,
+void FANN_API fann_set_weight_array(struct fann *ann,
     struct fann_connection *connections, unsigned int num_connections)
 {
     unsigned int idx;
@@ -1453,7 +1453,7 @@ FANN_EXTERNAL void FANN_API fann_set_weight_array(struct fann *ann,
     }
 }
 
-FANN_EXTERNAL void FANN_API fann_set_weight(struct fann *ann,
+void FANN_API fann_set_weight(struct fann *ann,
     unsigned int from_neuron, unsigned int to_neuron, fann_type weight)
 {
     struct fann_neuron *first_neuron;
@@ -1491,12 +1491,12 @@ FANN_EXTERNAL void FANN_API fann_set_weight(struct fann *ann,
     }
 }
 
-FANN_EXTERNAL void FANN_API fann_get_weights(struct fann *ann, fann_type *weights)
+void FANN_API fann_get_weights(struct fann *ann, fann_type *weights)
 {
 	memcpy(weights, ann->weights, sizeof(fann_type)*ann->total_connections);
 }
 
-FANN_EXTERNAL void FANN_API fann_set_weights(struct fann *ann, fann_type *weights)
+void FANN_API fann_set_weights(struct fann *ann, fann_type *weights)
 {
 	memcpy(ann->weights, weights, sizeof(fann_type)*ann->total_connections);
 }
@@ -1815,12 +1815,12 @@ int FANN_SEED_RAND = 0;
 int FANN_SEED_RAND = 1;
 #endif
 
-FANN_EXTERNAL void FANN_API fann_disable_seed_rand()
+void FANN_API fann_disable_seed_rand()
 {
     FANN_SEED_RAND = 0;
 }
 
-FANN_EXTERNAL void FANN_API fann_enable_seed_rand()
+void FANN_API fann_enable_seed_rand()
 {
     FANN_SEED_RAND = 1;
 }

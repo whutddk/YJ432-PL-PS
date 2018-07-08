@@ -110,7 +110,7 @@ enum fann_errno_enum
    
    This function appears in FANN >= 1.1.0.   
  */ 
-FANN_EXTERNAL void FANN_API fann_set_error_log(struct fann_error *errdat, FILE * log_file);
+void FANN_API fann_set_error_log(struct fann_error *errdat, FILE * log_file);
 
 
 /* Function: fann_get_errno
@@ -122,7 +122,7 @@ FANN_EXTERNAL void FANN_API fann_set_error_log(struct fann_error *errdat, FILE *
     
    This function appears in FANN >= 1.1.0.   
  */ 
-FANN_EXTERNAL enum fann_errno_enum FANN_API fann_get_errno(struct fann_error *errdat);
+enum fann_errno_enum FANN_API fann_get_errno(struct fann_error *errdat);
 
 
 /* Function: fann_reset_errno
@@ -131,7 +131,7 @@ FANN_EXTERNAL enum fann_errno_enum FANN_API fann_get_errno(struct fann_error *er
    
    This function appears in FANN >= 1.1.0.   
  */ 
-FANN_EXTERNAL void FANN_API fann_reset_errno(struct fann_error *errdat);
+void FANN_API fann_reset_errno(struct fann_error *errdat);
 
 
 /* Function: fann_reset_errstr
@@ -140,7 +140,7 @@ FANN_EXTERNAL void FANN_API fann_reset_errno(struct fann_error *errdat);
 
    This function appears in FANN >= 1.1.0.   
  */ 
-FANN_EXTERNAL void FANN_API fann_reset_errstr(struct fann_error *errdat);
+void FANN_API fann_reset_errstr(struct fann_error *errdat);
 
 
 /* Function: fann_get_errstr
@@ -151,7 +151,7 @@ FANN_EXTERNAL void FANN_API fann_reset_errstr(struct fann_error *errdat);
 
    This function appears in FANN >= 1.1.0.   
  */ 
-FANN_EXTERNAL char *FANN_API fann_get_errstr(struct fann_error *errdat);
+char *FANN_API fann_get_errstr(struct fann_error *errdat);
 
 
 /* Function: fann_print_error
@@ -160,8 +160,8 @@ FANN_EXTERNAL char *FANN_API fann_get_errstr(struct fann_error *errdat);
 
    This function appears in FANN >= 1.1.0.   
  */ 
-FANN_EXTERNAL void FANN_API fann_print_error(struct fann_error *errdat);
+void FANN_API fann_print_error(struct fann_error *errdat);
 
-FANN_EXTERNAL extern FILE * fann_default_error_log;
+extern FILE * fann_default_error_log;
 
 #endif

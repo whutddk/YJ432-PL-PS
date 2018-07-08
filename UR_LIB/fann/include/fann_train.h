@@ -84,7 +84,7 @@ struct fann_train_data
    	
    	This function appears in FANN >= 1.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_train(struct fann *ann, fann_type * input,
+void FANN_API fann_train(struct fann *ann, fann_type * input,
 									   fann_type * desired_output);
 
 #endif	/* NOT FIXEDFANN */
@@ -99,7 +99,7 @@ FANN_EXTERNAL void FANN_API fann_train(struct fann *ann, fann_type * input,
    
    This function appears in FANN >= 1.0.0.
 */ 
-FANN_EXTERNAL fann_type * FANN_API fann_test(struct fann *ann, fann_type * input,
+fann_type * FANN_API fann_test(struct fann *ann, fann_type * input,
 												 fann_type * desired_output);
 
 /* Function: fann_get_MSE
@@ -114,7 +114,7 @@ FANN_EXTERNAL fann_type * FANN_API fann_test(struct fann *ann, fann_type * input
 
 	This function appears in FANN >= 1.1.0.
  */ 
-FANN_EXTERNAL float FANN_API fann_get_MSE(struct fann *ann);
+float FANN_API fann_get_MSE(struct fann *ann);
 
 /* Function: fann_get_bit_fail
 	
@@ -131,7 +131,7 @@ FANN_EXTERNAL float FANN_API fann_get_MSE(struct fann *ann);
 
 	This function appears in FANN >= 2.0.0
 */
-FANN_EXTERNAL unsigned int FANN_API fann_get_bit_fail(struct fann *ann);
+unsigned int FANN_API fann_get_bit_fail(struct fann *ann);
 
 /* Function: fann_reset_MSE
    Resets the mean square error from the network.
@@ -143,7 +143,7 @@ FANN_EXTERNAL unsigned int FANN_API fann_get_bit_fail(struct fann *ann);
    
     This function appears in FANN >= 1.1.0
  */ 
-FANN_EXTERNAL void FANN_API fann_reset_MSE(struct fann *ann);
+void FANN_API fann_reset_MSE(struct fann *ann);
 
 /* Group: Training Data Training */
 
@@ -173,7 +173,7 @@ FANN_EXTERNAL void FANN_API fann_reset_MSE(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-FANN_EXTERNAL void FANN_API fann_train_on_data(struct fann *ann, struct fann_train_data *data,
+void FANN_API fann_train_on_data(struct fann *ann, struct fann_train_data *data,
 											   unsigned int max_epochs,
 											   unsigned int epochs_between_reports,
 											   float desired_error);
@@ -187,7 +187,7 @@ FANN_EXTERNAL void FANN_API fann_train_on_data(struct fann *ann, struct fann_tra
 
 	This function appears in FANN >= 1.0.0.
 */ 
-FANN_EXTERNAL void FANN_API fann_train_on_file(struct fann *ann, const char *filename,
+void FANN_API fann_train_on_file(struct fann *ann, const char *filename,
 											   unsigned int max_epochs,
 											   unsigned int epochs_between_reports,
 											   float desired_error);
@@ -211,7 +211,7 @@ FANN_EXTERNAL void FANN_API fann_train_on_file(struct fann *ann, const char *fil
 		
 	This function appears in FANN >= 1.2.0.
  */ 
-FANN_EXTERNAL float FANN_API fann_train_epoch(struct fann *ann, struct fann_train_data *data);
+float FANN_API fann_train_epoch(struct fann *ann, struct fann_train_data *data);
 #endif	/* NOT FIXEDFANN */
 
 /* Function: fann_test_data
@@ -225,7 +225,7 @@ FANN_EXTERNAL float FANN_API fann_train_epoch(struct fann *ann, struct fann_trai
 
 	This function appears in FANN >= 1.2.0.
  */ 
-FANN_EXTERNAL float FANN_API fann_test_data(struct fann *ann, struct fann_train_data *data);
+float FANN_API fann_test_data(struct fann *ann, struct fann_train_data *data);
 
 /* Group: Training Data Manipulation */
 
@@ -249,7 +249,7 @@ FANN_EXTERNAL float FANN_API fann_test_data(struct fann *ann, struct fann_train_
 
     This function appears in FANN >= 1.0.0
 */ 
-FANN_EXTERNAL struct fann_train_data *FANN_API fann_read_train_from_file(const char *filename);
+struct fann_train_data *FANN_API fann_read_train_from_file(const char *filename);
 
 
 /* Function: fann_create_train
@@ -261,7 +261,7 @@ FANN_EXTERNAL struct fann_train_data *FANN_API fann_read_train_from_file(const c
 
     This function appears in FANN >= 2.2.0
 */ 
-FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train(unsigned int num_data, unsigned int num_input, unsigned int num_output);
+struct fann_train_data * FANN_API fann_create_train(unsigned int num_data, unsigned int num_input, unsigned int num_output);
 
 /* Function: fann_create_train_pointer_array
    Creates an training data struct and fills it with data from provided arrays of pointer.
@@ -276,7 +276,7 @@ FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train(unsigned int n
 
     This function appears in FANN >= 2.3.0
 */ 
-FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train_pointer_array(unsigned int num_data, unsigned int num_input, fann_type **input, unsigned int num_output, fann_type **output);
+struct fann_train_data * FANN_API fann_create_train_pointer_array(unsigned int num_data, unsigned int num_input, fann_type **input, unsigned int num_output, fann_type **output);
 
 /* Function: fann_create_train_array
    Creates an training data struct and fills it with data from provided arrays, where the arrays must have the dimensions:
@@ -293,7 +293,7 @@ FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train_pointer_array(
 
     This function appears in FANN >= 2.3.0
 */ 
-FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train_array(unsigned int num_data, unsigned int num_input, fann_type *input, unsigned int num_output, fann_type *output);
+struct fann_train_data * FANN_API fann_create_train_array(unsigned int num_data, unsigned int num_input, fann_type *input, unsigned int num_output, fann_type *output);
 
 /* Function: fann_create_train_from_callback
    Creates the training data struct from a user supplied function.
@@ -325,7 +325,7 @@ FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train_array(unsigned
 
     This function appears in FANN >= 2.1.0
 */ 
-FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train_from_callback(unsigned int num_data,
+struct fann_train_data * FANN_API fann_create_train_from_callback(unsigned int num_data,
                                           unsigned int num_input,
                                           unsigned int num_output,
                                           void (FANN_API *user_function)( unsigned int,
@@ -340,7 +340,7 @@ FANN_EXTERNAL struct fann_train_data * FANN_API fann_create_train_from_callback(
 
     This function appears in FANN >= 1.0.0
  */ 
-FANN_EXTERNAL void FANN_API fann_destroy_train(struct fann_train_data *train_data);
+void FANN_API fann_destroy_train(struct fann_train_data *train_data);
 
 /* Function: fann_get_train_input
    Gets the training input data at the given position
@@ -350,7 +350,7 @@ FANN_EXTERNAL void FANN_API fann_destroy_train(struct fann_train_data *train_dat
 
    This function appears in FANN >= 2.3.0
  */ 
-FANN_EXTERNAL fann_type * FANN_API fann_get_train_input(struct fann_train_data * data, unsigned int position);
+fann_type * FANN_API fann_get_train_input(struct fann_train_data * data, unsigned int position);
 
 /* Function: fann_get_train_output
    Gets the training output data at the given position
@@ -360,7 +360,7 @@ FANN_EXTERNAL fann_type * FANN_API fann_get_train_input(struct fann_train_data *
 
    This function appears in FANN >= 2.3.0
  */ 
-FANN_EXTERNAL fann_type * FANN_API fann_get_train_output(struct fann_train_data * data, unsigned int position);
+fann_type * FANN_API fann_get_train_output(struct fann_train_data * data, unsigned int position);
 
 
 /* Function: fann_shuffle_train_data
@@ -370,7 +370,7 @@ FANN_EXTERNAL fann_type * FANN_API fann_get_train_output(struct fann_train_data 
    
    This function appears in FANN >= 1.1.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_shuffle_train_data(struct fann_train_data *train_data);
+void FANN_API fann_shuffle_train_data(struct fann_train_data *train_data);
 
 #ifndef FIXEDFANN
 
@@ -380,7 +380,7 @@ FANN_EXTERNAL void FANN_API fann_shuffle_train_data(struct fann_train_data *trai
 
    This function appears in FANN >= 2.3.0
 */
-FANN_EXTERNAL fann_type FANN_API fann_get_min_train_input(struct fann_train_data *train_data);
+fann_type FANN_API fann_get_min_train_input(struct fann_train_data *train_data);
 
 /* Function: fann_get_max_train_input
 
@@ -388,7 +388,7 @@ FANN_EXTERNAL fann_type FANN_API fann_get_min_train_input(struct fann_train_data
 
    This function appears in FANN >= 2.3.0
 */
-FANN_EXTERNAL fann_type FANN_API fann_get_max_train_input(struct fann_train_data *train_data);
+fann_type FANN_API fann_get_max_train_input(struct fann_train_data *train_data);
 
 /* Function: fann_get_min_train_output
 
@@ -396,7 +396,7 @@ FANN_EXTERNAL fann_type FANN_API fann_get_max_train_input(struct fann_train_data
 
    This function appears in FANN >= 2.3.0
 */
-FANN_EXTERNAL fann_type FANN_API fann_get_min_train_output(struct fann_train_data *train_data);
+fann_type FANN_API fann_get_min_train_output(struct fann_train_data *train_data);
 
 /* Function: fann_get_max_train_output
 
@@ -404,7 +404,7 @@ FANN_EXTERNAL fann_type FANN_API fann_get_min_train_output(struct fann_train_dat
 
    This function appears in FANN >= 2.3.0
 */
-FANN_EXTERNAL fann_type FANN_API fann_get_max_train_output(struct fann_train_data *train_data);
+fann_type FANN_API fann_get_max_train_output(struct fann_train_data *train_data);
 
 
 /* Function: fann_scale_train
@@ -420,7 +420,7 @@ FANN_EXTERNAL fann_type FANN_API fann_get_max_train_output(struct fann_train_dat
 
     This function appears in FANN >= 2.1.0
 */
-FANN_EXTERNAL void FANN_API fann_scale_train( struct fann *ann, struct fann_train_data *data );
+void FANN_API fann_scale_train( struct fann *ann, struct fann_train_data *data );
 
 /* Function: fann_descale_train
 
@@ -435,7 +435,7 @@ FANN_EXTERNAL void FANN_API fann_scale_train( struct fann *ann, struct fann_trai
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL void FANN_API fann_descale_train( struct fann *ann, struct fann_train_data *data );
+void FANN_API fann_descale_train( struct fann *ann, struct fann_train_data *data );
 
 /* Function: fann_set_input_scaling_params
 
@@ -452,7 +452,7 @@ FANN_EXTERNAL void FANN_API fann_descale_train( struct fann *ann, struct fann_tr
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL int FANN_API fann_set_input_scaling_params(
+int FANN_API fann_set_input_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_input_min,
@@ -473,7 +473,7 @@ FANN_EXTERNAL int FANN_API fann_set_input_scaling_params(
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL int FANN_API fann_set_output_scaling_params(
+int FANN_API fann_set_output_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_output_min,
@@ -496,7 +496,7 @@ FANN_EXTERNAL int FANN_API fann_set_output_scaling_params(
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL int FANN_API fann_set_scaling_params(
+int FANN_API fann_set_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_input_min,
@@ -513,7 +513,7 @@ FANN_EXTERNAL int FANN_API fann_set_scaling_params(
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL int FANN_API fann_clear_scaling_params(struct fann *ann);
+int FANN_API fann_clear_scaling_params(struct fann *ann);
 
 /* Function: fann_scale_input
 
@@ -528,7 +528,7 @@ FANN_EXTERNAL int FANN_API fann_clear_scaling_params(struct fann *ann);
 
     This function appears in FANN >= 2.1.0
 */
-FANN_EXTERNAL void FANN_API fann_scale_input( struct fann *ann, fann_type *input_vector );
+void FANN_API fann_scale_input( struct fann *ann, fann_type *input_vector );
 
 /* Function: fann_scale_output
 
@@ -543,7 +543,7 @@ FANN_EXTERNAL void FANN_API fann_scale_input( struct fann *ann, fann_type *input
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL void FANN_API fann_scale_output( struct fann *ann, fann_type *output_vector );
+void FANN_API fann_scale_output( struct fann *ann, fann_type *output_vector );
 
 /* Function: fann_descale_input
 
@@ -558,7 +558,7 @@ FANN_EXTERNAL void FANN_API fann_scale_output( struct fann *ann, fann_type *outp
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL void FANN_API fann_descale_input( struct fann *ann, fann_type *input_vector );
+void FANN_API fann_descale_input( struct fann *ann, fann_type *input_vector );
 
 /* Function: fann_descale_output
 
@@ -573,7 +573,7 @@ FANN_EXTERNAL void FANN_API fann_descale_input( struct fann *ann, fann_type *inp
 
     This function appears in FANN >= 2.1.0
  */
-FANN_EXTERNAL void FANN_API fann_descale_output( struct fann *ann, fann_type *output_vector );
+void FANN_API fann_descale_output( struct fann *ann, fann_type *output_vector );
 
 #endif
 
@@ -594,7 +594,7 @@ FANN_EXTERNAL void FANN_API fann_descale_output( struct fann *ann, fann_type *ou
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_scale_input_train_data(struct fann_train_data *train_data,
+void FANN_API fann_scale_input_train_data(struct fann_train_data *train_data,
 														fann_type new_min, fann_type new_max);
 
 
@@ -615,7 +615,7 @@ FANN_EXTERNAL void FANN_API fann_scale_input_train_data(struct fann_train_data *
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_scale_output_train_data(struct fann_train_data *train_data,
+void FANN_API fann_scale_output_train_data(struct fann_train_data *train_data,
 														 fann_type new_min, fann_type new_max);
 
 
@@ -636,7 +636,7 @@ FANN_EXTERNAL void FANN_API fann_scale_output_train_data(struct fann_train_data 
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_scale_train_data(struct fann_train_data *train_data,
+void FANN_API fann_scale_train_data(struct fann_train_data *train_data,
 												  fann_type new_min, fann_type new_max);
 
 
@@ -646,7 +646,7 @@ FANN_EXTERNAL void FANN_API fann_scale_train_data(struct fann_train_data *train_
    
    This function appears in FANN >= 1.1.0.
  */ 
-FANN_EXTERNAL struct fann_train_data *FANN_API fann_merge_train_data(struct fann_train_data *data1,
+struct fann_train_data *FANN_API fann_merge_train_data(struct fann_train_data *data1,
 																	 struct fann_train_data *data2);
 
 
@@ -656,7 +656,7 @@ FANN_EXTERNAL struct fann_train_data *FANN_API fann_merge_train_data(struct fann
 
    This function appears in FANN >= 1.1.0.
  */ 
-FANN_EXTERNAL struct fann_train_data *FANN_API fann_duplicate_train_data(struct fann_train_data
+struct fann_train_data *FANN_API fann_duplicate_train_data(struct fann_train_data
 																		 *data);
 	
 /* Function: fann_subset_train_data
@@ -673,7 +673,7 @@ FANN_EXTERNAL struct fann_train_data *FANN_API fann_duplicate_train_data(struct 
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL struct fann_train_data *FANN_API fann_subset_train_data(struct fann_train_data
+struct fann_train_data *FANN_API fann_subset_train_data(struct fann_train_data
 																		 *data, unsigned int pos,
 																		 unsigned int length);
 	
@@ -683,7 +683,7 @@ FANN_EXTERNAL struct fann_train_data *FANN_API fann_subset_train_data(struct fan
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL unsigned int FANN_API fann_length_train_data(struct fann_train_data *data);
+unsigned int FANN_API fann_length_train_data(struct fann_train_data *data);
 	
 /* Function: fann_num_input_train_data
    
@@ -694,7 +694,7 @@ FANN_EXTERNAL unsigned int FANN_API fann_length_train_data(struct fann_train_dat
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL unsigned int FANN_API fann_num_input_train_data(struct fann_train_data *data);
+unsigned int FANN_API fann_num_input_train_data(struct fann_train_data *data);
 	
 /* Function: fann_num_output_train_data
    
@@ -705,7 +705,7 @@ FANN_EXTERNAL unsigned int FANN_API fann_num_input_train_data(struct fann_train_
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL unsigned int FANN_API fann_num_output_train_data(struct fann_train_data *data);
+unsigned int FANN_API fann_num_output_train_data(struct fann_train_data *data);
 	
 /* Function: fann_save_train
    
@@ -719,7 +719,7 @@ FANN_EXTERNAL unsigned int FANN_API fann_num_output_train_data(struct fann_train
 	
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL int FANN_API fann_save_train(struct fann_train_data *data, const char *filename);
+int FANN_API fann_save_train(struct fann_train_data *data, const char *filename);
 
 
 /* Function: fann_save_train_to_fixed
@@ -736,7 +736,7 @@ FANN_EXTERNAL int FANN_API fann_save_train(struct fann_train_data *data, const c
 
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL int FANN_API fann_save_train_to_fixed(struct fann_train_data *data, const char *filename,
+int FANN_API fann_save_train_to_fixed(struct fann_train_data *data, const char *filename,
 													 unsigned int decimal_point);
 
 
@@ -757,7 +757,7 @@ FANN_EXTERNAL int FANN_API fann_save_train_to_fixed(struct fann_train_data *data
 
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL enum fann_train_enum FANN_API fann_get_training_algorithm(struct fann *ann);
+enum fann_train_enum FANN_API fann_get_training_algorithm(struct fann *ann);
 
 
 /* Function: fann_set_training_algorithm
@@ -768,7 +768,7 @@ FANN_EXTERNAL enum fann_train_enum FANN_API fann_get_training_algorithm(struct f
 
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL void FANN_API fann_set_training_algorithm(struct fann *ann,
+void FANN_API fann_set_training_algorithm(struct fann *ann,
 														enum fann_train_enum training_algorithm);
 
 
@@ -787,7 +787,7 @@ FANN_EXTERNAL void FANN_API fann_set_training_algorithm(struct fann *ann,
    
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL float FANN_API fann_get_learning_rate(struct fann *ann);
+float FANN_API fann_get_learning_rate(struct fann *ann);
 
 
 /* Function: fann_set_learning_rate
@@ -798,7 +798,7 @@ FANN_EXTERNAL float FANN_API fann_get_learning_rate(struct fann *ann);
 
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL void FANN_API fann_set_learning_rate(struct fann *ann, float learning_rate);
+void FANN_API fann_set_learning_rate(struct fann *ann, float learning_rate);
 
 /* Function: fann_get_learning_momentum
 
@@ -816,7 +816,7 @@ FANN_EXTERNAL void FANN_API fann_set_learning_rate(struct fann *ann, float learn
 
    This function appears in FANN >= 2.0.0.   	
  */ 
-FANN_EXTERNAL float FANN_API fann_get_learning_momentum(struct fann *ann);
+float FANN_API fann_get_learning_momentum(struct fann *ann);
 
 
 /* Function: fann_set_learning_momentum
@@ -827,7 +827,7 @@ FANN_EXTERNAL float FANN_API fann_get_learning_momentum(struct fann *ann);
 
    This function appears in FANN >= 2.0.0.   	
  */ 
-FANN_EXTERNAL void FANN_API fann_set_learning_momentum(struct fann *ann, float learning_momentum);
+void FANN_API fann_set_learning_momentum(struct fann *ann, float learning_momentum);
 
 
 /* Function: fann_get_activation_function
@@ -849,7 +849,7 @@ FANN_EXTERNAL void FANN_API fann_set_learning_momentum(struct fann *ann, float l
 
    This function appears in FANN >= 2.1.0
  */ 
-FANN_EXTERNAL enum fann_activationfunc_enum FANN_API fann_get_activation_function(struct fann *ann,
+enum fann_activationfunc_enum FANN_API fann_get_activation_function(struct fann *ann,
 																int layer,
 																int neuron);
 
@@ -875,7 +875,7 @@ FANN_EXTERNAL enum fann_activationfunc_enum FANN_API fann_get_activation_functio
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_function(struct fann *ann,
+void FANN_API fann_set_activation_function(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
 																int layer,
@@ -894,7 +894,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_function(struct fann *ann,
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_function_layer(struct fann *ann,
+void FANN_API fann_set_activation_function_layer(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
 																int layer);
@@ -909,7 +909,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_function_layer(struct fann *ann,
 
    This function appears in FANN >= 1.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_function_hidden(struct fann *ann,
+void FANN_API fann_set_activation_function_hidden(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function);
 
@@ -924,7 +924,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_function_hidden(struct fann *ann
 
    This function appears in FANN >= 1.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_function_output(struct fann *ann,
+void FANN_API fann_set_activation_function_output(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function);
 
@@ -954,7 +954,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_function_output(struct fann *ann
 
    This function appears in FANN >= 2.1.0
  */ 
-FANN_EXTERNAL fann_type FANN_API fann_get_activation_steepness(struct fann *ann,
+fann_type FANN_API fann_get_activation_steepness(struct fann *ann,
 																int layer,
 																int neuron);
 
@@ -981,7 +981,7 @@ FANN_EXTERNAL fann_type FANN_API fann_get_activation_steepness(struct fann *ann,
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_steepness(struct fann *ann,
+void FANN_API fann_set_activation_steepness(struct fann *ann,
 																fann_type steepness,
 																int layer,
 																int neuron);
@@ -999,7 +999,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_steepness(struct fann *ann,
 
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_steepness_layer(struct fann *ann,
+void FANN_API fann_set_activation_steepness_layer(struct fann *ann,
 																fann_type steepness,
 																int layer);
 
@@ -1013,7 +1013,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_steepness_layer(struct fann *ann
 
    This function appears in FANN >= 1.2.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_steepness_hidden(struct fann *ann,
+void FANN_API fann_set_activation_steepness_hidden(struct fann *ann,
 																 fann_type steepness);
 
 
@@ -1027,7 +1027,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_steepness_hidden(struct fann *an
 
    This function appears in FANN >= 1.2.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_activation_steepness_output(struct fann *ann,
+void FANN_API fann_set_activation_steepness_output(struct fann *ann,
 																 fann_type steepness);
 
 
@@ -1044,7 +1044,7 @@ FANN_EXTERNAL void FANN_API fann_set_activation_steepness_output(struct fann *an
       
    This function appears in FANN >= 1.2.0.
   */ 
-FANN_EXTERNAL enum fann_errorfunc_enum FANN_API fann_get_train_error_function(struct fann *ann);
+enum fann_errorfunc_enum FANN_API fann_get_train_error_function(struct fann *ann);
 
 
 /* Function: fann_set_train_error_function
@@ -1058,7 +1058,7 @@ FANN_EXTERNAL enum fann_errorfunc_enum FANN_API fann_get_train_error_function(st
       
    This function appears in FANN >= 1.2.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_train_error_function(struct fann *ann,
+void FANN_API fann_set_train_error_function(struct fann *ann,
 														  enum fann_errorfunc_enum 
 														  train_error_function);
 
@@ -1076,7 +1076,7 @@ FANN_EXTERNAL void FANN_API fann_set_train_error_function(struct fann *ann,
       
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL enum fann_stopfunc_enum FANN_API fann_get_train_stop_function(struct fann *ann);
+enum fann_stopfunc_enum FANN_API fann_get_train_stop_function(struct fann *ann);
 
 
 /* Function: fann_set_train_stop_function
@@ -1092,7 +1092,7 @@ FANN_EXTERNAL enum fann_stopfunc_enum FANN_API fann_get_train_stop_function(stru
       
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_train_stop_function(struct fann *ann,
+void FANN_API fann_set_train_stop_function(struct fann *ann,
 														 enum fann_stopfunc_enum train_stop_function);
 
 
@@ -1114,7 +1114,7 @@ FANN_EXTERNAL void FANN_API fann_set_train_stop_function(struct fann *ann,
    
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL fann_type FANN_API fann_get_bit_fail_limit(struct fann *ann);
+fann_type FANN_API fann_get_bit_fail_limit(struct fann *ann);
 
 /* Function: fann_set_bit_fail_limit
 
@@ -1125,7 +1125,7 @@ FANN_EXTERNAL fann_type FANN_API fann_get_bit_fail_limit(struct fann *ann);
    
    This function appears in FANN >= 2.0.0.
  */ 
-FANN_EXTERNAL void FANN_API fann_set_bit_fail_limit(struct fann *ann, fann_type bit_fail_limit);
+void FANN_API fann_set_bit_fail_limit(struct fann *ann, fann_type bit_fail_limit);
 
 /* Function: fann_set_callback
    
@@ -1137,7 +1137,7 @@ FANN_EXTERNAL void FANN_API fann_set_bit_fail_limit(struct fann *ann, fann_type 
 
    This function appears in FANN >= 2.0.0.
  */
-FANN_EXTERNAL void FANN_API fann_set_callback(struct fann *ann, fann_callback_type callback);
+void FANN_API fann_set_callback(struct fann *ann, fann_callback_type callback);
 
 /* Function: fann_get_quickprop_decay
 
@@ -1152,7 +1152,7 @@ FANN_EXTERNAL void FANN_API fann_set_callback(struct fann *ann, fann_callback_ty
 
    This function appears in FANN >= 1.2.0.
  */
-FANN_EXTERNAL float FANN_API fann_get_quickprop_decay(struct fann *ann);
+float FANN_API fann_get_quickprop_decay(struct fann *ann);
 
 
 /* Function: fann_set_quickprop_decay
@@ -1164,7 +1164,7 @@ FANN_EXTERNAL float FANN_API fann_get_quickprop_decay(struct fann *ann);
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL void FANN_API fann_set_quickprop_decay(struct fann *ann, float quickprop_decay);
+void FANN_API fann_set_quickprop_decay(struct fann *ann, float quickprop_decay);
 
 
 /* Function: fann_get_quickprop_mu
@@ -1180,7 +1180,7 @@ FANN_EXTERNAL void FANN_API fann_set_quickprop_decay(struct fann *ann, float qui
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL float FANN_API fann_get_quickprop_mu(struct fann *ann);
+float FANN_API fann_get_quickprop_mu(struct fann *ann);
 
 
 /* Function: fann_set_quickprop_mu
@@ -1192,7 +1192,7 @@ FANN_EXTERNAL float FANN_API fann_get_quickprop_mu(struct fann *ann);
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL void FANN_API fann_set_quickprop_mu(struct fann *ann, float quickprop_mu);
+void FANN_API fann_set_quickprop_mu(struct fann *ann, float quickprop_mu);
 
 
 /* Function: fann_get_rprop_increase_factor
@@ -1207,7 +1207,7 @@ FANN_EXTERNAL void FANN_API fann_set_quickprop_mu(struct fann *ann, float quickp
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL float FANN_API fann_get_rprop_increase_factor(struct fann *ann);
+float FANN_API fann_get_rprop_increase_factor(struct fann *ann);
 
 
 /* Function: fann_set_rprop_increase_factor
@@ -1219,7 +1219,7 @@ FANN_EXTERNAL float FANN_API fann_get_rprop_increase_factor(struct fann *ann);
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL void FANN_API fann_set_rprop_increase_factor(struct fann *ann,
+void FANN_API fann_set_rprop_increase_factor(struct fann *ann,
 														   float rprop_increase_factor);
 
 
@@ -1234,7 +1234,7 @@ FANN_EXTERNAL void FANN_API fann_set_rprop_increase_factor(struct fann *ann,
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL float FANN_API fann_get_rprop_decrease_factor(struct fann *ann);
+float FANN_API fann_get_rprop_decrease_factor(struct fann *ann);
 
 
 /* Function: fann_set_rprop_decrease_factor
@@ -1246,7 +1246,7 @@ FANN_EXTERNAL float FANN_API fann_get_rprop_decrease_factor(struct fann *ann);
 
    This function appears in FANN >= 1.2.0.
 */
-FANN_EXTERNAL void FANN_API fann_set_rprop_decrease_factor(struct fann *ann,
+void FANN_API fann_set_rprop_decrease_factor(struct fann *ann,
 														   float rprop_decrease_factor);
 
 
@@ -1261,7 +1261,7 @@ FANN_EXTERNAL void FANN_API fann_set_rprop_decrease_factor(struct fann *ann,
    	
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL float FANN_API fann_get_rprop_delta_min(struct fann *ann);
+float FANN_API fann_get_rprop_delta_min(struct fann *ann);
 
 
 /* Function: fann_set_rprop_delta_min
@@ -1273,7 +1273,7 @@ FANN_EXTERNAL float FANN_API fann_get_rprop_delta_min(struct fann *ann);
    	
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL void FANN_API fann_set_rprop_delta_min(struct fann *ann, float rprop_delta_min);
+void FANN_API fann_set_rprop_delta_min(struct fann *ann, float rprop_delta_min);
 
 
 /* Function: fann_get_rprop_delta_max
@@ -1287,7 +1287,7 @@ FANN_EXTERNAL void FANN_API fann_set_rprop_delta_min(struct fann *ann, float rpr
 
    This function appears in FANN >= 1.2.0.
 */ 
-FANN_EXTERNAL float FANN_API fann_get_rprop_delta_max(struct fann *ann);
+float FANN_API fann_get_rprop_delta_max(struct fann *ann);
 
 
 /* Function: fann_set_rprop_delta_max
@@ -1299,7 +1299,7 @@ FANN_EXTERNAL float FANN_API fann_get_rprop_delta_max(struct fann *ann);
 
    This function appears in FANN >= 1.2.0.
 */
-FANN_EXTERNAL void FANN_API fann_set_rprop_delta_max(struct fann *ann, float rprop_delta_max);
+void FANN_API fann_set_rprop_delta_max(struct fann *ann, float rprop_delta_max);
 
 /* Function: fann_get_rprop_delta_zero
 
@@ -1312,7 +1312,7 @@ FANN_EXTERNAL void FANN_API fann_set_rprop_delta_max(struct fann *ann, float rpr
 
    This function appears in FANN >= 2.1.0.
 */ 
-FANN_EXTERNAL float FANN_API fann_get_rprop_delta_zero(struct fann *ann);
+float FANN_API fann_get_rprop_delta_zero(struct fann *ann);
 
 
 /* Function: fann_set_rprop_delta_zero
@@ -1324,7 +1324,7 @@ FANN_EXTERNAL float FANN_API fann_get_rprop_delta_zero(struct fann *ann);
 
    This function appears in FANN >= 2.1.0.
 */
-FANN_EXTERNAL void FANN_API fann_set_rprop_delta_zero(struct fann *ann, float rprop_delta_max);
+void FANN_API fann_set_rprop_delta_zero(struct fann *ann, float rprop_delta_max);
 
 /* Method: fann_get_sarprop_weight_decay_shift
 
@@ -1337,7 +1337,7 @@ FANN_EXTERNAL void FANN_API fann_set_rprop_delta_zero(struct fann *ann, float rp
 
    This function appears in FANN >= 2.1.0.
    */ 
-FANN_EXTERNAL float FANN_API fann_get_sarprop_weight_decay_shift(struct fann *ann);
+float FANN_API fann_get_sarprop_weight_decay_shift(struct fann *ann);
 
 /* Method: fann_set_sarprop_weight_decay_shift
 
@@ -1348,7 +1348,7 @@ FANN_EXTERNAL float FANN_API fann_get_sarprop_weight_decay_shift(struct fann *an
    See also:
    <fann_set_sarprop_weight_decay_shift>
    */ 
-FANN_EXTERNAL void FANN_API fann_set_sarprop_weight_decay_shift(struct fann *ann, float sarprop_weight_decay_shift);
+void FANN_API fann_set_sarprop_weight_decay_shift(struct fann *ann, float sarprop_weight_decay_shift);
 
 /* Method: fann_get_sarprop_step_error_threshold_factor
 
@@ -1361,7 +1361,7 @@ FANN_EXTERNAL void FANN_API fann_set_sarprop_weight_decay_shift(struct fann *ann
 
    This function appears in FANN >= 2.1.0.
    */ 
-FANN_EXTERNAL float FANN_API fann_get_sarprop_step_error_threshold_factor(struct fann *ann);
+float FANN_API fann_get_sarprop_step_error_threshold_factor(struct fann *ann);
 
 /* Method: fann_set_sarprop_step_error_threshold_factor
 
@@ -1372,7 +1372,7 @@ FANN_EXTERNAL float FANN_API fann_get_sarprop_step_error_threshold_factor(struct
    See also:
    <fann_get_sarprop_step_error_threshold_factor>
    */ 
-FANN_EXTERNAL void FANN_API fann_set_sarprop_step_error_threshold_factor(struct fann *ann, float sarprop_step_error_threshold_factor);
+void FANN_API fann_set_sarprop_step_error_threshold_factor(struct fann *ann, float sarprop_step_error_threshold_factor);
 
 /* Method: fann_get_sarprop_step_error_shift
 
@@ -1385,7 +1385,7 @@ FANN_EXTERNAL void FANN_API fann_set_sarprop_step_error_threshold_factor(struct 
 
    This function appears in FANN >= 2.1.0.
    */ 
-FANN_EXTERNAL float FANN_API fann_get_sarprop_step_error_shift(struct fann *ann);
+float FANN_API fann_get_sarprop_step_error_shift(struct fann *ann);
 
 /* Method: fann_set_sarprop_step_error_shift
 
@@ -1396,7 +1396,7 @@ FANN_EXTERNAL float FANN_API fann_get_sarprop_step_error_shift(struct fann *ann)
    See also:
    <fann_get_sarprop_step_error_shift>
    */ 
-FANN_EXTERNAL void FANN_API fann_set_sarprop_step_error_shift(struct fann *ann, float sarprop_step_error_shift);
+void FANN_API fann_set_sarprop_step_error_shift(struct fann *ann, float sarprop_step_error_shift);
 
 /* Method: fann_get_sarprop_temperature
 
@@ -1409,7 +1409,7 @@ FANN_EXTERNAL void FANN_API fann_set_sarprop_step_error_shift(struct fann *ann, 
 
    This function appears in FANN >= 2.1.0.
    */ 
-FANN_EXTERNAL float FANN_API fann_get_sarprop_temperature(struct fann *ann);
+float FANN_API fann_get_sarprop_temperature(struct fann *ann);
 
 /* Method: fann_set_sarprop_temperature
 
@@ -1420,6 +1420,6 @@ FANN_EXTERNAL float FANN_API fann_get_sarprop_temperature(struct fann *ann);
    See also:
    <fann_get_sarprop_temperature>
    */ 
-FANN_EXTERNAL void FANN_API fann_set_sarprop_temperature(struct fann *ann, float sarprop_temperature);
+void FANN_API fann_set_sarprop_temperature(struct fann *ann, float sarprop_temperature);
 
 #endif
