@@ -80,13 +80,13 @@ extern "C"
  DLL Export, import and calling convention for Windows.
  Only defined for Microsoft VC++ FANN_EXTERNAL indicates
  that a function will be exported/imported from a dll
- FANN_API ensures that the DLL calling convention
+ ensures that the DLL calling convention
  will be used for  a function regardless of the calling convention
  used when compiling.
 
  For a function to be exported from a DLL its prototype and
  declaration must be like this:
-    FANN_EXTERNAL void FANN_API function(char *argument)
+    FANN_EXTERNAL void function(char *argument)
 
  The following ifdef block is a way of creating macros which
  make exporting from a DLL simple. All files within a DLL are
@@ -130,10 +130,10 @@ extern "C"
 // #define FANN_EXTERNAL __declspec(dllimport)
 	
 // #endif	/* FANN_DLL_EXPORTS*/
-// #define FANN_API __stdcall
+// #define __stdcall
 // #else							/*  */
 // #define FANN_EXTERNAL
-#define FANN_API
+// #define FANN_API
 // #endif	/* _MSC_VER */
 /* ----- End of macros used to define DLL external entrypoints ----- */ 
 
@@ -173,7 +173,7 @@ extern "C"
 		
 	This function appears in FANN >= 2.0.0.
 */ 
-struct fann *FANN_API fann_create_standard(unsigned int num_layers, ...);
+struct fann *fann_create_standard(unsigned int num_layers, ...);
 
 /* Function: fann_create_standard_array
    Just like <fann_create_standard>, but with an array of layer sizes
@@ -190,7 +190,7 @@ struct fann *FANN_API fann_create_standard(unsigned int num_layers, ...);
 
 	This function appears in FANN >= 2.0.0.
 */ 
-struct fann *FANN_API fann_create_standard_array(unsigned int num_layers,
+struct fann *fann_create_standard_array(unsigned int num_layers,
 													           const unsigned int *layers);
 
 /* Function: fann_create_sparse
@@ -214,7 +214,7 @@ struct fann *FANN_API fann_create_standard_array(unsigned int num_layers,
 
 	This function appears in FANN >= 2.0.0.
 */
-struct fann *FANN_API fann_create_sparse(float connection_rate, 
+struct fann *fann_create_sparse(float connection_rate, 
 	                                                   unsigned int num_layers, ...);
 
 
@@ -229,7 +229,7 @@ struct fann *FANN_API fann_create_sparse(float connection_rate,
 
 	This function appears in FANN >= 2.0.0.
 */
-struct fann *FANN_API fann_create_sparse_array(float connection_rate, 
+struct fann *fann_create_sparse_array(float connection_rate, 
 	                                                         unsigned int num_layers, 
 															 const unsigned int *layers);
 
@@ -249,7 +249,7 @@ struct fann *FANN_API fann_create_sparse_array(float connection_rate,
 
 	This function appears in FANN >= 2.0.0.
 */ 
-struct fann *FANN_API fann_create_shortcut(unsigned int num_layers, ...);
+struct fann *fann_create_shortcut(unsigned int num_layers, ...);
 
 /* Function: fann_create_shortcut_array
    Just like <fann_create_shortcut>, but with an array of layer sizes
@@ -262,14 +262,14 @@ struct fann *FANN_API fann_create_shortcut(unsigned int num_layers, ...);
 
 	This function appears in FANN >= 2.0.0.
 */
-struct fann *FANN_API fann_create_shortcut_array(unsigned int num_layers,
+struct fann *fann_create_shortcut_array(unsigned int num_layers,
 															   const unsigned int *layers);
 /* Function: fann_destroy
    Destroys the entire network, properly freeing all the associated memory.
 
 	This function appears in FANN >= 1.0.0.
 */ 
-void FANN_API fann_destroy(struct fann *ann);
+void fann_destroy(struct fann *ann);
 
 
 /* Function: fann_copy
@@ -279,7 +279,7 @@ void FANN_API fann_destroy(struct fann *ann);
 
 	This function appears in FANN >= 2.2.0.
 */ 
-struct fann * FANN_API fann_copy(struct fann *ann);
+struct fann * fann_copy(struct fann *ann);
 
 
 /* Function: fann_run
@@ -291,7 +291,7 @@ struct fann * FANN_API fann_copy(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-fann_type * FANN_API fann_run(struct fann *ann, fann_type * input);
+fann_type * fann_run(struct fann *ann, fann_type * input);
 
 /* Function: fann_randomize_weights
 	Give each connection a random weight between *min_weight* and *max_weight*
@@ -303,7 +303,7 @@ fann_type * FANN_API fann_run(struct fann *ann, fann_type * input);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-void FANN_API fann_randomize_weights(struct fann *ann, fann_type min_weight,
+void fann_randomize_weights(struct fann *ann, fann_type min_weight,
 												   fann_type max_weight);
 
 /* Function: fann_init_weights
@@ -323,7 +323,7 @@ void FANN_API fann_randomize_weights(struct fann *ann, fann_type min_weight,
 
 	This function appears in FANN >= 1.1.0.
 */ 
-void FANN_API fann_init_weights(struct fann *ann, struct fann_train_data *train_data);
+void fann_init_weights(struct fann *ann, struct fann_train_data *train_data);
 
 /* Function: fann_print_connections
 	Will print the connections of the ann in a compact matrix, for easy viewing of the internals 
@@ -350,7 +350,7 @@ void FANN_API fann_init_weights(struct fann *ann, struct fann_train_data *train_
 
 	This function appears in FANN >= 1.2.0.
 */ 
-void FANN_API fann_print_connections(struct fann *ann);
+void fann_print_connections(struct fann *ann);
 
 /* Group: Parameters */
 /* Function: fann_print_parameters
@@ -359,7 +359,7 @@ void FANN_API fann_print_connections(struct fann *ann);
 
 	This function appears in FANN >= 1.2.0.
 */ 
-void FANN_API fann_print_parameters(struct fann *ann);
+void fann_print_parameters(struct fann *ann);
 
 
 /* Function: fann_get_num_input
@@ -368,7 +368,7 @@ void FANN_API fann_print_parameters(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int FANN_API fann_get_num_input(struct fann *ann);
+unsigned int fann_get_num_input(struct fann *ann);
 
 
 /* Function: fann_get_num_output
@@ -377,7 +377,7 @@ unsigned int FANN_API fann_get_num_input(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int FANN_API fann_get_num_output(struct fann *ann);
+unsigned int fann_get_num_output(struct fann *ann);
 
 
 /* Function: fann_get_total_neurons
@@ -387,7 +387,7 @@ unsigned int FANN_API fann_get_num_output(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int FANN_API fann_get_total_neurons(struct fann *ann);
+unsigned int fann_get_total_neurons(struct fann *ann);
 
 
 /* Function: fann_get_total_connections
@@ -396,7 +396,7 @@ unsigned int FANN_API fann_get_total_neurons(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int FANN_API fann_get_total_connections(struct fann *ann);
+unsigned int fann_get_total_connections(struct fann *ann);
 
 /* Function: fann_get_network_type
 
@@ -414,7 +414,7 @@ unsigned int FANN_API fann_get_total_connections(struct fann *ann);
 
    This function appears in FANN >= 2.1.0
 */
-enum fann_nettype_enum FANN_API fann_get_network_type(struct fann *ann);
+enum fann_nettype_enum fann_get_network_type(struct fann *ann);
 
 /* Function: fann_get_connection_rate
 
@@ -429,7 +429,7 @@ enum fann_nettype_enum FANN_API fann_get_network_type(struct fann *ann);
 
    This function appears in FANN >= 2.1.0
 */
-float FANN_API fann_get_connection_rate(struct fann *ann);
+float fann_get_connection_rate(struct fann *ann);
 
 /* Function: fann_get_num_layers
 
@@ -449,7 +449,7 @@ float FANN_API fann_get_connection_rate(struct fann *ann);
 
    This function appears in FANN >= 2.1.0
 */
-unsigned int FANN_API fann_get_num_layers(struct fann *ann);
+unsigned int fann_get_num_layers(struct fann *ann);
 
 /*Function: fann_get_layer_array
 
@@ -466,7 +466,7 @@ unsigned int FANN_API fann_get_num_layers(struct fann *ann);
 
    This function appears in FANN >= 2.1.0
 */
-void FANN_API fann_get_layer_array(struct fann *ann, unsigned int *layers);
+void fann_get_layer_array(struct fann *ann, unsigned int *layers);
 
 /* Function: fann_get_bias_array
 
@@ -481,7 +481,7 @@ void FANN_API fann_get_layer_array(struct fann *ann, unsigned int *layers);
 
    This function appears in FANN >= 2.1.0
 */
-void FANN_API fann_get_bias_array(struct fann *ann, unsigned int *bias);
+void fann_get_bias_array(struct fann *ann, unsigned int *bias);
 
 /* Function: fann_get_connection_array
 
@@ -496,7 +496,7 @@ void FANN_API fann_get_bias_array(struct fann *ann, unsigned int *bias);
 
    This function appears in FANN >= 2.1.0
 */
-void FANN_API fann_get_connection_array(struct fann *ann,
+void fann_get_connection_array(struct fann *ann,
     struct fann_connection *connections);
 
 /* Function: fann_set_weight_array
@@ -514,7 +514,7 @@ void FANN_API fann_get_connection_array(struct fann *ann,
 
    This function appears in FANN >= 2.1.0
 */
-void FANN_API fann_set_weight_array(struct fann *ann,
+void fann_set_weight_array(struct fann *ann,
     struct fann_connection *connections, unsigned int num_connections);
 
 /* Function: fann_set_weight
@@ -530,7 +530,7 @@ void FANN_API fann_set_weight_array(struct fann *ann,
 
    This function appears in FANN >= 2.1.0
 */
-void FANN_API fann_set_weight(struct fann *ann,
+void fann_set_weight(struct fann *ann,
     unsigned int from_neuron, unsigned int to_neuron, fann_type weight);
 
 /* Function: fann_get_weights
@@ -545,7 +545,7 @@ void FANN_API fann_set_weight(struct fann *ann,
 
    This function appears in FANN >= x.y.z
 */
-void FANN_API fann_get_weights(struct fann *ann, fann_type *weights);
+void fann_get_weights(struct fann *ann, fann_type *weights);
 
 
 /* Function: fann_set_weights
@@ -561,7 +561,7 @@ void FANN_API fann_get_weights(struct fann *ann, fann_type *weights);
 
    This function appears in FANN >= x.y.z
 */
-void FANN_API fann_set_weights(struct fann *ann, fann_type *weights);
+void fann_set_weights(struct fann *ann, fann_type *weights);
 
 
 /* Function: fann_set_user_data
@@ -578,7 +578,7 @@ void FANN_API fann_set_weights(struct fann *ann, fann_type *weights);
 
    This function appears in FANN >= 2.1.0
 */
-void FANN_API fann_set_user_data(struct fann *ann, void *user_data);
+void fann_set_user_data(struct fann *ann, void *user_data);
 
 /* Function: fann_get_user_data
 
@@ -595,7 +595,7 @@ void FANN_API fann_set_user_data(struct fann *ann, void *user_data);
 
    This function appears in FANN >= 2.1.0
 */
-void * FANN_API fann_get_user_data(struct fann *ann);
+void * fann_get_user_data(struct fann *ann);
 
 /* Function: fann_disable_seed_rand
 
@@ -607,7 +607,7 @@ void * FANN_API fann_get_user_data(struct fann *ann);
 
    This function appears in FANN >= 2.3.0
 */
-void FANN_API fann_disable_seed_rand();
+void fann_disable_seed_rand();
 
 /* Function: fann_enable_seed_rand
 
@@ -619,7 +619,7 @@ void FANN_API fann_disable_seed_rand();
 
    This function appears in FANN >= 2.3.0
 */
-void FANN_API fann_enable_seed_rand();
+void fann_enable_seed_rand();
 
 
 #ifdef FIXEDFANN
@@ -637,7 +637,7 @@ void FANN_API fann_enable_seed_rand();
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int FANN_API fann_get_decimal_point(struct fann *ann);
+unsigned int fann_get_decimal_point(struct fann *ann);
 
 
 /* Function: fann_get_multiplier
@@ -657,7 +657,7 @@ unsigned int FANN_API fann_get_decimal_point(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int FANN_API fann_get_multiplier(struct fann *ann);
+unsigned int fann_get_multiplier(struct fann *ann);
 
 #endif	/* FIXEDFANN */
 

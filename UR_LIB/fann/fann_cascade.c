@@ -45,7 +45,7 @@ void fann_print_connections_raw(struct fann *ann)
    The connected_neurons pointers are not valid during training,
    but they will be again after training.
  */
-void FANN_API fann_cascadetrain_on_data(struct fann *ann, struct fann_train_data *data,
+void fann_cascadetrain_on_data(struct fann *ann, struct fann_train_data *data,
 										unsigned int max_neurons,
 										unsigned int neurons_between_reports,
 										float desired_error)
@@ -125,7 +125,7 @@ void FANN_API fann_cascadetrain_on_data(struct fann *ann, struct fann_train_data
 	fann_set_shortcut_connections(ann);
 }
 
-void FANN_API fann_cascadetrain_on_file(struct fann *ann, const char *filename,
+void fann_cascadetrain_on_file(struct fann *ann, const char *filename,
 													  unsigned int max_neurons,
 													  unsigned int neurons_between_reports,
 													  float desired_error)
@@ -971,7 +971,7 @@ void fann_install_candidate(struct fann *ann)
 
 #endif /* FIXEDFANN */
 
-unsigned int FANN_API fann_get_cascade_num_candidates(struct fann *ann)
+unsigned int fann_get_cascade_num_candidates(struct fann *ann)
 {
 	return ann->cascade_activation_functions_count *
 		ann->cascade_activation_steepnesses_count *
@@ -993,7 +993,7 @@ FANN_GET_SET(unsigned int, cascade_min_cand_epochs)
 FANN_GET(unsigned int, cascade_activation_functions_count)
 FANN_GET(enum fann_activationfunc_enum *, cascade_activation_functions)
 
-void FANN_API fann_set_cascade_activation_functions(struct fann *ann,
+void fann_set_cascade_activation_functions(struct fann *ann,
 														 enum fann_activationfunc_enum *
 														 cascade_activation_functions,
 														 unsigned int 
@@ -1021,7 +1021,7 @@ void FANN_API fann_set_cascade_activation_functions(struct fann *ann,
 FANN_GET(unsigned int, cascade_activation_steepnesses_count)
 FANN_GET(fann_type *, cascade_activation_steepnesses)
 
-void FANN_API fann_set_cascade_activation_steepnesses(struct fann *ann,
+void fann_set_cascade_activation_steepnesses(struct fann *ann,
 														   fann_type *
 														   cascade_activation_steepnesses,
 														   unsigned int 

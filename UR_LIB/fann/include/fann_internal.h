@@ -37,13 +37,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #endif
 
 #define FANN_GET(type, name) \
-type FANN_API fann_get_ ## name(struct fann *ann) \
+type fann_get_ ## name(struct fann *ann) \
 { \
 	return ann->name; \
 }
 
 #define FANN_SET(type, name) \
-void FANN_API fann_set_ ## name(struct fann *ann, type value) \
+void fann_set_ ## name(struct fann *ann, type value) \
 { \
 	ann->name = value; \
 }
@@ -121,7 +121,7 @@ void fann_set_shortcut_connections(struct fann *ann);
 
 int fann_allocate_scale(struct fann *ann);
 
-void FANN_API fann_scale_data_to_range(fann_type ** data, unsigned int num_data, unsigned int num_elem,
+void fann_scale_data_to_range(fann_type ** data, unsigned int num_data, unsigned int num_elem,
 					 fann_type old_min, fann_type old_max, fann_type new_min, fann_type new_max);
 
 /* called fann_max, in order to not interferre with predefined versions of max */

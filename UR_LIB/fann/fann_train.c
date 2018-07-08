@@ -90,7 +90,7 @@ fann_type fann_activation(struct fann * ann, unsigned int activation_function, f
 
 /* Trains the network with the backpropagation algorithm.
  */
-void FANN_API fann_train(struct fann *ann, fann_type * input,
+void fann_train(struct fann *ann, fann_type * input,
 									   fann_type * desired_output)
 {
 	fann_run(ann, input);
@@ -156,7 +156,7 @@ fann_type fann_update_MSE(struct fann *ann, struct fann_neuron* neuron, fann_typ
 
 /* Tests the network.
  */
-fann_type *FANN_API fann_test(struct fann *ann, fann_type * input,
+fann_type *fann_test(struct fann *ann, fann_type * input,
 											fann_type * desired_output)
 {
 	fann_type neuron_value;
@@ -186,7 +186,7 @@ fann_type *FANN_API fann_test(struct fann *ann, fann_type * input,
 
 /* get the mean square error.
  */
-float FANN_API fann_get_MSE(struct fann *ann)
+float fann_get_MSE(struct fann *ann)
 {
 	if(ann->num_MSE)
 	{
@@ -198,14 +198,14 @@ float FANN_API fann_get_MSE(struct fann *ann)
 	}
 }
 
-unsigned int FANN_API fann_get_bit_fail(struct fann *ann)
+unsigned int fann_get_bit_fail(struct fann *ann)
 {
 	return ann->num_bit_fail;	
 }
 
 /* reset the mean square error.
  */
-void FANN_API fann_reset_MSE(struct fann *ann)
+void fann_reset_MSE(struct fann *ann)
 {
 /*printf("resetMSE %d %f\n", ann->num_MSE, ann->MSE_value);*/
 	ann->num_MSE = 0;
@@ -850,7 +850,7 @@ void fann_update_weights_sarprop(struct fann *ann, unsigned int epoch, unsigned 
 FANN_GET_SET(enum fann_train_enum, training_algorithm)
 FANN_GET_SET(float, learning_rate)
 
-void FANN_API fann_set_activation_function_hidden(struct fann *ann,
+void fann_set_activation_function_hidden(struct fann *ann,
 																enum fann_activationfunc_enum activation_function)
 {
 	struct fann_neuron *last_neuron, *neuron_it;
@@ -867,7 +867,7 @@ void FANN_API fann_set_activation_function_hidden(struct fann *ann,
 	}
 }
 
-struct fann_layer* FANN_API fann_get_layer(struct fann *ann, int layer)
+struct fann_layer* fann_get_layer(struct fann *ann, int layer)
 {
 	if(layer <= 0 || layer >= (ann->last_layer - ann->first_layer))
 	{
@@ -878,7 +878,7 @@ struct fann_layer* FANN_API fann_get_layer(struct fann *ann, int layer)
 	return ann->first_layer + layer;	
 }
 
-struct fann_neuron* FANN_API fann_get_neuron_layer(struct fann *ann, struct fann_layer* layer, int neuron)
+struct fann_neuron* fann_get_neuron_layer(struct fann *ann, struct fann_layer* layer, int neuron)
 {
 	if(neuron >= (layer->last_neuron - layer->first_neuron))
 	{
@@ -889,7 +889,7 @@ struct fann_neuron* FANN_API fann_get_neuron_layer(struct fann *ann, struct fann
 	return layer->first_neuron + neuron;
 }
 
-struct fann_neuron* FANN_API fann_get_neuron(struct fann *ann, unsigned int layer, int neuron)
+struct fann_neuron* fann_get_neuron(struct fann *ann, unsigned int layer, int neuron)
 {
 	struct fann_layer *layer_it = fann_get_layer(ann, layer);
 	if(layer_it == NULL)
@@ -897,8 +897,7 @@ struct fann_neuron* FANN_API fann_get_neuron(struct fann *ann, unsigned int laye
 	return fann_get_neuron_layer(ann, layer_it, neuron);
 }
 
-enum fann_activationfunc_enum FANN_API
-    fann_get_activation_function(struct fann *ann, int layer, int neuron)
+enum fann_activationfunc_enum fann_get_activation_function(struct fann *ann, int layer, int neuron)
 {
 	struct fann_neuron* neuron_it = fann_get_neuron(ann, layer, neuron);
 	if (neuron_it == NULL)
@@ -911,7 +910,7 @@ enum fann_activationfunc_enum FANN_API
     }
 }
 
-void FANN_API fann_set_activation_function(struct fann *ann,
+void fann_set_activation_function(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
 																int layer,
@@ -924,7 +923,7 @@ void FANN_API fann_set_activation_function(struct fann *ann,
 	neuron_it->activation_function = activation_function;
 }
 
-void FANN_API fann_set_activation_function_layer(struct fann *ann,
+void fann_set_activation_function_layer(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
 																int layer)
@@ -943,7 +942,7 @@ void FANN_API fann_set_activation_function_layer(struct fann *ann,
 }
 
 
-void FANN_API fann_set_activation_function_output(struct fann *ann,
+void fann_set_activation_function_output(struct fann *ann,
 																enum fann_activationfunc_enum activation_function)
 {
 	struct fann_neuron *last_neuron, *neuron_it;
@@ -956,7 +955,7 @@ void FANN_API fann_set_activation_function_output(struct fann *ann,
 	}
 }
 
-void FANN_API fann_set_activation_steepness_hidden(struct fann *ann,
+void fann_set_activation_steepness_hidden(struct fann *ann,
 																 fann_type steepness)
 {
 	struct fann_neuron *last_neuron, *neuron_it;
@@ -973,8 +972,7 @@ void FANN_API fann_set_activation_steepness_hidden(struct fann *ann,
 	}
 }
 
-fann_type FANN_API
-    fann_get_activation_steepness(struct fann *ann, int layer, int neuron)
+fann_type fann_get_activation_steepness(struct fann *ann, int layer, int neuron)
 {
 	struct fann_neuron* neuron_it = fann_get_neuron(ann, layer, neuron);
 	if(neuron_it == NULL)
@@ -987,7 +985,7 @@ fann_type FANN_API
     }
 }
 
-void FANN_API fann_set_activation_steepness(struct fann *ann,
+void fann_set_activation_steepness(struct fann *ann,
 																fann_type steepness,
 																int layer,
 																int neuron)
@@ -999,7 +997,7 @@ void FANN_API fann_set_activation_steepness(struct fann *ann,
 	neuron_it->activation_steepness = steepness;
 }
 
-void FANN_API fann_set_activation_steepness_layer(struct fann *ann,
+void fann_set_activation_steepness_layer(struct fann *ann,
 																fann_type steepness,
 																int layer)
 {
@@ -1016,7 +1014,7 @@ void FANN_API fann_set_activation_steepness_layer(struct fann *ann,
 	}
 }
 
-void FANN_API fann_set_activation_steepness_output(struct fann *ann,
+void fann_set_activation_steepness_output(struct fann *ann,
 																 fann_type steepness)
 {
 	struct fann_neuron *last_neuron, *neuron_it;
