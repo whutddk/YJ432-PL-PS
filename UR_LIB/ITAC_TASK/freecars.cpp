@@ -58,29 +58,33 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-	ctl.motto.Kp_s = UartData[0];
-	ctl.motto.Kd_s = UartData[1];
-	ctl.motto.Kp_m = UartData[2];
-	ctl.motto.Kd_m = UartData[3];
-	ctl.motto.Kp_b = UartData[4];
-	ctl.motto.Kd_b = UartData[5];
-
-	// ctl.pend.Kp_m = 6;//UartData[2]; 
-	// ctl.pend.Kd_m = 208;//UartData[3];
-		
-	// ctl.pend.Kp_b = 6;//UartData[4]; 
-	// ctl.pend.Kd_b = 208;//UartData[5];
-
-	ctl.pend.aim =(int32_t)( UartData[6]*1000);
-
-	ctl.pend.Kp_s = ctl.pend.Kp_m = ctl.pend.Kp_b = UartData[7];
-	ctl.pend.Kd_s = ctl.pend.Kd_m = ctl.pend.Kd_b = UartData[8];
-
+	// ctl.motto.Kp_s = UartData[0];
+	// ctl.motto.Kd_s = UartData[1];
 	// ctl.motto.Kp_m = UartData[2];
 	// ctl.motto.Kd_m = UartData[3];
-
 	// ctl.motto.Kp_b = UartData[4];
 	// ctl.motto.Kd_b = UartData[5];
+
+
+	// ctl.pend.aim =(int32_t)( UartData[6]*1000);
+
+	// ctl.pend.Kp_s = ctl.pend.Kp_m = ctl.pend.Kp_b = UartData[7];
+	// ctl.pend.Kd_s = ctl.pend.Kd_m = ctl.pend.Kd_b = UartData[8];
+
+	// * ( po3PID0_CUR_REG ) = (uint32_t)(-(int32_t)UartData[0]);
+	
+	* ( po3PID0_KPS_REG ) = (uint32_t)((int32_t)UartData[1]);
+
+	* ( po3PID0_KDS_REG ) = (uint32_t)((int32_t)UartData[2]);
+	
+	* ( po3PID0_KPM_REG ) = (uint32_t)((int32_t)UartData[3]);
+
+	* ( po3PID0_KDM_REG ) = (uint32_t)((int32_t)UartData[4]);
+	
+	* ( po3PID0_KPB_REG ) = (uint32_t)((int32_t)UartData[5]);
+
+	* ( po3PID0_KDB_REG ) = (uint32_t)((int32_t)UartData[6]);
+
 
 	bz_set(datarec);
 }
