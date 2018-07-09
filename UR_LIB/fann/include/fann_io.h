@@ -60,7 +60,7 @@ struct fann *fann_create_from_file(const char *configuration_file);
 
    This function appears in FANN >= 1.0.0.
  */
-int fann_save(struct fann *ann, const char *configuration_file);
+int32_t fann_save(struct fann *ann, const char *configuration_file);
 
 
 /* Function: fann_save_to_fixed
@@ -95,6 +95,6 @@ int fann_save(struct fann *ann, const char *configuration_file);
 
    This function appears in FANN >= 1.0.0.
 */ 
-int fann_save_to_fixed(struct fann *ann, const char *configuration_file);
+int32_t fann_save_to_fixed(struct fann *ann, const char *configuration_file);
 	
 #endif

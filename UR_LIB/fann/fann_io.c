@@ -45,14 +45,14 @@ struct fann *fann_create_from_file(const char *configuration_file)
 
 /* Save the network.
  */
-int fann_save(struct fann *ann, const char *configuration_file)
+int32_t fann_save(struct fann *ann, const char *configuration_file)
 {
 	return fann_save_internal(ann, configuration_file, 0);
 }
 
 /* Save the network as fixed point data.
  */
-int fann_save_to_fixed(struct fann *ann, const char *configuration_file)
+int32_t fann_save_to_fixed(struct fann *ann, const char *configuration_file)
 {
 	return fann_save_internal(ann, configuration_file, 1);
 }
@@ -60,9 +60,9 @@ int fann_save_to_fixed(struct fann *ann, const char *configuration_file)
 /* INTERNAL FUNCTION
    Used to save the network to a file.
  */
-int fann_save_internal(struct fann *ann, const char *configuration_file, unsigned int save_as_fixed)
+int32_t fann_save_internal(struct fann *ann, const char *configuration_file, uint32_t save_as_fixed)
 {
-	int retval;
+	int32_t retval;
 	FILE *conf = fopen(configuration_file, "w+");
 
 	if(!conf)
@@ -78,22 +78,22 @@ int fann_save_internal(struct fann *ann, const char *configuration_file, unsigne
 /* INTERNAL FUNCTION
    Used to save the network to a file descriptor.
  */
-int fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configuration_file,
-						  unsigned int save_as_fixed)
+int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configuration_file,
+						  uint32_t save_as_fixed)
 {
 	struct fann_layer *layer_it;
-	int calculated_decimal_point = 0;
+	int32_t calculated_decimal_point = 0;
 	struct fann_neuron *neuron_it, *first_neuron;
 	fann_type *weights;
 	struct fann_neuron **connected_neurons;
-	unsigned int i = 0;
+	uint32_t i = 0;
 
 #ifndef FIXEDFANN
 	/* variabels for use when saving floats as fixed point variabels */
-	unsigned int decimal_point = 0;
-	unsigned int fixed_multiplier = 0;
+	uint32_t decimal_point = 0;
+	uint32_t fixed_multiplier = 0;
 	fann_type max_possible_value = 0;
-	unsigned int bits_used_for_max = 0;
+	uint32_t bits_used_for_max = 0;
 	fann_type current_max_value = 0;
 #endif
 
@@ -366,12 +366,12 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
  */
 struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 {
-	unsigned int num_layers, layer_size, input_neuron, i, num_connections;
-	unsigned int tmpVal;
+	uint32_t num_layers, layer_size, input_neuron, i, num_connections;
+	uint32_t tmpVal;
 #ifdef FIXEDFANN
-	unsigned int decimal_point, multiplier;
+	uint32_t decimal_point, multiplier;
 #else
-	unsigned int scale_included;
+	uint32_t scale_included;
 #endif
 	struct fann_neuron *first_neuron, *neuron_it, *last_neuron, **connected_neurons;
 	fann_type *weights;
@@ -562,8 +562,8 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 #endif
 	}
 
-	ann->num_input = (unsigned int)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
-	ann->num_output = (unsigned int)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron);
+	ann->num_input = (uint32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
+	ann->num_output = (uint32_t)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron);
 	if(ann->network_type == FANN_NETTYPE_LAYER)
 	{
 		/* one too many (bias) in the output layer */
@@ -660,10 +660,10 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
  */
 struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file)
 {
-	unsigned int num_layers, layer_size, input_neuron, i, network_type, num_connections;
-	unsigned int activation_function_hidden, activation_function_output;
+	uint32_t num_layers, layer_size, input_neuron, i, network_type, num_connections;
+	uint32_t activation_function_hidden, activation_function_output;
 #ifdef FIXEDFANN
-	unsigned int decimal_point, multiplier;
+	uint32_t decimal_point, multiplier;
 #endif
 	fann_type activation_steepness_hidden, activation_steepness_output;
 	float learning_rate, connection_rate;
@@ -739,8 +739,8 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 #endif
 	}
 
-	ann->num_input = (unsigned int)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
-	ann->num_output = (unsigned int)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron);
+	ann->num_input = (uint32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
+	ann->num_output = (uint32_t)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron);
 	if(ann->network_type == FANN_NETTYPE_LAYER)
 	{
 		/* one too many (bias) in the output layer */

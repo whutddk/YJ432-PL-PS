@@ -33,7 +33,7 @@
   Calculates the derived of a value, given an activation function
    and a steepness
 */
-fann_type fann_activation_derived(unsigned int activation_function,
+fann_type fann_activation_derived(uint32_t activation_function,
 								  fann_type steepness, fann_type value, fann_type sum)
 {
 	switch (activation_function)
@@ -80,7 +80,7 @@ fann_type fann_activation_derived(unsigned int activation_function,
   Calculates the activation of a value, given an activation function
    and a steepness
 */
-fann_type fann_activation(struct fann * ann, unsigned int activation_function, fann_type steepness,
+fann_type fann_activation(struct fann * ann, uint32_t activation_function, fann_type steepness,
 						  fann_type value)
 {
 	value = fann_mult(steepness, value);
@@ -198,7 +198,7 @@ float fann_get_MSE(struct fann *ann)
 	}
 }
 
-unsigned int fann_get_bit_fail(struct fann *ann)
+uint32_t fann_get_bit_fail(struct fann *ann)
 {
 	return ann->num_bit_fail;	
 }
@@ -291,7 +291,7 @@ void fann_compute_MSE(struct fann *ann, fann_type * desired_output)
 void fann_backpropagate_MSE(struct fann *ann)
 {
 	fann_type tmp_error;
-	unsigned int i;
+	uint32_t i;
 	struct fann_layer *layer_it;
 	struct fann_neuron *neuron_it, *last_neuron;
 	struct fann_neuron **connections;
@@ -372,8 +372,8 @@ void fann_update_weights(struct fann *ann)
 	struct fann_neuron *neuron_it, *last_neuron, *prev_neurons;
 	fann_type tmp_error, delta_w, *weights;
 	struct fann_layer *layer_it;
-	unsigned int i;
-	unsigned int num_connections;
+	uint32_t i;
+	uint32_t num_connections;
 
 	/* store some variabels local for fast access */
 	const float learning_rate = ann->learning_rate;
@@ -457,7 +457,7 @@ void fann_update_slopes_batch(struct fann *ann, struct fann_layer *layer_begin,
 {
 	struct fann_neuron *neuron_it, *last_neuron, *prev_neurons, **connections;
 	fann_type tmp_error;
-	unsigned int i, num_connections;
+	uint32_t i, num_connections;
 
 	/* store some variabels local for fast access */
 	struct fann_neuron *first_neuron = ann->first_layer->first_neuron;
@@ -541,7 +541,7 @@ void fann_update_slopes_batch(struct fann *ann, struct fann_layer *layer_begin,
  */
 void fann_clear_train_arrays(struct fann *ann)
 {
-	unsigned int i;
+	uint32_t i;
 	fann_type delta_zero;
 
 	/* if no room allocated for the slope variabels, allocate it now
@@ -604,13 +604,13 @@ void fann_clear_train_arrays(struct fann *ann)
 /* INTERNAL FUNCTION
    Update weights for batch training
  */
-void fann_update_weights_batch(struct fann *ann, unsigned int num_data, unsigned int first_weight,
-							   unsigned int past_end)
+void fann_update_weights_batch(struct fann *ann, uint32_t num_data, uint32_t first_weight,
+							   uint32_t past_end)
 {
 	fann_type *train_slopes = ann->train_slopes;
 	fann_type *weights = ann->weights;
 	const float epsilon = ann->learning_rate / num_data;
-	unsigned int i = first_weight;
+	uint32_t i = first_weight;
 
 	for(; i != past_end; i++)
 	{
@@ -622,8 +622,8 @@ void fann_update_weights_batch(struct fann *ann, unsigned int num_data, unsigned
 /* INTERNAL FUNCTION
    The quickprop training algorithm
  */
-void fann_update_weights_quickprop(struct fann *ann, unsigned int num_data,
-								   unsigned int first_weight, unsigned int past_end)
+void fann_update_weights_quickprop(struct fann *ann, uint32_t num_data,
+								   uint32_t first_weight, uint32_t past_end)
 {
 	fann_type *train_slopes = ann->train_slopes;
 	fann_type *weights = ann->weights;
@@ -637,7 +637,7 @@ void fann_update_weights_quickprop(struct fann *ann, unsigned int num_data,
 	float mu = ann->quickprop_mu;	/*1.75; */
 	float shrink_factor = (float) (mu / (1.0 + mu));
 	
-	unsigned int i = first_weight;
+	uint32_t i = first_weight;
 
 	for(; i != past_end; i++)
 	{
@@ -710,7 +710,7 @@ void fann_update_weights_quickprop(struct fann *ann, unsigned int num_data,
 /* INTERNAL FUNCTION
    The iRprop- algorithm
 */
-void fann_update_weights_irpropm(struct fann *ann, unsigned int first_weight, unsigned int past_end)
+void fann_update_weights_irpropm(struct fann *ann, uint32_t first_weight, uint32_t past_end)
 {
 	fann_type *train_slopes = ann->train_slopes;
 	fann_type *weights = ann->weights;
@@ -724,7 +724,7 @@ void fann_update_weights_irpropm(struct fann *ann, unsigned int first_weight, un
 	float delta_min = ann->rprop_delta_min;	/*0.0; */
 	float delta_max = ann->rprop_delta_max;	/*50.0; */
 
-	unsigned int i = first_weight;
+	uint32_t i = first_weight;
 
 	for(; i != past_end; i++)
 	{
@@ -769,7 +769,7 @@ void fann_update_weights_irpropm(struct fann *ann, unsigned int first_weight, un
 /* INTERNAL FUNCTION
    The SARprop- algorithm
 */
-void fann_update_weights_sarprop(struct fann *ann, unsigned int epoch, unsigned int first_weight, unsigned int past_end)
+void fann_update_weights_sarprop(struct fann *ann, uint32_t epoch, uint32_t first_weight, uint32_t past_end)
 {
 	fann_type *train_slopes = ann->train_slopes;
 	fann_type *weights = ann->weights;
@@ -791,7 +791,7 @@ void fann_update_weights_sarprop(struct fann *ann, unsigned int epoch, unsigned 
 	float MSE = fann_get_MSE(ann);
 	float RMSE = sqrtf(MSE);
 
-	unsigned int i = first_weight;
+	uint32_t i = first_weight;
 
 
 	/* for all weights; TODO: are biases included? */
@@ -867,7 +867,7 @@ void fann_set_activation_function_hidden(struct fann *ann,
 	}
 }
 
-struct fann_layer* fann_get_layer(struct fann *ann, int layer)
+struct fann_layer* fann_get_layer(struct fann *ann, int32_t layer)
 {
 	if(layer <= 0 || layer >= (ann->last_layer - ann->first_layer))
 	{
@@ -878,7 +878,7 @@ struct fann_layer* fann_get_layer(struct fann *ann, int layer)
 	return ann->first_layer + layer;	
 }
 
-struct fann_neuron* fann_get_neuron_layer(struct fann *ann, struct fann_layer* layer, int neuron)
+struct fann_neuron* fann_get_neuron_layer(struct fann *ann, struct fann_layer* layer, int32_t neuron)
 {
 	if(neuron >= (layer->last_neuron - layer->first_neuron))
 	{
@@ -889,7 +889,7 @@ struct fann_neuron* fann_get_neuron_layer(struct fann *ann, struct fann_layer* l
 	return layer->first_neuron + neuron;
 }
 
-struct fann_neuron* fann_get_neuron(struct fann *ann, unsigned int layer, int neuron)
+struct fann_neuron* fann_get_neuron(struct fann *ann, uint32_t layer, int32_t neuron)
 {
 	struct fann_layer *layer_it = fann_get_layer(ann, layer);
 	if(layer_it == NULL)
@@ -897,7 +897,7 @@ struct fann_neuron* fann_get_neuron(struct fann *ann, unsigned int layer, int ne
 	return fann_get_neuron_layer(ann, layer_it, neuron);
 }
 
-enum fann_activationfunc_enum fann_get_activation_function(struct fann *ann, int layer, int neuron)
+enum fann_activationfunc_enum fann_get_activation_function(struct fann *ann, int32_t layer, int32_t neuron)
 {
 	struct fann_neuron* neuron_it = fann_get_neuron(ann, layer, neuron);
 	if (neuron_it == NULL)
@@ -913,8 +913,8 @@ enum fann_activationfunc_enum fann_get_activation_function(struct fann *ann, int
 void fann_set_activation_function(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
-																int layer,
-																int neuron)
+																int32_t layer,
+																int32_t neuron)
 {
 	struct fann_neuron* neuron_it = fann_get_neuron(ann, layer, neuron);
 	if(neuron_it == NULL)
@@ -926,7 +926,7 @@ void fann_set_activation_function(struct fann *ann,
 void fann_set_activation_function_layer(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
-																int layer)
+																int32_t layer)
 {
 	struct fann_neuron *last_neuron, *neuron_it;
 	struct fann_layer *layer_it = fann_get_layer(ann, layer);
@@ -972,7 +972,7 @@ void fann_set_activation_steepness_hidden(struct fann *ann,
 	}
 }
 
-fann_type fann_get_activation_steepness(struct fann *ann, int layer, int neuron)
+fann_type fann_get_activation_steepness(struct fann *ann, int32_t layer, int32_t neuron)
 {
 	struct fann_neuron* neuron_it = fann_get_neuron(ann, layer, neuron);
 	if(neuron_it == NULL)
@@ -987,8 +987,8 @@ fann_type fann_get_activation_steepness(struct fann *ann, int layer, int neuron)
 
 void fann_set_activation_steepness(struct fann *ann,
 																fann_type steepness,
-																int layer,
-																int neuron)
+																int32_t layer,
+																int32_t neuron)
 {
 	struct fann_neuron* neuron_it = fann_get_neuron(ann, layer, neuron);
 	if(neuron_it == NULL)
@@ -999,7 +999,7 @@ void fann_set_activation_steepness(struct fann *ann,
 
 void fann_set_activation_steepness_layer(struct fann *ann,
 																fann_type steepness,
-																int layer)
+																int32_t layer)
 {
 	struct fann_neuron *last_neuron, *neuron_it;
 	struct fann_layer *layer_it = fann_get_layer(ann, layer);

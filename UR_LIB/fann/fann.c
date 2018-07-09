@@ -29,14 +29,14 @@
 
 /* #define FANN_NO_SEED */
 
-struct fann *fann_create_standard(unsigned int num_layers, ...)
+struct fann *fann_create_standard(uint32_t num_layers, ...)
 {
 	struct fann *ann;
 	va_list layer_sizes;
-	int i;
-	int status;
-	int arg;
-	unsigned int *layers = (unsigned int *) calloc(num_layers, sizeof(unsigned int));
+	int32_t i;
+	int32_t status;
+	int32_t arg;
+	uint32_t *layers = (uint32_t *) calloc(num_layers, sizeof(uint32_t));
 
 	if(layers == NULL)
 	{
@@ -49,7 +49,7 @@ struct fann *fann_create_standard(unsigned int num_layers, ...)
 	status = 1;
 	for(i = 0; i < (int) num_layers; i++)
 	{
-		arg = va_arg(layer_sizes, unsigned int);
+		arg = va_arg(layer_sizes, uint32_t);
 		if(arg < 0 || arg > 1000000)
 			status = 0;
 		layers[i] = arg;
@@ -70,21 +70,19 @@ struct fann *fann_create_standard(unsigned int num_layers, ...)
 	return ann;
 }
 
-struct fann *fann_create_standard_array(unsigned int num_layers, 
-															   const unsigned int *layers)
+struct fann *fann_create_standard_array(uint32_t num_layers, const uint32_t *layers)
 {
 	return fann_create_sparse_array(1, num_layers, layers);	
 }
 
-struct fann *fann_create_sparse(float connection_rate, 
-													   unsigned int num_layers, ...)
+struct fann *fann_create_sparse(float connection_rate,uint32_t num_layers, ...)
 {
 	struct fann *ann;
 	va_list layer_sizes;
-	int i;
-	int status;
-	int arg;
-	unsigned int *layers = (unsigned int *) calloc(num_layers, sizeof(unsigned int));
+	int32_t i;
+	int32_t status;
+	int32_t arg;
+	uint32_t *layers = (uint32_t *) calloc(num_layers, sizeof(uint32_t));
 
 	if(layers == NULL)
 	{
@@ -96,7 +94,7 @@ struct fann *fann_create_sparse(float connection_rate,
 	status = 1;
 	for(i = 0; i < (int) num_layers; i++)
 	{
-		arg = va_arg(layer_sizes, unsigned int);
+		arg = va_arg(layer_sizes, uint32_t);
 		if(arg < 0 || arg > 1000000)
 			status = 0;
 		layers[i] = arg;
@@ -116,23 +114,21 @@ struct fann *fann_create_sparse(float connection_rate,
 	return ann;
 }
 
-struct fann *fann_create_sparse_array(float connection_rate,
-															 unsigned int num_layers,
-															 const unsigned int *layers)
+struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers, const uint32_t *layers)
 {
 	struct fann_layer *layer_it, *last_layer, *prev_layer;
 	struct fann *ann;
 	struct fann_neuron *neuron_it, *last_neuron, *random_neuron, *bias_neuron;
 #ifdef DEBUG
-	unsigned int prev_layer_size;
+	uint32_t prev_layer_size;
 #endif
-	unsigned int num_neurons_in, num_neurons_out, i, j;
-	unsigned int min_connections, max_connections, num_connections;
-	unsigned int connections_per_neuron, allocated_connections;
-	unsigned int random_number, found_connection, tmp_con;
+	uint32_t num_neurons_in, num_neurons_out, i, j;
+	uint32_t min_connections, max_connections, num_connections;
+	uint32_t connections_per_neuron, allocated_connections;
+	uint32_t random_number, found_connection, tmp_con;
 
 #ifdef FIXEDFANN
-	unsigned int multiplier;
+	uint32_t multiplier;
 #endif
 	if(connection_rate > 1)
 	{
@@ -163,11 +159,11 @@ struct fann *fann_create_sparse_array(float connection_rate,
 		 * last_neuron - first_neuron is the number of neurons */
 		layer_it->first_neuron = NULL;
 		layer_it->last_neuron = layer_it->first_neuron + layers[i++] + 1;	/* +1 for bias */
-		ann->total_neurons += (unsigned int)(layer_it->last_neuron - layer_it->first_neuron);
+		ann->total_neurons += (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
 	}
 
-	ann->num_output = (unsigned int)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron - 1);
-	ann->num_input = (unsigned int)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
+	ann->num_output = (uint32_t)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron - 1);
+	ann->num_input = (uint32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
 
 	/* allocate room for the actual neurons */
 	fann_allocate_neurons(ann);
@@ -180,14 +176,13 @@ struct fann *fann_create_sparse_array(float connection_rate,
 #ifdef DEBUG
 	printf("creating network with connection rate %f\n", connection_rate);
 	printf("input\n");
-	printf("  layer       : %d neurons, 1 bias\n",
-		   (int)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
+	printf("  layer       : %d neurons, 1 bias\n",(int32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
 #endif
 
 	num_neurons_in = ann->num_input;
 	for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer; layer_it++)
 	{
-		num_neurons_out = (unsigned int)(layer_it->last_neuron - layer_it->first_neuron - 1);
+		num_neurons_out = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron - 1);
 		/*�if all neurons in each layer should be connected to at least one neuron
 		 * in the previous layer, and one neuron in the next layer.
 		 * and the bias node should be connected to the all neurons in the next layer.
@@ -195,7 +190,7 @@ struct fann *fann_create_sparse_array(float connection_rate,
 		min_connections = fann_max(num_neurons_in, num_neurons_out); /* not calculating bias */
 		max_connections = num_neurons_in * num_neurons_out;	     /* not calculating bias */
 		num_connections = fann_max(min_connections,
-								   (unsigned int) (0.5 + (connection_rate * max_connections))) +
+								   (uint32_t) (0.5 + (connection_rate * max_connections))) +
 								   num_neurons_out;
 
 		connections_per_neuron = num_connections / num_neurons_out;
@@ -291,8 +286,8 @@ struct fann *fann_create_sparse_array(float connection_rate,
 		for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer; layer_it++)
 		{
 
-			num_neurons_out = (unsigned int)(layer_it->last_neuron - layer_it->first_neuron - 1);
-			num_neurons_in = (unsigned int)((layer_it - 1)->last_neuron - (layer_it - 1)->first_neuron - 1);
+			num_neurons_out = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron - 1);
+			num_neurons_in = (uint32_t)((layer_it - 1)->last_neuron - (layer_it - 1)->first_neuron - 1);
 
 			/* first connect the bias neuron */
 			bias_neuron = (layer_it - 1)->last_neuron - 1;
@@ -313,7 +308,7 @@ struct fann *fann_create_sparse_array(float connection_rate,
 				 * for more connections */
 				do
 				{
-					random_number = (int) (0.5 + fann_rand(0, num_neurons_out - 1));
+					random_number = (int32_t) (0.5 + fann_rand(0, num_neurons_out - 1));
 					random_neuron = layer_it->first_neuron + random_number;
 					/* checks the last space in the connections array for room */
 				}
@@ -345,7 +340,7 @@ struct fann *fann_create_sparse_array(float connection_rate,
 					do
 					{
 						found_connection = 0;
-						random_number = (int) (0.5 + fann_rand(0, num_neurons_in - 1));
+						random_number = (int32_t) (0.5 + fann_rand(0, num_neurons_in - 1));
 						random_neuron = (layer_it - 1)->first_neuron + random_number;
 
 						/* check to see if this connection is allready there */
@@ -386,14 +381,14 @@ struct fann *fann_create_sparse_array(float connection_rate,
 }
 
 
-struct fann *fann_create_shortcut(unsigned int num_layers, ...)
+struct fann *fann_create_shortcut(uint32_t num_layers, ...)
 {
 	struct fann *ann;
-	int i;
-	int status;
-	int arg;
+	int32_t i;
+	int32_t status;
+	int32_t arg;
 	va_list layer_sizes;
-	unsigned int *layers = (unsigned int *) calloc(num_layers, sizeof(unsigned int));
+	uint32_t *layers = (uint32_t *) calloc(num_layers, sizeof(uint32_t));
 
 	if(layers == NULL)
 	{
@@ -403,9 +398,9 @@ struct fann *fann_create_shortcut(unsigned int num_layers, ...)
 
 	va_start(layer_sizes, num_layers);
 	status = 1;
-	for(i = 0; i < (int) num_layers; i++)
+	for(i = 0; i < (int32_t) num_layers; i++)
 	{
-		arg = va_arg(layer_sizes, unsigned int);
+		arg = va_arg(layer_sizes, uint32_t);
 		if(arg < 0 || arg > 1000000)
 			status = 0;
 		layers[i] = arg;
@@ -426,17 +421,16 @@ struct fann *fann_create_shortcut(unsigned int num_layers, ...)
 	return ann;
 }
 
-struct fann *fann_create_shortcut_array(unsigned int num_layers,
-															   const unsigned int *layers)
+struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *layers)
 {
 	struct fann_layer *layer_it, *layer_it2, *last_layer;
 	struct fann *ann;
 	struct fann_neuron *neuron_it, *neuron_it2 = 0;
-	unsigned int i;
-	unsigned int num_neurons_in, num_neurons_out;
+	uint32_t i;
+	uint32_t num_neurons_in, num_neurons_out;
 
 #ifdef FIXEDFANN
-	unsigned int multiplier;
+	uint32_t multiplier;
 #endif
 	fann_seed_rand();
 
@@ -469,11 +463,11 @@ struct fann *fann_create_shortcut_array(unsigned int num_layers,
 			layer_it->last_neuron++;
 		}
 
-		ann->total_neurons += (unsigned int)(layer_it->last_neuron - layer_it->first_neuron);
+		ann->total_neurons += (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
 	}
 
-	ann->num_output = (unsigned int)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron);
-	ann->num_input = (unsigned int)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
+	ann->num_output = (uint32_t)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron);
+	ann->num_input = (uint32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
 
 	/* allocate room for the actual neurons */
 	fann_allocate_neurons(ann);
@@ -487,14 +481,14 @@ struct fann *fann_create_shortcut_array(unsigned int num_layers,
 	printf("creating fully shortcut connected network.\n");
 	printf("input\n");
 	printf("  layer       : %d neurons, 1 bias\n",
-		   (int)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
+		   (int32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
 #endif
 
 	num_neurons_in = ann->num_input;
 	last_layer = ann->last_layer;
 	for(layer_it = ann->first_layer + 1; layer_it != last_layer; layer_it++)
 	{
-		num_neurons_out = (unsigned int)(layer_it->last_neuron - layer_it->first_neuron);
+		num_neurons_out = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
 
 		/* Now split out the connections on the different neurons */
 		for(i = 0; i != num_neurons_out; i++)
@@ -546,7 +540,7 @@ struct fann *fann_create_shortcut_array(unsigned int num_layers,
 				}
 			}
 		}
-		num_neurons_in += (unsigned int)(layer_it->last_neuron - layer_it->first_neuron);
+		num_neurons_in += (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
 	}
 
 #ifdef DEBUG
@@ -559,26 +553,26 @@ struct fann *fann_create_shortcut_array(unsigned int num_layers,
 fann_type *fann_run(struct fann * ann, fann_type * input)
 {
 	struct fann_neuron *neuron_it, *last_neuron, *neurons, **neuron_pointers;
-	unsigned int i, num_connections, num_input, num_output;
+	uint32_t i, num_connections, num_input, num_output;
 	fann_type neuron_sum, *output;
 	fann_type *weights;
 	struct fann_layer *layer_it, *last_layer;
-	unsigned int activation_function;
+	uint32_t activation_function;
 	fann_type steepness;
 
 	/* store some variabels local for fast access */
 	struct fann_neuron *first_neuron = ann->first_layer->first_neuron;
 
 #ifdef FIXEDFANN
-	int multiplier = ann->multiplier;
-	unsigned int decimal_point = ann->decimal_point;
+	int32_tmultiplier = ann->multiplier;
+	uint32_t decimal_point = ann->decimal_point;
 
 	/* values used for the stepwise linear sigmoid function */
 	fann_type r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0, r6 = 0;
 	fann_type v1 = 0, v2 = 0, v3 = 0, v4 = 0, v5 = 0, v6 = 0;
 
 	fann_type last_steepness = 0;
-	unsigned int last_activation_function = 0;
+	uint32_t last_activation_function = 0;
 #else
 	fann_type max_sum = 0;	
 #endif
@@ -866,13 +860,13 @@ void fann_randomize_weights(struct fann *ann, fann_type min_weight,
 struct fann* fann_copy(struct fann* orig)
 {
     struct fann* copy;
-    unsigned int num_layers = (unsigned int)(orig->last_layer - orig->first_layer);
+    uint32_t num_layers = (uint32_t)(orig->last_layer - orig->first_layer);
     struct fann_layer *orig_layer_it, *copy_layer_it;
-    unsigned int layer_size;
+    uint32_t layer_size;
     struct fann_neuron *last_neuron,*orig_neuron_it,*copy_neuron_it;
-    unsigned int i;
+    uint32_t i;
     struct fann_neuron *orig_first_neuron,*copy_first_neuron;
-    unsigned int input_neuron;
+    uint32_t input_neuron;
 
     copy = fann_allocate_structure(num_layers);
     if (copy==NULL) {
@@ -986,7 +980,7 @@ struct fann* fann_copy(struct fann* orig)
     for (orig_layer_it = orig->first_layer, copy_layer_it = copy->first_layer;
             orig_layer_it != orig->last_layer; orig_layer_it++, copy_layer_it++)
     {
-        layer_size = (unsigned int)(orig_layer_it->last_neuron - orig_layer_it->first_neuron);
+        layer_size = (uint32_t)(orig_layer_it->last_neuron - orig_layer_it->first_neuron);
         copy_layer_it->first_neuron = NULL;
         copy_layer_it->last_neuron = copy_layer_it->first_neuron + layer_size;
         copy->total_neurons += layer_size;
@@ -1022,7 +1016,7 @@ struct fann* fann_copy(struct fann* orig)
         fann_destroy(copy);
         return NULL;
     }
-    layer_size = (unsigned int)((orig->last_layer-1)->last_neuron - (orig->last_layer-1)->first_neuron);
+    layer_size = (uint32_t)((orig->last_layer-1)->last_neuron - (orig->last_layer-1)->first_neuron);
     memcpy(copy->output,orig->output, layer_size * sizeof(fann_type));
 
     last_neuron = (orig->last_layer - 1)->last_neuron;
@@ -1045,7 +1039,7 @@ struct fann* fann_copy(struct fann* orig)
     for (i=0; i < orig->total_connections; i++)
     {
         copy->weights[i] = orig->weights[i];
-        input_neuron = (unsigned int)(orig->connections[i] - orig_first_neuron);
+        input_neuron = (uint32_t)(orig->connections[i] - orig_first_neuron);
         copy->connections[i] = copy_first_neuron + input_neuron;
     }
 
@@ -1104,10 +1098,10 @@ void fann_print_connections(struct fann *ann)
 {
 	struct fann_layer *layer_it;
 	struct fann_neuron *neuron_it;
-	unsigned int i;
-	int value;
+	uint32_t i;
+	int32_t value;
 	char *neurons;
-	unsigned int num_neurons = fann_get_total_neurons(ann) - fann_get_num_output(ann);
+	uint32_t num_neurons = fann_get_total_neurons(ann) - fann_get_num_output(ann);
 
 	neurons = (char *) malloc(num_neurons + 1);
 	if(neurons == NULL)
@@ -1168,12 +1162,12 @@ void fann_print_connections(struct fann *ann)
 void fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 {
 	fann_type smallest_inp, largest_inp;
-	unsigned int dat = 0, elem, num_connect, num_hidden_neurons;
+	uint32_t dat = 0, elem, num_connect, num_hidden_neurons;
 	struct fann_layer *layer_it;
 	struct fann_neuron *neuron_it, *last_neuron, *bias_neuron;
 
 #ifdef FIXEDFANN
-	unsigned int multiplier = ann->multiplier;
+	uint32_t multiplier = ann->multiplier;
 #endif
 	float scale_factor;
 
@@ -1188,7 +1182,7 @@ void fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 		}
 	}
 
-	num_hidden_neurons = (unsigned int)(
+	num_hidden_neurons = (uint32_t)(
 		ann->total_neurons - (ann->num_input + ann->num_output +
 							  (ann->last_layer - ann->first_layer)));
 	scale_factor =
@@ -1248,7 +1242,7 @@ void fann_print_parameters(struct fann *ann)
 {
 	struct fann_layer *layer_it;
 #ifndef FIXEDFANN
-	unsigned int i;
+	uint32_t i;
 #endif
 
 	printf("Input layer                          :%4d neurons, 1 bias\n", ann->num_input);
@@ -1314,10 +1308,10 @@ void fann_print_parameters(struct fann *ann)
 #endif
 }
 
-FANN_GET(unsigned int, num_input)
-FANN_GET(unsigned int, num_output)
+FANN_GET(uint32_t, num_input)
+FANN_GET(uint32_t, num_output)
 
-unsigned int fann_get_total_neurons(struct fann *ann)
+uint32_t fann_get_total_neurons(struct fann *ann)
 {
 	if(ann->network_type)
 	{
@@ -1330,7 +1324,7 @@ unsigned int fann_get_total_neurons(struct fann *ann)
 	}
 }
 
-FANN_GET(unsigned int, total_connections)
+FANN_GET(uint32_t, total_connections)
 
 enum fann_nettype_enum fann_get_network_type(struct fann *ann)
 {
@@ -1344,17 +1338,17 @@ float fann_get_connection_rate(struct fann *ann)
     return ann->connection_rate;
 }
 
-unsigned int fann_get_num_layers(struct fann *ann)
+uint32_t fann_get_num_layers(struct fann *ann)
 {
-    return (unsigned int)(ann->last_layer - ann->first_layer);
+    return (uint32_t)(ann->last_layer - ann->first_layer);
 }
 
-void fann_get_layer_array(struct fann *ann, unsigned int *layers)
+void fann_get_layer_array(struct fann *ann, uint32_t *layers)
 {
     struct fann_layer *layer_it;
 
     for (layer_it = ann->first_layer; layer_it != ann->last_layer; layer_it++) {
-        unsigned int count = (unsigned int)(layer_it->last_neuron - layer_it->first_neuron);
+        uint32_t count = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
         /* Remove the bias from the count of neurons. */
         switch (fann_get_network_type(ann)) {
             case FANN_NETTYPE_LAYER: {
@@ -1376,7 +1370,7 @@ void fann_get_layer_array(struct fann *ann, unsigned int *layers)
     }
 }
 
-void fann_get_bias_array(struct fann *ann, unsigned int *bias)
+void fann_get_bias_array(struct fann *ann, uint32_t *bias)
 {
     struct fann_layer *layer_it;
 
@@ -1412,9 +1406,9 @@ void fann_get_connection_array(struct fann *ann, struct fann_connection *connect
     struct fann_neuron *first_neuron;
     struct fann_layer *layer_it;
     struct fann_neuron *neuron_it;
-    unsigned int idx;
-    unsigned int source_index;
-    unsigned int destination_index;
+    uint32_t idx;
+    uint32_t source_index;
+    uint32_t destination_index;
 
     first_neuron = ann->first_layer->first_neuron;
 
@@ -1430,7 +1424,7 @@ void fann_get_connection_array(struct fann *ann, struct fann_connection *connect
             /* for each connection */
             for (idx = neuron_it->first_con; idx < neuron_it->last_con; idx++){
                 /* Assign the source, destination and weight */
-                connections->from_neuron = (unsigned int)(ann->connections[source_index] - first_neuron);
+                connections->from_neuron = (uint32_t)(ann->connections[source_index] - first_neuron);
                 connections->to_neuron = destination_index;
                 connections->weight = ann->weights[source_index];
 
@@ -1443,9 +1437,9 @@ void fann_get_connection_array(struct fann *ann, struct fann_connection *connect
 }
 
 void fann_set_weight_array(struct fann *ann,
-    struct fann_connection *connections, unsigned int num_connections)
+    struct fann_connection *connections, uint32_t num_connections)
 {
-    unsigned int idx;
+    uint32_t idx;
 
     for (idx = 0; idx < num_connections; idx++) {
         fann_set_weight(ann, connections[idx].from_neuron,
@@ -1454,14 +1448,14 @@ void fann_set_weight_array(struct fann *ann,
 }
 
 void fann_set_weight(struct fann *ann,
-    unsigned int from_neuron, unsigned int to_neuron, fann_type weight)
+    uint32_t from_neuron, uint32_t to_neuron, fann_type weight)
 {
     struct fann_neuron *first_neuron;
     struct fann_layer *layer_it;
     struct fann_neuron *neuron_it;
-    unsigned int idx;
-    unsigned int source_index;
-    unsigned int destination_index;
+    uint32_t idx;
+    uint32_t source_index;
+    uint32_t destination_index;
 
     first_neuron = ann->first_layer->first_neuron;
 
@@ -1505,15 +1499,15 @@ FANN_GET_SET(void *, user_data)
 
 #ifdef FIXEDFANN
 
-FANN_GET(unsigned int, decimal_point)
-FANN_GET(unsigned int, multiplier)
+FANN_GET(uint32_t, decimal_point)
+FANN_GET(uint32_t, multiplier)
 
 /* INTERNAL FUNCTION
    Adjust the steepwise functions (if used)
 */
 void fann_update_stepwise(struct fann *ann)
 {
-	unsigned int i = 0;
+	uint32_t i = 0;
 
 	/* Calculate the parameters for the stepwise linear
 	 * sigmoid function fixed point.
@@ -1560,7 +1554,7 @@ void fann_update_stepwise(struct fann *ann)
 /* INTERNAL FUNCTION
    Allocates the main structure and sets some default values.
  */
-struct fann *fann_allocate_structure(unsigned int num_layers)
+struct fann *fann_allocate_structure(uint32_t num_layers)
 {
 	struct fann *ann;
 
@@ -1714,11 +1708,11 @@ struct fann *fann_allocate_structure(unsigned int num_layers)
 /* INTERNAL FUNCTION
    Allocates room for the scaling parameters.
  */
-int fann_allocate_scale(struct fann *ann)
+int32_t fann_allocate_scale(struct fann *ann)
 {
 	/* todo this should only be allocated when needed */
 #ifndef FIXEDFANN
-	unsigned int i = 0;
+	uint32_t i = 0;
 #define SCALE_ALLOCATE( what, where, default_value )		    			\
 		ann->what##_##where = (float *)calloc(								\
 			ann->num_##where##put,											\
@@ -1754,8 +1748,8 @@ void fann_allocate_neurons(struct fann *ann)
 {
 	struct fann_layer *layer_it;
 	struct fann_neuron *neurons;
-	unsigned int num_neurons_so_far = 0;
-	unsigned int num_neurons = 0;
+	uint32_t num_neurons_so_far = 0;
+	uint32_t num_neurons = 0;
 
 	/* all the neurons is allocated in one long array (calloc clears mem) */
 	neurons = (struct fann_neuron *) calloc(ann->total_neurons, sizeof(struct fann_neuron));
@@ -1769,7 +1763,7 @@ void fann_allocate_neurons(struct fann *ann)
 
 	for(layer_it = ann->first_layer; layer_it != ann->last_layer; layer_it++)
 	{
-		num_neurons = (unsigned int)(layer_it->last_neuron - layer_it->first_neuron);
+		num_neurons = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
 		layer_it->first_neuron = neurons + num_neurons_so_far;
 		layer_it->last_neuron = layer_it->first_neuron + num_neurons;
 		num_neurons_so_far += num_neurons;
@@ -1810,9 +1804,9 @@ void fann_allocate_connections(struct fann *ann)
 }
 
 #ifdef FANN_NO_SEED
-int FANN_SEED_RAND = 0;
+int32_t FANN_SEED_RAND = 0;
 #else
-int FANN_SEED_RAND = 1;
+int32_t FANN_SEED_RAND = 1;
 #endif
 
 void fann_disable_seed_rand()
@@ -1832,7 +1826,7 @@ void fann_seed_rand()
 {
 #ifndef _WIN32
 	FILE *fp = fopen("/dev/urandom", "r");
-	unsigned int foo;
+	uint32_t foo;
 	struct timeval t;
 
 	if(!fp)
