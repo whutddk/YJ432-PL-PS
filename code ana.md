@@ -82,133 +82,38 @@
 * cascade_candidate_stagnation_epochs   这个时间点上没有改变将会导致训练停滞
 * cascade_best_candidate                当前最好的候选，将会被安装？
 * cascade_candidate_limit               上限值 candidate score
-
-    /* Scale of copied candidate output weights
-     */
-* cascade_weight_multiplier;
-    
-    /* Maximum epochs to train the output neurons during cascade training
-     */
-* cascade_max_out_epochs;
-    
-    /* Maximum epochs to train the candidate neurons during cascade training
-     */
-* cascade_max_cand_epochs;   
-
-    /* Minimum epochs to train the output neurons during cascade training
-     */
+* cascade_weight_multiplier             拷贝候选输出权重比例？
+* cascade_max_out_epochs                在使用cascade训练输出神经元时的最大时间点
+* cascade_max_cand_epochs;              在使用cascade训练候选神经元时的最小时间点
 * cascade_min_out_epochs;
-    
-    /* Minimum epochs to train the candidate neurons during cascade training
-     */
 * cascade_min_cand_epochs;   
-
-    /* An array consisting of the activation functions used when doing
-     * cascade training.
-     */
-* cascade_activation_functions;
-    
-    /* The number of elements in the cascade_activation_functions array.
-    */
-* cascade_activation_functions_count;
-    
-    /* An array consisting of the steepnesses used during cascade training.
-    */
+* cascade_activation_functions          使用cascade训练时激活函数的数组
+* cascade_activation_functions_count    激活函数里元件数量
 * cascade_activation_steepnesses;
-
-    /* The number of elements in the cascade_activation_steepnesses array.
-    */
 * cascade_activation_steepnesses_count;
-    
-    /* The number of candidates of each type that will be present.
-     * The actual number of candidates is then 
-     * cascade_activation_functions_count * 
-     * cascade_activation_steepnesses_count *
-     * cascade_num_candidate_groups
-    */
 * cascade_num_candidate_groups;
-    
-    /* An array consisting of the score of the individual candidates,
-     * which is used to decide which candidate is the best
-     */
 * cascade_candidate_scores;
-    
-    /* The number of allocated neurons during cascade correlation algorithms.
-     * This number might be higher than the actual number of neurons to avoid
-     * allocating new space too often.
-     */
 * total_neurons_allocated;
-
-    /* The number of allocated connections during cascade correlation algorithms.
-     * This number might be higher than the actual number of neurons to avoid
-     * allocating new space too often.
-     */
 * total_connections_allocated;
-
-    /* Variables for use with Quickprop training */
-
-    /* Decay is used to make the weights not go so high */
-    float quickprop_decay;
-
-    /* Mu is a factor used to increase and decrease the stepsize */
 * quickprop_mu;
-
-    /* Variables for use with with RPROP training */
-
-    /* Tells how much the stepsize should increase during learning */
 * rprop_increase_factor;
-
-    /* Tells how much the stepsize should decrease during learning */
 * rprop_decrease_factor;
-
-    /* The minimum stepsize */
 * rprop_delta_min;
-
-    /* The maximum stepsize */
 * rprop_delta_max;
-
-    /* The initial stepsize */
 * rprop_delta_zero;
-        
-    /* Defines how much the weights are constrained to smaller values at the beginning */
 * sarprop_weight_decay_shift;
-
-    /* Decides if the stepsize is too big with regard to the error */
 * sarprop_step_error_threshold_factor;
-
-    /* Defines how much the stepsize is influenced by the error */
 * sarprop_step_error_shift;
-
-    /* Defines how much the epoch influences weight decay and noise */
 * sarprop_temperature;
-
-    /* Current training epoch */
 * sarprop_epoch;
-
-    /* Used to contain the slope errors used during batch training
-     * Is allocated during first training session,
-     * which means that if we do not train, it is never allocated.
-     */
 * train_slopes;
-
-    /* The previous step taken by the quickprop/rprop procedures.
-     * Not allocated if not used.
-     */
 * prev_steps;
-
-    /* The slope values used by the quickprop/rprop procedures.
-     * Not allocated if not used.
-     */
 * prev_train_slopes;
-        
-    /* The last delta applied to a connection weight.
-     * This is used for the momentum term in the backpropagation algorithm.
-     * Not allocated if not used.    
-     */
 * prev_weights_deltas;
 
 
 ------------------------------
+
 `浮点类`   
 * scale_mean_in         除去输入中的直流分量
 * scale_deviation_in    标准差用于归一化输入数据到-1~1
@@ -218,7 +123,10 @@
 * scale_deviation_out   标准差用于归一化输出数据到-1~1
 * scale_new_min_out     用户定义最小输出值比例
 * scale_factor_out      用户定义最大输出值比例
+*
 ----------------------------------
+
+
 
 
 
