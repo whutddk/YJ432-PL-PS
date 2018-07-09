@@ -47,7 +47,7 @@ struct fann_train_data *fann_read_train_from_file(const char *configuration_file
 /*
  * Save training data to a file 
  */
-int fann_save_train(struct fann_train_data *data, const char *filename)
+int32_t fann_save_train(struct fann_train_data *data, const char *filename)
 {
 	return fann_save_train_internal(data, filename, 0, 0);
 }
@@ -56,8 +56,8 @@ int fann_save_train(struct fann_train_data *data, const char *filename)
  * Save training data to a file in fixed point algebra. (Good for testing
  * a network in fixed point) 
  */
-int fann_save_train_to_fixed(struct fann_train_data *data, const char *filename,
-													 unsigned int decimal_point)
+int32_t fann_save_train_to_fixed(struct fann_train_data *data, const char *filename,
+													 uint32_t decimal_point)
 {
 	return fann_save_train_internal(data, filename, 1, decimal_point);
 }
@@ -83,7 +83,7 @@ void fann_destroy_train(struct fann_train_data *data)
  */
 float fann_test_data(struct fann *ann, struct fann_train_data *data)
 {
-	unsigned int i;
+	uint32_t i;
 	if(fann_check_input_output_sizes(ann, data) == -1)
 		return 0;
 	
@@ -104,7 +104,7 @@ float fann_test_data(struct fann *ann, struct fann_train_data *data)
  */
 float fann_train_epoch_quickprop(struct fann *ann, struct fann_train_data *data)
 {
-	unsigned int i;
+	uint32_t i;
 
 	if(ann->prev_train_slopes == NULL)
 	{
@@ -130,7 +130,7 @@ float fann_train_epoch_quickprop(struct fann *ann, struct fann_train_data *data)
  */
 float fann_train_epoch_irpropm(struct fann *ann, struct fann_train_data *data)
 {
-	unsigned int i;
+	uint32_t i;
 
 	if(ann->prev_train_slopes == NULL)
 	{
@@ -157,7 +157,7 @@ float fann_train_epoch_irpropm(struct fann *ann, struct fann_train_data *data)
  */
 float fann_train_epoch_sarprop(struct fann *ann, struct fann_train_data *data)
 {
-	unsigned int i;
+	uint32_t i;
 
 	if(ann->prev_train_slopes == NULL)
 	{
@@ -186,7 +186,7 @@ float fann_train_epoch_sarprop(struct fann *ann, struct fann_train_data *data)
  */
 float fann_train_epoch_batch(struct fann *ann, struct fann_train_data *data)
 {
-	unsigned int i;
+	uint32_t i;
 
 	fann_reset_MSE(ann);
 
@@ -208,7 +208,7 @@ float fann_train_epoch_batch(struct fann *ann, struct fann_train_data *data)
  */
 float fann_train_epoch_incremental(struct fann *ann, struct fann_train_data *data)
 {
-	unsigned int i;
+	uint32_t i;
 
 	fann_reset_MSE(ann);
 
@@ -245,13 +245,13 @@ float fann_train_epoch(struct fann *ann, struct fann_train_data *data)
 }
 
 void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
-											   unsigned int max_epochs,
-											   unsigned int epochs_between_reports,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
 											   float desired_error)
 {
 	float error;
-	unsigned int i;
-	int desired_error_reached;
+	uint32_t i;
+	int32_t desired_error_reached;
 
 #ifdef DEBUG
 	printf("Training with %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
@@ -298,8 +298,8 @@ void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
 }
 
 void fann_train_on_file(struct fann *ann, const char *filename,
-											   unsigned int max_epochs,
-											   unsigned int epochs_between_reports,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
 											   float desired_error)
 {
 	struct fann_train_data *data = fann_read_train_from_file(filename);
@@ -319,12 +319,12 @@ void fann_train_on_file(struct fann *ann, const char *filename,
  */
 void fann_shuffle_train_data(struct fann_train_data *train_data)
 {
-	unsigned int dat = 0, elem, swap;
+	uint32_t dat = 0, elem, swap;
 	fann_type temp;
 
 	for(; dat < train_data->num_data; dat++)
 	{
-		swap = (unsigned int) (rand() % train_data->num_data);
+		swap = (uint32_t) (rand() % train_data->num_data);
 		if(swap != dat)
 		{
 			for(elem = 0; elem < train_data->num_input; elem++)
@@ -346,10 +346,10 @@ void fann_shuffle_train_data(struct fann_train_data *train_data)
 /*
  * INTERNAL FUNCTION calculates min and max of train data
  */
-void fann_get_min_max_data(fann_type ** data, unsigned int num_data, unsigned int num_elem, fann_type *min, fann_type *max)
+void fann_get_min_max_data(fann_type ** data, uint32_t num_data, uint32_t num_elem, fann_type *min, fann_type *max)
 {
 	fann_type temp;
-	unsigned int dat, elem;
+	uint32_t dat, elem;
 	*min = *max = data[0][0];
 
 	for(dat = 0; dat < num_data; dat++)
@@ -397,7 +397,7 @@ fann_type fann_get_max_train_output(struct fann_train_data *train_data)
 /*
  * INTERNAL FUNCTION Scales data to a specific range 
  */
-void fann_scale_data(fann_type ** data, unsigned int num_data, unsigned int num_elem,
+void fann_scale_data(fann_type ** data, uint32_t num_data, uint32_t num_elem,
 					 fann_type new_min, fann_type new_max)
 {
 	fann_type old_min, old_max;
@@ -408,10 +408,10 @@ void fann_scale_data(fann_type ** data, unsigned int num_data, unsigned int num_
 /*
  * INTERNAL FUNCTION Scales data to a specific range 
  */
-void fann_scale_data_to_range(fann_type ** data, unsigned int num_data, unsigned int num_elem,
+void fann_scale_data_to_range(fann_type ** data, uint32_t num_data, uint32_t num_elem,
 					 fann_type old_min, fann_type old_max, fann_type new_min, fann_type new_max)
 {
-	unsigned int dat, elem;
+	uint32_t dat, elem;
 	fann_type temp, old_span, new_span, factor;
 
 	old_span = old_max - old_min;
@@ -485,7 +485,7 @@ void fann_scale_train_data(struct fann_train_data *train_data,
 struct fann_train_data *fann_merge_train_data(struct fann_train_data *data1,
 																	 struct fann_train_data *data2)
 {
-	unsigned int i;
+	uint32_t i;
 	fann_type *data_input, *data_output;
 	struct fann_train_data *dest =
 		(struct fann_train_data *) malloc(sizeof(struct fann_train_data));
@@ -562,7 +562,7 @@ struct fann_train_data *fann_merge_train_data(struct fann_train_data *data1,
 struct fann_train_data *fann_duplicate_train_data(struct fann_train_data
 																		 *data)
 {
-	unsigned int i;
+	uint32_t i;
 	fann_type *data_input, *data_output;
 	struct fann_train_data *dest =
 		(struct fann_train_data *) malloc(sizeof(struct fann_train_data));
@@ -624,10 +624,10 @@ struct fann_train_data *fann_duplicate_train_data(struct fann_train_data
 }
 
 struct fann_train_data *fann_subset_train_data(struct fann_train_data
-																		 *data, unsigned int pos,
-																		 unsigned int length)
+																		 *data, uint32_t pos,
+																		 uint32_t length)
 {
-	unsigned int i;
+	uint32_t i;
 	fann_type *data_input, *data_output;
 	struct fann_train_data *dest =
 		(struct fann_train_data *) malloc(sizeof(struct fann_train_data));
@@ -694,17 +694,17 @@ struct fann_train_data *fann_subset_train_data(struct fann_train_data
 	return dest;
 }
 
-unsigned int fann_length_train_data(struct fann_train_data *data)
+uint32_t fann_length_train_data(struct fann_train_data *data)
 {
 	return data->num_data;
 }
 
-unsigned int fann_num_input_train_data(struct fann_train_data *data)
+uint32_t fann_num_input_train_data(struct fann_train_data *data)
 {
 	return data->num_input;
 }
 
-unsigned int fann_num_output_train_data(struct fann_train_data *data)
+uint32_t fann_num_output_train_data(struct fann_train_data *data)
 {
 	return data->num_output;
 }
@@ -712,10 +712,10 @@ unsigned int fann_num_output_train_data(struct fann_train_data *data)
 /* INTERNAL FUNCTION
    Save the train data structure.
  */
-int fann_save_train_internal(struct fann_train_data *data, const char *filename,
-							  unsigned int save_as_fixed, unsigned int decimal_point)
+int32_t fann_save_train_internal(struct fann_train_data *data, const char *filename,
+							  uint32_t save_as_fixed, uint32_t decimal_point)
 {
-	int retval = 0;
+	int32_t retval = 0;
 	FILE *file = fopen(filename, "w");
 
 	if(!file)
@@ -732,17 +732,17 @@ int fann_save_train_internal(struct fann_train_data *data, const char *filename,
 /* INTERNAL FUNCTION
    Save the train data structure.
  */
-int fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, const char *filename,
-								 unsigned int save_as_fixed, unsigned int decimal_point)
+int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, const char *filename,
+								 uint32_t save_as_fixed, uint32_t decimal_point)
 {
-	unsigned int num_data = data->num_data;
-	unsigned int num_input = data->num_input;
-	unsigned int num_output = data->num_output;
-	unsigned int i, j;
-	int retval = 0;
+	uint32_t num_data = data->num_data;
+	uint32_t num_input = data->num_input;
+	uint32_t num_output = data->num_output;
+	uint32_t i, j;
+	int32_t retval = 0;
 
 #ifndef FIXEDFANN
-	unsigned int multiplier = 1 << decimal_point;
+	uint32_t multiplier = 1 << decimal_point;
 #endif
 
 	fprintf(file, "%u %u %u\n", data->num_data, data->num_input, data->num_output);
@@ -806,10 +806,10 @@ int fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, const
 /*
  * Creates an empty set of training data
  */
-struct fann_train_data * fann_create_train(unsigned int num_data, unsigned int num_input, unsigned int num_output)
+struct fann_train_data * fann_create_train(uint32_t num_data, uint32_t num_input, uint32_t num_output)
 {
 	fann_type *data_input, *data_output;
-	unsigned int i;
+	uint32_t i;
 	struct fann_train_data *data =
 		(struct fann_train_data *) malloc(sizeof(struct fann_train_data));
 
@@ -866,9 +866,9 @@ struct fann_train_data * fann_create_train(unsigned int num_data, unsigned int n
 	return data;
 }
 
-struct fann_train_data * fann_create_train_pointer_array(unsigned int num_data, unsigned int num_input, fann_type **input, unsigned int num_output, fann_type **output)
+struct fann_train_data * fann_create_train_pointer_array(uint32_t num_data, uint32_t num_input, fann_type **input, uint32_t num_output, fann_type **output)
 {
-	unsigned int i;
+	uint32_t i;
     struct fann_train_data *data;
 	data = fann_create_train(num_data, num_input, num_output);
 
@@ -884,9 +884,9 @@ struct fann_train_data * fann_create_train_pointer_array(unsigned int num_data, 
 	return data;
 }
 
-struct fann_train_data * fann_create_train_array(unsigned int num_data, unsigned int num_input, fann_type *input, unsigned int num_output, fann_type *output)
+struct fann_train_data * fann_create_train_array(uint32_t num_data, uint32_t num_input, fann_type *input, uint32_t num_output, fann_type *output)
 {
-	unsigned int i;
+	uint32_t i;
     struct fann_train_data *data;
 	data = fann_create_train(num_data, num_input, num_output);
 
@@ -906,16 +906,16 @@ struct fann_train_data * fann_create_train_array(unsigned int num_data, unsigned
 /*
  * Creates training data from a callback function.
  */
-struct fann_train_data * fann_create_train_from_callback(unsigned int num_data,
-                                          unsigned int num_input,
-                                          unsigned int num_output,
-                                          void (*user_function)( unsigned int,
-                                                                 unsigned int,
-                                                                 unsigned int,
+struct fann_train_data * fann_create_train_from_callback(uint32_t num_data,
+                                          uint32_t num_input,
+                                          uint32_t num_output,
+                                          void (*user_function)( uint32_t,
+                                                                 uint32_t,
+                                                                 uint32_t,
                                                                  fann_type * ,
                                                                  fann_type * ))
 {
-    unsigned int i;
+    uint32_t i;
 	struct fann_train_data *data = fann_create_train(num_data, num_input, num_output);
 	if(data == NULL)
 	{
@@ -930,14 +930,14 @@ struct fann_train_data * fann_create_train_from_callback(unsigned int num_data,
     return data;
 } 
 
-fann_type * fann_get_train_input(struct fann_train_data * data, unsigned int position)
+fann_type * fann_get_train_input(struct fann_train_data * data, uint32_t position)
 {
 	if(position >= data->num_data)
 		return NULL;
 	return data->input[position];
 }
 
-fann_type * fann_get_train_output(struct fann_train_data * data, unsigned int position)
+fann_type * fann_get_train_output(struct fann_train_data * data, uint32_t position)
 {
 	if(position >= data->num_data)
 		return NULL;
@@ -950,8 +950,8 @@ fann_type * fann_get_train_output(struct fann_train_data * data, unsigned int po
  */
 struct fann_train_data *fann_read_train_from_fd(FILE * file, const char *filename)
 {
-	unsigned int num_input, num_output, num_data, i, j;
-	unsigned int line = 1;
+	uint32_t num_input, num_output, num_data, i, j;
+	uint32_t line = 1;
 	struct fann_train_data *data;
 
 	if(fscanf(file, "%u %u %u\n", &num_data, &num_input, &num_output) != 3)
@@ -997,7 +997,7 @@ struct fann_train_data *fann_read_train_from_fd(FILE * file, const char *filenam
 /*
  * INTERNAL FUNCTION returns 0 if the desired error is reached and -1 if it is not reached
  */
-int fann_desired_error_reached(struct fann *ann, float desired_error)
+int32_t fann_desired_error_reached(struct fann *ann, float desired_error)
 {
 	switch (ann->train_stop_function)
 	{
@@ -1006,7 +1006,7 @@ int fann_desired_error_reached(struct fann *ann, float desired_error)
 			return 0;
 		break;
 	case FANN_STOPFUNC_BIT:
-		if(ann->num_bit_fail <= (unsigned int)desired_error)
+		if(ann->num_bit_fail <= (uint32_t)desired_error)
 			return 0;
 		break;
 	}
@@ -1200,7 +1200,7 @@ void fann_descale_train( struct fann *ann, struct fann_train_data *data )
 	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
 		ann->scale_new_min_##where[ cur_neuron ] = new_##where##put_min;
 
-int fann_set_input_scaling_params(
+int32_t fann_set_input_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_input_min,
@@ -1238,7 +1238,7 @@ int fann_set_input_scaling_params(
 	return 0;
 }
 
-int fann_set_output_scaling_params(
+int32_t fann_set_output_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_output_min,
@@ -1279,7 +1279,7 @@ int fann_set_output_scaling_params(
 /*
  * Calculate scaling parameters for future use based on training data.
  */
-int fann_set_scaling_params(
+int32_t fann_set_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_input_min,
@@ -1296,7 +1296,7 @@ int fann_set_scaling_params(
 /*
  * Clears scaling parameters.
  */
-int fann_clear_scaling_params(struct fann *ann)
+int32_t fann_clear_scaling_params(struct fann *ann)
 {
 	unsigned cur_neuron;
 
@@ -1321,7 +1321,7 @@ int fann_clear_scaling_params(struct fann *ann)
 
 #endif
 
-int fann_check_input_output_sizes(struct fann *ann, struct fann_train_data *data)
+int32_t fann_check_input_output_sizes(struct fann *ann, struct fann_train_data *data)
 {
 	if(ann->num_input != data->num_input)
     {

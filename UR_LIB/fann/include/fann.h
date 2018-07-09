@@ -101,7 +101,7 @@ extern "C"
 		
 	This function appears in FANN >= 2.0.0.
 */ 
-struct fann *fann_create_standard(unsigned int num_layers, ...);
+struct fann *fann_create_standard(uint32_t num_layers, ...);
 
 /* Function: fann_create_standard_array
    Just like <fann_create_standard>, but with an array of layer sizes
@@ -110,7 +110,7 @@ struct fann *fann_create_standard(unsigned int num_layers, ...);
 	Example:
 		> // Creating an ANN with 2 input neurons, 1 output neuron, 
 		> // and two hidden layers with 8 and 9 neurons
-		> unsigned int layers[4] = {2, 8, 9, 1};
+		> uint32_t layers[4] = {2, 8, 9, 1};
 		> struct fann *ann = fann_create_standard_array(4, layers);
 
 	See also:
@@ -118,8 +118,8 @@ struct fann *fann_create_standard(unsigned int num_layers, ...);
 
 	This function appears in FANN >= 2.0.0.
 */ 
-struct fann *fann_create_standard_array(unsigned int num_layers,
-													           const unsigned int *layers);
+struct fann *fann_create_standard_array(uint32_t num_layers,
+													           const uint32_t *layers);
 
 /* Function: fann_create_sparse
 
@@ -143,7 +143,7 @@ struct fann *fann_create_standard_array(unsigned int num_layers,
 	This function appears in FANN >= 2.0.0.
 */
 struct fann *fann_create_sparse(float connection_rate, 
-	                                                   unsigned int num_layers, ...);
+	                                                   uint32_t num_layers, ...);
 
 
 /* Function: fann_create_sparse_array
@@ -158,8 +158,8 @@ struct fann *fann_create_sparse(float connection_rate,
 	This function appears in FANN >= 2.0.0.
 */
 struct fann *fann_create_sparse_array(float connection_rate, 
-	                                                         unsigned int num_layers, 
-															 const unsigned int *layers);
+	                                                         uint32_t num_layers, 
+															 const uint32_t *layers);
 
 /* Function: fann_create_shortcut
 
@@ -177,7 +177,7 @@ struct fann *fann_create_sparse_array(float connection_rate,
 
 	This function appears in FANN >= 2.0.0.
 */ 
-struct fann *fann_create_shortcut(unsigned int num_layers, ...);
+struct fann *fann_create_shortcut(uint32_t num_layers, ...);
 
 /* Function: fann_create_shortcut_array
    Just like <fann_create_shortcut>, but with an array of layer sizes
@@ -190,8 +190,8 @@ struct fann *fann_create_shortcut(unsigned int num_layers, ...);
 
 	This function appears in FANN >= 2.0.0.
 */
-struct fann *fann_create_shortcut_array(unsigned int num_layers,
-															   const unsigned int *layers);
+struct fann *fann_create_shortcut_array(uint32_t num_layers,
+															   const uint32_t *layers);
 /* Function: fann_destroy
    Destroys the entire network, properly freeing all the associated memory.
 
@@ -296,7 +296,7 @@ void fann_print_parameters(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int fann_get_num_input(struct fann *ann);
+uint32_t fann_get_num_input(struct fann *ann);
 
 
 /* Function: fann_get_num_output
@@ -305,7 +305,7 @@ unsigned int fann_get_num_input(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int fann_get_num_output(struct fann *ann);
+uint32_t fann_get_num_output(struct fann *ann);
 
 
 /* Function: fann_get_total_neurons
@@ -315,7 +315,7 @@ unsigned int fann_get_num_output(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int fann_get_total_neurons(struct fann *ann);
+uint32_t fann_get_total_neurons(struct fann *ann);
 
 
 /* Function: fann_get_total_connections
@@ -324,7 +324,7 @@ unsigned int fann_get_total_neurons(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int fann_get_total_connections(struct fann *ann);
+uint32_t fann_get_total_connections(struct fann *ann);
 
 /* Function: fann_get_network_type
 
@@ -373,11 +373,11 @@ float fann_get_connection_rate(struct fann *ann);
 	Example:
 		> // Obtain the number of layers in a neural network
 		> struct fann *ann = fann_create_standard(4, 2, 8, 9, 1);
-        > unsigned int num_layers = fann_get_num_layers(ann);
+        > uint32_t num_layers = fann_get_num_layers(ann);
 
    This function appears in FANN >= 2.1.0
 */
-unsigned int fann_get_num_layers(struct fann *ann);
+uint32_t fann_get_num_layers(struct fann *ann);
 
 /*Function: fann_get_layer_array
 
@@ -390,11 +390,11 @@ unsigned int fann_get_num_layers(struct fann *ann);
             type <struct fann> pointer.
 
     The layers array must be preallocated to at least
-    sizeof(unsigned int) * fann_num_layers() long.
+    sizeof(uint32_t) * fann_num_layers() long.
 
    This function appears in FANN >= 2.1.0
 */
-void fann_get_layer_array(struct fann *ann, unsigned int *layers);
+void fann_get_layer_array(struct fann *ann, uint32_t *layers);
 
 /* Function: fann_get_bias_array
 
@@ -405,11 +405,11 @@ void fann_get_layer_array(struct fann *ann, unsigned int *layers);
             type <struct fann> pointer.
 
     The bias array must be preallocated to at least
-    sizeof(unsigned int) * fann_num_layers() long.
+    sizeof(uint32_t) * fann_num_layers() long.
 
    This function appears in FANN >= 2.1.0
 */
-void fann_get_bias_array(struct fann *ann, unsigned int *bias);
+void fann_get_bias_array(struct fann *ann, uint32_t *bias);
 
 /* Function: fann_get_connection_array
 
@@ -443,7 +443,7 @@ void fann_get_connection_array(struct fann *ann,
    This function appears in FANN >= 2.1.0
 */
 void fann_set_weight_array(struct fann *ann,
-    struct fann_connection *connections, unsigned int num_connections);
+    struct fann_connection *connections, uint32_t num_connections);
 
 /* Function: fann_set_weight
 
@@ -459,7 +459,7 @@ void fann_set_weight_array(struct fann *ann,
    This function appears in FANN >= 2.1.0
 */
 void fann_set_weight(struct fann *ann,
-    unsigned int from_neuron, unsigned int to_neuron, fann_type weight);
+    uint32_t from_neuron, uint32_t to_neuron, fann_type weight);
 
 /* Function: fann_get_weights
 
@@ -565,7 +565,7 @@ void fann_enable_seed_rand();
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int fann_get_decimal_point(struct fann *ann);
+uint32_t fann_get_decimal_point(struct fann *ann);
 
 
 /* Function: fann_get_multiplier
@@ -585,7 +585,7 @@ unsigned int fann_get_decimal_point(struct fann *ann);
 
 	This function appears in FANN >= 1.0.0.
 */ 
-unsigned int fann_get_multiplier(struct fann *ann);
+uint32_t fann_get_multiplier(struct fann *ann);
 
 #endif	/* FIXEDFANN */
 

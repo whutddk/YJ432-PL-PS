@@ -56,9 +56,9 @@ struct fann_train_data
 	FILE *error_log;
 	char *errstr;
 
-	unsigned int num_data;
-	unsigned int num_input;
-	unsigned int num_output;
+	uint32_t num_data;
+	uint32_t num_input;
+	uint32_t num_output;
 	fann_type **input;
 	fann_type **output;
 };
@@ -131,7 +131,7 @@ float fann_get_MSE(struct fann *ann);
 
 	This function appears in FANN >= 2.0.0
 */
-unsigned int fann_get_bit_fail(struct fann *ann);
+uint32_t fann_get_bit_fail(struct fann *ann);
 
 /* Function: fann_reset_MSE
    Resets the mean square error from the network.
@@ -174,8 +174,8 @@ void fann_reset_MSE(struct fann *ann);
 	This function appears in FANN >= 1.0.0.
 */ 
 void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
-											   unsigned int max_epochs,
-											   unsigned int epochs_between_reports,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
 											   float desired_error);
 
 /* Function: fann_train_on_file
@@ -188,8 +188,8 @@ void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
 	This function appears in FANN >= 1.0.0.
 */ 
 void fann_train_on_file(struct fann *ann, const char *filename,
-											   unsigned int max_epochs,
-											   unsigned int epochs_between_reports,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
 											   float desired_error);
 
 /* Function: fann_train_epoch
@@ -261,7 +261,7 @@ struct fann_train_data *fann_read_train_from_file(const char *filename);
 
     This function appears in FANN >= 2.2.0
 */ 
-struct fann_train_data * fann_create_train(unsigned int num_data, unsigned int num_input, unsigned int num_output);
+struct fann_train_data * fann_create_train(uint32_t num_data, uint32_t num_input, uint32_t num_output);
 
 /* Function: fann_create_train_pointer_array
    Creates an training data struct and fills it with data from provided arrays of pointer.
@@ -276,7 +276,7 @@ struct fann_train_data * fann_create_train(unsigned int num_data, unsigned int n
 
     This function appears in FANN >= 2.3.0
 */ 
-struct fann_train_data * fann_create_train_pointer_array(unsigned int num_data, unsigned int num_input, fann_type **input, unsigned int num_output, fann_type **output);
+struct fann_train_data * fann_create_train_pointer_array(uint32_t num_data, uint32_t num_input, fann_type **input, uint32_t num_output, fann_type **output);
 
 /* Function: fann_create_train_array
    Creates an training data struct and fills it with data from provided arrays, where the arrays must have the dimensions:
@@ -293,7 +293,7 @@ struct fann_train_data * fann_create_train_pointer_array(unsigned int num_data, 
 
     This function appears in FANN >= 2.3.0
 */ 
-struct fann_train_data * fann_create_train_array(unsigned int num_data, unsigned int num_input, fann_type *input, unsigned int num_output, fann_type *output);
+struct fann_train_data * fann_create_train_array(uint32_t num_data, uint32_t num_input, fann_type *input, uint32_t num_output, fann_type *output);
 
 /* Function: fann_create_train_from_callback
    Creates the training data struct from a user supplied function.
@@ -325,12 +325,12 @@ struct fann_train_data * fann_create_train_array(unsigned int num_data, unsigned
 
     This function appears in FANN >= 2.1.0
 */ 
-struct fann_train_data * fann_create_train_from_callback(unsigned int num_data,
-                                          unsigned int num_input,
-                                          unsigned int num_output,
-                                          void (*user_function)( unsigned int,
-                                                                 unsigned int,
-                                                                 unsigned int,
+struct fann_train_data * fann_create_train_from_callback(uint32_t num_data,
+                                          uint32_t num_input,
+                                          uint32_t num_output,
+                                          void (*user_function)( uint32_t,
+                                                                 uint32_t,
+                                                                 uint32_t,
                                                                  fann_type * ,
                                                                  fann_type * ));
 
@@ -350,7 +350,7 @@ void fann_destroy_train(struct fann_train_data *train_data);
 
    This function appears in FANN >= 2.3.0
  */ 
-fann_type * fann_get_train_input(struct fann_train_data * data, unsigned int position);
+fann_type * fann_get_train_input(struct fann_train_data * data, uint32_t position);
 
 /* Function: fann_get_train_output
    Gets the training output data at the given position
@@ -360,7 +360,7 @@ fann_type * fann_get_train_input(struct fann_train_data * data, unsigned int pos
 
    This function appears in FANN >= 2.3.0
  */ 
-fann_type * fann_get_train_output(struct fann_train_data * data, unsigned int position);
+fann_type * fann_get_train_output(struct fann_train_data * data, uint32_t position);
 
 
 /* Function: fann_shuffle_train_data
@@ -452,7 +452,7 @@ void fann_descale_train( struct fann *ann, struct fann_train_data *data );
 
     This function appears in FANN >= 2.1.0
  */
-int fann_set_input_scaling_params(
+int32_t fann_set_input_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_input_min,
@@ -473,7 +473,7 @@ int fann_set_input_scaling_params(
 
     This function appears in FANN >= 2.1.0
  */
-int fann_set_output_scaling_params(
+int32_t fann_set_output_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_output_min,
@@ -496,7 +496,7 @@ int fann_set_output_scaling_params(
 
     This function appears in FANN >= 2.1.0
  */
-int fann_set_scaling_params(
+int32_t fann_set_scaling_params(
 	struct fann *ann,
 	const struct fann_train_data *data,
 	float new_input_min,
@@ -513,7 +513,7 @@ int fann_set_scaling_params(
 
     This function appears in FANN >= 2.1.0
  */
-int fann_clear_scaling_params(struct fann *ann);
+int32_t fann_clear_scaling_params(struct fann *ann);
 
 /* Function: fann_scale_input
 
@@ -674,8 +674,8 @@ struct fann_train_data *fann_duplicate_train_data(struct fann_train_data
    This function appears in FANN >= 2.0.0.
  */ 
 struct fann_train_data *fann_subset_train_data(struct fann_train_data
-																		 *data, unsigned int pos,
-																		 unsigned int length);
+																		 *data, uint32_t pos,
+																		 uint32_t length);
 	
 /* Function: fann_length_train_data
    
@@ -683,7 +683,7 @@ struct fann_train_data *fann_subset_train_data(struct fann_train_data
 
    This function appears in FANN >= 2.0.0.
  */ 
-unsigned int fann_length_train_data(struct fann_train_data *data);
+uint32_t fann_length_train_data(struct fann_train_data *data);
 	
 /* Function: fann_num_input_train_data
    
@@ -694,7 +694,7 @@ unsigned int fann_length_train_data(struct fann_train_data *data);
 
    This function appears in FANN >= 2.0.0.
  */ 
-unsigned int fann_num_input_train_data(struct fann_train_data *data);
+uint32_t fann_num_input_train_data(struct fann_train_data *data);
 	
 /* Function: fann_num_output_train_data
    
@@ -705,7 +705,7 @@ unsigned int fann_num_input_train_data(struct fann_train_data *data);
 
    This function appears in FANN >= 2.0.0.
  */ 
-unsigned int fann_num_output_train_data(struct fann_train_data *data);
+uint32_t fann_num_output_train_data(struct fann_train_data *data);
 	
 /* Function: fann_save_train
    
@@ -719,7 +719,7 @@ unsigned int fann_num_output_train_data(struct fann_train_data *data);
 	
    This function appears in FANN >= 1.0.0.   	
  */ 
-int fann_save_train(struct fann_train_data *data, const char *filename);
+int32_t fann_save_train(struct fann_train_data *data, const char *filename);
 
 
 /* Function: fann_save_train_to_fixed
@@ -736,8 +736,8 @@ int fann_save_train(struct fann_train_data *data, const char *filename);
 
    This function appears in FANN >= 1.0.0.   	
  */ 
-int fann_save_train_to_fixed(struct fann_train_data *data, const char *filename,
-													 unsigned int decimal_point);
+int32_t fann_save_train_to_fixed(struct fann_train_data *data, const char *filename,
+													 uint32_t decimal_point);
 
 
 /* Group: Parameters */
@@ -850,8 +850,8 @@ void fann_set_learning_momentum(struct fann *ann, float learning_momentum);
    This function appears in FANN >= 2.1.0
  */ 
 enum fann_activationfunc_enum fann_get_activation_function(struct fann *ann,
-																int layer,
-																int neuron);
+																int32_t layer,
+																int32_t neuron);
 
 /* Function: fann_set_activation_function
 
@@ -878,8 +878,8 @@ enum fann_activationfunc_enum fann_get_activation_function(struct fann *ann,
 void fann_set_activation_function(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
-																int layer,
-																int neuron);
+																int32_t layer,
+																int32_t neuron);
 
 /* Function: fann_set_activation_function_layer
 
@@ -897,7 +897,7 @@ void fann_set_activation_function(struct fann *ann,
 void fann_set_activation_function_layer(struct fann *ann,
 																enum fann_activationfunc_enum
 																activation_function,
-																int layer);
+																int32_t layer);
 
 /* Function: fann_set_activation_function_hidden
 
@@ -955,8 +955,8 @@ void fann_set_activation_function_output(struct fann *ann,
    This function appears in FANN >= 2.1.0
  */ 
 fann_type fann_get_activation_steepness(struct fann *ann,
-																int layer,
-																int neuron);
+																int32_t layer,
+																int32_t neuron);
 
 /* Function: fann_set_activation_steepness
 
@@ -983,8 +983,8 @@ fann_type fann_get_activation_steepness(struct fann *ann,
  */ 
 void fann_set_activation_steepness(struct fann *ann,
 																fann_type steepness,
-																int layer,
-																int neuron);
+																int32_t layer,
+																int32_t neuron);
 
 /* Function: fann_set_activation_steepness_layer
 
@@ -1001,7 +1001,7 @@ void fann_set_activation_steepness(struct fann *ann,
  */ 
 void fann_set_activation_steepness_layer(struct fann *ann,
 																fann_type steepness,
-																int layer);
+																int32_t layer);
 
 /* Function: fann_set_activation_steepness_hidden
 

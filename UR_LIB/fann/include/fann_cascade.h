@@ -68,8 +68,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 void fann_cascadetrain_on_data(struct fann *ann,
 													  struct fann_train_data *data,
-													  unsigned int max_neurons,
-													  unsigned int neurons_between_reports,
+													  uint32_t max_neurons,
+													  uint32_t neurons_between_reports,
 													  float desired_error);
 
 /* Function: fann_cascadetrain_on_file
@@ -82,8 +82,8 @@ void fann_cascadetrain_on_data(struct fann *ann,
 	This function appears in FANN >= 2.0.0.
 */ 
 void fann_cascadetrain_on_file(struct fann *ann, const char *filename,
-													  unsigned int max_neurons,
-													  unsigned int neurons_between_reports,
+													  uint32_t max_neurons,
+													  uint32_t neurons_between_reports,
 													  float desired_error);
 
 /* Group: Parameters */
@@ -139,7 +139,7 @@ void fann_set_cascade_output_change_fraction(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_output_stagnation_epochs(struct fann *ann);
+uint32_t fann_get_cascade_output_stagnation_epochs(struct fann *ann);
 
 
 /* Function: fann_set_cascade_output_stagnation_epochs
@@ -152,7 +152,7 @@ unsigned int fann_get_cascade_output_stagnation_epochs(struct fann *ann);
 	This function appears in FANN >= 2.0.0.
  */
 void fann_set_cascade_output_stagnation_epochs(struct fann *ann, 
-															 unsigned int cascade_output_stagnation_epochs);
+															 uint32_t cascade_output_stagnation_epochs);
 
 
 /* Function: fann_get_cascade_candidate_change_fraction
@@ -206,7 +206,7 @@ void fann_set_cascade_candidate_change_fraction(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_candidate_stagnation_epochs(struct fann *ann);
+uint32_t fann_get_cascade_candidate_stagnation_epochs(struct fann *ann);
 
 
 /* Function: fann_set_cascade_candidate_stagnation_epochs
@@ -219,7 +219,7 @@ unsigned int fann_get_cascade_candidate_stagnation_epochs(struct fann *ann);
 	This function appears in FANN >= 2.0.0.
  */
 void fann_set_cascade_candidate_stagnation_epochs(struct fann *ann, 
-															 unsigned int cascade_candidate_stagnation_epochs);
+															 uint32_t cascade_candidate_stagnation_epochs);
 
 
 /* Function: fann_get_cascade_weight_multiplier
@@ -294,7 +294,7 @@ void fann_set_cascade_candidate_limit(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_max_out_epochs(struct fann *ann);
+uint32_t fann_get_cascade_max_out_epochs(struct fann *ann);
 
 
 /* Function: fann_set_cascade_max_out_epochs
@@ -307,7 +307,7 @@ unsigned int fann_get_cascade_max_out_epochs(struct fann *ann);
 	This function appears in FANN >= 2.0.0.
  */
 void fann_set_cascade_max_out_epochs(struct fann *ann, 
-															 unsigned int cascade_max_out_epochs);
+															 uint32_t cascade_max_out_epochs);
 
 
 /* Function: fann_get_cascade_min_out_epochs
@@ -322,7 +322,7 @@ void fann_set_cascade_max_out_epochs(struct fann *ann,
 
 	This function appears in FANN >= 2.2.0.
  */
-unsigned int fann_get_cascade_min_out_epochs(struct fann *ann);
+uint32_t fann_get_cascade_min_out_epochs(struct fann *ann);
 
 
 /* Function: fann_set_cascade_min_out_epochs
@@ -335,7 +335,7 @@ unsigned int fann_get_cascade_min_out_epochs(struct fann *ann);
 	This function appears in FANN >= 2.2.0.
  */
 void fann_set_cascade_min_out_epochs(struct fann *ann, 
-															 unsigned int cascade_min_out_epochs);
+															 uint32_t cascade_min_out_epochs);
 
 /* Function: fann_get_cascade_max_cand_epochs
 
@@ -349,7 +349,7 @@ void fann_set_cascade_min_out_epochs(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_max_cand_epochs(struct fann *ann);
+uint32_t fann_get_cascade_max_cand_epochs(struct fann *ann);
 
 
 /* Function: fann_set_cascade_max_cand_epochs
@@ -362,7 +362,7 @@ unsigned int fann_get_cascade_max_cand_epochs(struct fann *ann);
 	This function appears in FANN >= 2.0.0.
  */
 void fann_set_cascade_max_cand_epochs(struct fann *ann, 
-															 unsigned int cascade_max_cand_epochs);
+															 uint32_t cascade_max_cand_epochs);
 
 
 /* Function: fann_get_cascade_min_cand_epochs
@@ -377,7 +377,7 @@ void fann_set_cascade_max_cand_epochs(struct fann *ann,
 
 	This function appears in FANN >= 2.2.0.
  */
-unsigned int fann_get_cascade_min_cand_epochs(struct fann *ann);
+uint32_t fann_get_cascade_min_cand_epochs(struct fann *ann);
 
 
 /* Function: fann_set_cascade_min_cand_epochs
@@ -390,7 +390,7 @@ unsigned int fann_get_cascade_min_cand_epochs(struct fann *ann);
 	This function appears in FANN >= 2.2.0.
  */
 void fann_set_cascade_min_cand_epochs(struct fann *ann, 
-															 unsigned int cascade_min_cand_epochs);
+															 uint32_t cascade_min_cand_epochs);
 
 /* Function: fann_get_cascade_num_candidates
 
@@ -415,7 +415,7 @@ void fann_set_cascade_min_cand_epochs(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */ 
-unsigned int fann_get_cascade_num_candidates(struct fann *ann);
+uint32_t fann_get_cascade_num_candidates(struct fann *ann);
 
 /* Function: fann_get_cascade_activation_functions_count
 
@@ -428,7 +428,7 @@ unsigned int fann_get_cascade_num_candidates(struct fann *ann);
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_activation_functions_count(struct fann *ann);
+uint32_t fann_get_cascade_activation_functions_count(struct fann *ann);
 
 
 /* Function: fann_get_cascade_activation_functions
@@ -469,7 +469,7 @@ enum fann_activationfunc_enum * fann_get_cascade_activation_functions(
 void fann_set_cascade_activation_functions(struct fann *ann,
 														 enum fann_activationfunc_enum *
 														 cascade_activation_functions,
-														 unsigned int 
+														 uint32_t 
 														 cascade_activation_functions_count);
 
 
@@ -484,7 +484,7 @@ void fann_set_cascade_activation_functions(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_activation_steepnesses_count(struct fann *ann);
+uint32_t fann_get_cascade_activation_steepnesses_count(struct fann *ann);
 
 
 /* Function: fann_get_cascade_activation_steepnesses
@@ -521,7 +521,7 @@ fann_type * fann_get_cascade_activation_steepnesses(struct fann *ann);
 void fann_set_cascade_activation_steepnesses(struct fann *ann,
 														   fann_type *
 														   cascade_activation_steepnesses,
-														   unsigned int 
+														   uint32_t 
 														   cascade_activation_steepnesses_count);
 
 /* Function: fann_get_cascade_num_candidate_groups
@@ -541,7 +541,7 @@ void fann_set_cascade_activation_steepnesses(struct fann *ann,
 
 	This function appears in FANN >= 2.0.0.
  */
-unsigned int fann_get_cascade_num_candidate_groups(struct fann *ann);
+uint32_t fann_get_cascade_num_candidate_groups(struct fann *ann);
 
 
 /* Function: fann_set_cascade_num_candidate_groups
@@ -554,7 +554,7 @@ unsigned int fann_get_cascade_num_candidate_groups(struct fann *ann);
 	This function appears in FANN >= 2.0.0.
  */
 void fann_set_cascade_num_candidate_groups(struct fann *ann, 
-															 unsigned int cascade_num_candidate_groups);
+															 uint32_t cascade_num_candidate_groups);
 
 #endif  /* FIXEDFANN */
 
