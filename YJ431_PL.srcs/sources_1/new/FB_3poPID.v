@@ -38,17 +38,17 @@ module FB_po3PIDREG(
 
 	PID_ERS_REG,
 	PID_KPS_REG,
-	PID_KIS_REG,
+//	PID_KIS_REG,
 	PID_KDS_REG,
 
 	PID_ERM_REG,
 	PID_KPM_REG,
-	PID_KIM_REG,
+//	PID_KIM_REG,
 	PID_KDM_REG,
 
 	PID_ERB_REG,
 	PID_KPB_REG,
-	PID_KIB_REG,
+//	PID_KIB_REG,
 	PID_KDB_REG,
 
 	PID_OUT_REG
@@ -56,52 +56,52 @@ module FB_po3PIDREG(
 
 
 
-	input RST_n;
-    input [31:0] BUS_ADDR;
-    inout [31:0] BUS_DATA;
-    input BUS_CS;
+input RST_n;
+input [31:0] BUS_ADDR;
+inout [31:0] BUS_DATA;
+input BUS_CS;
 
-    input BUS_read;
-    input BUS_write;
+input BUS_read;
+input BUS_write;
 
-    input [9:0] po3PID_BASE;
+input [9:0] po3PID_BASE;
 
 //Register
-	output reg [31:0] CTL_FREQ_REG;
-	output reg [31:0] PID_AIM_REG;
-	output reg [31:0] PID_CUR_REG;
+output reg [31:0] CTL_FREQ_REG;
+output reg [31:0] PID_AIM_REG;
+output reg [31:0] PID_CUR_REG;
 
-	output reg [31:0] PID_ERS_REG;
-	output reg [31:0] PID_KPS_REG;
-	output reg [31:0] PID_KIS_REG;
-	output reg [31:0] PID_KDS_REG;
+output reg [31:0] PID_ERS_REG;
+output reg [31:0] PID_KPS_REG;
+//output reg [31:0] PID_KIS_REG;
+output reg [31:0] PID_KDS_REG;
 
-	output reg [31:0] PID_ERM_REG;
-	output reg [31:0] PID_KPM_REG;
-	output reg [31:0] PID_KIM_REG;
-	output reg [31:0] PID_KDM_REG;
+output reg [31:0] PID_ERM_REG;
+output reg [31:0] PID_KPM_REG;
+//output reg [31:0] PID_KIM_REG;
+output reg [31:0] PID_KDM_REG;
 
-	output reg [31:0] PID_ERB_REG;
-	output reg [31:0] PID_KPB_REG;
-	output reg [31:0] PID_KIB_REG;
-	output reg [31:0] PID_KDB_REG;
+output reg [31:0] PID_ERB_REG;
+output reg [31:0] PID_KPB_REG;
+//output reg [31:0] PID_KIB_REG;
+output reg [31:0] PID_KDB_REG;
 
-	input [31:0] PID_OUT_REG;
-	
-	wire AD_TRI_n;//茅聺啪茅芦藴茅藴禄莽艩露忙鈧伱β犫?∶ヂ库?斆ぢ铰?
-	wire ADD_COMF;
-	
-	reg [31:0] BUS_DATA_REG = 32'b0;
-	
-	assign ADD_COMF = ( BUS_ADDR[31:22] == po3PID_BASE[9:0] ) ? 1'b1:1'b0;    //氓艙掳氓聺鈧ぢ宦裁Ｂ? 
-	assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ; //忙鈥斅睹ヂ郝徝┾偓禄猫戮鈥樏ニ喡っ︹?撀λ溌ヂ惵γ久铰┞澟久┞溍┧溌幻寂∶ヂ惻捗︹?斅睹β宦∶堵?1氓艙掳氓聺鈧??2莽鈥扳?∶??鈥懊寂?3氓陇鈥撁┢捖访β扁?毭??
-	//猫驴鈥好モ?βッ┞澟久┞溍┧溌幻??聛茂录拧1 氓艙掳氓聺鈧ぢ宦裁Ｂ伱┾偓拧猫驴鈥? 2 莽鈥扳?∶??鈥懊ε撯?懊︹??? 3 盲赂潞氓陇鈥撁┢捖访β扁?毭??
-	//猫鈥灺泵β幻┞溍┧溌幻︹偓聛茂录拧1莽鈥扳?∶??鈥懊ヂぢ泵︹?⑺喢ㄢ?灺泵?? 2氓艙掳氓聺鈧ヂぢ泵︹?⑺? 氓陇鈥撁┢捖幻モ?犫劉猫炉路忙卤鈥毭ヂぢ泵︹?⑺喢ヂ?懊モ?βㄢ?灺泵β??
-   
-	assign BUS_DATA = AD_TRI_n ? BUS_DATA_REG : 32'bz;
+input [31:0] PID_OUT_REG;
+
+wire AD_TRI_n;//非高阻状态标志位
+wire ADD_COMF;
+
+reg [31:0] BUS_DATA_REG = 32'b0;
+
+assign ADD_COMF = ( BUS_ADDR[31:22] == po3PID_BASE[9:0] ) ? 1'b1:1'b0;    //地址仲裁 
+assign AD_TRI_n = ADD_COMF & ~BUS_CS & BUS_read ;  //时序逻辑判断是否设置非高阻：同时满足1地址，2片选，3外部请求读
+//进入非高阻态：1 地址仲裁通过 2 片选有效 3 为外部请求读?
+//脱离高阻态：1片选失效脱离 2地址失效 外部读写请求失效安全脱离?
+      
+assign BUS_DATA = AD_TRI_n ? BUS_DATA_REG : 32'bz;
     
-//氓炉鈥灻ヂ溍モ劉篓猫炉禄氓鈥??
-//氓陇鈥撁┢捖モ?犫劉氓鈥β?
+//寄存器读写
+//外部写入
 always@( posedge BUS_CS or negedge RST_n )
     if ( !RST_n ) begin
 		CTL_FREQ_REG <= 32'd0;
@@ -110,22 +110,22 @@ always@( posedge BUS_CS or negedge RST_n )
 
 		PID_ERS_REG <= 32'd0;
 		PID_KPS_REG <= 32'd0;
-		PID_KIS_REG <= 32'd0;
+//		PID_KIS_REG <= 32'd0;
 		PID_KDS_REG <= 32'd0;
 
 		PID_ERM_REG <= 32'd0;
 		PID_KPM_REG <= 32'd0;
-		PID_KIM_REG <= 32'd0;
+//		PID_KIM_REG <= 32'd0;
 		PID_KDM_REG <= 32'd0;
 
 		PID_ERB_REG <= 32'd0;
 		PID_KPB_REG <= 32'd0;
-		PID_KIB_REG <= 32'd0;
+//		PID_KIB_REG <= 32'd0;
 		PID_KDB_REG <= 32'd0;
     end
     
     else begin
-        if ( ADD_COMF ) begin        //盲禄虏猫拢聛茅鈧∶库?∶???
+        if ( ADD_COMF ) begin        //仲裁通过
             if ( BUS_write == 1'b1 ) begin
                 case(BUS_ADDR[21:0])
                     22'b0000000: begin    
@@ -137,17 +137,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end                
                     22'b0000100: begin
@@ -157,17 +157,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                     22'b0001000: begin
@@ -177,17 +177,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                     
@@ -198,17 +198,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG[31:0] <= BUS_DATA[31:0];
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                            
@@ -219,17 +219,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG[31:0] <= BUS_DATA[31:0];
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                            
@@ -240,17 +240,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG[31:0] <= BUS_DATA[31:0];
+//						PID_KIS_REG[31:0] <= BUS_DATA[31:0];
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;
                     end
                            
@@ -261,17 +261,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG[31:0] <= BUS_DATA[31:0];
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;                   	
                     end
                            
@@ -282,17 +282,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG[31:0] <= BUS_DATA[31:0];
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;  
                     end
                            
@@ -303,17 +303,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG[31:0] <= BUS_DATA[31:0];
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG; 
 					end 
 
@@ -324,17 +324,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG[31:0] <= BUS_DATA[31:0];
+//						PID_KIM_REG[31:0] <= BUS_DATA[31:0];
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;  
 					end
 
@@ -345,17 +345,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG[31:0] <= BUS_DATA[31:0];
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;  
 					end
 
@@ -366,17 +366,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG[31:0] <= BUS_DATA[31:0];
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;  
 					end
 
@@ -387,17 +387,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG[31:0] <= BUS_DATA[31:0];
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG <= PID_KDB_REG;  
 					end
 
@@ -408,17 +408,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG [31:0] <= BUS_DATA [31:0];
+//						PID_KIB_REG [31:0] <= BUS_DATA [31:0];
 						PID_KDB_REG <= PID_KDB_REG;  
 					end
 
@@ -429,17 +429,17 @@ always@( posedge BUS_CS or negedge RST_n )
 
 						PID_ERS_REG <= PID_ERS_REG;
 						PID_KPS_REG <= PID_KPS_REG;
-						PID_KIS_REG <= PID_KIS_REG;
+//						PID_KIS_REG <= PID_KIS_REG;
 						PID_KDS_REG <= PID_KDS_REG;
 
 						PID_ERM_REG <= PID_ERM_REG;
 						PID_KPM_REG <= PID_KPM_REG;
-						PID_KIM_REG <= PID_KIM_REG;
+//						PID_KIM_REG <= PID_KIM_REG;
 						PID_KDM_REG <= PID_KDM_REG;
 
 						PID_ERB_REG <= PID_ERB_REG;
 						PID_KPB_REG <= PID_KPB_REG;
-						PID_KIB_REG <= PID_KIB_REG;
+//						PID_KIB_REG <= PID_KIB_REG;
 						PID_KDB_REG [31:0] <= BUS_DATA [31:0];  
 					end
                 endcase
@@ -447,15 +447,15 @@ always@( posedge BUS_CS or negedge RST_n )
         end // if ( ADD_COMF )
     end
 
-//氓炉鈥灻ヂ溍モ劉篓猫炉禄氓鈥??
-//氓陇鈥撁┢捖幻モ?÷?
+//寄存器读写
+//外部读出
 always@( negedge BUS_CS or negedge RST_n )
     if ( !RST_n ) begin
         BUS_DATA_REG <= 32'b0;
     end // if ( !RST_n )
     
     else begin
-        if ( ADD_COMF ) begin        //盲禄虏猫拢聛茅鈧∶库?∶???
+        if ( ADD_COMF ) begin       //仲裁通过
             if ( BUS_read == 1'b1 ) begin
                 case(BUS_ADDR[21:0])
                 	22'b0000000:begin 
@@ -474,7 +474,7 @@ always@( negedge BUS_CS or negedge RST_n )
 						BUS_DATA_REG[31:0] <= PID_KPS_REG[31:0];
 					end
 					22'b0010100:begin
-						BUS_DATA_REG[31:0] <= PID_KIS_REG[31:0];
+//						BUS_DATA_REG[31:0] <= PID_KIS_REG[31:0];
 					end
 					22'b0011000:begin
 						BUS_DATA_REG[31:0] <= PID_KDS_REG[31:0];
@@ -486,7 +486,7 @@ always@( negedge BUS_CS or negedge RST_n )
 						BUS_DATA_REG[31:0] <= PID_KPM_REG[31:0];
 					end
 					22'b0100100:begin
-						BUS_DATA_REG[31:0] <= PID_KIM_REG[31:0];
+//						BUS_DATA_REG[31:0] <= PID_KIM_REG[31:0];
 					end
 					22'b0101000:begin
 						BUS_DATA_REG[31:0] <= PID_KDM_REG[31:0];
@@ -498,7 +498,7 @@ always@( negedge BUS_CS or negedge RST_n )
 						BUS_DATA_REG[31:0] <= PID_KPB_REG[31:0];
 					end
 					22'b0110100:begin
-						BUS_DATA_REG[31:0] <= PID_KIB_REG[31:0];
+//						BUS_DATA_REG[31:0] <= PID_KIB_REG[31:0];
 					end
 					22'b0111000:begin
 						BUS_DATA_REG[31:0] <= PID_KDB_REG[31:0];
@@ -529,17 +529,17 @@ module po3PID(
 
 	PID_ERS_Set,
 	PID_KPS_Set,
-	PID_KIS_Set,
+//	PID_KIS_Set,
 	PID_KDS_Set,
 
 	PID_ERM_Set,
 	PID_KPM_Set,
-	PID_KIM_Set,
+//	PID_KIM_Set,
 	PID_KDM_Set,
 
 	PID_ERB_Set,
 	PID_KPB_Set,
-	PID_KIB_Set,
+//	PID_KIB_Set,
 	PID_KDB_Set,
 
 	PID_OUT_REG
@@ -555,17 +555,17 @@ input [31:0] PID_CUR_Set;
 
 input [31:0] PID_ERS_Set;
 input [31:0] PID_KPS_Set;
-input [31:0] PID_KIS_Set;
+//input [31:0] PID_KIS_Set;
 input [31:0] PID_KDS_Set;
 
 input [31:0] PID_ERM_Set;
 input [31:0] PID_KPM_Set;
-input [31:0] PID_KIM_Set;
+//input [31:0] PID_KIM_Set;
 input [31:0] PID_KDM_Set;
 
 input [31:0] PID_ERB_Set;
 input [31:0] PID_KPB_Set;
-input [31:0] PID_KIB_Set;
+//input [31:0] PID_KIB_Set;
 input [31:0] PID_KDB_Set;
 
 output reg [31:0] PID_OUT_REG;
@@ -577,15 +577,15 @@ reg signed [31:0] PID_AIM_REG = 32'd0;
 reg signed [31:0] PID_CUR_REG = 32'd0;
 reg signed [31:0] PID_ERS_REG = 32'd0;
 reg signed [31:0] PID_KPS_REG = 32'd0;
-reg signed [31:0] PID_KIS_REG = 32'd0;
+//reg signed [31:0] PID_KIS_REG = 32'd0;
 reg signed [31:0] PID_KDS_REG = 32'd0;
 reg signed [31:0] PID_ERM_REG = 32'd0;
 reg signed [31:0] PID_KPM_REG = 32'd0;
-reg signed [31:0] PID_KIM_REG = 32'd0;
+//reg signed [31:0] PID_KIM_REG = 32'd0;
 reg signed [31:0] PID_KDM_REG = 32'd0;
 reg signed [31:0] PID_ERB_REG = 32'd0;
 reg signed [31:0] PID_KPB_REG = 32'd0;
-reg signed [31:0] PID_KIB_REG = 32'd0;
+//reg signed [31:0] PID_KIB_REG = 32'd0;
 reg signed [31:0] PID_KDB_REG = 32'd0;
 
 //add a negedge eage tick to protect
@@ -596,15 +596,15 @@ always @(negedge CLK or negedge RST_n)begin
 		PID_CUR_REG <= 32'd0;
 		PID_ERS_REG <= 32'd0;
 		PID_KPS_REG <= 32'd0; 
-		PID_KIS_REG <= 32'd0;
+//		PID_KIS_REG <= 32'd0;
 		PID_KDS_REG <= 32'd0;
 		PID_ERM_REG <= 32'd0;
 		PID_KPM_REG <= 32'd0;
-		PID_KIM_REG <= 32'd0;
+//		PID_KIM_REG <= 32'd0;
 		PID_KDM_REG <= 32'd0;
 		PID_ERB_REG <= 32'd0;
 		PID_KPB_REG <= 32'd0;
-		PID_KIB_REG <= 32'd0;
+//		PID_KIB_REG <= 32'd0;
 		PID_KDB_REG <= 32'd0;
 	end // if ( !RST_n )
 	else begin
@@ -615,17 +615,17 @@ always @(negedge CLK or negedge RST_n)begin
 		
 		PID_ERS_REG <= PID_ERS_Set;
 		PID_KPS_REG <= PID_KPS_Set; 
-		PID_KIS_REG <= PID_KIS_Set;
+//		PID_KIS_REG <= PID_KIS_Set;
 		PID_KDS_REG <= PID_KDS_Set;
 		
 		PID_ERM_REG <= PID_ERM_Set;
 		PID_KPM_REG <= PID_KPM_Set;
-		PID_KIM_REG <= PID_KIM_Set;
+//		PID_KIM_REG <= PID_KIM_Set;
 		PID_KDM_REG <= PID_KDM_Set;
 		
 		PID_ERB_REG <= PID_ERB_Set;
 		PID_KPB_REG <= PID_KPB_Set;
-		PID_KIB_REG <= PID_KIB_Set;
+//		PID_KIB_REG <= PID_KIB_Set;
 		PID_KDB_REG <= PID_KDB_Set;
 	end 
 end // always @(negedge CLK or negedge RST_n)
@@ -636,16 +636,8 @@ reg [31:0] ctl_cnt = 32'd0;
 reg signed [31:0] ERROR[2:0];
 
 reg signed [31:0] KP_CAL32_REG = 32'd0;     //P碌脛32脦禄脩隆露篓
-// reg signed [31:0] KP_OUT32_REG = 32'd0;     //P录脝脣茫陆谩鹿没
-
-//reg signed [63:0] KI_CAL64_REG = 64'd0;     //I碌脛64脦禄脌漏脮鹿
-//reg signed [63:0] KI_SUM64_REG = 64'd0;     //I录脝脣茫陆谩鹿没
-//reg signed [63:0] KI_OUT64_REG = 64'd0;
-
 reg signed [31:0] KD_CAL32_REG = 32'd0;         //D碌脛32脦禄脩隆露篓
 reg signed [31:0] KD_DIF32_REG = 32'd0;         //虏卯路脰陆谩鹿没
-// reg signed [31:0] KD_OUT32_REG = 32'd0;         //D录脝脣茫陆谩鹿没
-
 reg signed [31:0] PID_NERS_REG = 32'd0;
 reg signed [31:0] PID_NERM_REG = 32'd0;
 reg signed [31:0] PID_NERB_REG = 32'd0;
@@ -674,7 +666,7 @@ always@ ( posedge clk_pre or negedge RST_n )begin
 	end
 
 	else begin		
-		if ( ctl_cnt == 32'd0 ) begin //碌脷脪禄虏陆 录脝脣茫error
+		if ( ctl_cnt == 32'd0 ) begin //first tick 1： calculate error and calculate the negetive of error border
 			ctl_cnt <= ctl_cnt + 32'd1;
 	       
             ERROR[0][31:0] <= PID_CUR_REG[31:0] - PID_AIM_REG[31:0];
@@ -684,42 +676,40 @@ always@ ( posedge clk_pre or negedge RST_n )begin
             PID_NERS_REG <= -PID_ERS_REG;
             PID_NERM_REG <= -PID_ERM_REG;
             PID_NERB_REG <= -PID_ERB_REG;
-			
-			
+					
 		end // if ( ctl_cnt == 32'd0 )end
-		else if ( ctl_cnt == 32'd1 ) begin    //录脝脣茫虏卯路脰陆谩鹿没拢篓32脦禄拢漏
+		else if ( ctl_cnt == 32'd1 ) begin    //second tick 3 : calculate different of error and decide which parameter to use
 			ctl_cnt <= ctl_cnt + 32'd1;
 			
 			KD_DIF32_REG [31:0] <=  ERROR[0][31:0] - ERROR[1][31:0];
-			
+
 			if (  ERROR[0] < PID_ERS_REG && ERROR[0] > PID_NERS_REG ) begin
 			
 			     KP_CAL32_REG <= PID_KPS_REG;
 			     KD_CAL32_REG <= PID_KDS_REG;
 			end
-			
+
 			else if ( ERROR[0] < PID_ERM_REG && ERROR[0] > PID_NERM_REG ) begin
                  KP_CAL32_REG <= PID_KPM_REG;
                  KD_CAL32_REG <= PID_KDM_REG;
 			end
-			
+
 			else begin
                  KP_CAL32_REG <= PID_KPB_REG;
                  KD_CAL32_REG <= PID_KDB_REG;
 			end
-					
+
 		end // else if ( ctl_cnt == 32'd1 )
-		else if ( ctl_cnt == 32'd2 ) begin	//mul? KP*err   KD*diff
+		else if ( ctl_cnt == 32'd2 ) begin	// third tick 5: mul? KP*err + KD*diff
 			ctl_cnt <= ctl_cnt + 32'd1;
 
 			PID_OUT_REG <= KP_CAL32_REG * ERROR[0] + KD_CAL32_REG * KD_DIF32_REG;
-            		
+
 		end // else if ( ctl_cnt == 32'd2 )
 
 		else if ( ctl_cnt >= CTL_FREQ_REG )	begin
 			ctl_cnt <= 32'd0;
-		end // else if ( ctl_cnt >= CTL_FREQ_REG )
-		
+		end // else if ( ctl_cnt >= CTL_FREQ_REG )	
 		else begin // < CTL_FREQ_REG
 			ctl_cnt <= ctl_cnt + 32'd1;
 		end
