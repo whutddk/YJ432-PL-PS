@@ -28,7 +28,10 @@ void get_pos()
 
 void control()
 {
-	if ( parallel_cnt == 2 )		//位置控制 位置式
+	* (po3PID0_CUR_REG) = ctl.pend.cur;
+	parallel_cnt ++;
+
+	if ( parallel_cnt == 10 )		//位置控制 位置式
 	{
 		parallel_cnt = 0;
 
@@ -75,95 +78,45 @@ void control()
 			ctl.motto.result = -5000.00;
 		}
 
-
-		
 	}
 
-	// 	//倒立控制
-	// {
-	// 	parallel_cnt ++;
 	
-
-
-	// 	//简单3分段pid控制(位置式)
-	// 	ctl.pend.error[0] = (double)((ctl.pend.cur - ctl.pend.aim) / 1.0);
-	// 	if ( (ctl.pend.error[0] < 100 ) && (ctl.pend.error[0] > -100) ) 
-	// 	{
-	// 		ctl.pend.error[1] = ctl.pend.error[0];
-	// 		ctl.pend.result = .0;
-	// 	}
-	// 	else if( (ctl.pend.error[0] < 3000 ) && (ctl.pend.error[0] > -3000) )
-	// 	{
-	// 		ctl.pend.result = ctl.pend.Kp_s * ctl.pend.error[0];
-	// 		ctl.pend.result += ctl.pend.Kd_s * ( ctl.pend.error[0] - ctl.pend.error[1] );
-	// 		ctl.pend.error[1] = ctl.pend.error[0];
-	// 	}
-	// 	else if( (ctl.pend.error[0] < 5000 ) && (ctl.pend.error[0] > -5000) )
-	// 	{
-	// 		ctl.pend.result = ctl.pend.Kp_m * ctl.pend.error[0];
-	// 		ctl.pend.result += ctl.pend.Kd_m * ( ctl.pend.error[0] - ctl.pend.error[1] );
-	// 		ctl.pend.error[1] = ctl.pend.error[0];
-	// 	}
-	// 	else if( (ctl.pend.error[0] < 10000 ) && (ctl.pend.error[0] > -10000) )
-	// 	{
-	// 		ctl.pend.result = ctl.pend.Kp_b * ctl.pend.error[0];
-	// 		ctl.pend.result += ctl.pend.Kd_b * ( ctl.pend.error[0] - ctl.pend.error[1] );
-	// 		ctl.pend.error[1] = ctl.pend.error[0];			
-	// 	}
-	// 	else
-	// 	{
-	// 		ctl.pend.result = .0;
-	// 	}
-
-	// 	if ( ctl.pend.result > 10000.00 )
-	// 	{
-	// 		ctl.pend.result = 10000.00;
-	// 	}
-	// 	else if ( ctl.pend.result < -10000.00 )
-	// 	{
-	// 		ctl.pend.result = -10000.00;
-	// 	}
-
-
-
-	// 	push( 3,(int16_t)(ctl.pend.result) );
-	// }
-	// 
-	ctl.pend.result =  ;
-
-	ctl.out = (int32_t)( ctl.pend.result - ctl.motto.result ) ;
-
-	
-
-	if ( ctl.flag_end == 1 )
-	{	
-		* (PWM0_CH0_REG) = 1;
-		* (PWM0_CH1_REG) = 1;
-	}
-	else
+	if ( parallel_cnt == 5 )
 	{
-		if ( ctl.out >= 10000 )
-		{
-			* (PWM0_CH0_REG) = 9999;
-			* (PWM0_CH1_REG) = 1;
-		}
-		else if ( ctl.out > 0 )
-		{
-			* (PWM0_CH0_REG) = (uint32_t)(ctl.out);
-			* (PWM0_CH1_REG) = 1;
-		}
-		else if ( ctl.out > -10000 )
-		{
+		ctl.pend.result =  Fix2Float( *po3PID0_OUT_REG ); //get PID result
+		ctl.out = (int32_t)( ctl.pend.result - ctl.motto.result ) ;
+
+	
+
+		if ( ctl.flag_end == 1 )
+		{	
 			* (PWM0_CH0_REG) = 1;
-			* (PWM0_CH1_REG) = (uint32_t)(-ctl.out);
+			* (PWM0_CH1_REG) = 1;
 		}
 		else
 		{
-			* (PWM0_CH0_REG) = 1;
-			* (PWM0_CH1_REG) = 9999;
+			if ( ctl.out >= 10000 )
+			{
+				* (PWM0_CH0_REG) = 9999;
+				* (PWM0_CH1_REG) = 1;
+			}
+			else if ( ctl.out > 0 )
+			{
+				* (PWM0_CH0_REG) = (uint32_t)(ctl.out);
+				* (PWM0_CH1_REG) = 1;
+			}
+			else if ( ctl.out > -10000 )
+			{
+				* (PWM0_CH0_REG) = 1;
+				* (PWM0_CH1_REG) = (uint32_t)(-ctl.out);
+			}
+			else
+			{
+				* (PWM0_CH0_REG) = 1;
+				* (PWM0_CH1_REG) = 9999;
+			}
 		}
 	}
-
 
 }
 
@@ -202,7 +155,7 @@ void CTL_app()
 		push(20,timer.read_us() - perf_record);
 
 
-		wait(0.005);
+		wait(0.001);
 	}
 }
 
