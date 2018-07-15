@@ -256,17 +256,17 @@ wire [31:0] PID_CUR_wire;
 
 wire [31:0] PID_ERS_wire;
 wire [31:0] PID_KPS_wire;
-wire [31:0] PID_KIS_wire;
+//wire [31:0] PID_KIS_wire;
 wire [31:0] PID_KDS_wire;
 
 wire [31:0] PID_ERM_wire;
 wire [31:0] PID_KPM_wire;
-wire [31:0] PID_KIM_wire;
+//wire [31:0] PID_KIM_wire;
 wire [31:0] PID_KDM_wire;
 
 wire [31:0] PID_ERB_wire;
 wire [31:0] PID_KPB_wire;
-wire [31:0] PID_KIB_wire;
+//wire [31:0] PID_KIB_wire;
 wire [31:0] PID_KDB_wire;
 
 wire [31:0] PID_OUT_wire;
@@ -289,17 +289,17 @@ FB_po3PIDREG i_po3PIDreg(
 
 	.PID_ERS_REG(PID_ERS_wire),
 	.PID_KPS_REG(PID_KPS_wire),
-	.PID_KIS_REG(PID_KIS_wire),
+//	.PID_KIS_REG(PID_KIS_wire),
 	.PID_KDS_REG(PID_KDS_wire),
 
 	.PID_ERM_REG(PID_ERM_wire),
 	.PID_KPM_REG(PID_KPM_wire),
-	.PID_KIM_REG(PID_KIM_wire),
+//	.PID_KIM_REG(PID_KIM_wire),
 	.PID_KDM_REG(PID_KDM_wire),
 
 	.PID_ERB_REG(PID_ERB_wire),
 	.PID_KPB_REG(PID_KPB_wire),
-	.PID_KIB_REG(PID_KIB_wire),
+//	.PID_KIB_REG(PID_KIB_wire),
 	.PID_KDB_REG(PID_KDB_wire),
 
 	.PID_OUT_REG(PID_OUT_wire)
@@ -317,17 +317,17 @@ po3PID i_po3PID(
     
         .PID_ERS_Set(PID_ERS_wire),
         .PID_KPS_Set(PID_KPS_wire),
-        .PID_KIS_Set(PID_KIS_wire),
+//        .PID_KIS_Set(PID_KIS_wire),
         .PID_KDS_Set(PID_KDS_wire),
     
         .PID_ERM_Set(PID_ERM_wire),
         .PID_KPM_Set(PID_KPM_wire),
-        .PID_KIM_Set(PID_KIM_wire),
+//        .PID_KIM_Set(PID_KIM_wire),
         .PID_KDM_Set(PID_KDM_wire),
     
         .PID_ERB_Set(PID_ERB_wire),
         .PID_KPB_Set(PID_KPB_wire),
-        .PID_KIB_Set(PID_KIB_wire),
+//        .PID_KIB_Set(PID_KIB_wire),
         .PID_KDB_Set(PID_KDB_wire),
     
         .PID_OUT_REG(PID_OUT_wire)
