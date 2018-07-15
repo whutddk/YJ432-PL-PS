@@ -31,7 +31,7 @@ void control()
 	* (po3PID0_CUR_REG) = ctl.pend.cur;
 	parallel_cnt ++;
 
-	if ( parallel_cnt == 10 )		//位置控制 位置式
+	if ( parallel_cnt == 2 )		//位置控制 位置式
 	{
 		parallel_cnt = 0;
 
@@ -81,7 +81,7 @@ void control()
 	}
 
 	
-	if ( parallel_cnt == 5 )
+	// if ( parallel_cnt == 5 )
 	{
 		ctl.pend.result =  Fix2Float( *po3PID0_OUT_REG ); //get PID result
 		ctl.out = (int32_t)( ctl.pend.result - ctl.motto.result ) ;
@@ -149,13 +149,13 @@ void CTL_app()
 		get_pos();
 		push(0,QEI1);
 		// push(1,QEI2);
-		push(2,(int16_t)(ctl.pend.error[0]));
+		push(2,(int16_t)(*(po3PID0_CUR_REG) - *(po3PID0_AIM_REG) ));
 		control();
-
+		push(3,(int16_t)(ctl.pend.result));
 		push(20,timer.read_us() - perf_record);
 
 
-		wait(0.001);
+		wait(0.005);
 	}
 }
 
