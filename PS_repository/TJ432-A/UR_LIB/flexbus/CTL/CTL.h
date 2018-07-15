@@ -42,7 +42,8 @@ extern int32_t QEI1;
 extern void motor_init();
 extern void get_qei();
 
-
+extern float Fix2Float(int32_t Fix_data);
+extern int32_t Float2Fix(float fl_data );
 
 
 #endif

@@ -1,5 +1,5 @@
 #include "mbed.h"
-
+#include "CTL.h"
 float Fix2Float(int32_t Fix_data)
 {
 	float fl_data;
@@ -12,7 +12,7 @@ float Fix2Float(int32_t Fix_data)
 	}
 
 	fl_data = Fix_data >> 15;
-	fl_data += ( Fix_data & 0x7fff ) / 32768.
+	fl_data += ( Fix_data & 0x7fff ) / 32768.;
 
 	if ( nege )
 	{
@@ -36,8 +36,12 @@ int32_t Float2Fix(float fl_data )
 	fix_data = ( (int32_t)(fl_data) ) << 15;
 	fix_data += ( fl_data - fix_data ) * 32768 ;
 
+	if ( nege )
+	{
+		fix_data = -fix_data;
+	}
 
-	return fix_data
+	return fix_data;
 }
 
 
