@@ -79,56 +79,57 @@ void control()
 		
 	}
 
-		//倒立控制
-	{
-		parallel_cnt ++;
+	// 	//倒立控制
+	// {
+	// 	parallel_cnt ++;
 	
 
 
-		//简单3分段pid控制(位置式)
-		ctl.pend.error[0] = (double)((ctl.pend.cur - ctl.pend.aim) / 1.0);
-		if ( (ctl.pend.error[0] < 100 ) && (ctl.pend.error[0] > -100) ) 
-		{
-			ctl.pend.error[1] = ctl.pend.error[0];
-			ctl.pend.result = .0;
-		}
-		else if( (ctl.pend.error[0] < 3000 ) && (ctl.pend.error[0] > -3000) )
-		{
-			ctl.pend.result = ctl.pend.Kp_s * ctl.pend.error[0];
-			ctl.pend.result += ctl.pend.Kd_s * ( ctl.pend.error[0] - ctl.pend.error[1] );
-			ctl.pend.error[1] = ctl.pend.error[0];
-		}
-		else if( (ctl.pend.error[0] < 5000 ) && (ctl.pend.error[0] > -5000) )
-		{
-			ctl.pend.result = ctl.pend.Kp_m * ctl.pend.error[0];
-			ctl.pend.result += ctl.pend.Kd_m * ( ctl.pend.error[0] - ctl.pend.error[1] );
-			ctl.pend.error[1] = ctl.pend.error[0];
-		}
-		else if( (ctl.pend.error[0] < 10000 ) && (ctl.pend.error[0] > -10000) )
-		{
-			ctl.pend.result = ctl.pend.Kp_b * ctl.pend.error[0];
-			ctl.pend.result += ctl.pend.Kd_b * ( ctl.pend.error[0] - ctl.pend.error[1] );
-			ctl.pend.error[1] = ctl.pend.error[0];			
-		}
-		else
-		{
-			ctl.pend.result = .0;
-		}
+	// 	//简单3分段pid控制(位置式)
+	// 	ctl.pend.error[0] = (double)((ctl.pend.cur - ctl.pend.aim) / 1.0);
+	// 	if ( (ctl.pend.error[0] < 100 ) && (ctl.pend.error[0] > -100) ) 
+	// 	{
+	// 		ctl.pend.error[1] = ctl.pend.error[0];
+	// 		ctl.pend.result = .0;
+	// 	}
+	// 	else if( (ctl.pend.error[0] < 3000 ) && (ctl.pend.error[0] > -3000) )
+	// 	{
+	// 		ctl.pend.result = ctl.pend.Kp_s * ctl.pend.error[0];
+	// 		ctl.pend.result += ctl.pend.Kd_s * ( ctl.pend.error[0] - ctl.pend.error[1] );
+	// 		ctl.pend.error[1] = ctl.pend.error[0];
+	// 	}
+	// 	else if( (ctl.pend.error[0] < 5000 ) && (ctl.pend.error[0] > -5000) )
+	// 	{
+	// 		ctl.pend.result = ctl.pend.Kp_m * ctl.pend.error[0];
+	// 		ctl.pend.result += ctl.pend.Kd_m * ( ctl.pend.error[0] - ctl.pend.error[1] );
+	// 		ctl.pend.error[1] = ctl.pend.error[0];
+	// 	}
+	// 	else if( (ctl.pend.error[0] < 10000 ) && (ctl.pend.error[0] > -10000) )
+	// 	{
+	// 		ctl.pend.result = ctl.pend.Kp_b * ctl.pend.error[0];
+	// 		ctl.pend.result += ctl.pend.Kd_b * ( ctl.pend.error[0] - ctl.pend.error[1] );
+	// 		ctl.pend.error[1] = ctl.pend.error[0];			
+	// 	}
+	// 	else
+	// 	{
+	// 		ctl.pend.result = .0;
+	// 	}
 
-		if ( ctl.pend.result > 10000.00 )
-		{
-			ctl.pend.result = 10000.00;
-		}
-		else if ( ctl.pend.result < -10000.00 )
-		{
-			ctl.pend.result = -10000.00;
-		}
+	// 	if ( ctl.pend.result > 10000.00 )
+	// 	{
+	// 		ctl.pend.result = 10000.00;
+	// 	}
+	// 	else if ( ctl.pend.result < -10000.00 )
+	// 	{
+	// 		ctl.pend.result = -10000.00;
+	// 	}
 
 
 
-		push( 3,(int16_t)(ctl.pend.result) );
-	}
-
+	// 	push( 3,(int16_t)(ctl.pend.result) );
+	// }
+	// 
+	ctl.pend.result =  ;
 
 	ctl.out = (int32_t)( ctl.pend.result - ctl.motto.result ) ;
 
