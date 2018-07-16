@@ -77,8 +77,8 @@ static void UartDebug()
 
 	// ctl.pend.aim =(int32_t)( UartData[6]*1000);
 
-	ctl.motto.Kp_s = ctl.motto.Kp_m = ctl.motto.Kp_b = UartData[7];
-	ctl.motto.Kd_s = ctl.motto.Kd_m = ctl.motto.Kd_b = UartData[8];
+	ctl.motto.Kp_s = ctl.motto.Kp_m = ctl.motto.Kp_b = (double)UartData[7];
+	ctl.motto.Kd_s = ctl.motto.Kd_m = ctl.motto.Kd_b = (double)UartData[8];
 
 	// ctl.motto.Kp_m = UartData[2];
 	// ctl.motto.Kd_m = UartData[3];

@@ -29,7 +29,7 @@ void get_pos()
 void control()
 {
 	* (po3PID0_CUR_REG) = ctl.pend.cur;
-	parallel_cnt ++;
+	
 
 	if ( parallel_cnt == 2 )		//位置控制 位置式
 	{
@@ -79,7 +79,7 @@ void control()
 		}
 
 	}
-
+	parallel_cnt ++;
 	
 	// if ( parallel_cnt == 5 )
 	{
