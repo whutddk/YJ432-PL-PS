@@ -37,14 +37,14 @@ void control()
 
 	push( 4,(int16_t)(ctl.motto.result) );
 
-	if ( ctl.motto.result > 5000.00 )
-	{
-		ctl.motto.result = 5000.00;
-	}
-	else if ( ctl.motto.result < -5000.00 )
-	{
-		ctl.motto.result = -5000.00;
-	}
+	// if ( ctl.motto.result > 5000.00 )
+	// {
+	// 	ctl.motto.result = 5000.00;
+	// }
+	// else if ( ctl.motto.result < -5000.00 )
+	// {
+	// 	ctl.motto.result = -5000.00;
+	// }
 
 	
 	//GET PID0 RESULT
@@ -56,31 +56,13 @@ void control()
 // OUTPUT PWM0
 	if ( ctl.flag_end == 1 )
 	{	
-		* (PWM0_CH0_REG) = 1;
-		* (PWM0_CH1_REG) = 1;
+		*(po3PID0_KPS_REG) = * (po3PID0_KDS_REG) = * (po3PID0_KPM_REG) = * (po3PID0_KDM_REG)
+		= * (po3PID0_KPB_REG) = * (po3PID0_KDB_REG) = *(po3PID1_KPS_REG) = *(po3PID1_KPM_REG) = *(po3PID1_KPB_REG) = 
+		*(po3PID1_KDS_REG) = *(po3PID1_KDM_REG) = *(po3PID1_KDB_REG) = 0;
 	}
 	else
 	{
-		if ( ctl.out >= 10000 )
-		{
-			* (PWM0_CH0_REG) = 9999;
-			* (PWM0_CH1_REG) = 1;
-		}
-		else if ( ctl.out > 0 )
-		{
-			* (PWM0_CH0_REG) = (uint32_t)(ctl.out);
-			* (PWM0_CH1_REG) = 1;
-		}
-		else if ( ctl.out > -10000 )
-		{
-			* (PWM0_CH0_REG) = 1;
-			* (PWM0_CH1_REG) = (uint32_t)(-ctl.out);
-		}
-		else
-		{
-			* (PWM0_CH0_REG) = 1;
-			* (PWM0_CH1_REG) = 9999;
-		}
+		
 	}
 
 
