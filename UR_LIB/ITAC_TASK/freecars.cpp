@@ -58,33 +58,17 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-	// ctl.motto.Kp_s = UartData[0];
-	// ctl.motto.Kd_s = UartData[1];
-	// ctl.motto.Kp_m = UartData[2];
-	// ctl.motto.Kd_m = UartData[3];
-	// ctl.motto.Kp_b = UartData[4];
-	// ctl.motto.Kd_b = UartData[5];
-
 	*(po3PID0_KPS_REG) = Float2Fix(UartData[0]);
 	*(po3PID0_KDS_REG) = Float2Fix(UartData[1]);
 	*(po3PID0_KPM_REG) = Float2Fix(UartData[2]);
 	*(po3PID0_KDM_REG) = Float2Fix(UartData[3]);
-	// ctl.pend.Kp_m = 6;//UartData[2]; 
-	// ctl.pend.Kd_m = 208;//UartData[3];
-		
-	// ctl.pend.Kp_b = 6;//UartData[4]; 
-	// ctl.pend.Kd_b = 208;//UartData[5];
+	*(po3PID0_KPB_REG) = Float2Fix(UartData[4]);
+	*(po3PID0_KDB_REG) = Float2Fix(UartData[5]);
 
-	// ctl.pend.aim =(int32_t)( UartData[6]*1000);
 
-	ctl.motto.Kp_s = ctl.motto.Kp_m = ctl.motto.Kp_b = (double)UartData[7];
-	ctl.motto.Kd_s = ctl.motto.Kd_m = ctl.motto.Kd_b = (double)UartData[8];
+	*(po3PID1_KPS_REG) = *(po3PID1_KPM_REG) = *(po3PID1_KPB_REG) = Float2Fix(UartData[7]);
+	*(po3PID1_KDS_REG) = *(po3PID1_KDM_REG) = *(po3PID1_KDB_REG) = Float2Fix(UartData[8]);
 
-	// ctl.motto.Kp_m = UartData[2];
-	// ctl.motto.Kd_m = UartData[3];
-
-	// ctl.motto.Kp_b = UartData[4];
-	// ctl.motto.Kd_b = UartData[5];
 
 	bz_set(datarec);
 }
