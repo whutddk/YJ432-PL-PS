@@ -386,7 +386,7 @@ begin
         CH0_duty_reg <= ( motto_result >> 15 );
         CH1_duty_reg <= 1;
     end
-    else if (  motto_result >= -327680000  )
+    else if (  motto_result >= -327680000 && motto_result < 0 )
     begin
         CH0_duty_reg <= 1;
         CH1_duty_reg <= ( (-motto_result) >> 15 ) ;
@@ -406,6 +406,7 @@ begin
         CH0_duty_reg <= 1;
         CH1_duty_reg <= 1;
     end
+    
 end
 
 endmodule
