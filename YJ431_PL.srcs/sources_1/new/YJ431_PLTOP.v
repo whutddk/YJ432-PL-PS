@@ -381,25 +381,20 @@ begin
     
     motto_result <= ( PID0_OUT_wire  - PID1_OUT_wire);
     
-    if ( motto_result > 327680000 )
-    begin
-        CH0_duty_reg <= 9999;
-        CH1_duty_reg <= 1;
-    end
-    else if ( motto_result >= 32'd0 )
+    if ( motto_result >= 32'd0 &&  motto_result <= 32'd327680000 )
     begin
         CH0_duty_reg <= ( motto_result >> 15 );
         CH1_duty_reg <= 1;
     end
-    else if (  motto_result >= -327680000 )
-    begin
-        CH0_duty_reg <= 1;
-        CH1_duty_reg <= ( (-motto_result) >> 15 ) ;
-    end
+//    else if (  motto_result >= -327680000 )
+//    begin
+//        CH0_duty_reg <= 1;
+//        CH1_duty_reg <= ( (-motto_result) >> 15 ) ;
+//    end
     else 
     begin
         CH0_duty_reg <= 1;
-        CH1_duty_reg <= 9999;
+        CH1_duty_reg <= 1;
     end
 end
 
