@@ -250,22 +250,17 @@ wire [31:0] QEI_CH0_wire;
 );  
  
 wire [31:0] CTL0_FREQ_wire;
-
 wire [31:0] PID0_AIM_wire;
 wire [31:0] PID0_CUR_wire;
-
 wire [31:0] PID0_ERS_wire;
 wire [31:0] PID0_KPS_wire;
 wire [31:0] PID0_KDS_wire;
-
 wire [31:0] PID0_ERM_wire;
 wire [31:0] PID0_KPM_wire;
 wire [31:0] PID0_KDM_wire;
-
 wire [31:0] PID0_ERB_wire;
 wire [31:0] PID0_KPB_wire;
 wire [31:0] PID0_KDB_wire;
-
 wire [31:0] PID0_OUT_wire;
      
 FB_po3PIDREG i_po3PIDreg0(
@@ -273,58 +268,101 @@ FB_po3PIDREG i_po3PIDreg0(
 	.BUS_ADDR(i_bus_addr),
 	.BUS_DATA(i_bus_data),
 	.BUS_CS(i_fb_csn),
-
 	.BUS_read(i_bus_read),
 	.BUS_write(i_bus_write),
-
 	.po3PID_BASE(10'h18d),
-
 //Register
 	.CTL_FREQ_REG(CTL0_FREQ_wire),
 	.PID_AIM_REG(PID0_AIM_wire),
 	.PID_CUR_REG(PID0_CUR_wire),
-
 	.PID_ERS_REG(PID0_ERS_wire),
 	.PID_KPS_REG(PID0_KPS_wire),
 	.PID_KDS_REG(PID0_KDS_wire),
-
 	.PID_ERM_REG(PID0_ERM_wire),
 	.PID_KPM_REG(PID0_KPM_wire),
 	.PID_KDM_REG(PID0_KDM_wire),
-
 	.PID_ERB_REG(PID0_ERB_wire),
 	.PID_KPB_REG(PID0_KPB_wire),
 	.PID_KDB_REG(PID0_KDB_wire),
-
 	.PID_OUT_REG(PID0_OUT_wire)
-    );
+);
      
 po3PID i_po3PID0(
-    
-        .CLK(i_sysclk),
-        .RST_n(1'b1),
-    
+    .CLK(i_sysclk),
+    .RST_n(1'b1),
     //Register
-        .CTL_FREQ_Set(CTL0_FREQ_wire),
-        .PID_AIM_Set(PID0_AIM_wire),
-        .PID_CUR_Set(PID0_CUR_wire),
-    
-        .PID_ERS_Set(PID0_ERS_wire),
-        .PID_KPS_Set(PID0_KPS_wire),
-        .PID_KDS_Set(PID0_KDS_wire),
-    
-        .PID_ERM_Set(PID0_ERM_wire),
-        .PID_KPM_Set(PID0_KPM_wire),
-        .PID_KDM_Set(PID0_KDM_wire),
-    
-        .PID_ERB_Set(PID0_ERB_wire),
-        .PID_KPB_Set(PID0_KPB_wire),
-        .PID_KDB_Set(PID0_KDB_wire),
-    
-        .PID_OUT_REG(PID0_OUT_wire)
-    
-        ); 
+    .CTL_FREQ_Set(CTL0_FREQ_wire),
+    .PID_AIM_Set(PID0_AIM_wire),
+    .PID_CUR_Set(PID0_CUR_wire),
+    .PID_ERS_Set(PID0_ERS_wire),
+    .PID_KPS_Set(PID0_KPS_wire),
+    .PID_KDS_Set(PID0_KDS_wire),
+    .PID_ERM_Set(PID0_ERM_wire),
+    .PID_KPM_Set(PID0_KPM_wire),
+    .PID_KDM_Set(PID0_KDM_wire),
+    .PID_ERB_Set(PID0_ERB_wire),
+    .PID_KPB_Set(PID0_KPB_wire),
+    .PID_KDB_Set(PID0_KDB_wire),
+    .PID_OUT_REG(PID0_OUT_wire)
+); 
      
+ 
+wire [31:0] CTL1_FREQ_wire;   
+wire [31:0] PID1_AIM_wire;
+wire [31:0] PID1_CUR_wire;
+wire [31:0] PID1_ERS_wire;
+wire [31:0] PID1_KPS_wire;
+wire [31:0] PID1_KDS_wire;
+wire [31:0] PID1_ERM_wire;
+wire [31:0] PID1_KPM_wire;
+wire [31:0] PID1_KDM_wire;
+wire [31:0] PID1_ERB_wire;
+wire [31:0] PID1_KPB_wire;
+wire [31:0] PID1_KDB_wire;
+wire [31:0] PID1_OUT_wire;
+             
+FB_po3PIDREG i_po3PIDreg1(
+    .RST_n(1'b1),
+    .BUS_ADDR(i_bus_addr),
+    .BUS_DATA(i_bus_data),
+    .BUS_CS(i_fb_csn),
+    .BUS_read(i_bus_read),
+    .BUS_write(i_bus_write),
+    .po3PID_BASE(10'h18E),
+    //Register
+    .CTL_FREQ_REG(CTL1_FREQ_wire),
+    .PID_AIM_REG(PID1_AIM_wire),
+    .PID_CUR_REG(PID1_CUR_wire),
+    .PID_ERS_REG(PID1_ERS_wire),
+    .PID_KPS_REG(PID1_KPS_wire),
+    .PID_KDS_REG(PID1_KDS_wire),
+    .PID_ERM_REG(PID1_ERM_wire),
+    .PID_KPM_REG(PID1_KPM_wire),
+    .PID_KDM_REG(PID1_KDM_wire),
+    .PID_ERB_REG(PID1_ERB_wire),
+    .PID_KPB_REG(PID1_KPB_wire),
+    .PID_KDB_REG(PID1_KDB_wire),
+    .PID_OUT_REG(PID1_OUT_wire)
+);
+             
+po3PID i_po3PID1(
+    .CLK(i_sysclk),
+    .RST_n(1'b1),  
+    //Register
+    .CTL_FREQ_Set(CTL1_FREQ_wire),
+    .PID_AIM_Set(PID1_AIM_wire),
+    .PID_CUR_Set(PID1_CUR_wire), 
+    .PID_ERS_Set(PID1_ERS_wire),
+    .PID_KPS_Set(PID1_KPS_wire),
+    .PID_KDS_Set(PID1_KDS_wire),
+    .PID_ERM_Set(PID1_ERM_wire),
+    .PID_KPM_Set(PID1_KPM_wire),
+    .PID_KDM_Set(PID1_KDM_wire), 
+    .PID_ERB_Set(PID1_ERB_wire),
+    .PID_KPB_Set(PID1_KPB_wire),
+    .PID_KDB_Set(PID1_KDB_wire),
+    .PID_OUT_REG(PID1_OUT_wire)
+);  
      
 endmodule
 
