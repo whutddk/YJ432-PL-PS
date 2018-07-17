@@ -332,7 +332,7 @@ FB_po3PIDREG i_po3PIDreg1(
     //Register
     .CTL_FREQ_REG(CTL1_FREQ_wire),
     .PID_AIM_REG(PID1_AIM_wire),
-    .PID_CUR_REG(PID1_CUR_wire),
+    .PID_CUR_REG(),
     .PID_ERS_REG(PID1_ERS_wire),
     .PID_KPS_REG(PID1_KPS_wire),
     .PID_KDS_REG(PID1_KDS_wire),
@@ -351,7 +351,7 @@ po3PID i_po3PID1(
     //Register
     .CTL_FREQ_Set(CTL1_FREQ_wire),
     .PID_AIM_Set(PID1_AIM_wire),
-    .PID_CUR_Set(PID1_CUR_wire), 
+    .PID_CUR_Set(QEI_CH0_wire), 
     .PID_ERS_Set(PID1_ERS_wire),
     .PID_KPS_Set(PID1_KPS_wire),
     .PID_KDS_Set(PID1_KDS_wire),
