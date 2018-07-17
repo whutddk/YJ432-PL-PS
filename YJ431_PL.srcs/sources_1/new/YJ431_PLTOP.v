@@ -162,8 +162,8 @@ FB_PWMREG i_pwm0reg(
 
 //Register
 	.FREQ_Cnt_Reg(PWM0_FREQ_Cnt_wire),	//作为计数目标，自己外部计算
-    .CH0_duty_Reg(CH0_duty_wire),
-	.CH1_duty_Reg(CH1_duty_wire),
+    .CH0_duty_Reg(),
+	.CH1_duty_Reg(),
 	.CH2_duty_Reg(CH2_duty_wire),
 	.CH3_duty_Reg(CH3_duty_wire),
 	.CH4_duty_Reg(CH4_duty_wire),
@@ -261,7 +261,7 @@ wire [31:0] PID0_KDM_wire;
 wire [31:0] PID0_ERB_wire;
 wire [31:0] PID0_KPB_wire;
 wire [31:0] PID0_KDB_wire;
-wire [31:0] PID0_OUT_wire;
+wire signed [31:0] PID0_OUT_wire;
      
 FB_po3PIDREG i_po3PIDreg0(
 	.RST_n(1'b1),
@@ -319,7 +319,7 @@ wire [31:0] PID1_KDM_wire;
 wire [31:0] PID1_ERB_wire;
 wire [31:0] PID1_KPB_wire;
 wire [31:0] PID1_KDB_wire;
-wire [31:0] PID1_OUT_wire;
+wire signed [31:0] PID1_OUT_wire;
              
 FB_po3PIDREG i_po3PIDreg1(
     .RST_n(1'b1),
@@ -363,7 +363,46 @@ po3PID i_po3PID1(
     .PID_KDB_Set(PID1_KDB_wire),
     .PID_OUT_REG(PID1_OUT_wire)
 );  
-     
+
+reg signed [31:0] PWM_OUT0;
+reg signed [31:0] PWM_OUT1;
+
+reg signed [31:0] motto_result;
+reg signed [31:0] pend_result;
+
+reg signed [31:0] CH0_duty_reg;
+reg signed [31:0] CH1_duty_reg;
+
+assign CH0_duty_wire = CH0_duty_reg;
+assign CH1_duty_wire = CH1_duty_reg;
+
+always @(negedge i_sysclk)
+begin
+    
+    motto_result <= ( PID0_OUT_wire  - PID1_OUT_wire);
+    
+    if ( motto_result > 327680000 )
+    begin
+        CH0_duty_reg <= 9999;
+        CH1_duty_reg <= 1;
+    end
+    else if ( motto_result >= 32'd0 )
+    begin
+        CH0_duty_reg <= ( motto_result >> 15 );
+        CH1_duty_reg <= 1;
+    end
+    else if (  motto_result >= -327680000 )
+    begin
+        CH0_duty_reg <= 1;
+        CH1_duty_reg <= ( (-motto_result) >> 15 ) ;
+    end
+    else 
+    begin
+        CH0_duty_reg <= 1;
+        CH1_duty_reg <= 9999;
+    end
+end
+
 endmodule
 
 
