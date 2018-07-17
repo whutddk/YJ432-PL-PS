@@ -43,7 +43,7 @@ void motor_init()
 	* (po3PID1_FREQ_REG) = 500000;  	//10ms
 
 //初始化po3_PID1目标和当前值
-	* (po3PID1_AIM_REG) = 24200;
+	* (po3PID1_AIM_REG) = 0;
 	* (po3PID1_CUR_REG) = 0;
 
 //初始化po3_PID1小偏差(CONTROL)
