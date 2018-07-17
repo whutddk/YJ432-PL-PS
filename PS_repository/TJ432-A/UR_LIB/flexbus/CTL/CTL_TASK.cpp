@@ -29,7 +29,7 @@ void get_pos()
 void control()
 {
 	* (po3PID0_CUR_REG) = ctl.pend.cur;
-	* (po3PID1_CUR_REG) = QEI1;
+	// * (po3PID1_CUR_REG) = QEI1;
 
 	
 	//GET PID1 RESULT
@@ -93,9 +93,9 @@ void CTL_app()
 		timer.start();
 		perf_record = timer.read_us();
 
-		get_qei();
+		//get_qei();
 		get_pos();
-		push(0,QEI1);
+		// push(0,QEI1);
 		// push(1,QEI2);
 		push(2,(int16_t)(*(po3PID0_CUR_REG) - *(po3PID0_AIM_REG) ));
 		control();

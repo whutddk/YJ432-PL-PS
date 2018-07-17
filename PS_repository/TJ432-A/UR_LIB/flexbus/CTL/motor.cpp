@@ -63,11 +63,11 @@ void motor_init()
 
 }
 
-int32_t QEI1;
-void get_qei()
-{
-	QEI1 = (int32_t)(*(QEI0_CH0_REG));
-}
+// int32_t QEI1;
+// void get_qei()
+// {
+// 	QEI1 = (int32_t)(*(QEI0_CH0_REG));
+// }
 
 
 
