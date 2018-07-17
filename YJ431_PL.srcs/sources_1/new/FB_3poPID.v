@@ -683,20 +683,24 @@ always@ ( posedge clk_pre or negedge RST_n )begin
 			
 			KD_DIF32_REG [31:0] <=  ERROR[0][31:0] - ERROR[1][31:0];
 
-			if (  ERROR[0] < PID_ERS_REG && ERROR[0] > PID_NERS_REG ) begin
+			if (  ERROR[0] > PID_ERB_REG || ERROR[0] < PID_NERB_REG ) begin
 			
-			     KP_CAL32_REG <= PID_KPS_REG;
-			     KD_CAL32_REG <= PID_KDS_REG;
+			     KP_CAL32_REG <= PID_KPB_REG;
+			     KD_CAL32_REG <= PID_KDB_REG;
 			end
 
-			else if ( ERROR[0] < PID_ERM_REG && ERROR[0] > PID_NERM_REG ) begin
+			else if ( ERROR[0] > PID_ERM_REG || ERROR[0] < PID_NERM_REG ) begin
                  KP_CAL32_REG <= PID_KPM_REG;
                  KD_CAL32_REG <= PID_KDM_REG;
 			end
 
+			else if ( ERROR[0] > PID_ERS_REG || ERROR[0] < PID_NERS_REG )begin
+                 KP_CAL32_REG <= PID_KPS_REG;
+                 KD_CAL32_REG <= PID_KDS_REG;
+			end
 			else begin
-                 KP_CAL32_REG <= PID_KPB_REG;
-                 KD_CAL32_REG <= PID_KDB_REG;
+                KP_CAL32_REG <= 32'b0;
+                KD_CAL32_REG <= 32'b0;
 			end
 
 		end // else if ( ctl_cnt == 32'd1 )
