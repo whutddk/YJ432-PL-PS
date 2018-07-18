@@ -82,8 +82,8 @@
 
 /* SDHC base address, clock and card detection pin */
 #define BOARD_SDHC_BASEADDR SDHC
-#define BOARD_SDHC_CLKSRC kCLOCK_CoreSysClk
-#define BOARD_SDHC_CLK_FREQ CLOCK_GetFreq(kCLOCK_CoreSysClk)
+#define BOARD_SDHC_CLKSRC kCLOCK_PllFllSelClk
+#define BOARD_SDHC_CLK_FREQ CLOCK_GetFreq(kCLOCK_PllFllSelClk)
 #define BOARD_SDHC_IRQ SDHC_IRQn
 #define BOARD_SDHC_CD_GPIO_BASE GPIOE
 #define BOARD_SDHC_CD_GPIO_PIN 6U

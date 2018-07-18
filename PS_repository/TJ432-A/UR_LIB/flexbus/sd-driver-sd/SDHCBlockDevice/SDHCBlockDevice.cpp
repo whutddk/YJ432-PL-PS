@@ -1,6 +1,7 @@
+#include "mbed.h"
 #include <stdio.h>
 #include "sd_pin_mux.h"
-#include "fsl_mpu.h"
+#include "fsl_sysmpu.h"
 
 #include "SDHCBlockDevice.h"
 
@@ -27,7 +28,7 @@ int SDHCBlockDevice::init()
 	SD_InitPins();
 
 	// MPU must be enable, or the SD card will init failed
-	MPU_Enable(MPU, false);
+	SYSMPU_Enable(SYSMPU, false);
 
 	_card->host.base = SD_HOST_BASEADDR;
 	_card->host.sourceClock_Hz = SD_HOST_CLK_FREQ;

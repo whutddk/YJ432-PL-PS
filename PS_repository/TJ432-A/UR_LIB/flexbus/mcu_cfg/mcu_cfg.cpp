@@ -38,7 +38,7 @@ FATFileSystem fs("fs");
 //PCS = PTD11
 //SIN = PTD14
 //SOUT = PTD13
-SPI SPI_CFG(PTD13, PTD14, PTD12);
+SPI spi_config(PTD13, PTD14, PTD12);
 
 void spi_cfg_fpga()
 {
@@ -60,8 +60,8 @@ void spi_cfg_fpga()
 		//fc.printf(" done.\r\n");
 	}
 
-	SPI_CFG.format(8, 0);
-	SPI_CFG.frequency(1000000);
+	spi_config.format(8, 0);
+	spi_config.frequency(1000000);
 
 
 	//pull down PROG to reset
@@ -84,7 +84,7 @@ void spi_cfg_fpga()
 			break;
 		}
 
-		SPI_CFG.write(buf_read, num_read, NULL, 0);
+		spi_config.write((const char*)(buf_read), num_read, NULL, 0);
 
 
 	}

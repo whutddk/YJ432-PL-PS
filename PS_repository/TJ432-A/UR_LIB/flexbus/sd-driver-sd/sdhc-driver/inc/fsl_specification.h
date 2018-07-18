@@ -41,7 +41,7 @@
 /*! @brief SD card bus frequency 1 in high-speed mode */
 #define SD_CLOCK_25MHZ (25000000U)
 /*! @brief SD card bus frequency 2 in high-speed mode */
-#define SD_CLOCK_50MHZ (50000000U)
+#define SD_CLOCK_48MHZ (48000000U)
 /*! @brief SD card bus frequency in SDR50 mode */
 #define SD_CLOCK_100MHZ (100000000U)
 /*! @brief SD card bus frequency in SDR104 mode */
