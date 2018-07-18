@@ -1055,7 +1055,7 @@ static status_t SD_SelectBusTiming(sd_card_t *card)
             if (error == kStatus_Success)
             {
                 card->currentTiming = kSD_TimingSDR25HighSpeedMode;
-                card->busClock_Hz = HOST_SET_CARD_CLOCK(card->host.base, card->host.sourceClock_Hz, SD_CLOCK_50MHZ);
+                card->busClock_Hz = HOST_SET_CARD_CLOCK(card->host.base, card->host.sourceClock_Hz, SD_CLOCK_48MHZ);
             }
         }
         else
@@ -1105,7 +1105,7 @@ static status_t SD_SelectBusTiming(sd_card_t *card)
                 if (error == kStatus_Success)
                 {
                     card->currentTiming = kSD_TimingSDR25HighSpeedMode;
-                    card->busClock_Hz = HOST_SET_CARD_CLOCK(card->host.base, card->host.sourceClock_Hz, SD_CLOCK_50MHZ);
+                    card->busClock_Hz = HOST_SET_CARD_CLOCK(card->host.base, card->host.sourceClock_Hz, SD_CLOCK_48MHZ);
                 }
                 break;
 
@@ -1374,7 +1374,7 @@ status_t SD_Init(sd_card_t *card)
     /* set data bus width to 1bit */
     HOST_SET_CARD_BUS_WIDTH(card->host.base, kHOST_DATABUSWIDTH1BIT);
 
-    // /*detect card insert*/
+    /*detect card insert*/
     // error = CardInsertDetect(card->host.base);
     // if (error != kStatus_Success)
     // {
