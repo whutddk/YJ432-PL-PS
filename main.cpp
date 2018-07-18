@@ -25,16 +25,21 @@ extern Serial fc;
 
 
 
-uint32_t flexbus_data[5];
-
-
 
 int main(void)
 {
 	// buzzer = 0;
+	
+	//boot fpga here
+	#if SPI_CFG
+
+	fc.printf("Start to Boot Artix-7!!!");
+	spi_cfg_fpga();
+	
+	#endif
 
 	// YJ_FB_init();
-	fc.printf("flexbus INITIALIZATION COMPLETE!");
+	fc.printf("flexbus INITIALIZATION IGNORE!");
 
 	bz_set(ready);
 
