@@ -67,18 +67,18 @@ void spi_cfg_fpga()
 	spi_config.frequency(1000000);
 
 
-	//pull down PROG to reset
+	/*pull down PROG to reset*/
 	fc.printf("Pull Down PROG to Reset\r\n");
 	FPGA_PROG = 0;
-	//wait until INIT goes LOW
+	/*wait until INIT goes LOW*/
 	fc.printf("Wait until INIT Goes LOW\r\n");
-	while(FPGA_INIT);
+	// while(FPGA_INIT);
 	fc.printf("Pull Up PROG \r\n");
 	FPGA_PROG = 1;
 
-	//wait until INIT goes HIGH
+	/*wait until INIT goes HIGH*/
 	fc.printf("Wait until INIT Goes HIGH \r\n");
-	while(!FPGA_INIT);
+	// while(!FPGA_INIT);
 
 	while(1)
 	{
