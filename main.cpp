@@ -25,45 +25,28 @@ extern Serial fc;
 
 
 
-uint32_t flexbus_data[5];
-
-
 
 int main(void)
 {
 	// buzzer = 0;
-
-	YJ_FB_init();
-	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
-	ITAC_thread.start(itac_app);
-	FC_thread.start(FC_app);
+	//boot fpga here
+	#if SPI_CFG
+
+	fc.printf("Start to Boot Artix-7!!!");
+	spi_cfg_fpga();
+	
+	#endif
+
+	// YJ_FB_init();
+	fc.printf("flexbus INITIALIZATION IGNORE!");
 
 	bz_set(ready);
 
-	CTL_thread.start(CTL_app);
-
-	// *(bzled_reg + 0) = 50000;
-	// *(bzled_reg + 1) = 50000;
-	// *(bzled_reg + 2) = 50000;
-	// *(bzled_reg + 3) = 70000;
-	// *(bzled_reg + 4) = 20000;
-	// 
-	// wait(0.05);
-	// 	*(pwm0_reg + 0) = 10000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 1) = 9000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 2) = 8000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 3) = 7000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 4) = 6000;
 	while(1)
 	{		
 		//bz_set(datarec);
 		
-
 		wait(1);
 
 
