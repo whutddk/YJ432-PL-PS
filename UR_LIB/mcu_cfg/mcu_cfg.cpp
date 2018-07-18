@@ -1,6 +1,6 @@
 #include "mbed.h"
 
-#include "mcu_cfg.h"
+#include "include.h"
 
 
 
@@ -22,6 +22,8 @@ DigitalOut FPGA_PROG(PROG_IO);
 void wait_fpga_init()
 {
 	//wait until done goes high
+	
+	fc.printf("Wait until Done Goes HIGH\r\n");
 	while(!FPGA_DONE)
 	{
 		;
@@ -45,6 +47,7 @@ void spi_cfg_fpga()
 	FILE* fd;
 	uint32_t num_read = 0;
 	uint8_t buf_read[512] = {0};
+	uint32_t write_sum = 0;
 
 	fs.mount(&sd);
 
@@ -52,12 +55,12 @@ void spi_cfg_fpga()
 
 	if (fd == NULL)
 	{
-		//fc.printf(" Failure. %d \r\n", errno);
+		fc.printf("File FPGA_boot.bin Open Failure. \r\n");
 		return;
 	}
 	else
 	{
-		//fc.printf(" done.\r\n");
+		fc.printf("File FPGA_boot.bin Open done.\r\n");
 	}
 
 	spi_config.format(8, 0);
@@ -65,13 +68,16 @@ void spi_cfg_fpga()
 
 
 	//pull down PROG to reset
+	fc.printf("Pull Down PROG to Reset\r\n");
 	FPGA_PROG = 0;
 	//wait until INIT goes LOW
+	fc.printf("Wait until INIT Goes LOW\r\n");
 	while(FPGA_INIT);
-
+	fc.printf("Pull Up PROG \r\n");
 	FPGA_PROG = 1;
 
 	//wait until INIT goes HIGH
+	fc.printf("Wait until INIT Goes HIGH \r\n");
 	while(!FPGA_INIT);
 
 	while(1)
@@ -85,11 +91,13 @@ void spi_cfg_fpga()
 		}
 
 		spi_config.write((const char*)(buf_read), num_read, NULL, 0);
-
+		write_sum += num_read;
+		fc.printf("Spi Write %d Byte \r",write_sum);
 
 	}
-
+	fc.printf("\r\n File close\r\n");
 	fclose(fd);
+
 
 	wait_fpga_init();
 
