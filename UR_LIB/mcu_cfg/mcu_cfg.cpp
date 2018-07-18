@@ -46,7 +46,7 @@ void spi_cfg_fpga()
 {
 	FILE* fd;
 	uint32_t num_read = 0;
-	uint8_t buf_read[512] = {0};
+	uint8_t buf_read[1024] = {0};
 	uint32_t write_sum = 0;
 
 	fs.mount(&sd);
@@ -64,7 +64,7 @@ void spi_cfg_fpga()
 	}
 
 	spi_config.format(8, 0);
-	spi_config.frequency(1000000);
+	spi_config.frequency(5000000);
 
 
 	/*pull down PROG to reset*/
@@ -82,8 +82,8 @@ void spi_cfg_fpga()
 
 	while(1)
 	{
-		memset(buf_read, 0, 512);
-		num_read = fread(buf_read,1,512,fd);	
+		memset(buf_read, 0, 1024);
+		num_read = fread(buf_read,1,1024,fd);	
 
 		if ( num_read == 0 )
 		{
