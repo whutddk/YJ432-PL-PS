@@ -35,18 +35,7 @@ int main(void)
 	while(1)
 	{		
 		//bz_set(datarec);
-		*(LED_FRE_REG) = 50000;
-		*(BZ_FRE_REG) = 3000000;
-		*(RED_DUTY_REG) = 30000;
-		*(GREEN_DUTY_REG) = 40000;
-		*(BLUE_DUTY_REG) = 20000;
 
-
-		fc.printf("LEDFRE = %d\r\n",*(LED_FRE_REG));
-		fc.printf("BZFRE = %d\r\n",*(BZ_FRE_REG));
-		fc.printf("RED = %d\r\n",*(RED_DUTY_REG));
-		fc.printf("G = %d\r\n",*(GREEN_DUTY_REG));
-		fc.printf("B = %d\r\n",*(BLUE_DUTY_REG));
 		wait(1);
 
 
