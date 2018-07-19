@@ -146,8 +146,8 @@ void flexbus_pin_mux()
 				| SIM_SOPT2_CLKOUTSEL(SOPT2_CLKOUTSEL_FLEXBUS));
 }
 
-//天际系列，采用流式传输
-void TJ_FB_init()
+
+void YJ_FB_init()
 {
 	uint32_t j = 0;
 

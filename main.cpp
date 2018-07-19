@@ -12,14 +12,10 @@ extern void itac_app();
 Thread FC_thread(osPriorityBelowNormal);
 extern void FC_app();
 
-extern void TJ_FB_init();
+extern void YJ_FB_init();
 
 
 extern Serial fc;
-
-
-
-uint32_t flexbus_data[5];
 
 
 //天际系列
@@ -27,11 +23,11 @@ int main(void)
 {
 	// buzzer = 0;
 
-	TJ_FB_init();	//天际系列，采用流式传输
+	YJ_FB_init();	
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
 	ITAC_thread.start(itac_app);
-	FC_thread.start(FC_app);
+	// FC_thread.start(FC_app);
 
 	bz_set(ready);
 
@@ -39,8 +35,18 @@ int main(void)
 	while(1)
 	{		
 		//bz_set(datarec);
-		
+		*(LED_FRE_REG) = 50000;
+		*(BZ_FRE_REG) = 3000000;
+		*(RED_DUTY_REG) = 30000;
+		*(GREEN_DUTY_REG) = 40000;
+		*(BLUE_DUTY_REG) = 20000;
 
+
+		fc.printf("LEDFRE = %d\r\n",*(LED_FRE_REG));
+		fc.printf("BZFRE = %d\r\n",*(BZ_FRE_REG));
+		fc.printf("RED = %d\r\n",*(RED_DUTY_REG));
+		fc.printf("G = %d\r\n",*(GREEN_DUTY_REG));
+		fc.printf("B = %d\r\n",*(BLUE_DUTY_REG));
 		wait(1);
 
 
