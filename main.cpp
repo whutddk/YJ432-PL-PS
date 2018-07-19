@@ -12,13 +12,7 @@ extern void itac_app();
 Thread FC_thread(osPriorityBelowNormal);
 extern void FC_app();
 
-//实时控制
-Thread CTL_thread(osPriorityRealtime);
-extern void CTL_app();
-
-
-extern void YJ_FB_init();
-extern int flexbus_test();
+extern void TJ_FB_init();
 
 
 extern Serial fc;
@@ -28,12 +22,12 @@ extern Serial fc;
 uint32_t flexbus_data[5];
 
 
-
+//天际系列
 int main(void)
 {
 	// buzzer = 0;
 
-	YJ_FB_init();
+	TJ_FB_init();	//天际系列，采用流式传输
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
 	ITAC_thread.start(itac_app);
@@ -41,24 +35,7 @@ int main(void)
 
 	bz_set(ready);
 
-	CTL_thread.start(CTL_app);
 
-	// *(bzled_reg + 0) = 50000;
-	// *(bzled_reg + 1) = 50000;
-	// *(bzled_reg + 2) = 50000;
-	// *(bzled_reg + 3) = 70000;
-	// *(bzled_reg + 4) = 20000;
-	// 
-	// wait(0.05);
-	// 	*(pwm0_reg + 0) = 10000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 1) = 9000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 2) = 8000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 3) = 7000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 4) = 6000;
 	while(1)
 	{		
 		//bz_set(datarec);
