@@ -44,18 +44,19 @@ module flexbus_comm(
     
     );
 
-reg AD_TRI = 1'b1;//高阻状态标志位,posedge logic
+wire AD_TRI_n ;//高阻状态标志位,posedge logic
 reg ADD_COMF = 1'b0;
 
 reg [31:0] FB_AD_reg = 32'b0;
 reg [31:0] ip_ADDR = 32'b0;
-           
-assign FB_AD[31:0] = ( AD_TRI ) ? 32'bz : FB_AD_reg[31:0];
+
+assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);      
+assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
    
 
 always@( negedge FB_CLK or negedge RST_n )  begin
     if ( !RST_n ) begin
-        AD_TRI <= 1'b1;
+//        AD_TRI <= 1'b1;
         ip_ADDR[31:0] <= 32'b0;
         ADD_COMF <= 1'b0;
         
@@ -71,7 +72,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
     end
     else begin
         if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
-            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
+//            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
             if ( (FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 ) ) begin// check base address 
                 ADD_COMF <= 1'b1;
                 ip_ADDR[31:0] <= FB_AD[31:0];
@@ -86,7 +87,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                 if ( FB_CS == 1'b0 ) begin //CS is enable 
                     if ( FB_RW == 1'b0 ) begin  //in write mode
                     
-                        AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b0 && ADD_COMF == 1'b1
+//                        AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b0 && ADD_COMF == 1'b1
                         
                         case( ip_ADDR & 32'h0fffffff )
                                                 
@@ -110,7 +111,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                     end // FB_RW == 1'b0
                     
                     else if ( FB_RW == 1'b1 ) begin //in read mode
-                        AD_TRI <= 1'b0;     //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b1 && ADD_COMF == 1'b1
+//                        AD_TRI <= 1'b0;     //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b1 && ADD_COMF == 1'b1
                         
                         case( ip_ADDR & 32'h0fffffff )
                             32'b00000: begin
@@ -132,11 +133,11 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                     end // FB_RW == 1'b1
                 end  // ( FB_CS == 1'b0 )
                 else begin //( FB_CS == 1'b1 )
-                    AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS == 1'b1 && FB_RW == X && ADD_COMF == 1'b1
+//                    AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS == 1'b1 && FB_RW == X && ADD_COMF == 1'b1
                 end
             end //ADDRESS CONFIRM
             else begin //ADDRESS VOTE
-                AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS = X && FB_RW == X && ADD_COMF == 1'b0
+//                AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS = X && FB_RW == X && ADD_COMF == 1'b0
             end //ADDRESS VOTE
         end // FB_ALE == 1'B0
     end
