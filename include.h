@@ -6,7 +6,7 @@
 
 #include "ITAC.h"
 #include "PL_DEF.h"
-
+#include "mcu_cfg.h"
 
 
 #endif

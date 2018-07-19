@@ -22,7 +22,7 @@ DigitalOut FPGA_PROG(PROG_IO);
 void wait_fpga_init()
 {
 	//wait until done goes high
-	
+	FPGA_PROG = 1;
 	fc.printf("Wait until Done Goes HIGH\r\n");
 	while(!FPGA_DONE)
 	{
