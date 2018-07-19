@@ -319,8 +319,35 @@ set_property CONFIG_MODE SPIx4 [current_design]
 
 
 
-set_max_delay -fall_from [get_cells {{i_flexbus/FREQ_Cnt_Reg_reg[0]} {i_flexbus/FREQ_Cnt_Reg_reg[1]} {i_flexbus/FREQ_Cnt_Reg_reg[2]} {i_flexbus/FREQ_Cnt_Reg_reg[3]} {i_flexbus/FREQ_Cnt_Reg_reg[4]} {i_flexbus/FREQ_Cnt_Reg_reg[5]} {i_flexbus/FREQ_Cnt_Reg_reg[6]} {i_flexbus/FREQ_Cnt_Reg_reg[7]} {i_flexbus/FREQ_Cnt_Reg_reg[8]} {i_flexbus/FREQ_Cnt_Reg_reg[9]} {i_flexbus/FREQ_Cnt_Reg_reg[10]} {i_flexbus/FREQ_Cnt_Reg_reg[11]} {i_flexbus/FREQ_Cnt_Reg_reg[12]} {i_flexbus/FREQ_Cnt_Reg_reg[13]} {i_flexbus/FREQ_Cnt_Reg_reg[14]} {i_flexbus/FREQ_Cnt_Reg_reg[15]} {i_flexbus/FREQ_Cnt_Reg_reg[16]} {i_flexbus/FREQ_Cnt_Reg_reg[17]} {i_flexbus/FREQ_Cnt_Reg_reg[18]} {i_flexbus/FREQ_Cnt_Reg_reg[19]} {i_flexbus/FREQ_Cnt_Reg_reg[20]} {i_flexbus/FREQ_Cnt_Reg_reg[21]} {i_flexbus/FREQ_Cnt_Reg_reg[22]} {i_flexbus/FREQ_Cnt_Reg_reg[23]} {i_flexbus/FREQ_Cnt_Reg_reg[24]} {i_flexbus/FREQ_Cnt_Reg_reg[25]} {i_flexbus/FREQ_Cnt_Reg_reg[26]} {i_flexbus/FREQ_Cnt_Reg_reg[27]} {i_flexbus/FREQ_Cnt_Reg_reg[28]} {i_flexbus/FREQ_Cnt_Reg_reg[29]} {i_flexbus/FREQ_Cnt_Reg_reg[30]} {i_flexbus/FREQ_Cnt_Reg_reg[31]} {i_flexbus/LEDB_Puty_Reg[31]_i_1} {i_flexbus/LEDB_Puty_Reg[31]_i_2} {i_flexbus/LEDB_Puty_Reg_reg[0]} {i_flexbus/LEDB_Puty_Reg_reg[1]} {i_flexbus/LEDB_Puty_Reg_reg[2]} {i_flexbus/LEDB_Puty_Reg_reg[3]} {i_flexbus/LEDB_Puty_Reg_reg[4]} {i_flexbus/LEDB_Puty_Reg_reg[5]} {i_flexbus/LEDB_Puty_Reg_reg[6]} {i_flexbus/LEDB_Puty_Reg_reg[7]} {i_flexbus/LEDB_Puty_Reg_reg[8]} {i_flexbus/LEDB_Puty_Reg_reg[9]} {i_flexbus/LEDB_Puty_Reg_reg[10]} {i_flexbus/LEDB_Puty_Reg_reg[11]} {i_flexbus/LEDB_Puty_Reg_reg[12]} {i_flexbus/LEDB_Puty_Reg_reg[13]} {i_flexbus/LEDB_Puty_Reg_reg[14]} {i_flexbus/LEDB_Puty_Reg_reg[15]} {i_flexbus/LEDB_Puty_Reg_reg[16]} {i_flexbus/LEDB_Puty_Reg_reg[17]} {i_flexbus/LEDB_Puty_Reg_reg[18]} {i_flexbus/LEDB_Puty_Reg_reg[19]} {i_flexbus/LEDB_Puty_Reg_reg[20]} {i_flexbus/LEDB_Puty_Reg_reg[21]} {i_flexbus/LEDB_Puty_Reg_reg[22]} {i_flexbus/LEDB_Puty_Reg_reg[23]} {i_flexbus/LEDB_Puty_Reg_reg[24]} {i_flexbus/LEDB_Puty_Reg_reg[25]} {i_flexbus/LEDB_Puty_Reg_reg[26]} {i_flexbus/LEDB_Puty_Reg_reg[27]} {i_flexbus/LEDB_Puty_Reg_reg[28]} {i_flexbus/LEDB_Puty_Reg_reg[29]} {i_flexbus/LEDB_Puty_Reg_reg[30]} {i_flexbus/LEDB_Puty_Reg_reg[31]} {i_flexbus/LEDG_Puty_Reg_reg[0]} {i_flexbus/LEDG_Puty_Reg_reg[1]} {i_flexbus/LEDG_Puty_Reg_reg[2]} {i_flexbus/LEDG_Puty_Reg_reg[3]} {i_flexbus/LEDG_Puty_Reg_reg[4]} {i_flexbus/LEDG_Puty_Reg_reg[5]} {i_flexbus/LEDG_Puty_Reg_reg[6]} {i_flexbus/LEDG_Puty_Reg_reg[7]} {i_flexbus/LEDG_Puty_Reg_reg[8]} {i_flexbus/LEDG_Puty_Reg_reg[9]} {i_flexbus/LEDG_Puty_Reg_reg[10]} {i_flexbus/LEDG_Puty_Reg_reg[11]} {i_flexbus/LEDG_Puty_Reg_reg[12]} {i_flexbus/LEDG_Puty_Reg_reg[13]} {i_flexbus/LEDG_Puty_Reg_reg[14]} {i_flexbus/LEDG_Puty_Reg_reg[15]} {i_flexbus/LEDG_Puty_Reg_reg[16]} {i_flexbus/LEDG_Puty_Reg_reg[17]} {i_flexbus/LEDG_Puty_Reg_reg[18]} {i_flexbus/LEDG_Puty_Reg_reg[19]} {i_flexbus/LEDG_Puty_Reg_reg[20]} {i_flexbus/LEDG_Puty_Reg_reg[21]} {i_flexbus/LEDG_Puty_Reg_reg[22]} {i_flexbus/LEDG_Puty_Reg_reg[23]} {i_flexbus/LEDG_Puty_Reg_reg[24]} {i_flexbus/LEDG_Puty_Reg_reg[25]} {i_flexbus/LEDG_Puty_Reg_reg[26]} {i_flexbus/LEDG_Puty_Reg_reg[27]} {i_flexbus/LEDG_Puty_Reg_reg[28]} {i_flexbus/LEDG_Puty_Reg_reg[29]} {i_flexbus/LEDG_Puty_Reg_reg[30]} {i_flexbus/LEDG_Puty_Reg_reg[31]} {i_flexbus/LEDR_Puty_Reg_reg[0]} {i_flexbus/LEDR_Puty_Reg_reg[1]} {i_flexbus/LEDR_Puty_Reg_reg[2]} {i_flexbus/LEDR_Puty_Reg_reg[3]} {i_flexbus/LEDR_Puty_Reg_reg[4]} {i_flexbus/LEDR_Puty_Reg_reg[5]} {i_flexbus/LEDR_Puty_Reg_reg[6]} {i_flexbus/LEDR_Puty_Reg_reg[7]} {i_flexbus/LEDR_Puty_Reg_reg[8]} {i_flexbus/LEDR_Puty_Reg_reg[9]} {i_flexbus/LEDR_Puty_Reg_reg[10]} {i_flexbus/LEDR_Puty_Reg_reg[11]} {i_flexbus/LEDR_Puty_Reg_reg[12]} {i_flexbus/LEDR_Puty_Reg_reg[13]} {i_flexbus/LEDR_Puty_Reg_reg[14]} {i_flexbus/LEDR_Puty_Reg_reg[15]} {i_flexbus/LEDR_Puty_Reg_reg[16]} {i_flexbus/LEDR_Puty_Reg_reg[17]} {i_flexbus/LEDR_Puty_Reg_reg[18]} {i_flexbus/LEDR_Puty_Reg_reg[19]} {i_flexbus/LEDR_Puty_Reg_reg[20]} {i_flexbus/LEDR_Puty_Reg_reg[21]} {i_flexbus/LEDR_Puty_Reg_reg[22]} {i_flexbus/LEDR_Puty_Reg_reg[23]} {i_flexbus/LEDR_Puty_Reg_reg[24]} {i_flexbus/LEDR_Puty_Reg_reg[25]} {i_flexbus/LEDR_Puty_Reg_reg[26]} {i_flexbus/LEDR_Puty_Reg_reg[27]} {i_flexbus/LEDR_Puty_Reg_reg[28]} {i_flexbus/LEDR_Puty_Reg_reg[29]} {i_flexbus/LEDR_Puty_Reg_reg[30]} {i_flexbus/LEDR_Puty_Reg_reg[31]} {i_flexbus/BZ_Puty_Reg_reg[0]} {i_flexbus/BZ_Puty_Reg_reg[1]} {i_flexbus/BZ_Puty_Reg_reg[2]} {i_flexbus/BZ_Puty_Reg_reg[3]} {i_flexbus/BZ_Puty_Reg_reg[4]} {i_flexbus/BZ_Puty_Reg_reg[5]} {i_flexbus/BZ_Puty_Reg_reg[6]} {i_flexbus/BZ_Puty_Reg_reg[7]} {i_flexbus/BZ_Puty_Reg_reg[8]} {i_flexbus/BZ_Puty_Reg_reg[9]} {i_flexbus/BZ_Puty_Reg_reg[10]} {i_flexbus/BZ_Puty_Reg_reg[11]} {i_flexbus/BZ_Puty_Reg_reg[12]} {i_flexbus/BZ_Puty_Reg_reg[13]} {i_flexbus/BZ_Puty_Reg_reg[14]} {i_flexbus/BZ_Puty_Reg_reg[15]} {i_flexbus/BZ_Puty_Reg_reg[16]} {i_flexbus/BZ_Puty_Reg_reg[17]} {i_flexbus/BZ_Puty_Reg_reg[18]} {i_flexbus/BZ_Puty_Reg_reg[19]} {i_flexbus/BZ_Puty_Reg_reg[20]} {i_flexbus/BZ_Puty_Reg_reg[21]} {i_flexbus/BZ_Puty_Reg_reg[22]} {i_flexbus/BZ_Puty_Reg_reg[23]} {i_flexbus/BZ_Puty_Reg_reg[24]} {i_flexbus/BZ_Puty_Reg_reg[25]} {i_flexbus/BZ_Puty_Reg_reg[26]} {i_flexbus/BZ_Puty_Reg_reg[27]} {i_flexbus/BZ_Puty_Reg_reg[28]} {i_flexbus/BZ_Puty_Reg_reg[29]} {i_flexbus/BZ_Puty_Reg_reg[30]} {i_flexbus/BZ_Puty_Reg_reg[31]}}] -fall_to [get_ports {{i_fb_ad[0]} {i_fb_ad[1]} {i_fb_ad[2]} {i_fb_ad[3]} {i_fb_ad[4]} {i_fb_ad[5]} {i_fb_ad[6]} {i_fb_ad[7]} {i_fb_ad[8]} {i_fb_ad[9]} {i_fb_ad[10]} {i_fb_ad[11]} {i_fb_ad[12]} {i_fb_ad[13]} {i_fb_ad[14]} {i_fb_ad[15]} {i_fb_ad[16]} {i_fb_ad[17]} {i_fb_ad[18]} {i_fb_ad[19]} {i_fb_ad[20]} {i_fb_ad[21]} {i_fb_ad[22]} {i_fb_ad[23]} {i_fb_ad[24]} {i_fb_ad[25]} {i_fb_ad[26]} {i_fb_ad[27]} {i_fb_ad[28]} {i_fb_ad[29]} {i_fb_ad[30]} {i_fb_ad[31]}}] 12.500
-
-
-
-
+set_property SLEW FAST [get_ports {i_fb_ad[31]}]
+set_property SLEW FAST [get_ports {i_fb_ad[30]}]
+set_property SLEW FAST [get_ports {i_fb_ad[29]}]
+set_property SLEW FAST [get_ports {i_fb_ad[28]}]
+set_property SLEW FAST [get_ports {i_fb_ad[27]}]
+set_property SLEW FAST [get_ports {i_fb_ad[26]}]
+set_property SLEW FAST [get_ports {i_fb_ad[25]}]
+set_property SLEW FAST [get_ports {i_fb_ad[24]}]
+set_property SLEW FAST [get_ports {i_fb_ad[23]}]
+set_property SLEW FAST [get_ports {i_fb_ad[22]}]
+set_property SLEW FAST [get_ports {i_fb_ad[21]}]
+set_property SLEW FAST [get_ports {i_fb_ad[20]}]
+set_property SLEW FAST [get_ports {i_fb_ad[19]}]
+set_property SLEW FAST [get_ports {i_fb_ad[18]}]
+set_property SLEW FAST [get_ports {i_fb_ad[17]}]
+set_property SLEW FAST [get_ports {i_fb_ad[16]}]
+set_property SLEW FAST [get_ports {i_fb_ad[15]}]
+set_property SLEW FAST [get_ports {i_fb_ad[14]}]
+set_property SLEW FAST [get_ports {i_fb_ad[13]}]
+set_property SLEW FAST [get_ports {i_fb_ad[12]}]
+set_property SLEW FAST [get_ports {i_fb_ad[11]}]
+set_property SLEW FAST [get_ports {i_fb_ad[10]}]
+set_property SLEW FAST [get_ports {i_fb_ad[9]}]
+set_property SLEW FAST [get_ports {i_fb_ad[8]}]
+set_property SLEW FAST [get_ports {i_fb_ad[7]}]
+set_property SLEW FAST [get_ports {i_fb_ad[6]}]
+set_property SLEW FAST [get_ports {i_fb_ad[5]}]
+set_property SLEW FAST [get_ports {i_fb_ad[4]}]
+set_property SLEW FAST [get_ports {i_fb_ad[3]}]
+set_property SLEW FAST [get_ports {i_fb_ad[2]}]
+set_property SLEW FAST [get_ports {i_fb_ad[1]}]
+set_property SLEW FAST [get_ports {i_fb_ad[0]}]
