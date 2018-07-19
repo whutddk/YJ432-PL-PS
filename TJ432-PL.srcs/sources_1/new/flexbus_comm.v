@@ -35,8 +35,12 @@ module flexbus_comm(
 //    input FB_BE7_0,
     inout [31:0] FB_AD,
     
-    output reg [31:0] REG0
-    
+
+	output reg [31:0] FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
+    output reg [31:0] BZ_Puty_Reg,
+    output reg [31:0] LEDR_Puty_Reg,
+    output reg [31:0] LEDG_Puty_Reg,
+    output reg [31:0] LEDB_Puty_Reg  
     
     );
 
@@ -58,7 +62,11 @@ always@( negedge FB_CLK or negedge RST_n )  begin
         FB_AD_reg[31:0] <= 32'b0;
  
         //register       
-        REG0[31:0] <= 32'b0;
+        FREQ_Cnt_Reg <= 32'b0;
+        BZ_Puty_Reg <= 32'b0;
+        LEDR_Puty_Reg <= 32'b0;
+        LEDG_Puty_Reg <= 32'b0;
+        LEDB_Puty_Reg <= 32'b0;  
         
     end
     else begin
@@ -81,11 +89,23 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                         AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b0 && ADD_COMF == 1'b1
                         
                         case( ip_ADDR & 32'h0fffffff )
-                            32'd0: begin
-                                REG0[31:0] <= FB_AD[31:0];
+                                                
+                            32'b00000: begin
+                                FREQ_Cnt_Reg <= FB_AD[31:0];
                             end
-                            32'd4:begin
+                            32'b00100:begin
+                                BZ_Puty_Reg <= FB_AD[31:0];
                             end
+                            32'b01000:begin
+                                LEDR_Puty_Reg <= FB_AD[31:0];
+                            end
+                            32'b01100:begin
+                                LEDG_Puty_Reg <= FB_AD[31:0];
+                            end
+                            32'b10000:begin
+                                LEDB_Puty_Reg <= FB_AD[31:0];
+                            end
+                            
                         endcase
                     end // FB_RW == 1'b0
                     
@@ -93,10 +113,20 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                         AD_TRI <= 1'b0;     //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b1 && ADD_COMF == 1'b1
                         
                         case( ip_ADDR & 32'h0fffffff )
-                            32'd0: begin
-                                FB_AD_reg[31:0] <= REG0[31:0];
+                            32'b00000: begin
+                                FB_AD_reg[31:0] <= FREQ_Cnt_Reg;
                             end
-                            32'd4:begin
+                            32'b00100:begin
+                                FB_AD_reg[31:0] <= BZ_Puty_Reg;
+                            end
+                            32'b01000:begin
+                                FB_AD_reg[31:0] <= LEDR_Puty_Reg;
+                            end
+                            32'b01100:begin
+                                FB_AD_reg[31:0] <= LEDG_Puty_Reg;
+                            end
+                            32'b10000:begin
+                                FB_AD_reg[31:0] <= LEDB_Puty_Reg;
                             end
                         endcase
                     end // FB_RW == 1'b1
