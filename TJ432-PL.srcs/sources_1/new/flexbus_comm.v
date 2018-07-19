@@ -48,11 +48,18 @@ reg [31:0] ip_ADDR = 32'b0;
            
 assign FB_AD[31:0] = ( AD_TRI ) ? 32'bz : FB_AD_reg[31:0];
    
-   
 
 always@( negedge FB_CLK or negedge RST_n )  begin
     if ( !RST_n ) begin
-    
+        AD_TRI <= 1'b1;
+        ip_ADDR[31:0] <= 32'b0;
+        ADD_COMF <= 1'b0;
+        
+        FB_AD_reg[31:0] <= 32'b0;
+ 
+        //register       
+        REG0[31:0] <= 32'b0;
+        
     end
     else begin
         if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
