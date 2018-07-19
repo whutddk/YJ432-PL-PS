@@ -22,12 +22,18 @@ extern Serial fc;
 int main(void)
 {
 	// buzzer = 0;
-
+	wait_fpga_init();
 	YJ_FB_init();	
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
 	ITAC_thread.start(itac_app);
 	// FC_thread.start(FC_app);
+
+	*(LED_FRE_REG) = 50000;
+	*(BZ_FRE_REG) = 1000000000;
+	*(RED_DUTY_REG) = 30000;
+	*(GREEN_DUTY_REG) = 20000;
+	*(BLUE_DUTY_REG) = 40000;
 
 	bz_set(ready);
 
@@ -35,6 +41,7 @@ int main(void)
 	while(1)
 	{		
 		//bz_set(datarec);
+
 
 		wait(1);
 
