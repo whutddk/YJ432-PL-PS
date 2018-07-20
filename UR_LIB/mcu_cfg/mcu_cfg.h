@@ -14,7 +14,7 @@
 #endif
 
 
-#define SPI_CFG ON
+#define SPI_CFG OFF
 
 extern DigitalIn FPGA_DONE;
 extern DigitalIn FPGA_INIT;
