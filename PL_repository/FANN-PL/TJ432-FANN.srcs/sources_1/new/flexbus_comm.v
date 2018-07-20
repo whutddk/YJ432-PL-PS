@@ -40,9 +40,15 @@ module flexbus_comm(
     output reg [31:0] BZ_Puty_Reg,
     output reg [31:0] LEDR_Puty_Reg,
     output reg [31:0] LEDG_Puty_Reg,
-    output reg [31:0] LEDB_Puty_Reg  
+    output reg [31:0] LEDB_Puty_Reg,
+    
+
+    input [31:0] Is_Empty_Wire,
+    output reg [31:0] STEAM_DATA,  //put data into here
+    output FIFO_CLK
     
     );
+
 
 wire AD_TRI_n ;//高阻状态标志位,posedge logic
 reg ADD_COMF = 1'b0;
@@ -68,6 +74,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
         LEDR_Puty_Reg <= 32'b0;
         LEDG_Puty_Reg <= 32'b0;
         LEDB_Puty_Reg <= 32'b0;  
+        
+        STEAM_UPDATE_Reg <= 32'b0;
         
     end
     else begin
