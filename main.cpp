@@ -10,19 +10,29 @@ extern void itac_app();
 
 //上位机任务
 Thread FC_thread(osPriorityBelowNormal);
+
 extern void FC_app();
-
 extern void YJ_FB_init();
-
+extern void play_mp3(char* filename);
 
 extern Serial fc;
+
+
+
+SDHCBlockDevice sd;
+FATFileSystem fs("fs");
+
 
 
 //天际系列
 int main(void)
 {
+
+	fs.mount(&sd);
+
 	// buzzer = 0;
 	wait_fpga_init();
+
 	YJ_FB_init();	
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
@@ -37,7 +47,7 @@ int main(void)
 
 	bz_set(ready);
 
-
+	play_mp3("MS.wav");
 	while(1)
 	{		
 		//bz_set(datarec);
