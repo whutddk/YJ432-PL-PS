@@ -8,6 +8,8 @@ volatile uint32_t * bzled_reg = (uint32_t*)( PL_START_ADDRESS | BZLED_BASE );
 // volatile uint32_t * qei0_reg = (uint32_t*)( PL_START_ADDRESS | QEI0_BASE );
 // volatile uint32_t *po3PID0_reg = (uint32_t*)( PL_START_ADDRESS | PO3PID0_BASE );
 // volatile uint32_t *po3PID1_reg = (uint32_t*)( PL_START_ADDRESS | PO3PID1_BASE );
+volatile uint32_t *TJBMP3_reg = (uint32_t*)( PL_START_ADDRESS | TJBMP3_BASE );
+
 
 volatile uint32_t *LED_FRE_REG = bzled_reg + 0;
 volatile uint32_t *BZ_FRE_REG = bzled_reg + 1;
@@ -57,6 +59,11 @@ volatile uint32_t *BLUE_DUTY_REG = bzled_reg + 4;
 // volatile uint32_t *po3PID1_KIB_REG = po3PID1_reg + 13;
 // volatile uint32_t *po3PID1_KDB_REG = po3PID1_reg + 14;
 // volatile uint32_t *po3PID1_OUT_REG = po3PID1_reg + 15;
+
+volatile uint32_t *TJBMP3_STREAM_REG = TJBMP3_reg;
+volatile uint32_t *TJBMP3_IsEMPTY_REG = (uint32_t*)( PL_START_ADDRESS | 0x07810000U );
+
+
 
 
 

@@ -10,11 +10,14 @@
 // #define QEI0_BASE	0x01800000U
 // #define PO3PID0_BASE 0x03400000U
 // #define PO3PID1_BASE 0x03800000U
+#define TJBMP3_BASE 0x07810000U
 
 extern volatile uint32_t *bzled_reg;
 // extern volatile uint32_t *pwm0_reg;
 // extern volatile uint32_t *qei0_reg;
 // extern volatile uint32_t *po3PID0_reg;
+// 
+extern volatile uint32_t *TJBMP3_reg;
 
 extern volatile uint32_t *LED_FRE_REG;
 extern volatile uint32_t *BZ_FRE_REG;
@@ -62,6 +65,9 @@ extern volatile uint32_t *BLUE_DUTY_REG;
 // extern volatile uint32_t *po3PID1_KIB_REG;
 // extern volatile uint32_t *po3PID1_KDB_REG;
 // extern volatile uint32_t *po3PID1_OUT_REG;
+
+extern volatile uint32_t *TJBMP3_STREAM_REG;
+extern volatile uint32_t *TJBMP3_IsEMPTY_REG;
 
 #endif
 
