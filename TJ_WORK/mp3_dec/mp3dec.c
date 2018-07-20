@@ -43,6 +43,7 @@
  **************************************************************************************/
 
 #include "string.h" // J.Sz. 21/04/2006
+// #include "hlxclib/string.h"		/* for memmove, memcpy (can replace with different implementations if desired) */
 #include "mp3common.h"	/* includes mp3dec.h (public API) and internal, platform-independent API */
 
 /**************************************************************************************
@@ -64,6 +65,28 @@ HMP3Decoder MP3InitDecoder(void)
 	mp3DecInfo = AllocateBuffers();
 
 	return (HMP3Decoder)mp3DecInfo;
+}
+
+/**************************************************************************************
+ * Function:    MP3FreeDecoder
+ *
+ * Description: free platform-specific data allocated by InitMP3Decoder
+ *              zero out the contents of MP3DecInfo struct
+ *
+ * Inputs:      valid MP3 decoder instance pointer (HMP3Decoder)
+ *
+ * Outputs:     none
+ *
+ * Return:      none
+ **************************************************************************************/
+void MP3FreeDecoder(HMP3Decoder hMP3Decoder)
+{
+	MP3DecInfo *mp3DecInfo = (MP3DecInfo *)hMP3Decoder;
+
+	if (!mp3DecInfo)
+		return;
+
+	FreeBuffers(mp3DecInfo);
 }
 
 /**************************************************************************************
@@ -223,7 +246,7 @@ int MP3GetNextFrameInfo(HMP3Decoder hMP3Decoder, MP3FrameInfo *mp3FrameInfo, uns
  *
  * Return:      none
  **************************************************************************************/
-static void MP3ClearBadFrame(MP3DecInfo *mp3DecInfo, char *outbuf)
+static void MP3ClearBadFrame(MP3DecInfo *mp3DecInfo, short *outbuf)
 {
 	int i;
 
@@ -255,7 +278,7 @@ static void MP3ClearBadFrame(MP3DecInfo *mp3DecInfo, char *outbuf)
  * Notes:       switching useSize on and off between frames in the same stream 
  *                is not supported (bit reservoir is not maintained if useSize on)
  **************************************************************************************/
-int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, char *outbuf, int useSize)
+int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, short *outbuf, int useSize)
 {
 	int offset, bitOffset, mainBits, gr, ch, fhBytes, siBytes, freeFrameBytes;
 	int prevBitOffset, sfBlockBits, huffBlockBits;
@@ -384,7 +407,7 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, ch
 				MP3ClearBadFrame(mp3DecInfo, outbuf);
 				return ERR_MP3_INVALID_IMDCT;			
 			}
-			//iosignal_ctrl(1,0);
+
 		/* subband transform - if stereo, interleaves pcm LRLRLR */
 		if (Subband(mp3DecInfo, outbuf + gr*mp3DecInfo->nGranSamps*mp3DecInfo->nChans) < 0) {
 			MP3ClearBadFrame(mp3DecInfo, outbuf);

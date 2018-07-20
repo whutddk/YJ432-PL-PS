@@ -45,7 +45,6 @@
 #define _CODER_H
 
 #include "mp3common.h"
-#include "Dsp_assembly.h"
 
 #if defined(ASSERT)
 #undef ASSERT
@@ -57,11 +56,11 @@
 #endif
 
 #ifndef MAX
-#define MAX(a,b)	FASMAX(a,b)
+#define MAX(a,b)	((a) > (b) ? (a) : (b))
 #endif
 
 #ifndef MIN
-#define MIN(a,b)	FASMIN(a,b)
+#define MIN(a,b)	((a) < (b) ? (a) : (b))
 #endif
 
 /* clip to range [-2^n, 2^n - 1] */
@@ -88,7 +87,7 @@
 #define BLOCK_SIZE				18
 #define	NBANDS					32
 #define MAX_REORDER_SAMPS		((192-126)*3)		/* largest critical band for short blocks (see sfBandTable) */
-#define VBUF_LENGTH				(34 * NBANDS)	/* for double-sized vbuf FIFO */
+#define VBUF_LENGTH				(17 * 2 * NBANDS)	/* for double-sized vbuf FIFO */
 
 /* additional external symbols to name-mangle for static linking */
 #define	SetBitstreamPointer	STATNAME(SetBitstreamPointer)
@@ -288,8 +287,8 @@ extern const int quadTabMaxBits[2];
 #ifdef __cplusplus
 extern "C" {
 #endif
-void PolyphaseMono(char *pcm, int *vbuf, const int *coefBase);
-void PolyphaseStereo(char *pcm, int *vbuf, const int *coefBase);
+void PolyphaseMono(short *pcm, int *vbuf, const int *coefBase);
+void PolyphaseStereo(short *pcm, int *vbuf, const int *coefBase);
 #ifdef __cplusplus
 }
 #endif
