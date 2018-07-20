@@ -109,7 +109,7 @@ int DecodeHuffman(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, in
 int Dequantize(MP3DecInfo *mp3DecInfo, int gr);
 int IMDCT(MP3DecInfo *mp3DecInfo, int gr, int ch);
 int UnpackScaleFactors(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, int bitsAvail, int gr, int ch);
-int Subband(MP3DecInfo *mp3DecInfo, char *pcmBuf);
+int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf);
 
 /* mp3tabs.c - global ROM tables */
 extern const int samplerateTab[3][3];

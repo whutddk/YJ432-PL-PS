@@ -43,7 +43,7 @@
  **************************************************************************************/
 
 #include "coder.h"
-#include "Dsp_assembly.h"
+#include "assembly.h"
 
 #define COS0_0  0x4013c251	/* Q31 */
 #define COS0_1  0x40b345bd	/* Q31 */
@@ -171,7 +171,7 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	/* second pass */
 	for (i = 4; i > 0; i--) {
 		a0 = buf[0]; 	    a7 = buf[7];		a3 = buf[3];	    a4 = buf[4];
-		b0 = a0 + a7;	    b7 = MULSHIFT32(*cptr++ , a0 - a7) << 1;
+		b0 = a0 + a7;	    b7 = MULSHIFT32(*cptr++, a0 - a7) << 1;
 		b3 = a3 + a4;	    b4 = MULSHIFT32(*cptr++, a3 - a4) << 3;
 		a0 = b0 + b3;	    a3 = MULSHIFT32(*cptr,   b0 - b3) << 1;
 		a4 = b4 + b7;		a7 = MULSHIFT32(*cptr++, b7 - b4) << 1;
@@ -263,16 +263,16 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	 */
 	if (es) {
 		d = dest + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
-		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = s << es;
+		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);
 	
 		d = dest + offset + (oddBlock ? VBUF_LENGTH  : 0);
 		for (i = 16; i <= 31; i++) {
-			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = s << es;	d += 64;
+			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
 		}
 
 		d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
 		for (i = 15; i >= 0; i--) {
-			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = s << es;	d += 64;
+			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
 		}
 	}
 }

@@ -43,7 +43,7 @@
  **************************************************************************************/
 
 #include "coder.h"
-#include "Dsp_assembly.h"
+#include "assembly.h"
 
 typedef int ARRAY3[3];	/* for short-block reordering */
 

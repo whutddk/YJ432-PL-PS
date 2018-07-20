@@ -1,7 +1,7 @@
 #include "mbed.h"
 #include "include.h"
-#include "BSP.h"
-#include "ctl.h"
+
+#define NUM_BYTE_READ 4096
 
 volatile bool isFinished = true;
 short buf_rec1[2304];
@@ -53,9 +53,6 @@ void play_mp3(char* filename)
 	fread(buf_read,1,NUM_BYTE_READ,fd);
 	fc.printf("start to trace\r\n");
 	int32_t flag_start = 0;
-
-	isTransferCompleted = true;
-	isFinished = true;
 
 	while(1)
 	{
@@ -111,14 +108,6 @@ void play_mp3(char* filename)
 			}
 
 
-			while( isTransferCompleted == false )//|| isFinished == false )
-			{
-				;
-			}
-			 while(!LCRK.read());
-
-			isTransferCompleted = false;
-
 		    if ( flag_sw == 0 )
 		    {
 		        temp = (uint32_t)buf_rec1;
@@ -130,7 +119,11 @@ void play_mp3(char* filename)
 		        flag_sw = 0;
 		    }
 
+		    /********************************
 
+			transfer here!!!
+
+			*******************************/
 			if (byte_left < NUM_BYTE_READ) 
 			{
 				memmove(buf_read,read_ptr,byte_left);
@@ -142,7 +135,7 @@ void play_mp3(char* filename)
 					fc.printf("num_read:%d\r\n",num_read);
 					break;
 				}
-				if (num_read < NUM_BYTE_READ - byte_left)
+				if ( num_read < NUM_BYTE_READ - byte_left )
 				{
 					memset(buf_read + byte_left + num_read, 0, NUM_BYTE_READ - byte_left - num_read);
 				}
