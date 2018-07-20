@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<bd:repository xmlns:bd="http://www.xilinx.com/bd" bd:BoundaryCRC="0x2252983BBEF8C96A" bd:device="xc7a35tftg256-1" bd:isValidated="true" bd:synthFlowMode="Hierarchical" bd:tool_version="2017.4" bd:top="I2S_SUP" bd:version="1.00.a">
+
+  <spirit:component xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
+    <spirit:vendor>xilinx.com</spirit:vendor>
+    <spirit:library>BlockDiagram</spirit:library>
+    <spirit:name>I2S_SUP</spirit:name>
+    <spirit:version>1.00.a</spirit:version>
+    <spirit:parameters>
+      <spirit:parameter>
+        <spirit:name>isTop</spirit:name>
+        <spirit:value spirit:format="bool" spirit:resolve="immediate">true</spirit:value>
+      </spirit:parameter>
+    </spirit:parameters>
+    <spirit:busInterfaces>
+      <spirit:busInterface>
+        <spirit:name>FIFO_WRITE_0</spirit:name>
+        <spirit:slave/>
+        <spirit:busType spirit:library="interface" spirit:name="fifo_write" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:abstractionType spirit:library="interface" spirit:name="fifo_write_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+      </spirit:busInterface>
+      <spirit:busInterface>
+        <spirit:name>FIFO_READ_0</spirit:name>
+        <spirit:slave/>
+        <spirit:busType spirit:library="interface" spirit:name="fifo_read" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:abstractionType spirit:library="interface" spirit:name="fifo_read_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+      </spirit:busInterface>
+      <spirit:busInterface>
+        <spirit:name>CLK.RD_CLK_0</spirit:name>
+        <spirit:displayName>Clk</spirit:displayName>
+        <spirit:description>Clock</spirit:description>
+        <spirit:busType spirit:library="signal" spirit:name="clock" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:abstractionType spirit:library="signal" spirit:name="clock_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:slave/>
+        <spirit:portMaps>
+          <spirit:portMap>
+            <spirit:logicalPort>
+              <spirit:name>CLK</spirit:name>
+            </spirit:logicalPort>
+            <spirit:physicalPort>
+              <spirit:name>rd_clk_0</spirit:name>
+            </spirit:physicalPort>
+          </spirit:portMap>
+        </spirit:portMaps>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>FREQ_HZ</spirit:name>
+            <spirit:value>100000000</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>PHASE</spirit:name>
+            <spirit:value>0.000</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>CLK_DOMAIN</spirit:name>
+            <spirit:value>I2S_SUP_rd_clk_0</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:busInterface>
+      <spirit:busInterface>
+        <spirit:name>CLK.WR_CLK_0</spirit:name>
+        <spirit:displayName>Clk</spirit:displayName>
+        <spirit:description>Clock</spirit:description>
+        <spirit:busType spirit:library="signal" spirit:name="clock" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:abstractionType spirit:library="signal" spirit:name="clock_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:slave/>
+        <spirit:portMaps>
+          <spirit:portMap>
+            <spirit:logicalPort>
+              <spirit:name>CLK</spirit:name>
+            </spirit:logicalPort>
+            <spirit:physicalPort>
+              <spirit:name>wr_clk_0</spirit:name>
+            </spirit:physicalPort>
+          </spirit:portMap>
+        </spirit:portMaps>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>FREQ_HZ</spirit:name>
+            <spirit:value>100000000</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>PHASE</spirit:name>
+            <spirit:value>0.000</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>CLK_DOMAIN</spirit:name>
+            <spirit:value>I2S_SUP_wr_clk_0</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:busInterface>
+      <spirit:busInterface>
+        <spirit:name>CLK.CLK_100MHZ</spirit:name>
+        <spirit:displayName>Clk</spirit:displayName>
+        <spirit:description>Clock</spirit:description>
+        <spirit:busType spirit:library="signal" spirit:name="clock" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:abstractionType spirit:library="signal" spirit:name="clock_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:slave/>
+        <spirit:portMaps>
+          <spirit:portMap>
+            <spirit:logicalPort>
+              <spirit:name>CLK</spirit:name>
+            </spirit:logicalPort>
+            <spirit:physicalPort>
+              <spirit:name>clk_100MHz</spirit:name>
+            </spirit:physicalPort>
+          </spirit:portMap>
+        </spirit:portMaps>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>FREQ_HZ</spirit:name>
+            <spirit:value>100000000</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="user"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>PHASE</spirit:name>
+            <spirit:value>0.000</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>CLK_DOMAIN</spirit:name>
+            <spirit:value>I2S_SUP_clk_100MHz</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="default"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:busInterface>
+      <spirit:busInterface>
+        <spirit:name>CLK.I2S_CLK</spirit:name>
+        <spirit:displayName>Clk</spirit:displayName>
+        <spirit:description>Clock</spirit:description>
+        <spirit:busType spirit:library="signal" spirit:name="clock" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:abstractionType spirit:library="signal" spirit:name="clock_rtl" spirit:vendor="xilinx.com" spirit:version="1.0"/>
+        <spirit:slave/>
+        <spirit:portMaps>
+          <spirit:portMap>
+            <spirit:logicalPort>
+              <spirit:name>CLK</spirit:name>
+            </spirit:logicalPort>
+            <spirit:physicalPort>
+              <spirit:name>I2S_clk</spirit:name>
+            </spirit:physicalPort>
+          </spirit:portMap>
+        </spirit:portMaps>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>FREQ_HZ</spirit:name>
+            <spirit:value>16934404</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="user"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>PHASE</spirit:name>
+            <spirit:value>0.0</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="ip_prop"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+          <spirit:parameter>
+            <spirit:name>CLK_DOMAIN</spirit:name>
+            <spirit:value>/clk_wiz_0_clk_out1</spirit:value>
+            <spirit:vendorExtensions>
+              <bd:configElementInfos>
+                <bd:configElementInfo bd:valueSource="ip_prop"/>
+              </bd:configElementInfos>
+            </spirit:vendorExtensions>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:busInterface>
+    </spirit:busInterfaces>
+    <spirit:model>
+      <spirit:views>
+        <spirit:view>
+          <spirit:name>BlockDiagram</spirit:name>
+          <spirit:envIdentifier>:vivado.xilinx.com:</spirit:envIdentifier>
+          <spirit:hierarchyRef spirit:library="BlockDiagram" spirit:name="I2S_SUP_imp" spirit:vendor="xilinx.com" spirit:version="1.00.a"/>
+        </spirit:view>
+      </spirit:views>
+      <spirit:ports>
+        <spirit:port>
+          <spirit:name>prog_empty_0</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>rd_clk_0</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>rst_0</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>wr_clk_0</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>clk_100MHz</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>I2S_clk</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
+      </spirit:ports>
+    </spirit:model>
+  </spirit:component>
+
+  <spirit:design xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
+    <spirit:vendor>xilinx.com</spirit:vendor>
+    <spirit:library>BlockDiagram</spirit:library>
+    <spirit:name>I2S_SUP_imp</spirit:name>
+    <spirit:version>1.00.a</spirit:version>
+    <spirit:componentInstances>
+      <spirit:componentInstance>
+        <spirit:instanceName>fifo_generator_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="fifo_generator" spirit:vendor="xilinx.com" spirit:version="13.2"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">I2S_SUP_fifo_generator_0_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Fifo_Implementation">Independent_Clocks_Block_RAM</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="synchronization_stages">2</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="INTERFACE_TYPE">Native</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Input_Data_Width">32</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Input_Depth">32768</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Output_Data_Width">16</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Full_Flags_Reset_Value">1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Programmable_Full_Type">No_Programmable_Full_Threshold</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Programmable_Empty_Type">Multiple_Programmable_Empty_Threshold_Constants</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Empty_Threshold_Assert_Value">5000</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Empty_Threshold_Negate_Value">27000</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="FIFO_Implementation_wach">Common_Clock_Distributed_RAM</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="FIFO_Implementation_wrch">Common_Clock_Distributed_RAM</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="FIFO_Implementation_rach">Common_Clock_Distributed_RAM</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Enable_Safety_Circuit">true</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>clk_wiz_0</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="clk_wiz" spirit:vendor="xilinx.com" spirit:version="5.4"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">I2S_SUP_clk_wiz_0_0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_REQUESTED_OUT_FREQ">16.9344</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="USE_LOCKED">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="USE_RESET">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="MMCM_DIVCLK_DIVIDE">3</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="MMCM_CLKFBOUT_MULT_F">31.625</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="MMCM_CLKOUT0_DIVIDE_F">62.250</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_JITTER">272.870</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="CLKOUT1_PHASE_ERROR">189.550</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+    </spirit:componentInstances>
+    <spirit:interconnections/>
+    <spirit:adHocConnections>
+      <spirit:adHocConnection>
+        <spirit:name>fifo_generator_0_prog_empty</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="fifo_generator_0" spirit:portRef="prog_empty"/>
+        <spirit:externalPortReference spirit:portRef="prog_empty_0"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>rd_clk_0_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="rd_clk_0"/>
+        <spirit:internalPortReference spirit:componentRef="fifo_generator_0" spirit:portRef="rd_clk"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>rst_0_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="rst_0"/>
+        <spirit:internalPortReference spirit:componentRef="fifo_generator_0" spirit:portRef="rst"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>wr_clk_0_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="wr_clk_0"/>
+        <spirit:internalPortReference spirit:componentRef="fifo_generator_0" spirit:portRef="wr_clk"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>clk_100MHz_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="clk_100MHz"/>
+        <spirit:internalPortReference spirit:componentRef="clk_wiz_0" spirit:portRef="clk_in1"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>clk_wiz_0_clk_out1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="clk_wiz_0" spirit:portRef="clk_out1"/>
+        <spirit:externalPortReference spirit:portRef="I2S_clk"/>
+      </spirit:adHocConnection>
+    </spirit:adHocConnections>
+    <spirit:hierConnections>
+      <spirit:hierConnection spirit:interfaceRef="FIFO_WRITE_0/FIFO_WRITE_0_1">
+        <spirit:activeInterface spirit:busRef="FIFO_WRITE" spirit:componentRef="fifo_generator_0"/>
+      </spirit:hierConnection>
+      <spirit:hierConnection spirit:interfaceRef="FIFO_READ_0/FIFO_READ_0_1">
+        <spirit:activeInterface spirit:busRef="FIFO_READ" spirit:componentRef="fifo_generator_0"/>
+      </spirit:hierConnection>
+    </spirit:hierConnections>
+  </spirit:design>
+
+</bd:repository>
