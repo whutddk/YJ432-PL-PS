@@ -99,37 +99,37 @@ set_property -dict {PACKAGE_PIN M12 IOSTANDARD LVCMOS33} [get_ports i_BZ_IO]
 #set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { btn[1] }]; #IO_L19P_T3_16 Sch=btn[1]
 
 # PMOD1 
-set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports PMOD1_1];    #BANK14 
-set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports PMOD1_2];    #BANK14 
-set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports PMOD1_3];    #BANK14 
-set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports PMOD1_4];    #BANK14
+#set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports PMOD1_1];    #BANK14 
+#set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports PMOD1_2];    #BANK14 
+#set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports PMOD1_3];    #BANK14 
+#set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports PMOD1_4];    #BANK14
 
 set_property -dict {PACKAGE_PIN P8 IOSTANDARD LVCMOS33} [get_ports i_I2SMCLK];    #BANK14
-set_property -dict {PACKAGE_PIN T7 IOSTANDARD LVCMOS33} [get_ports i_I2SLCRK];    #BANK14
+set_property -dict {PACKAGE_PIN T7 IOSTANDARD LVCMOS33} [get_ports i_I2SLRCK];    #BANK14
 set_property -dict {PACKAGE_PIN R7 IOSTANDARD LVCMOS33} [get_ports i_I2SBSCK];    #BANK14
 set_property -dict {PACKAGE_PIN R6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD];    #BANK14
 
 # PMOD2 
-set_property -dict {PACKAGE_PIN T3 IOSTANDARD LVCMOS33} [get_ports PMOD2_1];    #BANK34 
-set_property -dict {PACKAGE_PIN R3 IOSTANDARD LVCMOS33} [get_ports PMOD2_2];    #BANK34 
-set_property -dict {PACKAGE_PIN T2 IOSTANDARD LVCMOS33} [get_ports PMOD2_3];    #BANK34 
-set_property -dict {PACKAGE_PIN R2 IOSTANDARD LVCMOS33} [get_ports PMOD2_4];    #BANK34
+#set_property -dict {PACKAGE_PIN T3 IOSTANDARD LVCMOS33} [get_ports PMOD2_1];    #BANK34 
+#set_property -dict {PACKAGE_PIN R3 IOSTANDARD LVCMOS33} [get_ports PMOD2_2];    #BANK34 
+#set_property -dict {PACKAGE_PIN T2 IOSTANDARD LVCMOS33} [get_ports PMOD2_3];    #BANK34 
+#set_property -dict {PACKAGE_PIN R2 IOSTANDARD LVCMOS33} [get_ports PMOD2_4];    #BANK34
 
-set_property -dict {PACKAGE_PIN T4 IOSTANDARD LVCMOS33} [get_ports PMOD2_7];    #BANK34
-set_property -dict {PACKAGE_PIN M5 IOSTANDARD LVCMOS33} [get_ports PMOD2_8];    #BANK34
-set_property -dict {PACKAGE_PIN N3 IOSTANDARD LVCMOS33} [get_ports PMOD2_9];    #BANK34
-set_property -dict {PACKAGE_PIN M4 IOSTANDARD LVCMOS33} [get_ports PMOD2_10];    #BANK34
+#set_property -dict {PACKAGE_PIN T4 IOSTANDARD LVCMOS33} [get_ports PMOD2_7];    #BANK34
+#set_property -dict {PACKAGE_PIN M5 IOSTANDARD LVCMOS33} [get_ports PMOD2_8];    #BANK34
+#set_property -dict {PACKAGE_PIN N3 IOSTANDARD LVCMOS33} [get_ports PMOD2_9];    #BANK34
+#set_property -dict {PACKAGE_PIN M4 IOSTANDARD LVCMOS33} [get_ports PMOD2_10];    #BANK34
 
-# PMOD3 
-set_property -dict {PACKAGE_PIN N2 IOSTANDARD LVCMOS33} [get_ports PMOD3_1];    #BANK34 
-set_property -dict {PACKAGE_PIN N1 IOSTANDARD LVCMOS33} [get_ports PMOD3_2];    #BANK34 
-set_property -dict {PACKAGE_PIN M2 IOSTANDARD LVCMOS33} [get_ports PMOD3_3];    #BANK34 
-set_property -dict {PACKAGE_PIN M1 IOSTANDARD LVCMOS33} [get_ports PMOD3_4];    #BANK34
+## PMOD3 
+#set_property -dict {PACKAGE_PIN N2 IOSTANDARD LVCMOS33} [get_ports PMOD3_1];    #BANK34 
+#set_property -dict {PACKAGE_PIN N1 IOSTANDARD LVCMOS33} [get_ports PMOD3_2];    #BANK34 
+#set_property -dict {PACKAGE_PIN M2 IOSTANDARD LVCMOS33} [get_ports PMOD3_3];    #BANK34 
+#set_property -dict {PACKAGE_PIN M1 IOSTANDARD LVCMOS33} [get_ports PMOD3_4];    #BANK34
 
-set_property -dict {PACKAGE_PIN R1 IOSTANDARD LVCMOS33} [get_ports PMOD3_7];    #BANK34
-set_property -dict {PACKAGE_PIN P4 IOSTANDARD LVCMOS33} [get_ports PMOD3_8];    #BANK34
-set_property -dict {PACKAGE_PIN P3 IOSTANDARD LVCMOS33} [get_ports PMOD3_9];    #BANK34
-set_property -dict {PACKAGE_PIN P1 IOSTANDARD LVCMOS33} [get_ports PMOD3_10];    #BANK34
+#set_property -dict {PACKAGE_PIN R1 IOSTANDARD LVCMOS33} [get_ports PMOD3_7];    #BANK34
+#set_property -dict {PACKAGE_PIN P4 IOSTANDARD LVCMOS33} [get_ports PMOD3_8];    #BANK34
+#set_property -dict {PACKAGE_PIN P3 IOSTANDARD LVCMOS33} [get_ports PMOD3_9];    #BANK34
+#set_property -dict {PACKAGE_PIN P1 IOSTANDARD LVCMOS33} [get_ports PMOD3_10];    #BANK34
 
 # Analog XADC Pins
 
