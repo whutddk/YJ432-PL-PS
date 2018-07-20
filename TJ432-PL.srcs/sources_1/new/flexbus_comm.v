@@ -43,9 +43,9 @@ module flexbus_comm(
     output reg [31:0] LEDB_Puty_Reg,
     
 
-    input [31:0] Is_Empty_Wire,
+    input Is_Empty_Wire,
     output reg [31:0] STEAM_DATA,  //put data into here
-    output FIFO_CLK
+    output reg FIFO_CLK
     
     );
 
@@ -75,12 +75,16 @@ always@( negedge FB_CLK or negedge RST_n )  begin
         LEDG_Puty_Reg <= 32'b0;
         LEDB_Puty_Reg <= 32'b0;  
         
-        STEAM_UPDATE_Reg <= 32'b0;
+        STEAM_DATA <= 32'd0;
+        FIFO_CLK <= 1'b0;
         
     end
     else begin
         if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
 //            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
+
+            FIFO_CLK <= 1'b0;
+
             if ( (FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 ) ) begin// check base address 
                 ADD_COMF <= 1'b1;
                 ip_ADDR[31:0] <= FB_AD[31:0];
@@ -100,19 +104,25 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                         case( ip_ADDR & 32'h0fffffff )
                                                 
                             32'b00000: begin
-                                FREQ_Cnt_Reg <= FB_AD[31:0];
+                                FREQ_Cnt_Reg[31:0] <= FB_AD[31:0];
                             end
                             32'b00100:begin
-                                BZ_Puty_Reg <= FB_AD[31:0];
+                                BZ_Puty_Reg[31:0] <= FB_AD[31:0];
                             end
                             32'b01000:begin
-                                LEDR_Puty_Reg <= FB_AD[31:0];
+                                LEDR_Puty_Reg[31:0] <= FB_AD[31:0];
                             end
                             32'b01100:begin
-                                LEDG_Puty_Reg <= FB_AD[31:0];
+                                LEDG_Puty_Reg[31:0] <= FB_AD[31:0];
                             end
                             32'b10000:begin
-                                LEDB_Puty_Reg <= FB_AD[31:0];
+                                LEDB_Puty_Reg[31:0] <= FB_AD[31:0];
+                            end
+                            
+                            
+                            32'h0780xxxx:begin
+                                STEAM_DATA[31:0] <= FB_AD[31:0];
+                                FIFO_CLK <= 1'b1;
                             end
                             
                         endcase
@@ -123,19 +133,23 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                         
                         case( ip_ADDR & 32'h0fffffff )
                             32'b00000: begin
-                                FB_AD_reg[31:0] <= FREQ_Cnt_Reg;
+                                FB_AD_reg[31:0] <= FREQ_Cnt_Reg[31:0];
                             end
                             32'b00100:begin
-                                FB_AD_reg[31:0] <= BZ_Puty_Reg;
+                                FB_AD_reg[31:0] <= BZ_Puty_Reg[31:0];
                             end
                             32'b01000:begin
-                                FB_AD_reg[31:0] <= LEDR_Puty_Reg;
+                                FB_AD_reg[31:0] <= LEDR_Puty_Reg[31:0];
                             end
                             32'b01100:begin
-                                FB_AD_reg[31:0] <= LEDG_Puty_Reg;
+                                FB_AD_reg[31:0] <= LEDG_Puty_Reg[31:0];
                             end
                             32'b10000:begin
-                                FB_AD_reg[31:0] <= LEDB_Puty_Reg;
+                                FB_AD_reg[31:0] <= LEDB_Puty_Reg[31:0];
+                            end
+                            
+                            32'h07810000:begin
+                                FB_AD_reg[31:0] <= {31'b0,Is_Empty_Wire};
                             end
                         endcase
                     end // FB_RW == 1'b1

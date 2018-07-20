@@ -33,7 +33,12 @@ module TJ432_TOP(
     i_BZ_IO,
     i_LEDR_IO,
     i_LEDG_IO,
-    i_LEDB_IO  
+    i_LEDB_IO,
+    
+    i_I2SMCLK,
+    i_I2SBSCK,
+    i_I2SLRCK,
+    i_I2STXD  
     );
     
 input i_sysclk;
@@ -50,6 +55,10 @@ output i_LEDR_IO;
 output i_LEDG_IO;
 output i_LEDB_IO;   
 
+output i_I2SMCLK;
+output i_I2SBSCK;
+output i_I2SLRCK;
+output i_I2STXD;
 
 wire [31:0] FREQ_Cnt_Wire;	
 wire [31:0] BZ_Puty_Wire;
@@ -57,7 +66,11 @@ wire [31:0] LEDR_Puty_Wire;
 wire [31:0] LEDG_Puty_Wire;
 wire [31:0] LEDB_Puty_Wire; 
     
-    
+wire [31:0] STREAM_DATA_Wire;
+wire Is_empty_wire;
+wire FIFO_CLK_wire;
+wire Is_Empty_Wire;
+
 flexbus_comm i_flexbus(
     .FB_BASE(32'h60000000),
 
@@ -78,7 +91,11 @@ flexbus_comm i_flexbus(
     .BZ_Puty_Reg(BZ_Puty_Wire),
     .LEDR_Puty_Reg(LEDR_Puty_Wire),
     .LEDG_Puty_Reg(LEDG_Puty_Wire),
-    .LEDB_Puty_Reg(LEDB_Puty_Wire) 
+    .LEDB_Puty_Reg(LEDB_Puty_Wire),
+    
+    .Is_Empty_Wire(Is_Empty_Wire),
+    .STEAM_DATA(STREAM_DATA_Wire),  //put data into here
+    .FIFO_CLK(FIFO_CLK_wire)
     
     );
     
@@ -96,5 +113,37 @@ BZLED i_BZLED(
         .LED_G(i_LEDG_IO),
         .LED_B(i_LEDB_IO)
         );   
+
+wire I2S_MCLK_Wire;
+wire [15:0] i2s_data_Wire;
+wire i2s_rd_Wire;
+
+I2S_SUP_wrapper i_i2s_support(
+    .FIFO_READ_0_empty(),
+    .FIFO_READ_0_rd_data(i2s_data_Wire),
+    .FIFO_READ_0_rd_en(1'b1),
+    .FIFO_WRITE_0_full(),
+    .FIFO_WRITE_0_wr_data(STREAM_DATA_Wire),
+    .FIFO_WRITE_0_wr_en(1'b1),
+    .I2S_clk(I2S_MCLK_Wire),
+    .clk_100MHz(i_sysclk),
+    .prog_empty_0(Is_Empty_Wire),
+    .rd_clk_0(i2s_rd_Wire),
+    .rst_0(1'b0),
+    .wr_clk_0(FIFO_CLK_wire)
+    );
+
+
+I2S16bit(
+    .CLK(I2S_MCLK_Wire),
+    .RST_n(1'b1), 
+    .data_input(i2s_data_Wire),
+
+    .MCLK(i_I2SMCLK),
+    .LCRK(i_I2SLRCK),
+    .BSCK(i_I2SBSCK),
+    .TXD(i_I2STXD),
+    .DATA_CLK(i2s_rd_Wire) //LCRK对齐的下跳沿请求数据
+    );
     
 endmodule
