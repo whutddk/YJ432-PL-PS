@@ -52,10 +52,9 @@ void play_mp3(char* filename)
 	num_read = 1;
 	while(num_read)
 	{
-		num_read = fread((void*)TJBMP3_reg,4,NUM_BYTE_READ,fd);
-		// fc.printf("sent %dB\n\r", num_read);
-		
-		// while(!(*TJBMP3_IsEMPTY_REG));
+		num_read = fread((void*)TJBMP3_reg,1,NUM_BYTE_READ,fd);
+		fc.printf("sent %dB\n\r", num_read);
+		while(!(*TJBMP3_IsEMPTY_REG));
 	}
 
 	fc.printf("start to trace\r\n");
