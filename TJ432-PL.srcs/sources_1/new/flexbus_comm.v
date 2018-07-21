@@ -101,7 +101,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                     
 //                        AD_TRI <= 1'b1; //  FB_ALE == 1'B0 && FB_CS == 1'b0 && FB_RW == 1'b0 && ADD_COMF == 1'b1
                         
-                        case( ip_ADDR & 32'h0fffffff )
+                        casez( ip_ADDR & 32'h0fffffff )
                                                 
                             32'b00000: begin
                                 FREQ_Cnt_Reg[31:0] <= FB_AD[31:0];
@@ -120,7 +120,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                             end
                             
                             
-                            32'h0780xxxx:begin
+                            32'h0780zzzz:begin
                                 STEAM_DATA[31:0] <= FB_AD[31:0];
                                 FIFO_CLK <= 1'b1;
                             end
