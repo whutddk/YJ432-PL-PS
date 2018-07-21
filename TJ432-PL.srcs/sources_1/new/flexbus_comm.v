@@ -76,14 +76,14 @@ always@( negedge FB_CLK or negedge RST_n )  begin
         LEDB_Puty_Reg <= 32'b0;  
         
         STEAM_DATA <= 32'd0;
-        FIFO_CLK <= 1'b0;
+        FIFO_CLK <= 1'b1;
         
     end
     else begin
         if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
 //            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
 
-            FIFO_CLK <= 1'b0;
+            FIFO_CLK <= 1'b1;
 
             if ( (FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 ) ) begin// check base address 
                 ADD_COMF <= 1'b1;
@@ -121,8 +121,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                             
                             
                             32'h0780zzzz:begin
-                                STEAM_DATA[31:0] <= FB_AD[31:0];
-                                FIFO_CLK <= 1'b1;
+                                STEAM_DATA[31:0] = FB_AD[31:0];
+                                FIFO_CLK = 1'b0;
                             end
                             
                         endcase
