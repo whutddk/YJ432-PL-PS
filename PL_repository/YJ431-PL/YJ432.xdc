@@ -94,15 +94,15 @@ set_property -dict {PACKAGE_PIN R16 IOSTANDARD LVCMOS33} [get_ports i_QEI0_CH0_P
 #set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { btn[1] }]; #IO_L19P_T3_16 Sch=btn[1]
 
 # PMOD1 
-#set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports PMOD1_1];    #BANK14 
-#set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports PMOD1_2];    #BANK14 
-#set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports PMOD1_3];    #BANK14 
-#set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports PMOD1_4];    #BANK14
+set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports i_I2SMCLK];    #BANK14 
+set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports i_I2SLRCK];    #BANK14 
+set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports i_I2SBSCK];    #BANK14 
+set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD];    #BANK14
 
-set_property -dict {PACKAGE_PIN P8 IOSTANDARD LVCMOS33} [get_ports i_I2SMCLK];    #BANK14
-set_property -dict {PACKAGE_PIN T7 IOSTANDARD LVCMOS33} [get_ports i_I2SLRCK];    #BANK14
-set_property -dict {PACKAGE_PIN R7 IOSTANDARD LVCMOS33} [get_ports i_I2SBSCK];    #BANK14
-set_property -dict {PACKAGE_PIN R6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD];    #BANK14
+#set_property -dict {PACKAGE_PIN P8 IOSTANDARD LVCMOS33} [get_ports PMOD1_7];    #BANK14
+#set_property -dict {PACKAGE_PIN T7 IOSTANDARD LVCMOS33} [get_ports PMOD1_8];    #BANK14
+#set_property -dict {PACKAGE_PIN R7 IOSTANDARD LVCMOS33} [get_ports PMOD1_9];    #BANK14
+#set_property -dict {PACKAGE_PIN R6 IOSTANDARD LVCMOS33} [get_ports PMOD1_10];    #BANK14
 
 # PMOD2 
 #set_property -dict {PACKAGE_PIN T3 IOSTANDARD LVCMOS33} [get_ports PMOD2_1];    #BANK34 

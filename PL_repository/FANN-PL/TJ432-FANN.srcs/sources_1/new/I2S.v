@@ -52,7 +52,7 @@ assign TXD = txd_reg;
 //assign ready = lcrk_reg;
 assign DATA_CLK = data_clk_reg;
 
-//从CLK（?M）4分频获得BSCK(24BIT)
+//从CLK（?M）8分频获得BSCK(24BIT)
 reg [7:0] bsck_div = 8'd0;
 
 always@( posedge CLK or negedge RST_n ) //产生BCLK
@@ -64,7 +64,7 @@ begin
     end
     else
     begin
-        if ( bsck_div == 8'd1 )
+        if ( bsck_div == 8'd3 )
         begin
             bsck_div <= 8'd0;
             bsck_reg <= ~bsck_reg;
