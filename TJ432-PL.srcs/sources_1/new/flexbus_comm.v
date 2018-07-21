@@ -121,8 +121,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
                             
                             
                             32'h0780zzzz:begin
-                                STEAM_DATA[31:0] = FB_AD[31:0];
-                                FIFO_CLK = 1'b0;
+                                STEAM_DATA[31:0] <= FB_AD[31:0];
+                                FIFO_CLK <= 1'b0;
                             end
                             
                         endcase
