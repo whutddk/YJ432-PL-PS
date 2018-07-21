@@ -32,6 +32,7 @@ int main(void)
 
 	// buzzer = 0;
 	wait_fpga_init();
+	wait(1);
 
 	YJ_FB_init();	
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
