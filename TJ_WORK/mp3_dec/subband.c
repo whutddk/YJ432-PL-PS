@@ -83,13 +83,13 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			pcmBuf += (2 * NBANDS);
 		}
 	} else {
-		/* mono */
-		for (b = 0; b < BLOCK_SIZE; b++) {
-			FDCT32(mi->outBuf[0][b], sbi->vbuf + 0*32, sbi->vindex, (b & 0x01), mi->gb[0]);
-			PolyphaseMono(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
-			sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
-			pcmBuf += NBANDS;
-		}
+		// /* mono */
+		// for (b = 0; b < BLOCK_SIZE; b++) {
+		// 	FDCT32(mi->outBuf[0][b], sbi->vbuf + 0*32, sbi->vindex, (b & 0x01), mi->gb[0]);
+		// 	PolyphaseMono(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
+		// 	sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
+		// 	pcmBuf += NBANDS;
+		// }
 	}
 
 	return 0;
