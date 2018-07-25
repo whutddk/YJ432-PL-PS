@@ -327,7 +327,8 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 			sis->sfCompress =      GetBits(bsi, 4);
 			sis->winSwitchFlag =   GetBits(bsi, 1);
 
-			if(sis->winSwitchFlag) {
+			if(sis->winSwitchFlag) 
+			{
 				/* this is a start, stop, short, or mixed block */
 				sis->blockType =       GetBits(bsi, 2);		/* 0 = normal, 1 = start, 2 = short, 3 = stop */
 				sis->mixedBlock =      GetBits(bsi, 1);		/* 0 = not mixed, 1 = mixed */
@@ -376,7 +377,7 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	}
 	mp3DecInfo->mainDataBegin = si->mainDataBegin;	/* needed by main decode loop */
 
-	ASSERT(nBytes == CalcBitsUsed(bsi, buf, 0) >> 3);
+	ASSERT(nBytes == CalcBitsUsed(bsi, buf, 0) >> 3);	//
 
 	return nBytes;	
 }
