@@ -313,7 +313,8 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	si = ((SideInfo *)(mp3DecInfo->SideInfoPS));
 
 	bsi = &bitStreamInfo;
-	if (fh->ver == MPEG1) {
+	if (fh->ver == MPEG1) 
+	{
 		/* MPEG 1 */
 		nBytes = (fh->sMode == Mono ? SIBYTES_MPEG1_MONO : SIBYTES_MPEG1_STEREO);
 		SetBitstreamPointer(bsi, nBytes, buf);
@@ -323,7 +324,8 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 		for (ch = 0; ch < mp3DecInfo->nChans; ch++)
 			for (bd = 0; bd < MAX_SCFBD; bd++)
 				si->scfsi[ch][bd] = GetBits(bsi, 1);
-	} else {
+	} else 
+	{
 		/* MPEG 2, MPEG 2.5 */
 		nBytes = (fh->sMode == Mono ? SIBYTES_MPEG2_MONO : SIBYTES_MPEG2_STEREO);
 		SetBitstreamPointer(bsi, nBytes, buf);
@@ -331,8 +333,10 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 		si->privateBits =   GetBits(bsi, (fh->sMode == Mono ? 1 : 2));
 	}
 
-	for(gr =0; gr < mp3DecInfo->nGrans; gr++) {
-		for (ch = 0; ch < mp3DecInfo->nChans; ch++) {
+	for(gr =0; gr < mp3DecInfo->nGrans; gr++) 
+	{
+		for (ch = 0; ch < mp3DecInfo->nChans; ch++) 
+		{
 			sis = &si->sis[gr][ch];						/* side info subblock for this granule, channel */
 
 			sis->part23Length =    GetBits(bsi, 12);
@@ -366,7 +370,9 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 					sis->region0Count = 7;
 				}
 				sis->region1Count = 20 - sis->region0Count;
-			} else {
+			} 
+			else 
+			{
 				/* this is a normal block */
 				sis->blockType = 0;
 				sis->mixedBlock = 0;
