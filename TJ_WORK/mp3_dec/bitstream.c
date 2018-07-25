@@ -103,7 +103,7 @@ static __inline void RefillBitstreamCache(BitStreamInfo *bsi)
 			bsi->iCache |= (*bsi->bytePtr++);
 			bsi->iCache <<= 8;
 		}
-		bsi->iCache <<= ((3 - bsi->nBytes)*8);
+		bsi->iCache <<= ((3 - bsi->nBytes)*8);//4byte 对齐
 		bsi->cachedBits = 8*bsi->nBytes;
 		bsi->nBytes = 0;
 	}
@@ -253,7 +253,7 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	/* init user-accessible data */
 	mp3DecInfo->nChans = 2;
 	mp3DecInfo->samprate = 44100;
-	mp3DecInfo->nGrans = NGRANS_MPEG1;
+	mp3DecInfo->nGrans = 2;
 	mp3DecInfo->nGranSamps = ((int)1152) / mp3DecInfo->nGrans;
 	mp3DecInfo->layer = 3;
 	mp3DecInfo->version = 0;
@@ -303,36 +303,28 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	si = ((SideInfo *)(mp3DecInfo->SideInfoPS));
 
 	bsi = &bitStreamInfo;
-	if (fh->ver == MPEG1) 
-	{
-		/* MPEG 1 */
-		nBytes = (fh->sMode == Mono ? SIBYTES_MPEG1_MONO : SIBYTES_MPEG1_STEREO);
-		SetBitstreamPointer(bsi, nBytes, buf);
-		si->mainDataBegin = GetBits(bsi, 9);
-		si->privateBits =   GetBits(bsi, (fh->sMode == Mono ? 5 : 3));
 
-		for (ch = 0; ch < mp3DecInfo->nChans; ch++)
-			for (bd = 0; bd < MAX_SCFBD; bd++)
-				si->scfsi[ch][bd] = GetBits(bsi, 1);
-	} else 
-	{
-		/* MPEG 2, MPEG 2.5 */
-		nBytes = (fh->sMode == Mono ? SIBYTES_MPEG2_MONO : SIBYTES_MPEG2_STEREO);
-		SetBitstreamPointer(bsi, nBytes, buf);
-		si->mainDataBegin = GetBits(bsi, 8);
-		si->privateBits =   GetBits(bsi, (fh->sMode == Mono ? 1 : 2));
-	}
+	/* MPEG 1 */
+	nBytes = 32;
+	SetBitstreamPointer(bsi, 32, buf);
+	si->mainDataBegin = GetBits(bsi, 9);
+	si->privateBits =   GetBits(bsi, 3);
 
-	for(gr =0; gr < mp3DecInfo->nGrans; gr++) 
+	for (ch = 0; ch < 2; ch++)
+		for (bd = 0; bd < 4; bd++)
+			si->scfsi[ch][bd] = GetBits(bsi, 1);
+
+
+	for(gr =0; gr < 2; gr++) 
 	{
-		for (ch = 0; ch < mp3DecInfo->nChans; ch++) 
+		for (ch = 0; ch < 2; ch++) 
 		{
 			sis = &si->sis[gr][ch];						/* side info subblock for this granule, channel */
 
 			sis->part23Length =    GetBits(bsi, 12);
 			sis->nBigvals =        GetBits(bsi, 9);
 			sis->globalGain =      GetBits(bsi, 8);
-			sis->sfCompress =      GetBits(bsi, (fh->ver == MPEG1 ? 4 : 9));
+			sis->sfCompress =      GetBits(bsi, 4);
 			sis->winSwitchFlag =   GetBits(bsi, 1);
 
 			if(sis->winSwitchFlag) {
@@ -347,15 +339,20 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 				sis->subBlockGain[2] = GetBits(bsi, 3);
 
 				/* TODO - check logic */
-				if (sis->blockType == 0) {
+				if (sis->blockType == 0) 
+				{
 					/* this should not be allowed, according to spec */
 					sis->nBigvals = 0;
 					sis->part23Length = 0;
 					sis->sfCompress = 0;
-				} else if (sis->blockType == 2 && sis->mixedBlock == 0) {
+				} 
+				else if (sis->blockType == 2 && sis->mixedBlock == 0) 
+				{
 					/* short block, not mixed */
 					sis->region0Count = 8;
-				} else {
+				} 
+				else 
+				{
 					/* start, stop, or short-mixed */
 					sis->region0Count = 7;
 				}
@@ -372,7 +369,7 @@ int UnpackSideInfo(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 				sis->region0Count =    GetBits(bsi, 4);
 				sis->region1Count =    GetBits(bsi, 3);
 			}
-			sis->preFlag =           (fh->ver == MPEG1 ? GetBits(bsi, 1) : 0);
+			sis->preFlag =           GetBits(bsi, 1);
 			sis->sfactScale =        GetBits(bsi, 1);
 			sis->count1TableSelect = GetBits(bsi, 1);
 		}
