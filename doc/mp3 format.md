@@ -16,11 +16,14 @@
 * [2]                       拷贝
 * [1:0]                     解码加重类型
 
+FF FB 90 64
+
+
 fh->ver = 0;
 fh->layer = 3
-fh->brIdx = ?15选1
+fh->brIdx = ?15选1  (9)
 fh->srIdx = 00;
-fh->crc = ？
+fh->crc = 1
 
 1. 出现几个保留选项，抛弃
 2. sfBand 查表得到，通过10（MPEG1）和采样频率00（44.1khz）
@@ -44,6 +47,34 @@ fh->crc = ？
 >>  mp3DecInfo->nSlots = (int)slotTab[0][0][15选1] - 
             (int)sideBytesTab[0][1] - 
             4 - (fh->crc ? 2 : 0) + (fh->paddingBit ? 1 : 0);
-5. 
+5. 如果带CRC 指针前移 6个byte 没有CRC 只移动帧头大小（4byte）
+
+-----------------------------------------------
+
+
+## sideinfo 256 bits = 32 bytes
+
+* getbits就是从流中取n bits，流的大小由SetBitstreamPointer决定
+
+1. 取maindatabegin   9bits
+2. 取privatebits 5bits
+3. 取scfsi 8bits
+    4. part2_3_length 12bits
+    5. nBigvals 9bits
+    6. globalGain 8bits
+    7. sfCompress 4bits
+    8. winSwitchFlag 1bits
+    9. 。。。。。
+
+------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
