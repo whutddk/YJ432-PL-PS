@@ -246,20 +246,19 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	/* check parameters to avoid indexing tables with bad values */
 	if (fh->srIdx == 3 || fh->layer == 4 || fh->brIdx == 15)
 		return -1;
-
-	fh->sfBand = &sfBandTable[fh->ver][fh->srIdx];	/* for readability (we reference sfBandTable many times in decoder) */
+	fh->sfBand = &sfBandTable[0][0];	/* for readability (we reference sfBandTable many times in decoder) */
 	if (fh->sMode != Joint)		/* just to be safe (dequant, stproc check fh->modeExt) */
 		fh->modeExt = 0;
 
 	/* init user-accessible data */
-	mp3DecInfo->nChans = (fh->sMode == Mono ? 1 : 2);
-	mp3DecInfo->samprate = samplerateTab[fh->ver][fh->srIdx];
-	mp3DecInfo->nGrans = (fh->ver == MPEG1 ? NGRANS_MPEG1 : NGRANS_MPEG2);
-	mp3DecInfo->nGranSamps = ((int)samplesPerFrameTab[fh->ver][fh->layer - 1]) / mp3DecInfo->nGrans;
-	mp3DecInfo->layer = fh->layer;
-	mp3DecInfo->version = fh->ver;
+	mp3DecInfo->nChans = 2;
+	mp3DecInfo->samprate = 44100;
+	mp3DecInfo->nGrans = NGRANS_MPEG1;
+	mp3DecInfo->nGranSamps = ((int)1152) / mp3DecInfo->nGrans;
+	mp3DecInfo->layer = 3;
+	mp3DecInfo->version = 0;
 
-	mp3DecInfo->bitrate = ((int)bitrateTab[fh->ver][fh->layer - 1][fh->brIdx]) * 1000;
+	mp3DecInfo->bitrate = (int)128000;
 
 	/* nSlots = total frame bytes (from table) - sideInfo bytes - header - CRC (if present) + pad (if present) */
 	mp3DecInfo->nSlots = (int)slotTab[fh->ver][fh->srIdx][fh->brIdx] - 
