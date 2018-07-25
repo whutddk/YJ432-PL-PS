@@ -303,22 +303,6 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 	*inbuf += siBytes;
 	*bytesLeft -= (fhBytes + siBytes);
 	
-	/* if free mode, need to calculate bitrate and nSlots manually, based on frame size */
-	if (mp3DecInfo->bitrate == 0 || mp3DecInfo->freeBitrateFlag) {
-		if (!mp3DecInfo->freeBitrateFlag) {
-			/* first time through, need to scan for next sync word and figure out frame size */
-			mp3DecInfo->freeBitrateFlag = 1;
-			mp3DecInfo->freeBitrateSlots = MP3FindFreeSync(*inbuf, *inbuf - fhBytes - siBytes, *bytesLeft);
-			if (mp3DecInfo->freeBitrateSlots < 0) {
-				MP3ClearBadFrame(mp3DecInfo, outbuf);
-				return ERR_MP3_FREE_BITRATE_SYNC;
-			}
-			freeFrameBytes = mp3DecInfo->freeBitrateSlots + fhBytes + siBytes;
-			mp3DecInfo->bitrate = (freeFrameBytes * mp3DecInfo->samprate * 8) / (mp3DecInfo->nGrans * mp3DecInfo->nGranSamps);
-		}
-		mp3DecInfo->nSlots = mp3DecInfo->freeBitrateSlots + CheckPadBit(mp3DecInfo);	/* add pad byte, if required */
-	}
-
 	/* useSize != 0 means we're getting reformatted (RTP) packets (see RFC 3119)
 	 *  - calling function assembles "self-contained" MP3 frames by shifting any main_data 
 	 *      from the bit reservoir (in previous frames) to AFTER the sync word and side info
