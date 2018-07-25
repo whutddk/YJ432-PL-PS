@@ -325,9 +325,11 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 	 *  - calling function should set mainDataBegin to 0, and tell us exactly how large this
 	 *      frame is (in bytesLeft)
 	 */
-	if (useSize) {
+	if (useSize) 
+	{
 		mp3DecInfo->nSlots = *bytesLeft;
-		if (mp3DecInfo->mainDataBegin != 0 || mp3DecInfo->nSlots <= 0) {
+		if (mp3DecInfo->mainDataBegin != 0 || mp3DecInfo->nSlots <= 0) 
+		{
 			/* error - non self-contained frame, or missing frame (size <= 0), could do loss concealment here */
 			MP3ClearBadFrame(mp3DecInfo, outbuf);
 			return ERR_MP3_INVALID_FRAMEHEADER;
@@ -338,14 +340,17 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 		mainPtr = *inbuf;
 		*inbuf += mp3DecInfo->nSlots;
 		*bytesLeft -= (mp3DecInfo->nSlots);
-	} else {
+	} else 
+	{
 		/* out of data - assume last or truncated frame */
-		if (mp3DecInfo->nSlots > *bytesLeft) {
+		if (mp3DecInfo->nSlots > *bytesLeft) 
+		{
 			MP3ClearBadFrame(mp3DecInfo, outbuf);
 			return ERR_MP3_INDATA_UNDERFLOW;	
 		}
 		/* fill main data buffer with enough new data for this frame */
-		if (mp3DecInfo->mainDataBytes >= mp3DecInfo->mainDataBegin) {
+		if (mp3DecInfo->mainDataBytes >= mp3DecInfo->mainDataBegin) 
+		{
 			/* adequate "old" main data available (i.e. bit reservoir) */
 			memmove(mp3DecInfo->mainBuf, mp3DecInfo->mainBuf + mp3DecInfo->mainDataBytes - mp3DecInfo->mainDataBegin, mp3DecInfo->mainDataBegin);
 			memcpy(mp3DecInfo->mainBuf + mp3DecInfo->mainDataBegin, *inbuf, mp3DecInfo->nSlots);
@@ -354,7 +359,8 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 			*inbuf += mp3DecInfo->nSlots;
 			*bytesLeft -= (mp3DecInfo->nSlots);
 			mainPtr = mp3DecInfo->mainBuf;
-		} else {
+		} else 
+		{
 			/* not enough data in bit reservoir from previous frames (perhaps starting in middle of file) */
 			memcpy(mp3DecInfo->mainBuf + mp3DecInfo->mainDataBytes, *inbuf, mp3DecInfo->nSlots);
 			mp3DecInfo->mainDataBytes += mp3DecInfo->nSlots;
@@ -368,8 +374,10 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 	mainBits = mp3DecInfo->mainDataBytes * 8;
 
 	/* decode one complete frame */
-	for (gr = 0; gr < mp3DecInfo->nGrans; gr++) {
-		for (ch = 0; ch < mp3DecInfo->nChans; ch++) {
+	for (gr = 0; gr < mp3DecInfo->nGrans; gr++) 
+	{
+		for (ch = 0; ch < mp3DecInfo->nChans; ch++) 
+		{
 			/* unpack scale factors and compute size of scale factor block */
 			prevBitOffset = bitOffset;
 			offset = UnpackScaleFactors(mp3DecInfo, mainPtr, &bitOffset, mainBits, gr, ch);
@@ -379,7 +387,8 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 			mainPtr += offset;
 			mainBits -= sfBlockBits;
 
-			if (offset < 0 || mainBits < huffBlockBits) {
+			if (offset < 0 || mainBits < huffBlockBits) 
+			{
 				MP3ClearBadFrame(mp3DecInfo, outbuf);
 				return ERR_MP3_INVALID_SCALEFACT;
 			}
@@ -387,7 +396,8 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 			/* decode Huffman code words */
 			prevBitOffset = bitOffset;
 			offset = DecodeHuffman(mp3DecInfo, mainPtr, &bitOffset, huffBlockBits, gr, ch);
-			if (offset < 0) {
+			if (offset < 0) 
+			{
 				MP3ClearBadFrame(mp3DecInfo, outbuf);
 				return ERR_MP3_INVALID_HUFFCODES;
 			}
@@ -396,20 +406,23 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 			mainBits -= (8*offset - prevBitOffset + bitOffset);
 		}
 		/* dequantize coefficients, decode stereo, reorder short blocks */
-		if (Dequantize(mp3DecInfo, gr) < 0) {
+		if (Dequantize(mp3DecInfo, gr) < 0) 
+		{
 			MP3ClearBadFrame(mp3DecInfo, outbuf);
 			return ERR_MP3_INVALID_DEQUANTIZE;			
 		}
 
 		/* alias reduction, inverse MDCT, overlap-add, frequency inversion */
 		for (ch = 0; ch < mp3DecInfo->nChans; ch++)
-			if (IMDCT(mp3DecInfo, gr, ch) < 0) {
+			if (IMDCT(mp3DecInfo, gr, ch) < 0) 
+			{
 				MP3ClearBadFrame(mp3DecInfo, outbuf);
 				return ERR_MP3_INVALID_IMDCT;			
 			}
 
 		/* subband transform - if stereo, interleaves pcm LRLRLR */
-		if (Subband(mp3DecInfo, outbuf + gr*mp3DecInfo->nGranSamps*mp3DecInfo->nChans) < 0) {
+		if (Subband(mp3DecInfo, outbuf + gr*mp3DecInfo->nGranSamps*mp3DecInfo->nChans) < 0) 
+		{
 			MP3ClearBadFrame(mp3DecInfo, outbuf);
 			return ERR_MP3_INVALID_SUBBAND;			
 		}
