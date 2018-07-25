@@ -48,7 +48,7 @@ int main(void)
 
 	bz_set(ready);
 
-	play_mp3("9420.mp3");
+	play_mp3("mist.mp3");
 	while(1)
 	{		
 		//bz_set(datarec);

@@ -261,19 +261,16 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	mp3DecInfo->bitrate = (int)128000;
 
 	/* nSlots = total frame bytes (from table) - sideInfo bytes - header - CRC (if present) + pad (if present) */
-	mp3DecInfo->nSlots = (int)slotTab[fh->ver][fh->srIdx][fh->brIdx] - 
-		(int)sideBytesTab[fh->ver][(fh->sMode == Mono ? 0 : 1)] - 
-		4 - (fh->crc ? 2 : 0) + (fh->paddingBit ? 1 : 0);
+	mp3DecInfo->nSlots = (int)417 - 
+		(int)32 - 
+		4 - ( 0) + (fh->paddingBit ? 1 : 0);
 
 
 	/* load crc word, if enabled, and return length of frame header (in bytes) */
-	if (fh->crc) {
-		fh->CRCWord = ((int)buf[4] << 8 | (int)buf[5] << 0);
-		return 6;
-	} else {
+
 		fh->CRCWord = 0;
 		return 4;
-	}
+
 }
 
 /**************************************************************************************
