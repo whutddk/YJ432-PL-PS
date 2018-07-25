@@ -259,19 +259,13 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	mp3DecInfo->layer = fh->layer;
 	mp3DecInfo->version = fh->ver;
 
-	/* get bitrate and nSlots from table, unless brIdx == 0 (free mode) in which case caller must figure it out himself
-	 * question - do we want to overwrite mp3DecInfo->bitrate with 0 each time if it's free mode, and
-	 *  copy the pre-calculated actual free bitrate into it in mp3dec.c (according to the spec, 
-	 *  this shouldn't be necessary, since it should be either all frames free or none free)
-	 */
-	if (fh->brIdx) {
-		mp3DecInfo->bitrate = ((int)bitrateTab[fh->ver][fh->layer - 1][fh->brIdx]) * 1000;
+	mp3DecInfo->bitrate = ((int)bitrateTab[fh->ver][fh->layer - 1][fh->brIdx]) * 1000;
 
-		/* nSlots = total frame bytes (from table) - sideInfo bytes - header - CRC (if present) + pad (if present) */
-		mp3DecInfo->nSlots = (int)slotTab[fh->ver][fh->srIdx][fh->brIdx] - 
-			(int)sideBytesTab[fh->ver][(fh->sMode == Mono ? 0 : 1)] - 
-			4 - (fh->crc ? 2 : 0) + (fh->paddingBit ? 1 : 0);
-	}
+	/* nSlots = total frame bytes (from table) - sideInfo bytes - header - CRC (if present) + pad (if present) */
+	mp3DecInfo->nSlots = (int)slotTab[fh->ver][fh->srIdx][fh->brIdx] - 
+		(int)sideBytesTab[fh->ver][(fh->sMode == Mono ? 0 : 1)] - 
+		4 - (fh->crc ? 2 : 0) + (fh->paddingBit ? 1 : 0);
+
 
 	/* load crc word, if enabled, and return length of frame header (in bytes) */
 	if (fh->crc) {
