@@ -339,9 +339,9 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 	mainBits = mp3DecInfo->mainDataBytes * 8;
 
 	/* decode one complete frame */
-	for (gr = 0; gr < mp3DecInfo->nGrans; gr++) 
+	for (gr = 0; gr < 2; gr++) 
 	{
-		for (ch = 0; ch < mp3DecInfo->nChans; ch++) 
+		for (ch = 0; ch < 2; ch++) 
 		{
 			/* unpack scale factors and compute size of scale factor block */
 			prevBitOffset = bitOffset;
