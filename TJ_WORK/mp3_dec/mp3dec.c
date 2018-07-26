@@ -296,64 +296,45 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 	
 	/* unpack side info */
 	siBytes = UnpackSideInfo(mp3DecInfo, *inbuf);
-	if (siBytes < 0) {
+	if (siBytes < 0) 
+	{
 		MP3ClearBadFrame(mp3DecInfo, outbuf);
 		return ERR_MP3_INVALID_SIDEINFO;
 	}
 	*inbuf += siBytes;
 	*bytesLeft -= (fhBytes + siBytes);
-	
-	/* useSize != 0 means we're getting reformatted (RTP) packets (see RFC 3119)
-	 *  - calling function assembles "self-contained" MP3 frames by shifting any main_data 
-	 *      from the bit reservoir (in previous frames) to AFTER the sync word and side info
-	 *  - calling function should set mainDataBegin to 0, and tell us exactly how large this
-	 *      frame is (in bytesLeft)
-	 */
-	if (useSize) 
+		
+	/* out of data - assume last or truncated frame */
+	if (mp3DecInfo->nSlots > *bytesLeft) 
 	{
-		mp3DecInfo->nSlots = *bytesLeft;
-		if (mp3DecInfo->mainDataBegin != 0 || mp3DecInfo->nSlots <= 0) 
-		{
-			/* error - non self-contained frame, or missing frame (size <= 0), could do loss concealment here */
-			MP3ClearBadFrame(mp3DecInfo, outbuf);
-			return ERR_MP3_INVALID_FRAMEHEADER;
-		}
+		MP3ClearBadFrame(mp3DecInfo, outbuf);
+		return ERR_MP3_INDATA_UNDERFLOW;	
+	}
 
-		/* can operate in-place on reformatted frames */
-		mp3DecInfo->mainDataBytes = mp3DecInfo->nSlots;
-		mainPtr = *inbuf;
+
+	/* fill main data buffer with enough new data for this frame */
+	if (mp3DecInfo->mainDataBytes >= mp3DecInfo->mainDataBegin) 
+	{
+		/* adequate "old" main data available (i.e. bit reservoir) */
+		memmove(mp3DecInfo->mainBuf, mp3DecInfo->mainBuf + mp3DecInfo->mainDataBytes - mp3DecInfo->mainDataBegin, mp3DecInfo->mainDataBegin);
+		memcpy(mp3DecInfo->mainBuf + mp3DecInfo->mainDataBegin, *inbuf, mp3DecInfo->nSlots);
+
+		mp3DecInfo->mainDataBytes = mp3DecInfo->mainDataBegin + mp3DecInfo->nSlots;
 		*inbuf += mp3DecInfo->nSlots;
 		*bytesLeft -= (mp3DecInfo->nSlots);
-	} else 
-	{
-		/* out of data - assume last or truncated frame */
-		if (mp3DecInfo->nSlots > *bytesLeft) 
-		{
-			MP3ClearBadFrame(mp3DecInfo, outbuf);
-			return ERR_MP3_INDATA_UNDERFLOW;	
-		}
-		/* fill main data buffer with enough new data for this frame */
-		if (mp3DecInfo->mainDataBytes >= mp3DecInfo->mainDataBegin) 
-		{
-			/* adequate "old" main data available (i.e. bit reservoir) */
-			memmove(mp3DecInfo->mainBuf, mp3DecInfo->mainBuf + mp3DecInfo->mainDataBytes - mp3DecInfo->mainDataBegin, mp3DecInfo->mainDataBegin);
-			memcpy(mp3DecInfo->mainBuf + mp3DecInfo->mainDataBegin, *inbuf, mp3DecInfo->nSlots);
-
-			mp3DecInfo->mainDataBytes = mp3DecInfo->mainDataBegin + mp3DecInfo->nSlots;
-			*inbuf += mp3DecInfo->nSlots;
-			*bytesLeft -= (mp3DecInfo->nSlots);
-			mainPtr = mp3DecInfo->mainBuf;
-		} else 
-		{
-			/* not enough data in bit reservoir from previous frames (perhaps starting in middle of file) */
-			memcpy(mp3DecInfo->mainBuf + mp3DecInfo->mainDataBytes, *inbuf, mp3DecInfo->nSlots);
-			mp3DecInfo->mainDataBytes += mp3DecInfo->nSlots;
-			*inbuf += mp3DecInfo->nSlots;
-			*bytesLeft -= (mp3DecInfo->nSlots);
-			MP3ClearBadFrame(mp3DecInfo, outbuf);
-			return ERR_MP3_MAINDATA_UNDERFLOW;
-		}
-	}
+		mainPtr = mp3DecInfo->mainBuf;
+	} 
+	// else 
+	// {
+	// 	/* not enough data in bit reservoir from previous frames (perhaps starting in middle of file) */
+	// 	memcpy(mp3DecInfo->mainBuf + mp3DecInfo->mainDataBytes, *inbuf, mp3DecInfo->nSlots);
+	// 	mp3DecInfo->mainDataBytes += mp3DecInfo->nSlots;
+	// 	*inbuf += mp3DecInfo->nSlots;
+	// 	*bytesLeft -= (mp3DecInfo->nSlots);
+	// 	MP3ClearBadFrame(mp3DecInfo, outbuf);
+	// 	return ERR_MP3_MAINDATA_UNDERFLOW;
+	// }
+	
 	bitOffset = 0;
 	mainBits = mp3DecInfo->mainDataBytes * 8;
 
