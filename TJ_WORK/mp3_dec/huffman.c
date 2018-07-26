@@ -400,20 +400,20 @@ int DecodeHuffman(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, in
 		return -1;
 
 	/* figure out region boundaries (the first 2*bigVals coefficients divided into 3 regions) */
-	if (sis->winSwitchFlag && sis->blockType == 2) {
-		if (sis->mixedBlock == 0) {
+	if (sis->winSwitchFlag && sis->blockType == 2) 
+	{
+		if (sis->mixedBlock == 0) 
+		{
 			r1Start = fh->sfBand->s[(sis->region0Count + 1)/3] * 3;
-		} else {
-			if (fh->ver == MPEG1) {
-				r1Start = fh->sfBand->l[sis->region0Count + 1];
-			} else {
-				/* see MPEG2 spec for explanation */
-				w = fh->sfBand->s[4] - fh->sfBand->s[3];
-				r1Start = fh->sfBand->l[6] + 2*w;
-			}
+		} 
+		else 
+		{
+			r1Start = fh->sfBand->l[sis->region0Count + 1];
 		}
 		r2Start = MAX_NSAMP;	/* short blocks don't have region 2 */
-	} else {
+	} 
+	else 
+	{
 		r1Start = fh->sfBand->l[sis->region0Count + 1];
 		r2Start = fh->sfBand->l[sis->region0Count + 1 + sis->region1Count + 1];
 	}
@@ -429,7 +429,8 @@ int DecodeHuffman(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, in
 
 	/* decode Huffman pairs (rEnd[i] are always even numbers) */
 	bitsLeft = huffBlockBits;
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < 3; i++) 
+	{
 		bitsUsed = DecodeHuffmanPairs(hi->huffDecBuf[ch] + rEnd[i], rEnd[i+1] - rEnd[i], sis->tableSelect[i], bitsLeft, buf, *bitOffset);
 		if (bitsUsed < 0 || bitsUsed > bitsLeft)	/* error - overran end of bitstream */
 			return -1;
@@ -445,7 +446,9 @@ int DecodeHuffman(MP3DecInfo *mp3DecInfo, unsigned char *buf, int *bitOffset, in
 
 	ASSERT(hi->nonZeroBound[ch] <= MAX_NSAMP);
 	for (i = hi->nonZeroBound[ch]; i < MAX_NSAMP; i++)
+	{
 		hi->huffDecBuf[ch][i] = 0;
+	}
 	
 	/* If bits used for 576 samples < huffBlockBits, then the extras are considered
 	 *  to be stuffing bits (throw away, but need to return correct bitstream position) 

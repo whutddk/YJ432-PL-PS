@@ -152,10 +152,13 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	 *  almost never triggered)
 	 */
 	es = 0;
-	if (gb < 6) {
+	if (gb < 6) 
+	{
 		es = 6 - gb;
 		for (i = 0; i < 32; i++)
+		{
 			buf[i] >>= es;
+		}
 	}
 
 	/* first pass */
