@@ -45,28 +45,7 @@
 #ifndef _MP3DEC_H
 #define _MP3DEC_H
 
-#define ARC
-#define ARC_MW
 
-#if defined(_WIN32) && !defined(_WIN32_WCE)
-#
-#elif defined(_WIN32) && defined(_WIN32_WCE) && defined(ARM)
-#
-#elif defined(_WIN32) && defined(WINCE_EMULATOR)
-#
-#elif defined(ARC_MW)
-#
-#elif defined(_SYMBIAN) && defined(__WINS__)	/* Symbian emulator for Ix86 */
-#
-#elif defined(__GNUC__) && defined(ARC)
-#
-#elif defined(__GNUC__) && defined(__i386__)
-#
-#elif defined(_OPENWAVE_SIMULATOR) || defined(_OPENWAVE_ARMULATOR)
-#
-#else
-#error No platform defined. See valid options in mp3dec.h
-#endif
 
 #ifdef __cplusplus
 extern "C" {

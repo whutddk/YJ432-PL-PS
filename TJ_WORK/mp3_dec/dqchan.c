@@ -155,18 +155,24 @@ static int DequantBlock(int *inbuf, int *outbuf, int num, int scale)
 		sx = *inbuf++;
 		x = sx & 0x7fffffff;	/* sx = sign|mag */
 
-		if (x < 4) {
+		if (x < 4) 
+		{
 
 			y = tab4[x];
 
-		} else if (x < 16) {
+		} 
+		else if (x < 16) 
+		{
 
 			y = tab16[x];
 			y = (scalei < 0) ? y << -scalei : y >> scalei;
 
-		} else {
+		} 
+		else 
+		{
 
-			if (x < 64) {
+			if (x < 64) 
+			{
 
 				y = pow43[x-16];
 
@@ -174,7 +180,9 @@ static int DequantBlock(int *inbuf, int *outbuf, int num, int scale)
 				y = MULSHIFT32(y, scalef);
 				shift = scalei - 3;
 
-			} else {
+			} 
+			else 
+			{
 
 				/* normalize to [0x40000000, 0x7fffffff] */
 				x <<= 17;
@@ -253,17 +261,23 @@ int DequantChannel(int *sampleBuf, int *workBuf, int *nonZeroBound, FrameHeader 
 	ARRAY3 *buf;    /* short block reorder */
 	
 	/* set default start/end points for short/long blocks - will update with non-zero cb info */
-	if (sis->blockType == 2) {
+	if (sis->blockType == 2) 
+	{
 		//cbStartL = 0;
-		if (sis->mixedBlock) { 
-			cbEndL = (fh->ver == MPEG1 ? 8 : 6); 
+		if (sis->mixedBlock) 
+		{ 
+			cbEndL =  8; 
 			cbStartS = 3; 
-		} else {
+		} 
+		else 
+		{
 			cbEndL = 0; 
 			cbStartS = 0;
 		}
 		cbEndS = 13;
-	} else {
+	} 
+	else 
+	{
 		/* long block */
 		//cbStartL = 0;
 		cbEndL =   22;
@@ -290,7 +304,8 @@ int DequantChannel(int *sampleBuf, int *workBuf, int *nonZeroBound, FrameHeader 
 	globalGain += IMDCT_SCALE;		/* scale everything by sqrt(2), for fast IMDCT36 */
 
 	/* long blocks */
-	for (cb = 0; cb < cbEndL; cb++) {
+	for (cb = 0; cb < cbEndL; cb++) 
+	{
 
 		nonZero = 0;
 		nSamps = fh->sfBand->l[cb + 1] - fh->sfBand->l[cb];
