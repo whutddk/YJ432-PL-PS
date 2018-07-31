@@ -115,57 +115,6 @@ int MP3FindSyncWord(unsigned char *buf, int nBytes)
 	return -1;
 }
 
-/**************************************************************************************
- * Function:    MP3FindFreeSync
- *
- * Description: figure out number of bytes between adjacent sync words in "free" mode
- *
- * Inputs:      buffer to search for next sync word
- *              the 4-byte frame header starting at the current sync word
- *              max number of bytes to search in buffer
- *
- * Outputs:     none
- *
- * Return:      offset to next sync word, minus any pad byte (i.e. nSlots)
- *              -1 if sync not found after searching nBytes
- *
- * Notes:       this checks that the first 22 bits of the next frame header are the
- *                same as the current frame header, but it's still not foolproof
- *                (could accidentally find a sequence in the bitstream which 
- *                 appears to match but is not actually the next frame header)
- *              this could be made more error-resilient by checking several frames
- *                in a row and verifying that nSlots is the same in each case
- *              since free mode requires CBR (see spec) we generally only call
- *                this function once (first frame) then store the result (nSlots)
- *                and just use it from then on
- **************************************************************************************/
-static int MP3FindFreeSync(unsigned char *buf, unsigned char firstFH[4], int nBytes)
-{
-	int offset = 0;
-	unsigned char *bufPtr = buf;
-
-	/* loop until we either: 
-	 *  - run out of nBytes (FindMP3SyncWord() returns -1)
-	 *  - find the next valid frame header (sync word, version, layer, CRC flag, bitrate, and sample rate
-	 *      in next header must match current header)
-	 */
-	while (1) {
-		offset = MP3FindSyncWord(bufPtr, nBytes);
-		bufPtr += offset;
-		if (offset < 0) {
-			return -1;
-		} else if ( (bufPtr[0] == firstFH[0]) && (bufPtr[1] == firstFH[1]) && ((bufPtr[2] & 0xfc) == (firstFH[2] & 0xfc)) ) {
-			/* want to return number of bytes per frame, NOT counting the padding byte, so subtract one if padFlag == 1 */
-			if ((firstFH[2] >> 1) & 0x01)
-				bufPtr--;
-			return bufPtr - buf;
-		}
-		bufPtr += 3;
-		nBytes -= (offset + 3);
-	};
-
-	//	return -1;  Removed KJ
-}
 
 /**************************************************************************************
  * Function:    MP3GetLastFrameInfo
