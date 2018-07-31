@@ -71,7 +71,7 @@ fh->crc = 1
 # 帧准备
 1. mainDataBytes 之前记录的buff数据量，由指针计算得来，mainBuf 流式缓冲区
 
-注意：
+注意：*可以考虑从这里切入* 1940*8bit
 * 数据是从inbuf压入MP3decinfo->MAINBUF中进行解码的，可以考虑只传送需要压入mainbuf中的数据，只需参考mainbuf的大小
 -----------------------------------------
 
@@ -90,7 +90,17 @@ fh->crc = 1
             + 返回buf的偏移量
         4. 计算位置
         5. 霍夫曼解码
-            * 
+            * 根据切换标志和块类型给r1Start r2Start赋值
+            * rend0-3赋值
+            * 3倍计算解码霍夫曼对
+                - 查表
+                - 。。。
+            * 1倍解霍夫曼4对
+        6. Dequantize反向量化
+        *可以考虑从这里切入hi->huffDecBuf* 1152*32bit
+        7. imdct
+        * 从这里切入 1152* 32bit 每26ms，每次压入64*32bit同步两次FDCT32+POLYPHASE,拍18下
+        8. subband
 
 
 
