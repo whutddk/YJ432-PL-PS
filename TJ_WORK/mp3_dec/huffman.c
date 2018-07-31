@@ -110,27 +110,35 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 		cache = (unsigned int)(*buf++) << (32 - cachedBits);
 	bitsLeft -= cachedBits;
 
-	if (tabType == noBits) {
+	if (tabType == noBits) 
+	{
 		/* table 0, no data, x = y = 0 */
-		for (i = 0; i < nVals; i+=2) {
+		for (i = 0; i < nVals; i+=2) 
+		{
 			xy[i+0] = 0;
 			xy[i+1] = 0;
 		}
 		return 0;
-	} else if (tabType == oneShot) {
+	} 
+	else if (tabType == oneShot) 
+	{
 		/* single lookup, no escapes */
 		maxBits = GetMaxbits(tBase[0]);
 		tBase++;
 		padBits = 0;
-		while (nVals > 0) {
+		while (nVals > 0) 
+		{
 			/* refill cache - assumes cachedBits <= 16 */
-			if (bitsLeft >= 16) {
+			if (bitsLeft >= 16) 
+			{
 				/* load 2 new bytes into left-justified cache */
 				cache |= (unsigned int)(*buf++) << (24 - cachedBits);
 				cache |= (unsigned int)(*buf++) << (16 - cachedBits);
 				cachedBits += 16;
 				bitsLeft -= 16;
-			} else {
+			}
+			else 
+			{
 				/* last time through, pad cache with zeros and drain cache */
 				if (cachedBits + bitsLeft <= 0)	return -1;
 				if (bitsLeft > 0)	cache |= (unsigned int)(*buf++) << (24 - cachedBits);
@@ -144,7 +152,8 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 			}
 
 			/* largest maxBits = 9, plus 2 for sign bits, so make sure cache has at least 11 bits */
-			while (nVals > 0 && cachedBits >= 11 ) {
+			while (nVals > 0 && cachedBits >= 11 ) 
+			{
 				cw = tBase[cache >> (32 - maxBits)];
 				len = GetHLen(cw);
 				cachedBits -= len;
@@ -164,18 +173,24 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 		}
 		bitsLeft += (cachedBits - padBits);
 		return (startBits - bitsLeft);
-	} else if (tabType == loopLinbits || tabType == loopNoLinbits) {
+	} 
+	else if (tabType == loopLinbits || tabType == loopNoLinbits) 
+	{
 		tCurr = tBase;
 		padBits = 0;
-		while (nVals > 0) {
+		while (nVals > 0) 
+		{
 			/* refill cache - assumes cachedBits <= 16 */
-			if (bitsLeft >= 16) {
+			if (bitsLeft >= 16) 
+			{
 				/* load 2 new bytes into left-justified cache */
 				cache |= (unsigned int)(*buf++) << (24 - cachedBits);
 				cache |= (unsigned int)(*buf++) << (16 - cachedBits);
 				cachedBits += 16;
 				bitsLeft -= 16;
-			} else {
+			} 
+			else 
+			{
 				/* last time through, pad cache with zeros and drain cache */
 				if (cachedBits + bitsLeft <= 0)	return -1;
 				if (bitsLeft > 0)	cache |= (unsigned int)(*buf++) << (24 - cachedBits);
@@ -189,11 +204,13 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 			}
 
 			/* largest maxBits = 9, plus 2 for sign bits, so make sure cache has at least 11 bits */
-			while (nVals > 0 && cachedBits >= 11 ) {
+			while (nVals > 0 && cachedBits >= 11 ) 
+			{
 				maxBits = GetMaxbits(tCurr[0]);
 				cw = tCurr[(cache >> (32 - maxBits)) + 1];
 				len = GetHLen(cw);
-				if (!len) {
+				if (!len) 
+				{
 					cachedBits -= maxBits;
 					cache <<= maxBits;
 					tCurr += cw;
@@ -205,16 +222,19 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 				x = GetCWX(cw);
 				y = GetCWY(cw);
 
-				if (x == 15 && tabType == loopLinbits) {
+				if (x == 15 && tabType == loopLinbits) 
+				{
 					minBits = linBits + 1 + (y ? 1 : 0);
 					if (cachedBits + bitsLeft < minBits)
 						return -1;
-					while (cachedBits < minBits) {
+					while (cachedBits < minBits) 
+					{
 						cache |= (unsigned int)(*buf++) << (24 - cachedBits);
 						cachedBits += 8;
 						bitsLeft -= 8;
 					}
-					if (bitsLeft < 0) {
+					if (bitsLeft < 0) 
+					{
 						cachedBits += bitsLeft;
 						bitsLeft = 0;
 						cache &= (signed int)0x80000000 >> (cachedBits - 1);
@@ -225,7 +245,8 @@ static int DecodeHuffmanPairs(int *xy, int nVals, int tabIdx, int bitsLeft, unsi
 				}
 				if (x)	{ApplySign(x, cache); cache <<= 1; cachedBits--;}
 
-				if (y == 15 && tabType == loopLinbits) {
+				if (y == 15 && tabType == loopLinbits) 
+				{
 					minBits = linBits + 1;
 					if (cachedBits + bitsLeft < minBits)
 						return -1;
