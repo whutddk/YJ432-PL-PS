@@ -96,7 +96,7 @@ int Dequantize(MP3DecInfo *mp3DecInfo, int gr)
 	mOut[0] = mOut[1] = 0;
 
 	/* dequantize all the samples in each channel */
-	for (ch = 0; ch < mp3DecInfo->nChans; ch++) 
+	for (ch = 0; ch < 2; ch++) 
 	{
 		hi->gb[ch] = DequantChannel(hi->huffDecBuf[ch], di->workBuf, &hi->nonZeroBound[ch], fh, 
 			&si->sis[gr][ch], &sfi->sfis[gr][ch], &cbi[ch]);

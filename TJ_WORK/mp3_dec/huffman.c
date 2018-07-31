@@ -324,15 +324,19 @@ static int DecodeHuffmanQuads(int *vwxy, int nVals, int tabIdx, int bitsLeft, un
 	bitsLeft -= cachedBits;
 
 	i = padBits = 0;
-	while (i < (nVals - 3)) {
+	while (i < (nVals - 3)) 
+	{
 		/* refill cache - assumes cachedBits <= 16 */
-		if (bitsLeft >= 16) {
+		if (bitsLeft >= 16) 
+		{
 			/* load 2 new bytes into left-justified cache */
 			cache |= (unsigned int)(*buf++) << (24 - cachedBits);
 			cache |= (unsigned int)(*buf++) << (16 - cachedBits);
 			cachedBits += 16;
 			bitsLeft -= 16;
-		} else {
+		} 
+		else 
+		{
 			/* last time through, pad cache with zeros and drain cache */
 			if (cachedBits + bitsLeft <= 0) return i;
 			if (bitsLeft > 0)	cache |= (unsigned int)(*buf++) << (24 - cachedBits);
@@ -346,7 +350,8 @@ static int DecodeHuffmanQuads(int *vwxy, int nVals, int tabIdx, int bitsLeft, un
 		}
 
 		/* largest maxBits = 6, plus 4 for sign bits, so make sure cache has at least 10 bits */
-		while (i < (nVals - 3) && cachedBits >= 10 ) {
+		while (i < (nVals - 3) && cachedBits >= 10 ) 
+		{
 			cw = tBase[cache >> (32 - maxBits)];
 			len = GetHLenQ(cw);
 			cachedBits -= len;
