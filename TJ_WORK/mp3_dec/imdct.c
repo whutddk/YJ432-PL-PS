@@ -75,7 +75,8 @@ static void AntiAlias(int *x, int nBfly)
 	const int *c;
 
 	/* csa = Q31 */
-	for (k = nBfly; k > 0; k--) {
+	for (k = nBfly; k > 0; k--) 
+	{
 		c = csa[0];
 		x += 18;
 
@@ -136,7 +137,8 @@ static void WinPrevious(int *xPrev, int *xPrevWin, int btPrev)
 
 	xp = xPrev;
 	/* mapping (see IMDCT12x3): xPrev[0-2] = sum[6-8], xPrev[3-8] = sum[12-17] */
-	if (btPrev == 2) {
+	if (btPrev == 2) 
+	{
 		/* this could be reordered for minimum loads/stores */
 		wpLo = imdctWin[btPrev];
 		xPrevWin[ 0] = MULSHIFT32(wpLo[ 6], xPrev[2]) + MULSHIFT32(wpLo[0], xPrev[6]);
@@ -152,13 +154,16 @@ static void WinPrevious(int *xPrev, int *xPrevWin, int btPrev)
 		xPrevWin[10] = MULSHIFT32(wpLo[10], xPrev[4]);
 		xPrevWin[11] = MULSHIFT32(wpLo[11], xPrev[5]);
 		xPrevWin[12] = xPrevWin[13] = xPrevWin[14] = xPrevWin[15] = xPrevWin[16] = xPrevWin[17] = 0;
-	} else {
+	} 
+	else 
+	{
 		/* use ARM-style pointers (*ptr++) so that ADS compiles well */
 		wpLo = imdctWin[btPrev] + 18;
 		wpHi = wpLo + 17;
 		xpwLo = xPrevWin;
 		xpwHi = xPrevWin + 17;
-		for (i = 9; i > 0; i--) {
+		for (i = 9; i > 0; i--) 
+		{
 			x = *xp++;	wLo = *wpLo++;	wHi = *wpHi--;
 			*xpwLo++ = MULSHIFT32(wLo, x);
 			*xpwHi-- = MULSHIFT32(wHi, x);
@@ -187,9 +192,11 @@ static int FreqInvertRescale(int *y, int *xPrev, int blockIdx, int es)
 	int i, d, mOut;
 	int y0, y1, y2, y3, y4, y5, y6, y7, y8;
 
-	if (es == 0) {
+	if (es == 0) 
+	{
 		/* fast case - frequency invert only (no rescaling) - can fuse into overlap-add for speed, if desired */
-		if (blockIdx & 0x01) {
+		if (blockIdx & 0x01) 
+		{
 			y += NBANDS;
 			y0 = *y;	y += 2*NBANDS;
 			y1 = *y;	y += 2*NBANDS;
@@ -213,18 +220,25 @@ static int FreqInvertRescale(int *y, int *xPrev, int blockIdx, int es)
 			*y = -y8;	y += 2*NBANDS;
 		}
 		return 0;
-	} else {
+	} 
+	else 
+	{
 		/* undo pre-IMDCT scaling, clipping if necessary */
 		mOut = 0;
-		if (blockIdx & 0x01) {
+		if (blockIdx & 0x01) 
+		{
 			/* frequency invert */
-			for (i = 0; i < 18; i+=2) {
+			for (i = 0; i < 18; i+=2) 
+			{
 				d = *y;		CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
 				d = -*y;	CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
 				d = *xPrev;	CLIP_2N(d, 31 - es);	*xPrev++ = d << es;
 			}
-		} else {
-			for (i = 0; i < 18; i+=2) {
+		} 
+		else 
+		{
+			for (i = 0; i < 18; i+=2) 
+			{
 				d = *y;		CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
 				d = *y;		CLIP_2N(d, 31 - es);	*y = d << es;	mOut |= FASTABS(*y);	y += NBANDS;
 				d = *xPrev;	CLIP_2N(d, 31 - es);	*xPrev++ = d << es;
@@ -376,10 +390,12 @@ static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int b
 	xCurr += 17;
 
 	/* 7 gb is always adequate for antialias + accumulator loop + idct9 */
-	if (gb < 7) {
+	if (gb < 7) 
+	{
 		/* rarely triggered - 5% to 10% of the time on normal clips (with Q25 input) */
 		es = 7 - gb;
-		for (i = 8; i >= 0; i--) {	
+		for (i = 8; i >= 0; i--) 
+		{	
 			acc1 = ((*xCurr--) >> es) - acc1;
 			acc2 = acc1 - acc2;
 			acc1 = ((*xCurr--) >> es) - acc1;
@@ -387,10 +403,13 @@ static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int b
 			xBuf[i+0] = acc1;	/* even */
 			xPrev[i] >>= es;
 		}
-	} else {
+	} 
+	else 
+	{
 		es = 0;
 		/* max gain = 18, assume adequate guard bits */
-		for (i = 8; i >= 0; i--) {	
+		for (i = 8; i >= 0; i--) 
+		{	
 			acc1 = (*xCurr--) - acc1;
 			acc2 = acc1 - acc2;
 			acc1 = (*xCurr--) - acc1;
@@ -409,10 +428,12 @@ static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int b
 	xp = xBuf + 8;
 	cp = c18 + 8;
 	mOut = 0;
-	if (btPrev == 0 && btCurr == 0) {
+	if (btPrev == 0 && btCurr == 0) 
+	{
 		/* fast path - use symmetry of sin window to reduce windowing multiplies to 18 (N/2) */
 		wp = fastWin36;
-		for (i = 0; i < 9; i++) {
+		for (i = 0; i < 9; i++) 
+		{
 			/* do ARM-style pointer arithmetic (i still needed for y[] indexing - compiler spills if 2 y pointers) */
 			c = *cp--;	xo = *(xp + 9);		xe = *xp--;
 			/* gain 2 int bits here */
@@ -431,14 +452,17 @@ static int IMDCT36(int *xCurr, int *xPrev, int *y, int btCurr, int btPrev, int b
 			mOut |= FASTABS(yLo);
 			mOut |= FASTABS(yHi);
 		}
-	} else {
+	} 
+	else 
+	{
 		/* slower method - either prev or curr is using window type != 0 so do full 36-point window 
 		 * output xPrevWin has at least 3 guard bits (xPrev has 2, gain 1 in WinPrevious)
 		 */
 		WinPrevious(xPrev, xPrevWin, btPrev);
 
 		wp = imdctWin[btCurr];
-		for (i = 0; i < 9; i++) {
+		for (i = 0; i < 9; i++) 
+		{
 			c = *cp--;	xo = *(xp + 9);		xe = *xp--;
 			/* gain 2 int bits here */
 			xo = MULSHIFT32(c, xo);			/* 2*c18*xOdd (mul by 2 implicit in scaling)  */
@@ -628,7 +652,8 @@ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], Si
 	mOut = 0;
 
 	/* do long blocks, if any */
-	for(i = 0; i < bc->nBlocksLong; i++) {
+	for(i = 0; i < bc->nBlocksLong; i++) 
+	{
 		/* currWinIdx picks the right window for long blocks (if mixed, long blocks use window type 0) */
 		currWinIdx = sis->blockType;
 		if (sis->mixedBlock && i < bc->currWinSwitch) 
@@ -645,7 +670,8 @@ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], Si
 	}
 
 	/* do short blocks (if any) */
-	for (   ; i < bc->nBlocksTotal; i++) {
+	for (   ; i < bc->nBlocksTotal; i++) 
+	{
 		ASSERT(sis->blockType == 2);
 
 		prevWinIdx = bc->prevType;
@@ -659,7 +685,8 @@ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], Si
 	nBlocksOut = i;
 	
 	/* window and overlap prev if prev longer that current */
-	for (   ; i < bc->nBlocksPrev; i++) {
+	for (   ; i < bc->nBlocksPrev; i++) 
+	{
 		prevWinIdx = bc->prevType;
 		if (i < bc->prevWinSwitch)
 			 prevWinIdx = 0;
@@ -667,7 +694,8 @@ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], Si
 
 		nonZero = 0;
 		fiBit = i << 31;
-		for (j = 0; j < 9; j++) {
+		for (j = 0; j < 9; j++) 
+		{
 			xp = xPrevWin[2*j+0] << 2;	/* << 2 temp for scaling */
 			nonZero |= xp;
 			y[2*j+0][i] = xp;
@@ -688,7 +716,8 @@ static int HybridTransform(int *xCurr, int *xPrev, int y[BLOCK_SIZE][NBANDS], Si
 	}
 	
 	/* clear rest of blocks */
-	for (   ; i < 32; i++) {
+	for (   ; i < 32; i++) 
+	{
 		for (j = 0; j < 18; j++) 
 			y[j][i] = 0;
 	}
@@ -745,11 +774,15 @@ int IMDCT(MP3DecInfo *mp3DecInfo, int gr, int ch)
 		/* all long transforms */
 		bc.nBlocksLong = MIN((hi->nonZeroBound[ch] + 7) / 18 + 1, 32);	
 		nBfly = bc.nBlocksLong - 1;
-	} else if (si->sis[gr][ch].blockType == 2 && si->sis[gr][ch].mixedBlock) {
+	} 
+	else if (si->sis[gr][ch].blockType == 2 && si->sis[gr][ch].mixedBlock) 
+	{
 		/* mixed block - long transforms until cutoff, then short transforms */
 		bc.nBlocksLong = blockCutoff;	
 		nBfly = bc.nBlocksLong - 1;
-	} else {
+	} 
+	else 
+	{
 		/* all short transforms */
 		bc.nBlocksLong = 0;
 		nBfly = 0;

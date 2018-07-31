@@ -70,7 +70,8 @@ void MidSideProc(int x[MAX_NCHAN][MAX_NSAMP], int nSamps, int mOut[2])
 	 * NOTE: 1/sqrt(2) done in DequantChannel() - see comments there
 	 */
 	mOutL = mOutR = 0;
-	for(i = 0; i < nSamps; i++) {
+	for(i = 0; i < nSamps; i++) 
+	{
 		xl = x[0][i];
 		xr = x[1][i];
 		x[0][i] = xl + xr;
@@ -119,13 +120,16 @@ void IntensityProcMPEG1(int x[MAX_NCHAN][MAX_NSAMP], int nSamps, FrameHeader *fh
 	 * TODO - intensity + mixed not quite right (diff = 11 on he_mode)
 	 *  figure out correct implementation (spec ambiguous about when to do short block reorder)
 	 */
-	if (cbi[1].cbType == 0) {
+	if (cbi[1].cbType == 0) 
+	{
 		/* long block */
 		cbStartL = cbi[1].cbEndL + 1;
 		cbEndL =   cbi[0].cbEndL + 1;
 		cbStartS = cbEndS = 0;
 		i = fh->sfBand->l[cbStartL];
-	} else if (cbi[1].cbType == 1 || cbi[1].cbType == 2) {
+	} 
+	else if (cbi[1].cbType == 1 || cbi[1].cbType == 2) 
+	{
 		/* short or mixed block */
 		cbStartS = cbi[1].cbEndSMax + 1;
 		cbEndS =   cbi[0].cbEndSMax + 1;
@@ -138,18 +142,23 @@ void IntensityProcMPEG1(int x[MAX_NCHAN][MAX_NSAMP], int nSamps, FrameHeader *fh
 	mOutL = mOutR = 0;
 
 	/* long blocks */
-	for (cb = cbStartL; cb < cbEndL && sampsLeft > 0; cb++) {
+	for (cb = cbStartL; cb < cbEndL && sampsLeft > 0; cb++) 
+	{
 		isf = sfis->l[cb];
-		if (isf == 7) {
+		if (isf == 7) 
+		{
 			fl = ISFIIP[midSideFlag][0];
 			fr = ISFIIP[midSideFlag][1];
-		} else {
+		} 
+		else 
+		{
 			fl = isfTab[isf];	
 			fr = isfTab[6] - isfTab[isf];
 		}
 
 		n = fh->sfBand->l[cb + 1] - fh->sfBand->l[cb];
-		for (j = 0; j < n && sampsLeft > 0; j++, i++) {
+		for (j = 0; j < n && sampsLeft > 0; j++, i++) 
+		{
 			xr = MULSHIFT32(fr, x[0][i]) << 2;	x[1][i] = xr; mOutR |= FASTABS(xr);
 			xl = MULSHIFT32(fl, x[0][i]) << 2;	x[0][i] = xl; mOutL |= FASTABS(xl);
 			sampsLeft--;
@@ -157,20 +166,26 @@ void IntensityProcMPEG1(int x[MAX_NCHAN][MAX_NSAMP], int nSamps, FrameHeader *fh
 	}
 
 	/* short blocks */
-	for (cb = cbStartS; cb < cbEndS && sampsLeft >= 3; cb++) {
-		for (w = 0; w < 3; w++) {
+	for (cb = cbStartS; cb < cbEndS && sampsLeft >= 3; cb++) 
+	{
+		for (w = 0; w < 3; w++) 
+		{
 			isf = sfis->s[cb][w];
-			if (isf == 7) {
+			if (isf == 7) 
+			{
 				fls[w] = ISFIIP[midSideFlag][0];
 				frs[w] = ISFIIP[midSideFlag][1];
-			} else {
+			} 
+			else 
+			{
 				fls[w] = isfTab[isf];
 				frs[w] = isfTab[6] - isfTab[isf];
 			}
 		}
 
 		n = fh->sfBand->s[cb + 1] - fh->sfBand->s[cb];
-		for (j = 0; j < n && sampsLeft >= 3; j++, i+=3) {
+		for (j = 0; j < n && sampsLeft >= 3; j++, i+=3) 
+		{
 			xr = MULSHIFT32(frs[0], x[0][i+0]) << 2;	x[1][i+0] = xr;	mOutR |= FASTABS(xr);
 			xl = MULSHIFT32(fls[0], x[0][i+0]) << 2;	x[0][i+0] = xl;	mOutL |= FASTABS(xl);
 			xr = MULSHIFT32(frs[1], x[0][i+1]) << 2;	x[1][i+1] = xr;	mOutR |= FASTABS(xr);

@@ -210,13 +210,16 @@ static int DequantBlock(int *inbuf, int *outbuf, int num, int scale)
 			}
 
 			/* integer scale */
-			if (shift < 0) {
+			if (shift < 0) 
+			{
 				shift = -shift;
 				if (y > (0x7fffffff >> shift))
 					y = 0x7fffffff;		/* clip */
 				else
 					y <<= shift;
-			} else {
+			} 
+			else 
+			{
 				y >>= shift;
 			}
 		}
@@ -335,7 +338,8 @@ int DequantChannel(int *sampleBuf, int *workBuf, int *nonZeroBound, FrameHeader 
 	
 	/* short blocks */
 	cbMax[2] = cbMax[1] = cbMax[0] = cbStartS;
-	for (cb = cbStartS; cb < cbEndS; cb++) {
+	for (cb = cbStartS; cb < cbEndS; cb++) 
+	{
 
 		nSamps = fh->sfBand->s[cb + 1] - fh->sfBand->s[cb];
 		for (w = 0; w < 3; w++) {
@@ -353,7 +357,8 @@ int DequantChannel(int *sampleBuf, int *workBuf, int *nonZeroBound, FrameHeader 
 		/* reorder blocks */
 		buf = (ARRAY3 *)(sampleBuf + i);
 		i += 3*nSamps;
-		for (j = 0; j < nSamps; j++) {
+		for (j = 0; j < nSamps; j++) 
+		{
 			buf[j][0] = workBuf[0*nSamps + j];
 			buf[j][1] = workBuf[1*nSamps + j];
 			buf[j][2] = workBuf[2*nSamps + j];

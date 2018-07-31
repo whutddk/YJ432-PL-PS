@@ -260,13 +260,14 @@ int MP3Decode(HMP3Decoder hMP3Decoder, unsigned char **inbuf, int *bytesLeft, sh
 		}
 
 		/* alias reduction, inverse MDCT, overlap-add, frequency inversion */
-		for (ch = 0; ch < mp3DecInfo->nChans; ch++)
+		for (ch = 0; ch < 2; ch++)
+		{
 			if (IMDCT(mp3DecInfo, gr, ch) < 0) 
 			{
 				MP3ClearBadFrame(mp3DecInfo, outbuf);
 				return ERR_MP3_INVALID_IMDCT;			
 			}
-
+		}
 		/* subband transform - if stereo, interleaves pcm LRLRLR */
 		if (Subband(mp3DecInfo, outbuf + gr*mp3DecInfo->nGranSamps*mp3DecInfo->nChans) < 0) 
 		{
