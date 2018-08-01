@@ -172,7 +172,8 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	D32FP(7, 1, 1, 4);
 
 	/* second pass */
-	for (i = 4; i > 0; i--) {
+	for (i = 4; i > 0; i--) 
+	{
 		a0 = buf[0]; 	    a7 = buf[7];		a3 = buf[3];	    a4 = buf[4];
 		b0 = a0 + a7;	    b7 = MULSHIFT32(*cptr++, a0 - a7) << 1;
 		b3 = a3 + a4;	    b4 = MULSHIFT32(*cptr++, a3 - a4) << 3;
@@ -264,7 +265,8 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	 *   shuffle code (one for no shift, one for clip + variable shift) like in IMDCT
 	 * here we just load, clip, shift, and store on the rare instances that es != 0
 	 */
-	if (es) {
+	if (es) 
+	{
 		d = dest + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
 		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);
 	
