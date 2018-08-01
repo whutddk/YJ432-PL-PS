@@ -208,12 +208,12 @@ typedef struct _HuffTabLookup {
 } HuffTabLookup;
 
 typedef struct _IMDCTInfo {
-	int outBuf[MAX_NCHAN][BLOCK_SIZE][NBANDS];	/* output of IMDCT */
+	int outBuf[2][18][32];	/* output of IMDCT */
 	int overBuf[MAX_NCHAN][MAX_NSAMP / 2];		/* overlap-add buffer (by symmetry, only need 1/2 size) */
 	int numPrevIMDCT[MAX_NCHAN];				/* how many IMDCT's calculated in this channel on prev. granule */
 	int prevType[MAX_NCHAN];
 	int prevWinSwitch[MAX_NCHAN];
-	int gb[MAX_NCHAN];
+	int gb[2];
 } IMDCTInfo;
 
 typedef struct _BlockCount {
