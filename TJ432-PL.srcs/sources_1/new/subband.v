@@ -424,32 +424,71 @@ else begin
 
 
 	/* samples 16 to 1 (sample 16 used again) */
-	d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+				
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
+	<= buf[ 1];	
 
-	s = buf[ 1];				d[0] = d[8] = s;	d += 64;
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1] 
+	<= buf[17] + buf[30] + buf[25];	
 
-	tmp = buf[30] + buf[25];
-	s = buf[17] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[14] + buf[ 9];		d[0] = d[8] = s;	d += 64;
-	s = buf[22] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[ 6];				d[0] = d[8] = s;	d += 64;
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2] 
+	<= buf[14] + buf[ 9];	
+		
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3] 
+	<= buf[22] + buf[30] + buf[25];	
+			
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4] 
+	<= buf[ 6];
+		
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5] 
+	<= buf[22] + buf[26] + buf[30];	
+	
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6] 
+	<= buf[10] + buf[14];	
+		
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7] 
+	<= buf[18] + buf[26] + buf[30];	
 
-	tmp = buf[26] + buf[30];
-	s = buf[22] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[10] + buf[14];		d[0] = d[8] = s;	d += 64;
-	s = buf[18] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[ 2];				d[0] = d[8] = s;	d += 64;
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8] 
+	<= buf[ 2];	
 
-	tmp = buf[28] + buf[26];
-	s = buf[18] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[12] + buf[10];		d[0] = d[8] = s;	d += 64;
-	s = buf[20] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[ 4];				d[0] = d[8] = s;	d += 64;
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9] 
+	<= buf[18] + buf[28] + buf[26];	
 
-	tmp = buf[24] + buf[28];
-	s = buf[20] + tmp;			d[0] = d[8] = s;	d += 64;
-	s = buf[ 8] + buf[12];		d[0] = d[8] = s;	d += 64;
-	s = buf[16] + tmp;			d[0] = d[8] = s;
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10] 
+	<= buf[12] + buf[10];	
+
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11] 
+	<= buf[20] + buf[28] + buf[26];	
+
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12] 
+	<= buf[ 4];	
+
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13] 
+	<= buf[20] + buf[24] + buf[28];	
+
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14] 
+	<= buf[ 8] + buf[12];	
+
+	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15] 
+	<= vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15] 
+	<= buf[16] + buf[24] + buf[28];
+	
 	end // else if ( subband_clk_cnt == 8'd6 )
 
 
