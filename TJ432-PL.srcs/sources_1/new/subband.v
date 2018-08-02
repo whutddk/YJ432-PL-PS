@@ -42,6 +42,16 @@ reg [31:0] b0[0:7];
 reg [31:0] b1[0:7];
 reg [31:0] b2[0:7];
 reg [31:0] b3[0:7];
+
+
+reg [31:0] a0[0:3];
+reg [31:0] a1[0:3];
+reg [31:0] a2[0:3];
+reg [31:0] a3[0:3];
+reg [31:0] a4[0:3];
+reg [31:0] a5[0:3];
+reg [31:0] a6[0:3];
+reg [31:0] a7[0:3];
 //D32FP
 always@(posedge CLK or RST_n)
 if ( !RST_n ) begin
@@ -88,7 +98,8 @@ else begin
 		b2[0] <= ( 32'h5f4cf6eb * (buf1[ 8] - buf1[23]) ) >> 31;
 		
 	end // if ( subband_clk_cnt == 8'd0 )
-	else if ( sbband_clk_cnt == 8'd1 ) begin
+
+	else if ( subband_clk_cnt == 8'd1 ) begin
 		buf1[0] <= b0[0] + b1[0];
 		buf1[1] <= b0[1] + b1[1];
 		buf1[2] <= b0[2] + b1[2];
@@ -124,10 +135,60 @@ else begin
 		buf1[26] = ( 32'h43e224a9 * ( b3[5] - b2[5] ) ) >> 30; 
 		buf1[25] = ( 32'h6e3c92c1 * ( b3[6] - b2[6] ) ) >> 30; 
 		buf1[24] = ( 32'h519e4e04 * ( b3[7] - b2[7] ) ) >> 28; 
-
-
 		
-	end // else if ( sbband_clk_cnt == 8'd1 )
+	end // else if ( subband_clk_cnt == 8'd1 )
+
+	else if ( subband_clk_cnt == 8'd2 ) begin
+		//b0 = a0 + a7;
+		b0[0] <= buf1[0] + buf1[7];
+		b0[1] <= buf1[8] + buf1[15];
+		b0[2] <= buf1[16] + buf1[23];
+		b0[3] <= buf1[24] + buf1[31];
+
+		//b7 = MULSHIFT32(*cptr++, a0 - a7) << 1;
+		b3[4] <= 32'h4140fb46 * ( buf1[ 0] - buf1[ 7] ) >> 31;
+		b3[5] <= 32'h4140fb46 * ( buf1[15] - buf1[ 8] ) >> 31;
+		b3[6] <= 32'h4140fb46 * ( buf1[16] - buf1[23] ) >> 31;
+		b3[7] <= 32'h4140fb46 * ( buf1[31] - buf1[24] ) >> 31;
+
+		//b3 = a3 + a4;
+		b3[0] <= buf1[3] + buf1[4];
+		b3[1] <= buf1[11] + buf1[12];
+		b3[2] <= buf1[19] + buf1[20];
+		b3[3] <= buf1[27] + buf1[28];
+
+
+		//b4 = MULSHIFT32(*cptr++, a3 - a4) << 3;
+		b0[4] <= ( 32'h52036742 * ( buf1[ 3] - buf1[ 4] ) ) >> 28;
+		b0[5] <= ( 32'h52036742 * ( buf1[12] - buf1[11] ) ) >> 28;
+		b0[6] <= ( 32'h52036742 * ( buf1[19] - buf1[20] ) ) >> 28;
+		b0[7] <= ( 32'h52036742 * ( buf1[28] - buf1[27]) ) >> 28;
+
+		//b1 = a1 + a6;
+		b1[0] <= buf1[1] + buf1[6];
+		b1[1] <= buf1[9] + buf1[14];
+		b1[2] <= buf1[17] + buf1[22];
+		b1[3] <= buf1[25] + buf1[30];
+
+		//b6 = MULSHIFT32(*cptr++, a1 - a6) << 1;
+		b2[4] <= ( 32'h4cf8de88 * ( buf1[1] - buf1[6] ) ) >> 30;
+		b2[5] <= ( 32'h4cf8de88 * ( buf1[14] - buf1[9] ) ) >> 30;
+		b2[6] <= ( 32'h4cf8de88 * ( buf1[17] - buf1[22] ) ) >> 30;
+		b2[7] <= ( 32'h4cf8de88 * ( buf1[30] - buf1[25] ) ) >> 30;
+
+		//b2 = a2 + a5;
+		b2[0] <= buf1[2] + buf1[5];
+		b2[1] <= buf1[10] + buf1[13];
+		b2[2] <= buf1[18] + buf1[21];
+		b2[3] <= buf1[26] + buf1[29];
+
+		//b5 = MULSHIFT32(*cptr++, a2 - a5) << 1;
+		b1[4] <= ( 32'h73326bbf * ( buf1[2] - buf1[5] ) ) >> 30 ;
+		b1[5] <= ( 32'h73326bbf * ( buf1[13] - buf1[10] ) ) >> 30 ;
+		b1[6] <= ( 32'h73326bbf * ( buf1[18] - buf1[21] ) ) >> 30 ;
+		b1[7] <= ( 32'h73326bbf * ( buf1[29] - buf1[26] ) ) >> 30 ;
+
+	end // else if ( subband_clk_cnt == 8'd2 )
 
 end // else end
 
