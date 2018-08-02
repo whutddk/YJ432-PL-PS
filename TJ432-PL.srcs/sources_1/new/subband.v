@@ -37,6 +37,8 @@ reg [31:0] buf1[0:31];
 reg [31:0] buf2[0:31];
 
 
+reg [31:0] vbuf[0:2176];
+
 reg [7:0] subband_clk_cnt = 8'd0;
 reg [31:0] b0[0:7];
 reg [31:0] b1[0:7];
@@ -342,6 +344,115 @@ else begin
 		buf1[23] <= b3[6];
 		buf1[31] <= b3[7];
 	end // else if ( subband_clk_cnt == 8'd5 )
+
+
+
+
+	else if ( subband_clk_cnt == 8'd6 ) begin
+		/* sample 0 - always delayed one block */
+	vbuf[0 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
+		<= vbuf[8 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
+		<= buf1[ 0];
+
+	/* samples 16 to 31 */
+
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)] 
+	<= buf1[ 1];	
+
+		
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64] 
+	<= buf1[17] + buf1[25] + buf1[29];
+
+	
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64] 
+	<= buf[ 9] + buf[13];
+	
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64] 
+	<= buf[21] + buf[25] + buf[29];
+
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64] 
+	<= buf[ 5];
+	
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64] 
+	<= buf[21] + buf[29] + buf[27];
+
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64] 
+	<= buf[13] + buf[11];
+		
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64] 
+	<= buf[19] + buf[29] + buf[27];	
+			
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64] 
+	<= buf[ 3];	
+		
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64] 
+	<= buf[19] + buf[27] + buf[31];	
+
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64] 
+	<= buf[11] + buf[15];	
+
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64] 
+	<= buf[23] + buf[27] + buf[31];	
+
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= buf[ 7];	
+	
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= buf[23] + buf[31];	
+		
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= buf[15];	
+			
+	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64+64+64+64+64+64+64+64+64+64+64+64+64+64+64] 
+	<= buf[31];
+
+
+	/* samples 16 to 1 (sample 16 used again) */
+	d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+
+	s = buf[ 1];				d[0] = d[8] = s;	d += 64;
+
+	tmp = buf[30] + buf[25];
+	s = buf[17] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[14] + buf[ 9];		d[0] = d[8] = s;	d += 64;
+	s = buf[22] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[ 6];				d[0] = d[8] = s;	d += 64;
+
+	tmp = buf[26] + buf[30];
+	s = buf[22] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[10] + buf[14];		d[0] = d[8] = s;	d += 64;
+	s = buf[18] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[ 2];				d[0] = d[8] = s;	d += 64;
+
+	tmp = buf[28] + buf[26];
+	s = buf[18] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[12] + buf[10];		d[0] = d[8] = s;	d += 64;
+	s = buf[20] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[ 4];				d[0] = d[8] = s;	d += 64;
+
+	tmp = buf[24] + buf[28];
+	s = buf[20] + tmp;			d[0] = d[8] = s;	d += 64;
+	s = buf[ 8] + buf[12];		d[0] = d[8] = s;	d += 64;
+	s = buf[16] + tmp;			d[0] = d[8] = s;
+	end // else if ( subband_clk_cnt == 8'd6 )
+
+
 
 end // else end
 
