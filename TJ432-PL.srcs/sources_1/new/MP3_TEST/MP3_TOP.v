@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-modlue mp3_top(
+module mp3_top(
 	input CLK,    // Clock flexbus 40MHZ 
 	input RST_n,  // Asynchronous reset active low
 
@@ -33,68 +33,68 @@ modlue mp3_top(
 );
 
 wire [31:0] mult0A;
-wire [31:0] mult0B,
-wire [64:0] mult0_out,
+wire [31:0] mult0B;
+wire [64:0] mult0_out;
 
-wire [31:0] mult1A,
-wire  [31:0] mult1B,
-wire  [64:0] mult1_out,
+wire [31:0] mult1A;
+wire  [31:0] mult1B;
+wire  [64:0] mult1_out;
 
-wire  [31:0] mult2A,
-wire  [31:0] mult2B,
-wire  [64:0] mult2_out,
+wire  [31:0] mult2A;
+wire  [31:0] mult2B;
+wire  [64:0] mult2_out;
 		
-wire [31:0] mult3A,
-wire [31:0] mult3B,
-wire [64:0] mult3_out,
+wire [31:0] mult3A;
+wire [31:0] mult3B;
+wire [64:0] mult3_out;
 		
-wire [31:0] mult4A,
-wire [31:0] mult4B,
-wire [64:0] mult4_out,
+wire [31:0] mult4A;
+wire [31:0] mult4B;
+wire [64:0] mult4_out;
 		
-wire [31:0] mult5A,
-wire [31:0] mult5B,
-wire [64:0] mult5_out,
+wire [31:0] mult5A;
+wire [31:0] mult5B;
+wire [64:0] mult5_out;
 		
-wire [31:0] mult6A,
-wire [31:0] mult6B,
-wire [64:0] mult6_out,
+wire [31:0] mult6A;
+wire [31:0] mult6B;
+wire [64:0] mult6_out;
 		
-wire [31:0] mult7A,
-wire [31:0] mult7B,
-wire [64:0] mult7_out,
+wire [31:0] mult7A;
+wire [31:0] mult7B;
+wire [64:0] mult7_out;
 		
-wire [31:0] mult8A,
-wire [31:0] mult8B,
-wire [64:0] mult8_out,
+wire [31:0] mult8A;
+wire [31:0] mult8B;
+wire [64:0] mult8_out;
 		
-wire [31:0] mult9A,
-wire [31:0] mult9B,
-wire [64:0] mult9_out,
+wire [31:0] mult9A;
+wire [31:0] mult9B;
+wire [64:0] mult9_out;
 		
-wire [31:0] mult10A,
-wire [31:0] mult10B,
-wire [64:0] mult10_out,
+wire [31:0] mult10A;
+wire [31:0] mult10B;
+wire [64:0] mult10_out;
 		
-wire [31:0] mult11A,
-wire [31:0] mult11B,
-wire [64:0] mult11_out,
+wire [31:0] mult11A;
+wire [31:0] mult11B;
+wire [64:0] mult11_out;
 		
-wire [31:0] mult12A,
-wire [31:0] mult12B,
-wire [64:0] mult12_out,
+wire [31:0] mult12A;
+wire [31:0] mult12B;
+wire [64:0] mult12_out;
 		
-wire [31:0] mult13A,
-wire [31:0] mult13B,
-wire [64:0] mult13_out,
+wire [31:0] mult13A;
+wire [31:0] mult13B;
+wire [64:0] mult13_out;
 		
-wire [31:0] mult14A,
-wire [31:0] mult14B,
-wire [64:0] mult14_out,
+wire [31:0] mult14A;
+wire [31:0] mult14B;
+wire [64:0] mult14_out;
 		
-wire [31:0] mult15A,
-wire [31:0] mult15B,
-wire [64:0] mult15_out,
+wire [31:0] mult15A;
+wire [31:0] mult15B;
+wire [64:0] mult15_out;
 
 
 subband i_subband(
