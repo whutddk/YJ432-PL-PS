@@ -94,7 +94,7 @@ module subband (
 		
 	mult15A,
 	mult15B,
-	mult15_out,
+	mult15_out
 );
 
 input CLK;
@@ -108,69 +108,69 @@ output [31:0] test_output;
 reg [31:0] test_output_reg;
 assign test_output = test_output_reg;
 
-	output reg [31:0] mult0A,
-	output reg [31:0] mult0B,
-	input [64:0] mult0_out,
+	output reg [31:0] mult0A;
+	output reg [31:0] mult0B;
+	input [64:0] mult0_out;
 
-	output reg [31:0] mult1A,
-	output reg [31:0] mult1B,
-	input [64:0] mult1_out,
+	output reg [31:0] mult1A;
+	output reg [31:0] mult1B;
+	input [64:0] mult1_out;
 
-	output reg [31:0] mult2A,
-	output reg [31:0] mult2B,
-	input [64:0] mult2_out,
+	output reg [31:0] mult2A;
+	output reg [31:0] mult2B;
+	input [64:0] mult2_out;
 		
-	output reg [31:0] mult3A,
-	output reg [31:0] mult3B,
-	input [64:0] mult3_out,
+	output reg [31:0] mult3A;
+	output reg [31:0] mult3B;
+	input [64:0] mult3_out;
 		
-	output reg [31:0] mult4A,
-	output reg [31:0] mult4B,
-	input [64:0] mult4_out,
+	output reg [31:0] mult4A;
+	output reg [31:0] mult4B;
+	input [64:0] mult4_out;
 		
-	output reg [31:0] mult5A,
-	output reg [31:0] mult5B,
-	input [64:0] mult5_out,
+	output reg [31:0] mult5A;
+	output reg [31:0] mult5B;
+	input [64:0] mult5_out;
 		
-	output reg [31:0] mult6A,
-	output reg [31:0] mult6B,
-	input [64:0] mult6_out,
+	output reg [31:0] mult6A;
+	output reg [31:0] mult6B;
+	input [64:0] mult6_out;
 		
-	output reg [31:0] mult7A,
-	output reg [31:0] mult7B,
-	input [64:0] mult7_out,
+	output reg [31:0] mult7A;
+	output reg [31:0] mult7B;
+	input [64:0] mult7_out;
 		
-	output reg [31:0] mult8A,
-	output reg [31:0] mult8B,
-	input [64:0] mult8_out,
+	output reg [31:0] mult8A;
+	output reg [31:0] mult8B;
+	input [64:0] mult8_out;
 		
-	output reg [31:0] mult9A,
-	output reg [31:0] mult9B,
-	input [64:0] mult9_out,
+	output reg [31:0] mult9A;
+	output reg [31:0] mult9B;
+	input [64:0] mult9_out;
 		
-	output reg [31:0] mult10A,
-	output reg [31:0] mult10B,
-	input [64:0] mult10_out,
+	output reg [31:0] mult10A;
+	output reg [31:0] mult10B;
+	input [64:0] mult10_out;
 		
-	output reg [31:0] mult11A,
-	output reg [31:0] mult11B,
-	input [64:0] mult11_out,
+	output reg [31:0] mult11A;
+	output reg [31:0] mult11B;
+	input [64:0] mult11_out;
 		
-	output reg [31:0] mult12A,
-	output reg [31:0] mult12B,
-	input [64:0] mult12_out,
+	output reg [31:0] mult12A;
+	output reg [31:0] mult12B;
+	input [64:0] mult12_out;
 		
-	output reg [31:0] mult13A,
-	output reg [31:0] mult13B,
-	input [64:0] mult13_out,
+	output reg [31:0] mult13A;
+	output reg [31:0] mult13B;
+	input [64:0] mult13_out;
 		
-	output reg [31:0] mult14A,
-	output reg [31:0] mult14B,
-	input [64:0] mult14_out,
+	output reg [31:0] mult14A;
+	output reg [31:0] mult14B;
+	input [64:0] mult14_out;
 		
-	output reg [31:0] mult15A,
-	output reg [31:0] mult15B,
-	input [64:0] mult15_out,
+	output reg [31:0] mult15A;
+	output reg [31:0] mult15B;
+	input [64:0] mult15_out;
 
 //reg [31:0] polyCoef1[0:264] = {
 //	/* shuffled vs. original from 0, 1, ... 15 to 0, 15, 2, 13, ... 14, 1 */
@@ -270,7 +270,7 @@ else begin
 		mult1A <= 32'h40b345bd;
 		mult1B <= buff[ 1] - buff[30];
 		mult2A <= 32'h41fa2d6d;
-		mult2B <= buff[ 2] - buff[29]
+		mult2B <= buff[ 2] - buff[29];
 		mult3A <=  32'h43f93421 ;
 		mult3B <= buff[ 3] - buff[28];
 		mult4A <= 32'h46cc1bc4;
@@ -416,22 +416,22 @@ else begin
 
 	else if ( subband_clk_cnt == 8'd3 ) begin
 
-		buff[15] <= mult_out[62:31];
-		buff[14] <= mult_out[62:31];
-		buff[13] <= mult_out[62:31];
-		buff[12] <= mult_out[62:31];
-		buff[11] <= mult_out[62:31];
-		buff[10] <= mult_out[61:30];
-		buff[ 9] <= mult_out[61:30];
-		buff[ 8] <= mult_out[59:28]; 
-		buff[31] <= mult_out[62:31]; 
-		buff[30] <= mult_out[62:31]; 
-		buff[29] <= mult_out[62:31]; 
-		buff[28] <= mult_out[62:31]; 
-		buff[27] <= mult_out[62:31]; 
-		buff[26] <= mult_out[61:30]; 
-		buff[25] <= mult_out[61:30]; 
-		buff[24] <= mult_out[59:28]; 
+		buff[15] <= mult0_out[62:31];
+		buff[14] <= mult1_out[62:31];
+		buff[13] <= mult2_out[62:31];
+		buff[12] <= mult3_out[62:31];
+		buff[11] <= mult4_out[62:31];
+		buff[10] <= mult5_out[61:30];
+		buff[ 9] <= mult6_out[61:30];
+		buff[ 8] <= mult7_out[59:28]; 
+		buff[31] <= mult8_out[62:31]; 
+		buff[30] <= mult9_out[62:31]; 
+		buff[29] <= mult10_out[62:31]; 
+		buff[28] <= mult11_out[62:31]; 
+		buff[27] <= mult12_out[62:31]; 
+		buff[26] <= mult13_out[61:30]; 
+		buff[25] <= mult14_out[61:30]; 
+		buff[24] <= mult15_out[59:28]; 
 
 	end // else if ( subband_clk_cnt == 8'd3 )
 
@@ -468,13 +468,13 @@ else begin
 		b2[3] <= buff[26] + buff[29];
 
 
-		mult0A <= 32'h4140fb46		
+		mult0A <= 32'h4140fb46;
 		mult0B <= buff[ 0] - buff[ 7];
-		mult1A <= 32'h4140fb46		
+		mult1A <= 32'h4140fb46	;	
 		mult1B <= buff[15] - buff[ 8];
-		mult2A <= 32'h4140fb46		
+		mult2A <= 32'h4140fb46;		
 		mult2B <= buff[16] - buff[23];
-		mult3A <= 32'h4140fb46		
+		mult3A <= 32'h4140fb46;		
 		mult3B <= buff[31] - buff[24];
 		mult4A <= 32'h52036742;
 		mult4B <= buff[ 3] - buff[ 4];
