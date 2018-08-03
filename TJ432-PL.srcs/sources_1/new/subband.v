@@ -79,6 +79,7 @@ reg [31:0] buf2[0:31];
 reg [31:0] vbuf[0:2176];
 
 reg [7:0] subband_clk_cnt = 8'd0;
+
 reg [31:0] b0[0:7];
 reg [31:0] b1[0:7];
 reg [31:0] b2[0:7];
@@ -93,6 +94,12 @@ reg [31:0] a4[0:3];
 reg [31:0] a5[0:3];
 reg [31:0] a6[0:3];
 reg [31:0] a7[0:3];
+
+reg [63:0] sum1L[0:16];
+reg [63:0] sum1R[0:16];
+reg [63:0] sum2L[0:14];
+reg [63:0] sum2R[0:14];
+
 //D32FP
 always@(posedge CLK or RST_n)
 if ( !RST_n ) begin
@@ -548,11 +555,37 @@ else begin
 
 	end // else if ( subband_clk_cnt == 8'd6 )
 
-	//polyphase
+	//polyphase 1
 	else if ( subband_clk_cnt == 8'd7 ) begin
+		sum1L[15] <=  Vbuf[0] * polyCoef[0];
+		sum1R[15] <=  vbuf[32] * polyCoef[0];
+
+		sum1L[16] <= Vbuf[64*16] * polyCoef[256];
+		sum1R[16] <= Vbuf[64*16 + 32] * polyCoef[256];
+
+    
+    generate
+    	genvar  i;
+    	for(i = 0; i < 15; i = i + 1) begin
+
+		sum1L[i] <= Vbuf[64*(i+1) + 0] * polyCoef[16+(2*i)];
+		sum2L[i] <= Vbuf[64*(i+1) + 0] * polyCoef[17+(2*i)];
+		sum1R[i] <=	Vbuf[64*(i+1) + 32 + 0 ] * polyCoef[16+(2*i)];
+		sum2R[i] <= Vbuf[64*(i+1) + 32 + 0 ] * polyCoef[17+(2*i)];
+		end
+    endgenerate
 
 	end // else if ( subband_clk_cnt == 8'd7 )
 
+	else if ( subband_clk_cnt == 8'd8 ) begin
+	end // else if ( subband_clk_cnt == 8'd8 )
+
+
+
+
+	
+	else begin
+	end // else
 
 
 end // else end
