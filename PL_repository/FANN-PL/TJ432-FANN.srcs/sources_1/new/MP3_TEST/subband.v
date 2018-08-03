@@ -30,20 +30,147 @@ module subband (
 	oddBlock,
 	
 	test_index,
-	test_output
+	test_output,
+
+	mult0A,
+	mult0B,
+	mult0_out,
+
+	mult1A,
+	mult1B,
+	mult1_out,
+
+	mult2A,
+	mult2B,
+	mult2_out,
+		
+	mult3A,
+	mult3B,
+	mult3_out,
+		
+	mult4A,
+	mult4B,
+	mult4_out,
+		
+	mult5A,
+	mult5B,
+	mult5_out,
+		
+	mult6A,
+	mult6B,
+	mult6_out,
+		
+	mult7A,
+	mult7B,
+	mult7_out,
+		
+	mult8A,
+	mult8B,
+	mult8_out,
+		
+	mult9A,
+	mult9B,
+	mult9_out,
+		
+	mult10A,
+	mult10B,
+	mult10_out,
+		
+	mult11A,
+	mult11B,
+	mult11_out,
+		
+	mult12A,
+	mult12B,
+	mult12_out,
+		
+	mult13A,
+	mult13B,
+	mult13_out,
+		
+	mult14A,
+	mult14B,
+	mult14_out,
+		
+	mult15A,
+	mult15B,
+	mult15_out,
 );
 
 input CLK;
 input RST_n;
-input [31:0] gb;
+input  gb;
 input [31:0] offset;
-input [31:0] oddBlock;
+input  oddBlock;
 
 input [31:0] test_index;
 output [31:0] test_output;
 reg [31:0] test_output_reg;
 assign test_output = test_output_reg;
 
+	output [31:0] mult0A,
+	output [31:0] mult0B,
+	input [64:0] mult0_out,
+
+	output [31:0] mult1A,
+	output [31:0] mult1B,
+	input [64:0] mult1_out,
+
+	output [31:0] mult2A,
+	output [31:0] mult2B,
+	input [64:0] mult2_out,
+		
+	output [31:0] mult3A,
+	output [31:0] mult3B,
+	input [64:0] mult3_out,
+		
+	output [31:0] mult4A,
+	output [31:0] mult4B,
+	input [64:0] mult4_out,
+		
+	output [31:0] mult5A,
+	output [31:0] mult5B,
+	input [64:0] mult5_out,
+		
+	output [31:0] mult6A,
+	output [31:0] mult6B,
+	input [64:0] mult6_out,
+		
+	output [31:0] mult7A,
+	output [31:0] mult7B,
+	input [64:0] mult7_out,
+		
+	output [31:0] mult8A,
+	output [31:0] mult8B,
+	input [64:0] mult8_out,
+		
+	output [31:0] mult9A,
+	output [31:0] mult9B,
+	input [64:0] mult9_out,
+		
+	output [31:0] mult10A,
+	output [31:0] mult10B,
+	input [64:0] mult10_out,
+		
+	output [31:0] mult11A,
+	output [31:0] mult11B,
+	input [64:0] mult11_out,
+		
+	output [31:0] mult12A,
+	output [31:0] mult12B,
+	input [64:0] mult12_out,
+		
+	output [31:0] mult13A,
+	output [31:0] mult13B,
+	input [64:0] mult13_out,
+		
+	output [31:0] mult14A,
+	output [31:0] mult14B,
+	input [64:0] mult14_out,
+		
+	output [31:0] mult15A,
+	output [31:0] mult15B,
+	input [64:0] mult15_out,
 
 //reg [31:0] polyCoef1[0:264] = {
 //	/* shuffled vs. original from 0, 1, ... 15 to 0, 15, 2, 13, ... 14, 1 */
