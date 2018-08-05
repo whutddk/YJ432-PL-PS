@@ -214,7 +214,7 @@ integer VBUF_LENGTH = 1088;
 
 reg [31:0] buff[0:31];
 
-reg [31:0] vbuf[0:2176];
+//reg [31:0] vbuf[0:2176];
 
 reg [7:0] subband_clk_cnt = 8'd0;
 
@@ -233,10 +233,10 @@ reg [31:0] a5[0:3];
 reg [31:0] a6[0:3];
 reg [31:0] a7[0:3];
 
-reg [63:0] sum1L[0:16];
-reg [63:0] sum1R[0:16];
-reg [63:0] sum2L[0:14];
-reg [63:0] sum2R[0:14];
+// reg [63:0] sum1L[0:16];
+// reg [63:0] sum1R[0:16];
+// reg [63:0] sum2L[0:14];
+// reg [63:0] sum2R[0:14];
 
 //D32FP
 always@(posedge CLK or negedge RST_n)
