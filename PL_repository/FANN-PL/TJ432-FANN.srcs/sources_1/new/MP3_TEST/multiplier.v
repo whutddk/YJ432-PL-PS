@@ -22,7 +22,7 @@
 module multiplier(
 	multA,
 	multB,
-	mult_out,
+	mult_out
 
 );
 
