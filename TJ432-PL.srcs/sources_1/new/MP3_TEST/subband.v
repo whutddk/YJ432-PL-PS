@@ -94,7 +94,11 @@ module subband (
 		
 	mult15A,
 	mult15B,
-	mult15_out
+	mult15_out,
+
+	//ram operate
+	Ram_addr,
+	Ram_data,
 );
 
 input CLK;
@@ -106,6 +110,12 @@ input  oddBlock;
 input [31:0] test_index;
 output [31:0] test_output;
 reg [31:0] test_output_reg;
+
+//one cycle to wirte,2cycle to read
+reg [11:0] Ram_addr;
+reg [31:0] Ram_data;
+
+
 assign test_output = test_output_reg;
 
 	output reg [31:0] mult0A;
