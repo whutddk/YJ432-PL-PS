@@ -177,22 +177,26 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 		a0 = buf[0]; 	    a7 = buf[7];		a3 = buf[3];	    a4 = buf[4];
 		b0 = a0 + a7;	    b7 = MULSHIFT32(*cptr++, a0 - a7) << 1;
 		b3 = a3 + a4;	    b4 = MULSHIFT32(*cptr++, a3 - a4) << 3;
+
 		a0 = b0 + b3;	    a3 = MULSHIFT32(*cptr,   b0 - b3) << 1;
 		a4 = b4 + b7;		a7 = MULSHIFT32(*cptr++, b7 - b4) << 1;
 
 		a1 = buf[1];	    a6 = buf[6];	    a2 = buf[2];	    a5 = buf[5];
 		b1 = a1 + a6;	    b6 = MULSHIFT32(*cptr++, a1 - a6) << 1;
 		b2 = a2 + a5;	    b5 = MULSHIFT32(*cptr++, a2 - a5) << 1;
+
 		a1 = b1 + b2;		a2 = MULSHIFT32(*cptr,   b1 - b2) << 2;
 		a5 = b5 + b6;	    a6 = MULSHIFT32(*cptr++, b6 - b5) << 2;
 
 		b0 = a0 + a1;	    b1 = MULSHIFT32(COS4_0, a0 - a1) << 1;
 		b2 = a2 + a3;	    b3 = MULSHIFT32(COS4_0, a3 - a2) << 1;
+
 		buf[0] = b0;	    buf[1] = b1;
 		buf[2] = b2 + b3;	buf[3] = b3;
 
 		b4 = a4 + a5;	    b5 = MULSHIFT32(COS4_0, a4 - a5) << 1;
 		b6 = a6 + a7;	    b7 = MULSHIFT32(COS4_0, a7 - a6) << 1;
+
 		b6 += b7;
 		buf[4] = b4 + b6;	buf[5] = b5 + b7;
 		buf[6] = b5 + b6;	buf[7] = b7;
@@ -271,12 +275,14 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);
 	
 		d = dest + offset + (oddBlock ? VBUF_LENGTH  : 0);
-		for (i = 16; i <= 31; i++) {
+		for (i = 16; i <= 31; i++) 
+		{
 			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
 		}
 
 		d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
-		for (i = 15; i >= 0; i--) {
+		for (i = 15; i >= 0; i--) 
+		{
 			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
 		}
 	}
