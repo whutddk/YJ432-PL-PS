@@ -175,44 +175,6 @@ output reg [31:0] mult15A;
 output reg [31:0] mult15B;
 input [64:0] mult15_out;
 
-//reg [31:0] polyCoef1[0:264] = {
-//	/* shuffled vs. original from 0, 1, ... 15 to 0, 15, 2, 13, ... 14, 1 */
-//	32'h00000000, 32'h00000074, 32'h00000354, 32'h0000072c, 32'h00001fd4, 32'h00005084, 32'h000066b8, 32'h000249c4,
-//	32'h00049478, 32'hfffdb63c, 32'h000066b8, 32'hffffaf7c, 32'h00001fd4, 32'hfffff8d4, 32'h00000354, 32'hffffff8c,
-//	32'hfffffffc, 32'h00000068, 32'h00000368, 32'h00000644, 32'h00001f40, 32'h00004ad0, 32'h00005d1c, 32'h00022ce0,
-//	32'h000493c0, 32'hfffd9960, 32'h00006f78, 32'hffffa9cc, 32'h0000203c, 32'hfffff7e4, 32'h00000340, 32'hffffff84,
-//	32'hfffffffc, 32'h00000060, 32'h00000378, 32'h0000056c, 32'h00001e80, 32'h00004524, 32'h000052a0, 32'h00020ffc,
-//	32'h000491a0, 32'hfffd7ca0, 32'h00007760, 32'hffffa424, 32'h00002080, 32'hfffff6ec, 32'h00000328, 32'hffffff74,
-//	32'hfffffffc, 32'h00000054, 32'h00000384, 32'h00000498, 32'h00001d94, 32'h00003f7c, 32'h00004744, 32'h0001f32c,
-//	32'h00048e18, 32'hfffd6008, 32'h00007e70, 32'hffff9e8c, 32'h0000209c, 32'hfffff5ec, 32'h00000310, 32'hffffff68,
-//	32'hfffffffc, 32'h0000004c, 32'h0000038c, 32'h000003d0, 32'h00001c78, 32'h000039e4, 32'h00003b00, 32'h0001d680,
-//	32'h00048924, 32'hfffd43ac, 32'h000084b0, 32'hffff990c, 32'h00002094, 32'hfffff4e4, 32'h000002f8, 32'hffffff5c,
-//	32'hfffffffc, 32'h00000044, 32'h00000390, 32'h00000314, 32'h00001b2c, 32'h0000345c, 32'h00002ddc, 32'h0001ba04,
-//	32'h000482d0, 32'hfffd279c, 32'h00008a20, 32'hffff93a4, 32'h0000206c, 32'hfffff3d4, 32'h000002dc, 32'hffffff4c,
-//	32'hfffffffc, 32'h00000040, 32'h00000390, 32'h00000264, 32'h000019b0, 32'h00002ef0, 32'h00001fd4, 32'h00019dc8,
-//	32'h00047b1c, 32'hfffd0be8, 32'h00008ecc, 32'hffff8e64, 32'h00002024, 32'hfffff2c0, 32'h000002c0, 32'hffffff3c,
-//	32'hfffffff8, 32'h00000038, 32'h0000038c, 32'h000001bc, 32'h000017fc, 32'h0000299c, 32'h000010e8, 32'h000181d8,
-//	32'h0004720c, 32'hfffcf09c, 32'h000092b4, 32'hffff894c, 32'h00001fc0, 32'hfffff1a4, 32'h000002a4, 32'hffffff2c,
-//	32'hfffffff8, 32'h00000034, 32'h00000380, 32'h00000120, 32'h00001618, 32'h00002468, 32'h00000118, 32'h00016644,
-//	32'h000467a4, 32'hfffcd5cc, 32'h000095e0, 32'hffff8468, 32'h00001f44, 32'hfffff084, 32'h00000284, 32'hffffff18,
-//	32'hfffffff8, 32'h0000002c, 32'h00000374, 32'h00000090, 32'h00001400, 32'h00001f58, 32'hfffff068, 32'h00014b14,
-//	32'h00045bf0, 32'hfffcbb88, 32'h00009858, 32'hffff7fbc, 32'h00001ea8, 32'hffffef60, 32'h00000268, 32'hffffff04,
-//	32'hfffffff8, 32'h00000028, 32'h0000035c, 32'h00000008, 32'h000011ac, 32'h00001a70, 32'hffffded8, 32'h00013058,
-//	32'h00044ef8, 32'hfffca1d8, 32'h00009a1c, 32'hffff7b54, 32'h00001dfc, 32'hffffee3c, 32'h0000024c, 32'hfffffef0,
-//	32'hfffffff4, 32'h00000024, 32'h00000340, 32'hffffff8c, 32'h00000f28, 32'h000015b0, 32'hffffcc70, 32'h0001161c,
-//	32'h000440bc, 32'hfffc88d8, 32'h00009b3c, 32'hffff7734, 32'h00001d38, 32'hffffed18, 32'h0000022c, 32'hfffffedc,
-//	32'hfffffff4, 32'h00000020, 32'h00000320, 32'hffffff1c, 32'h00000c68, 32'h0000111c, 32'hffffb92c, 32'h0000fc6c,
-//	32'h00043150, 32'hfffc708c, 32'h00009bb8, 32'hffff7368, 32'h00001c64, 32'hffffebf4, 32'h00000210, 32'hfffffec4,
-//	32'hfffffff0, 32'h0000001c, 32'h000002f4, 32'hfffffeb4, 32'h00000974, 32'h00000cb8, 32'hffffa518, 32'h0000e350,
-//	32'h000420b4, 32'hfffc5908, 32'h00009b9c, 32'hffff6ff4, 32'h00001b7c, 32'hffffead0, 32'h000001f4, 32'hfffffeac,
-//	32'hfffffff0, 32'h0000001c, 32'h000002c4, 32'hfffffe58, 32'h00000648, 32'h00000884, 32'hffff9038, 32'h0000cad0,
-//	32'h00040ef8, 32'hfffc425c, 32'h00009af0, 32'hffff6ce0, 32'h00001a88, 32'hffffe9b0, 32'h000001d4, 32'hfffffe94,
-//	32'hffffffec, 32'h00000018, 32'h0000028c, 32'hfffffe04, 32'h000002e4, 32'h00000480, 32'hffff7a90, 32'h0000b2fc,
-//	32'h0003fc28, 32'hfffc2c90, 32'h000099b8, 32'hffff6a3c, 32'h00001988, 32'hffffe898, 32'h000001bc, 32'hfffffe7c,
-//	32'h000001a0, 32'h0000187c, 32'h000097fc, 32'h0003e84c, 32'hffff6424, 32'hffffff4c, 32'h00000248, 32'hffffffec
-//};
-//parameter polyCoef[0] = 32'h00000000;
-
 integer VBUF_LENGTH = 1088;
 
 wire [11:0] odd_plus;
@@ -328,6 +290,43 @@ if ( !RST_n ) begin
 	a7[2] <= 32'd0;
 	a7[3] <= 32'd0;
 
+	Ram_addrA <= 12'd0;
+	Ram_addrB <= 12'd0;
+	Ram_data <= 32'd0;
+
+
+	mult0A <= 32'd0;
+	mult0B <= 32'd0;
+	mult1A <= 32'd0;
+	mult1B <= 32'd0;
+	mult2A <= 32'd0;
+	mult2B <= 32'd0;
+	mult3A <= 32'd0;
+	mult3B <= 32'd0;
+	mult4A <= 32'd0;
+	mult4B <= 32'd0;
+	mult5A <= 32'd0;
+	mult5B <= 32'd0;	
+	mult6A <= 32'd0;
+	mult6B <= 32'd0;
+	mult7A <= 32'd0; 
+	mult7B <= 32'd0;
+	mult8A <= 32'd0;
+	mult8B <= 32'd0;
+	mult9A <= 32'd0;
+	mult9B <= 32'd0;
+	mult10A <= 32'd0;
+	mult10B <= 32'd0;
+	mult11A <= 32'd0;
+	mult11B <= 32'd0;
+	mult12A <= 32'd0;
+	mult12B <= 32'd0;
+	mult13A <= 32'd0;
+	mult13B <= 32'd0;
+	mult14A <= 32'd0;
+	mult14B <= 32'd0;
+	mult15A <= 32'd0;
+	mult15B <= 32'd0;
 
 end
 else begin
@@ -408,6 +407,44 @@ else begin
 	a7[1] <= a7[1];
 	a7[2] <= a7[2];
 	a7[3] <= a7[3];
+
+	Ram_addrA <= Ram_addrA;
+	Ram_addrB <= Ram_addrB;
+	Ram_data <= Ram_data;
+
+
+	mult0A <= mult0A;
+	mult0B <= mult0B;
+	mult1A <= mult1A;
+	mult1B <= mult1B;
+	mult2A <= mult2A;
+	mult2B <= mult2B;
+	mult3A <= mult3A;
+	mult3B <= mult3B;
+	mult4A <= mult4A;
+	mult4B <= mult4B;
+	mult5A <= mult5A;
+	mult5B <= mult5B;	
+	mult6A <= mult6A;
+	mult6B <= mult6B;
+	mult7A <= mult7A; 
+	mult7B <= mult7B;
+	mult8A <= mult8A;
+	mult8B <= mult8B;
+	mult9A <= mult9A;
+	mult9B <= mult9B;
+	mult10A <= mult10A;
+	mult10B <= mult10B;
+	mult11A <= mult11A;
+	mult11B <= mult11B;
+	mult12A <= mult12A;
+	mult12B <= mult12B;
+	mult13A <= mult13A;
+	mult13B <= mult13B;
+	mult14A <= mult14A;
+	mult14B <= mult14B;
+	mult15A <= mult15A;
+	mult15B <= mult15B;
 
 	if ( subband_clk_cnt == 8'd0 ) begin
 		b0[0] <= buff[0] + buff[31];
