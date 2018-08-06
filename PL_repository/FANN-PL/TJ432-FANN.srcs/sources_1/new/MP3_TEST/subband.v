@@ -1002,8 +1002,8 @@ else begin
 	else if ( subband_clk_cnt == 8'd11 ) begin
 		/* sample 0 - always delayed one block */
 
-		Ram_addrA <= 0 + 64*16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
-		Ram_addrB <= 8 + 64*16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_addrA <= 12'd1024 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_addrB <= 12'd1024 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
 		Ram_data <= buff[ 0];
 
 	end // else if ( subband_clk_cnt == 8'd11 )
@@ -1013,105 +1013,105 @@ else begin
 
 	/* samples 16 to 31 */
 
-		Ram_addrA <= 0 + offset + odd_plus[11:0];
-		Ram_addrB <= 8 + offset + odd_plus[11:0];
+		Ram_addrA <= offset + odd_plus[11:0];
+		Ram_addrB <= 12'd8 + offset + odd_plus[11:0];
 		Ram_data <= buff[ 1];	
 	end // else if ( subband_clk_cnt == 8'd12 )
 
 	else if ( subband_clk_cnt == 8'd13 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd64;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd64;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd64;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd72;
 		Ram_data <= buff[17] + buff[25] + buff[29];
 
 	end // else if ( subband_clk_cnt == 8'd13 )
 
 	else if ( subband_clk_cnt == 8'd14 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd128;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd128;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd128;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd136;
 		Ram_data <= buff[ 9] + buff[13];
 	
 	end // else if ( subband_clk_cnt == 8'd14 )
 
 	else if ( subband_clk_cnt == 8'd15 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd192;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd192;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd192;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd200;
 		Ram_data <= buff[21] + buff[25] + buff[29];
 	end // else if ( subband_clk_cnt == 8'd15 )
 
 	else if ( subband_clk_cnt == 8'd16 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd256;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd256;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd256;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd264;
 		Ram_data <= buff[ 5];
 
 	end // else if ( subband_clk_cnt == 8'd16 )
 
 	else if ( subband_clk_cnt == 8'd17 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd320;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd320;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd320;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd328;
 		Ram_data <= buff[21] + buff[29] + buff[27];
 	end // else if ( subband_clk_cnt == 8'd17 )
 
 	else if ( subband_clk_cnt == 8'd18 ) begin
-		Ram_addrA <= 0 + offset + odd_plus[11:0] + 12'd384;
-		Ram_addrB <= 8 + offset + odd_plus[11:0] + 12'd384; 
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd384;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd392; 
 		Ram_data <= buff[13] + buff[11];
 	end // else if ( subband_clk_cnt == 8'd18 )
 
 	else if ( subband_clk_cnt == 8'd19 ) begin		
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd448;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd448;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd448;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd456;
 		Ram_data <= buff[19] + buff[29] + buff[27];	
 
 	end // else if ( subband_clk_cnt == 8'd19 )
 
 	else if ( subband_clk_cnt == 8'd20 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd512;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd512;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd512;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd520;
 		Ram_data <= buff[ 3];		
 	end // else if ( subband_clk_cnt == 8'd20 )
 
 	else if ( subband_clk_cnt == 8'd21 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd576;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd576;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd576;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd584;
 		Ram_data <= buff[19] + buff[27] + buff[31];	
 	end // else if ( subband_clk_cnt == 8'd21 )
 
 	else if ( subband_clk_cnt == 8'd22 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd640;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd640;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd640;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd648;
 		Ram_data <= buff[11] + buff[15];	
 
 	end // else if ( subband_clk_cnt == 8'd22 )
 
 	else if ( subband_clk_cnt == 8'd23 ) begin
 
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd704;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd704;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd704;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd712;
 		Ram_data <= buff[23] + buff[27] + buff[31];	
 	end // else if ( subband_clk_cnt == 8'd23 )
 
 	else if ( subband_clk_cnt == 8'd24 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd768;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd768;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd768;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd776;
 		Ram_data <= buff[ 7];	
 
 	end // else if ( subband_clk_cnt == 8'd24 )
 
 	else if ( subband_clk_cnt == 8'd25 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd832;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd832; 
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd832;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd840; 
 		Ram_data <= buff[23] + buff[31];	
 	end // else if ( subband_clk_cnt == 8'd25 )
 
 	else if ( subband_clk_cnt == 8'd26 ) begin
-		Ram_addrA <= 0+ offset + odd_plus[11:0] + 12'd896;
-		Ram_addrB <= 8+ offset + odd_plus[11:0] + 12'd896;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd896;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd904;
 		Ram_data <= buff[15];	
 	end // else if ( subband_clk_cnt == 8'd26 )
 
 	else if ( subband_clk_cnt == 8'd27 ) begin
-		Ram_addrA <= 0 + offset + odd_plus[11:0] + 12'd960;
-		Ram_addrB <= 8 + offset + odd_plus[11:0] + 12'd960;
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd960;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd968;
 		Ram_data <= buff[31];
 
 	end // else if ( subband_clk_cnt == 8'd27 )
@@ -1120,104 +1120,104 @@ else begin
 	/* samples 16 to 1 (sample 16 used again) */
 		
 	else if ( subband_clk_cnt == 8'd28 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_addrA <= 12'd16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_addrB <= 12'd24 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
 		Ram_data <= buff[ 1];	
 
 	end // else if ( subband_clk_cnt == 8'd28 )			
 
 	else if ( subband_clk_cnt == 8'd29 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd64;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd64; 
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd80;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd88; 
 		Ram_data <= buff[17] + buff[30] + buff[25];	
 	end
 
 	else if ( subband_clk_cnt == 8'd30 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd128;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd128;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd144;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd152;
 		Ram_data <= buff[14] + buff[ 9];	
 	end // else if ( subband_clk_cnt == 8'd30 )
 
 	else if ( subband_clk_cnt == 8'd31 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd192;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd192;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd208;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd216;
 		Ram_data <= buff[22] + buff[30] + buff[25];	
 
 	end // else if ( subband_clk_cnt == 8'd31 )
 
 	else if ( subband_clk_cnt == 8'd32 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd256;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd256; 
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd272;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd280; 
 		Ram_data <= buff[ 6];
 
 	end // else if ( subband_clk_cnt == 8'd32 )
 		
 	else if ( subband_clk_cnt == 8'd33 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd320;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd320; 
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd336;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd344; 
 		Ram_data <= buff[22] + buff[26] + buff[30];	
 	end // else if ( subband_clk_cnt == 8'd33 )
 			
 	else if ( subband_clk_cnt == 8'd34 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd384;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd384;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd400;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd408;
 		Ram_data <= buff[10] + buff[14];	
 
 	end // else if ( subband_clk_cnt == 8'd34 )
 		
 	else if ( subband_clk_cnt == 8'd35 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd448;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd448; 
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd464;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd472; 
 		Ram_data <= buff[18] + buff[26] + buff[30];	
 
 	end // else if ( subband_clk_cnt == 8'd35 )
 	
 	else if ( subband_clk_cnt == 8'd36 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd512; 
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd512; 
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd528; 
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd536; 
 		Ram_data <= buff[ 2];
 	end // else if ( subband_clk_cnt == 8'd36 )
 		
 	else if ( subband_clk_cnt == 8'd37 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd576;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd576;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd592;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd600;
 		Ram_data <= buff[18] + buff[28] + buff[26];	
 	end // else if ( subband_clk_cnt == 8'd37 )
 
 	else if ( subband_clk_cnt == 8'd38 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd640;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd640;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd656;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd664;
 		Ram_data <= buff[12] + buff[10];	
 	end // else if ( subband_clk_cnt == 8'd38 )
 
 	else if ( subband_clk_cnt == 8'd39 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd704;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd704;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd720;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd728;
 		Ram_data <= buff[20] + buff[28] + buff[26];	
 	end // else if ( subband_clk_cnt == 8'd39 )
 
 	else if ( subband_clk_cnt == 8'd40 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd768;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd768;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd784;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd792;
 		Ram_data <= buff[ 4];	
 	end // else if ( subband_clk_cnt == 8'd40 )
 
 	else if ( subband_clk_cnt == 8'd41 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd832;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd832;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd848;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd856;
 		Ram_data <= buff[20] + buff[24] + buff[28];	
 	end // else if ( subband_clk_cnt == 8'd41 )
 
 	else if ( subband_clk_cnt == 8'd42 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd896;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd896;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd912;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd920;
 		Ram_data <= buff[ 8] + buff[12];		
 
 	end // else if ( subband_clk_cnt == 8'd42 )
 
 	else if ( subband_clk_cnt == 8'd43 ) begin
-		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd960;
-		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd960;
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd976;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd984;
 		Ram_data <= buff[16] + buff[24] + buff[28];
 	end // else if ( subband_clk_cnt == 8'd43 )
 
