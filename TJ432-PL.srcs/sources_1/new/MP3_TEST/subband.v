@@ -97,8 +97,11 @@ module subband (
 	mult15_out,
 
 	//ram operate
-	Ram_addr,
-	Ram_data,
+	Ram_addrA,
+	Ram_dataA,
+
+	Ram_addrB,
+	Ram_dataB
 );
 
 input CLK;
@@ -112,9 +115,11 @@ output [31:0] test_output;
 reg [31:0] test_output_reg;
 
 //one cycle to wirte,2cycle to read
-reg [11:0] Ram_addr;
-reg [31:0] Ram_data;
+reg [11:0] Ram_addrA;
+reg [31:0] Ram_dataA;
 
+reg [11:0] Ram_addrB;
+reg [31:0] Ram_dataB;
 
 assign test_output = test_output_reg;
 
@@ -827,177 +832,261 @@ else begin
 
 	else if ( subband_clk_cnt == 8'd11 ) begin
 		/* sample 0 - always delayed one block */
-	vbuf[0 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 0];
-	vbuf[8 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 0];
+
+		Ram_addrA <= 0 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+		Ram_dataA <= buff[ 0];
+
+		Ram_addrB <= 8 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+		Ram_dataB <= buff[ 0];
+
+	end // else if ( subband_clk_cnt == 8'd11 )
+
+	else if ( subband_clk_cnt == 8'd12 ) begin
+	
 
 	/* samples 16 to 31 */
 
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)] 
-	<= buff[ 1];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)] 
-	<= buff[ 1];	
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0);
+		Ram_dataA <= buff[ 1];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0);
+		Ram_dataB <= buff[ 1];	
+	end // else if ( subband_clk_cnt == 8'd12 )
 
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64] 
-	<=buff[17] + buff[25] + buff[29];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64] 
-	<= buff[17] + buff[25] + buff[29];
+	else if ( subband_clk_cnt == 8'd13 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64;
+		Ram_dataA <= buff[17] + buff[25] + buff[29];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64;
+		Ram_dataB <= buff[17] + buff[25] + buff[29];
 
+	end // else if ( subband_clk_cnt == 8'd13 )
+
+	else if ( subband_clk_cnt == 8'd14 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*2;
+		Ram_dataA <= buff[ 9] + buff[13];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*2;
+		Ram_dataB <= buff[ 9] + buff[13];
 	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*2] 
-	<= buff[ 9] + buff[13];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*2] 
-	<= buff[ 9] + buff[13];
-	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*3] 
-	<= buff[21] + buff[25] + buff[29];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*3] 
-	<= buff[21] + buff[25] + buff[29];
+	end // else if ( subband_clk_cnt == 8'd14 )
 
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*4] 
-	<= buff[ 5];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*4] 
-	<= buff[ 5];
-	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*5] 
-	<= buff[21] + buff[29] + buff[27];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*5] 
-	<= buff[21] + buff[29] + buff[27];
+	else if ( subband_clk_cnt == 8'd15 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*3;
+		Ram_dataA <= buff[21] + buff[25] + buff[29];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*3;
+		Ram_dataB <= buff[21] + buff[25] + buff[29];
+	end // else if ( subband_clk_cnt == 8'd15 )
 
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*6] 
-	<= buff[13] + buff[11];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*6] 
-	<= buff[13] + buff[11];
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*7] 
-	<= buff[19] + buff[29] + buff[27];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*7] 
-	<= buff[19] + buff[29] + buff[27];	
+	else if ( subband_clk_cnt == 8'd16 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*4;
+		Ram_dataA <= buff[ 5];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*4;
+		Ram_dataB <= buff[ 5];
+
+	end // else if ( subband_clk_cnt == 8'd16 )
+
+	else if ( subband_clk_cnt == 8'd17 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*5;
+		Ram_dataA <= buff[21] + buff[29] + buff[27];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*5;
+		Ram_dataB <= buff[21] + buff[29] + buff[27];
+	end // else if ( subband_clk_cnt == 8'd17 )
+
+	else if ( subband_clk_cnt == 8'd18 ) begin
+		Ram_addrA <= 0 + offset + (oddBlock ? VBUF_LENGTH  : 0)+64*6;
+		Ram_dataA <= buff[13] + buff[11];
+		Ram_addrB <= 8 + offset + (oddBlock ? VBUF_LENGTH  : 0)+64*6; 
+		Ram_dataB <= buff[13] + buff[11];
+	end // else if ( subband_clk_cnt == 8'd18 )
+
+	else if ( subband_clk_cnt == 8'd19 ) begin		
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*7;
+		Ram_dataA <= buff[19] + buff[29] + buff[27];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*7;
+		Ram_dataB <= buff[19] + buff[29] + buff[27];	
+
+	end // else if ( subband_clk_cnt == 8'd19 )
 			
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*8] 
-	<= buff[ 3];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*8] 
-	<= buff[ 3];	
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*9] 
-	<= buff[19] + buff[27] + buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*9] 
-	<= buff[19] + buff[27] + buff[31];	
+	else if ( subband_clk_cnt == 8'd20 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*8;
+		Ram_dataA <= buff[ 3];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*8;
+		Ram_dataB <= buff[ 3];		
+	end // else if ( subband_clk_cnt == 8'd20 )
 
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*10] 
-	<= buff[11] + buff[15];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*10] 
-	<= buff[11] + buff[15];	
+	else if ( subband_clk_cnt == 8'd21 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*9;
+		Ram_dataA <=buff[19] + buff[27] + buff[31];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*9;
+		Ram_dataB <= buff[19] + buff[27] + buff[31];	
+	end // else if ( subband_clk_cnt == 8'd21 )
 
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*11] 
-	<= buff[23] + buff[27] + buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*11] 
-	<= buff[23] + buff[27] + buff[31];	
+	else if ( subband_clk_cnt == 8'd22 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*10;
+		Ram_dataA <= buff[11] + buff[15];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*10;
+		Ram_dataB <= buff[11] + buff[15];	
 
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*12] 
-	<= buff[ 7];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*12] 
-	<= buff[ 7];	
+	end // else if ( subband_clk_cnt == 8'd22 )
+
+	else if ( subband_clk_cnt == 8'd23 ) begin
+
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*11;
+		Ram_dataA <= buff[23] + buff[27] + buff[31];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*11;
+		Ram_dataB <= buff[23] + buff[27] + buff[31];	
+	end // else if ( subband_clk_cnt == 8'd23 )
+
+	else if ( subband_clk_cnt == 8'd24 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*12;
+		Ram_dataA <= buff[ 7];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*12;
+		Ram_dataB <= buff[ 7];	
+
+	end // else if ( subband_clk_cnt == 8'd24 )
+
+	else if ( subband_clk_cnt == 8'd25 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*13;
+		Ram_dataA <= buff[23] + buff[31];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*13; 
+		Ram_dataB <= buff[23] + buff[31];	
+	end // else if ( subband_clk_cnt == 8'd25 )
 	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*13] 
-	<= buff[23] + buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*13] 
-	<= buff[23] + buff[31];	
+	else if ( subband_clk_cnt == 8'd26 ) begin
+		Ram_addrA <= 0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*14;
+		Ram_dataA <= buff[15];
+		Ram_addrB <= 8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*14;
+		Ram_dataB <= buff[15];	
+	end // else if ( subband_clk_cnt == 8'd26 )
 		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*14] 
-	<= buff[15];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*14] 
-	<= buff[15];	
-			
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*15] 
-	<= buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*15] 
-	<= buff[31];
+	else if ( subband_clk_cnt == 8'd27 ) begin
+		Ram_addrA <= 0 + offset + (oddBlock ? VBUF_LENGTH  : 0)+64*15;
+		Ram_dataA <= buff[31];
+		Ram_addrB <= 8 + offset + (oddBlock ? VBUF_LENGTH  : 0)+64*15;
+		Ram_dataB <= buff[31];
 
+	end // else if ( subband_clk_cnt == 8'd27 )
+			
 
 	/* samples 16 to 1 (sample 16 used again) */
-				
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 1];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 1];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1] 
-	<= buff[17] + buff[30] + buff[25];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1] 
-	<= buff[17] + buff[30] + buff[25];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2] 
-	<= buff[14] + buff[ 9];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2] 
-	<= buff[14] + buff[ 9];	
 		
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3] 
-	<= buff[22] + buff[30] + buff[25];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3] 
-	<= buff[22] + buff[30] + buff[25];	
+	else if ( subband_clk_cnt == 8'd28 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+		Ram_dataA <= buff[ 1];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+		Ram_dataB <= buff[ 1];	
+
+	end // else if ( subband_clk_cnt == 8'd28 )			
+
+	else if ( subband_clk_cnt == 8'd29 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1;
+		Ram_dataA <= buff[17] + buff[30] + buff[25];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1; 
+		Ram_dataB <= buff[17] + buff[30] + buff[25];	
+	end
+
+	else if ( subband_clk_cnt == 8'd30 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2;
+		Ram_dataA <= buff[14] + buff[ 9];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2;
+		Ram_dataB <= buff[14] + buff[ 9];	
+	end // else if ( subband_clk_cnt == 8'd30 )
+
+	else if ( subband_clk_cnt == 8'd31 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3;
+		Ram_dataA <= buff[22] + buff[30] + buff[25];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3;
+		Ram_dataB <= buff[22] + buff[30] + buff[25];	
+
+	end // else if ( subband_clk_cnt == 8'd31 )
+
+	else if ( subband_clk_cnt == 8'd32 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4;
+		Ram_dataA <= buff[ 6];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4; 
+		Ram_dataB <= buff[ 6];
+
+	end // else if ( subband_clk_cnt == 8'd32 )
+		
+	else if ( subband_clk_cnt == 8'd33 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5;
+		Ram_dataA <= buff[22] + buff[26] + buff[30];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5; 
+		Ram_dataB <= buff[22] + buff[26] + buff[30];	
+	end // else if ( subband_clk_cnt == 8'd33 )
 			
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4] 
-	<= buff[ 6];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4] 
-	<= buff[ 6];
+	else if ( subband_clk_cnt == 8'd34 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6;
+		Ram_dataA <= buff[10] + buff[14];	
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6;
+		Ram_dataB <= buff[10] + buff[14];	
+
+	end // else if ( subband_clk_cnt == 8'd34 )
 		
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5] 
-	<= buff[22] + buff[26] + buff[30];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5] 
-	<= buff[22] + buff[26] + buff[30];	
+	else if ( subband_clk_cnt == 8'd35 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7;
+		Ram_dataA <= buff[18] + buff[26] + buff[30];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7; 
+		Ram_dataB <= buff[18] + buff[26] + buff[30];	
+
+	end // else if ( subband_clk_cnt == 8'd35 )
 	
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6] 
-	<= buff[10] + buff[14];	
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6] 
-	<= buff[10] + buff[14];	
+	else if ( subband_clk_cnt == 8'd36 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8; 
+		Ram_dataA <= buff[ 2];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8; 
+		Ram_dataB <= buff[ 2];
+	end // else if ( subband_clk_cnt == 8'd36 )
 		
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7] 
-	<= buff[18] + buff[26] + buff[30];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7] 
-	<= buff[18] + buff[26] + buff[30];	
+	else if ( subband_clk_cnt == 8'd37 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9;
+		Ram_dataA <= buff[18] + buff[28] + buff[26];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9;
+		Ram_dataB <= buff[18] + buff[28] + buff[26];	
+	end // else if ( subband_clk_cnt == 8'd37 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8] 
-	<= buff[ 2];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8] 
-	<= buff[ 2];	
+	else if ( subband_clk_cnt == 8'd38 ) begin
+	Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10;
+	Ram_dataA <= buff[12] + buff[10];	
+	Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10;
+	Ram_dataB <= buff[12] + buff[10];	
+	end // else if ( subband_clk_cnt == 8'd38 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9] 
-	<= buff[18] + buff[28] + buff[26];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9] 
-	<= buff[18] + buff[28] + buff[26];	
+	else if ( subband_clk_cnt == 8'd39 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11;
+		Ram_dataA <= buff[20] + buff[28] + buff[26];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11;
+		Ram_dataB <= buff[20] + buff[28] + buff[26];	
+	end // else if ( subband_clk_cnt == 8'd39 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10] 
-	<= buff[12] + buff[10];	
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10] 
-	<= buff[12] + buff[10];	
+	else if ( subband_clk_cnt == 8'd40 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12;
+		Ram_dataA <= buff[ 4];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12;
+		Ram_dataB <= buff[ 4];	
+	end // else if ( subband_clk_cnt == 8'd40 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11] 
-	<= buff[20] + buff[28] + buff[26];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11] 
-	<= buff[20] + buff[28] + buff[26];	
+	else if ( subband_clk_cnt == 8'd41 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13;
+		Ram_dataA <= buff[20] + buff[24] + buff[28];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13;
+		Ram_dataB <= buff[20] + buff[24] + buff[28];	
+	end // else if ( subband_clk_cnt == 8'd41 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12] 
-	<= buff[ 4];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12] 
-	<= buff[ 4];	
+	else if ( subband_clk_cnt == 8'd42 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14;
+		Ram_dataA <= buff[ 8] + buff[12];	
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14;
+		Ram_dataB <= buff[ 8] + buff[12];		
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13] 
-	<= buff[20] + buff[24] + buff[28];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13] 
-	<= buff[20] + buff[24] + buff[28];	
+	end // else if ( subband_clk_cnt == 8'd42 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14] 
-	<= buff[ 8] + buff[12];	
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14] 
-	<= buff[ 8] + buff[12];	
+	else if ( subband_clk_cnt == 8'd43 ) begin
+		Ram_addrA <= 0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15;
+		Ram_dataA <= buff[16] + buff[24] + buff[28];
+		Ram_addrB <= 8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15;
+		Ram_dataB <= buff[16] + buff[24] + buff[28];
+	end // else if ( subband_clk_cnt == 8'd43 )
 
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15] 
-	<= buff[16] + buff[24] + buff[28];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15] 
-	<= buff[16] + buff[24] + buff[28];
+
 
 //do not realize now
 	// 	if (es) 
