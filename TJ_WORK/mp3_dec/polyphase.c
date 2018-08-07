@@ -146,6 +146,9 @@ void PolyphaseStereo(short *pcm, int *vbuf, const int *coefBase)
 	*(pcm + 1) = ClipToShort((int)SAR64(sum1R, (20)), 6);
 
 	/* special case, output sample 16 */
+	coef = coefBase + 256;
+	vb1 = vbuf + 64*16;
+	sum1L = sum1R = rndVal;
 
 	MC1S(0)
 	MC1S(1)
