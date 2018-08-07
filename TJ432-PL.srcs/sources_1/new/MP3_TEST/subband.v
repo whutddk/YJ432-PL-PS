@@ -29,9 +29,6 @@ module subband (
 	offset,
 	oddBlock,
 	
-	test_index,
-	test_output,
-
 	mult0A,
 	mult0B,
 	mult0_out,
@@ -94,7 +91,12 @@ module subband (
 		
 	mult15A,
 	mult15B,
-	mult15_out
+	mult15_out,
+
+	//ram operate
+	Ram_addrA,
+	Ram_addrB,
+	Ram_data
 );
 
 input CLK;
@@ -103,118 +105,86 @@ input  gb;
 input [31:0] offset;
 input  oddBlock;
 
-input [31:0] test_index;
-output [31:0] test_output;
-reg [31:0] test_output_reg;
-assign test_output = test_output_reg;
+//one cycle to wirte,2cycle to read
+output reg [11:0] Ram_addrA;
+output reg [11:0] Ram_addrB;
+output reg [31:0] Ram_data;
 
-	output reg [31:0] mult0A;
-	output reg [31:0] mult0B;
-	input [64:0] mult0_out;
 
-	output reg [31:0] mult1A;
-	output reg [31:0] mult1B;
-	input [64:0] mult1_out;
+output reg [31:0] mult0A;
+output reg [31:0] mult0B;
+input [63:0] mult0_out;
 
-	output reg [31:0] mult2A;
-	output reg [31:0] mult2B;
-	input [64:0] mult2_out;
-		
-	output reg [31:0] mult3A;
-	output reg [31:0] mult3B;
-	input [64:0] mult3_out;
-		
-	output reg [31:0] mult4A;
-	output reg [31:0] mult4B;
-	input [64:0] mult4_out;
-		
-	output reg [31:0] mult5A;
-	output reg [31:0] mult5B;
-	input [64:0] mult5_out;
-		
-	output reg [31:0] mult6A;
-	output reg [31:0] mult6B;
-	input [64:0] mult6_out;
-		
-	output reg [31:0] mult7A;
-	output reg [31:0] mult7B;
-	input [64:0] mult7_out;
-		
-	output reg [31:0] mult8A;
-	output reg [31:0] mult8B;
-	input [64:0] mult8_out;
-		
-	output reg [31:0] mult9A;
-	output reg [31:0] mult9B;
-	input [64:0] mult9_out;
-		
-	output reg [31:0] mult10A;
-	output reg [31:0] mult10B;
-	input [64:0] mult10_out;
-		
-	output reg [31:0] mult11A;
-	output reg [31:0] mult11B;
-	input [64:0] mult11_out;
-		
-	output reg [31:0] mult12A;
-	output reg [31:0] mult12B;
-	input [64:0] mult12_out;
-		
-	output reg [31:0] mult13A;
-	output reg [31:0] mult13B;
-	input [64:0] mult13_out;
-		
-	output reg [31:0] mult14A;
-	output reg [31:0] mult14B;
-	input [64:0] mult14_out;
-		
-	output reg [31:0] mult15A;
-	output reg [31:0] mult15B;
-	input [64:0] mult15_out;
+output reg [31:0] mult1A;
+output reg [31:0] mult1B;
+input [63:0] mult1_out;
 
-//reg [31:0] polyCoef1[0:264] = {
-//	/* shuffled vs. original from 0, 1, ... 15 to 0, 15, 2, 13, ... 14, 1 */
-//	32'h00000000, 32'h00000074, 32'h00000354, 32'h0000072c, 32'h00001fd4, 32'h00005084, 32'h000066b8, 32'h000249c4,
-//	32'h00049478, 32'hfffdb63c, 32'h000066b8, 32'hffffaf7c, 32'h00001fd4, 32'hfffff8d4, 32'h00000354, 32'hffffff8c,
-//	32'hfffffffc, 32'h00000068, 32'h00000368, 32'h00000644, 32'h00001f40, 32'h00004ad0, 32'h00005d1c, 32'h00022ce0,
-//	32'h000493c0, 32'hfffd9960, 32'h00006f78, 32'hffffa9cc, 32'h0000203c, 32'hfffff7e4, 32'h00000340, 32'hffffff84,
-//	32'hfffffffc, 32'h00000060, 32'h00000378, 32'h0000056c, 32'h00001e80, 32'h00004524, 32'h000052a0, 32'h00020ffc,
-//	32'h000491a0, 32'hfffd7ca0, 32'h00007760, 32'hffffa424, 32'h00002080, 32'hfffff6ec, 32'h00000328, 32'hffffff74,
-//	32'hfffffffc, 32'h00000054, 32'h00000384, 32'h00000498, 32'h00001d94, 32'h00003f7c, 32'h00004744, 32'h0001f32c,
-//	32'h00048e18, 32'hfffd6008, 32'h00007e70, 32'hffff9e8c, 32'h0000209c, 32'hfffff5ec, 32'h00000310, 32'hffffff68,
-//	32'hfffffffc, 32'h0000004c, 32'h0000038c, 32'h000003d0, 32'h00001c78, 32'h000039e4, 32'h00003b00, 32'h0001d680,
-//	32'h00048924, 32'hfffd43ac, 32'h000084b0, 32'hffff990c, 32'h00002094, 32'hfffff4e4, 32'h000002f8, 32'hffffff5c,
-//	32'hfffffffc, 32'h00000044, 32'h00000390, 32'h00000314, 32'h00001b2c, 32'h0000345c, 32'h00002ddc, 32'h0001ba04,
-//	32'h000482d0, 32'hfffd279c, 32'h00008a20, 32'hffff93a4, 32'h0000206c, 32'hfffff3d4, 32'h000002dc, 32'hffffff4c,
-//	32'hfffffffc, 32'h00000040, 32'h00000390, 32'h00000264, 32'h000019b0, 32'h00002ef0, 32'h00001fd4, 32'h00019dc8,
-//	32'h00047b1c, 32'hfffd0be8, 32'h00008ecc, 32'hffff8e64, 32'h00002024, 32'hfffff2c0, 32'h000002c0, 32'hffffff3c,
-//	32'hfffffff8, 32'h00000038, 32'h0000038c, 32'h000001bc, 32'h000017fc, 32'h0000299c, 32'h000010e8, 32'h000181d8,
-//	32'h0004720c, 32'hfffcf09c, 32'h000092b4, 32'hffff894c, 32'h00001fc0, 32'hfffff1a4, 32'h000002a4, 32'hffffff2c,
-//	32'hfffffff8, 32'h00000034, 32'h00000380, 32'h00000120, 32'h00001618, 32'h00002468, 32'h00000118, 32'h00016644,
-//	32'h000467a4, 32'hfffcd5cc, 32'h000095e0, 32'hffff8468, 32'h00001f44, 32'hfffff084, 32'h00000284, 32'hffffff18,
-//	32'hfffffff8, 32'h0000002c, 32'h00000374, 32'h00000090, 32'h00001400, 32'h00001f58, 32'hfffff068, 32'h00014b14,
-//	32'h00045bf0, 32'hfffcbb88, 32'h00009858, 32'hffff7fbc, 32'h00001ea8, 32'hffffef60, 32'h00000268, 32'hffffff04,
-//	32'hfffffff8, 32'h00000028, 32'h0000035c, 32'h00000008, 32'h000011ac, 32'h00001a70, 32'hffffded8, 32'h00013058,
-//	32'h00044ef8, 32'hfffca1d8, 32'h00009a1c, 32'hffff7b54, 32'h00001dfc, 32'hffffee3c, 32'h0000024c, 32'hfffffef0,
-//	32'hfffffff4, 32'h00000024, 32'h00000340, 32'hffffff8c, 32'h00000f28, 32'h000015b0, 32'hffffcc70, 32'h0001161c,
-//	32'h000440bc, 32'hfffc88d8, 32'h00009b3c, 32'hffff7734, 32'h00001d38, 32'hffffed18, 32'h0000022c, 32'hfffffedc,
-//	32'hfffffff4, 32'h00000020, 32'h00000320, 32'hffffff1c, 32'h00000c68, 32'h0000111c, 32'hffffb92c, 32'h0000fc6c,
-//	32'h00043150, 32'hfffc708c, 32'h00009bb8, 32'hffff7368, 32'h00001c64, 32'hffffebf4, 32'h00000210, 32'hfffffec4,
-//	32'hfffffff0, 32'h0000001c, 32'h000002f4, 32'hfffffeb4, 32'h00000974, 32'h00000cb8, 32'hffffa518, 32'h0000e350,
-//	32'h000420b4, 32'hfffc5908, 32'h00009b9c, 32'hffff6ff4, 32'h00001b7c, 32'hffffead0, 32'h000001f4, 32'hfffffeac,
-//	32'hfffffff0, 32'h0000001c, 32'h000002c4, 32'hfffffe58, 32'h00000648, 32'h00000884, 32'hffff9038, 32'h0000cad0,
-//	32'h00040ef8, 32'hfffc425c, 32'h00009af0, 32'hffff6ce0, 32'h00001a88, 32'hffffe9b0, 32'h000001d4, 32'hfffffe94,
-//	32'hffffffec, 32'h00000018, 32'h0000028c, 32'hfffffe04, 32'h000002e4, 32'h00000480, 32'hffff7a90, 32'h0000b2fc,
-//	32'h0003fc28, 32'hfffc2c90, 32'h000099b8, 32'hffff6a3c, 32'h00001988, 32'hffffe898, 32'h000001bc, 32'hfffffe7c,
-//	32'h000001a0, 32'h0000187c, 32'h000097fc, 32'h0003e84c, 32'hffff6424, 32'hffffff4c, 32'h00000248, 32'hffffffec
-//};
-//parameter polyCoef[0] = 32'h00000000;
+output reg [31:0] mult2A;
+output reg [31:0] mult2B;
+input [63:0] mult2_out;
+	
+output reg [31:0] mult3A;
+output reg [31:0] mult3B;
+input [63:0] mult3_out;
+	
+output reg [31:0] mult4A;
+output reg [31:0] mult4B;
+input [63:0] mult4_out;
+	
+output reg [31:0] mult5A;
+output reg [31:0] mult5B;
+input [63:0] mult5_out;
+	
+output reg [31:0] mult6A;
+output reg [31:0] mult6B;
+input [63:0] mult6_out;
+	
+output reg [31:0] mult7A;
+output reg [31:0] mult7B;
+input [63:0] mult7_out;
+	
+output reg [31:0] mult8A;
+output reg [31:0] mult8B;
+input [63:0] mult8_out;
+	
+output reg [31:0] mult9A;
+output reg [31:0] mult9B;
+input [63:0] mult9_out;
+	
+output reg [31:0] mult10A;
+output reg [31:0] mult10B;
+input [63:0] mult10_out;
+	
+output reg [31:0] mult11A;
+output reg [31:0] mult11B;
+input [63:0] mult11_out;
+	
+output reg [31:0] mult12A;
+output reg [31:0] mult12B;
+input [63:0] mult12_out;
+	
+output reg [31:0] mult13A;
+output reg [31:0] mult13B;
+input [63:0] mult13_out;
+	
+output reg [31:0] mult14A;
+output reg [31:0] mult14B;
+input [63:0] mult14_out;
+	
+output reg [31:0] mult15A;
+output reg [31:0] mult15B;
+input [63:0] mult15_out;
 
 integer VBUF_LENGTH = 1088;
 
+wire [11:0] odd_plus;
+wire [11:0] odd_plus_n;
+assign odd_plus = oddBlock ? VBUF_LENGTH  : 0;
+assign odd_plus_n = oddBlock ? 0 : VBUF_LENGTH;
+
 reg [31:0] buff[0:31];
 
-reg [31:0] vbuf[0:2176];
+//reg [31:0] vbuf[0:2176];
 
 reg [7:0] subband_clk_cnt = 8'd0;
 
@@ -233,18 +203,248 @@ reg [31:0] a5[0:3];
 reg [31:0] a6[0:3];
 reg [31:0] a7[0:3];
 
-reg [63:0] sum1L[0:16];
-reg [63:0] sum1R[0:16];
-reg [63:0] sum2L[0:14];
-reg [63:0] sum2R[0:14];
+// reg [63:0] sum1L[0:16];
+// reg [63:0] sum1R[0:16];
+// reg [63:0] sum2L[0:14];
+// reg [63:0] sum2R[0:14];
 
 //D32FP
 always@(posedge CLK or negedge RST_n)
 if ( !RST_n ) begin
 	subband_clk_cnt <= 8'd0;
+
+	b0[0] <= 32'd0;
+	b0[1] <= 32'd0;
+	b0[2] <= 32'd0;
+	b0[3] <= 32'd0;
+	b0[4] <= 32'd0;
+	b0[5] <= 32'd0;
+	b0[6] <= 32'd0;
+	b0[7] <= 32'd0;
+
+	b1[0] <= 32'd0;
+	b1[1] <= 32'd0;
+	b1[2] <= 32'd0;
+	b1[3] <= 32'd0;
+	b1[4] <= 32'd0;
+	b1[5] <= 32'd0;
+	b1[6] <= 32'd0;
+	b1[7] <= 32'd0;
+
+	b2[0] <= 32'd0;
+	b2[1] <= 32'd0;
+	b2[2] <= 32'd0;
+	b2[3] <= 32'd0;
+	b2[4] <= 32'd0;
+	b2[5] <= 32'd0;
+	b2[6] <= 32'd0;
+	b2[7] <= 32'd0;
+
+	b3[0] <= 32'd0;
+	b3[1] <= 32'd0;
+	b3[2] <= 32'd0;
+	b3[3] <= 32'd0;
+	b3[4] <= 32'd0;
+	b3[5] <= 32'd0;
+	b3[6] <= 32'd0;
+	b3[7] <= 32'd0;
+
+
+	a0[0] <= 32'd0;
+	a0[1] <= 32'd0;
+	a0[2] <= 32'd0;
+	a0[3] <= 32'd0;
+
+	a1[0] <= 32'd0;
+	a1[1] <= 32'd0;
+	a1[2] <= 32'd0;
+	a1[3] <= 32'd0;
+
+	a2[0] <= 32'd0;
+	a2[1] <= 32'd0;
+	a2[2] <= 32'd0;
+	a2[3] <= 32'd0;
+
+	a3[0] <= 32'd0;
+	a3[1] <= 32'd0;
+	a3[2] <= 32'd0;
+	a3[3] <= 32'd0;
+
+	a4[0] <= 32'd0;
+	a4[1] <= 32'd0;
+	a4[2] <= 32'd0;
+	a4[3] <= 32'd0;
+
+	a5[0] <= 32'd0;
+	a5[1] <= 32'd0;
+	a5[2] <= 32'd0;
+	a5[3] <= 32'd0;
+
+	a6[0] <= 32'd0;
+	a6[1] <= 32'd0;
+	a6[2] <= 32'd0;
+	a6[3] <= 32'd0;
+
+	a7[0] <= 32'd0;
+	a7[1] <= 32'd0;
+	a7[2] <= 32'd0;
+	a7[3] <= 32'd0;
+
+	Ram_addrA <= 12'd0;
+	Ram_addrB <= 12'd0;
+	Ram_data <= 32'd0;
+
+
+	mult0A <= 32'd0;
+	mult0B <= 32'd0;
+	mult1A <= 32'd0;
+	mult1B <= 32'd0;
+	mult2A <= 32'd0;
+	mult2B <= 32'd0;
+	mult3A <= 32'd0;
+	mult3B <= 32'd0;
+	mult4A <= 32'd0;
+	mult4B <= 32'd0;
+	mult5A <= 32'd0;
+	mult5B <= 32'd0;	
+	mult6A <= 32'd0;
+	mult6B <= 32'd0;
+	mult7A <= 32'd0; 
+	mult7B <= 32'd0;
+	mult8A <= 32'd0;
+	mult8B <= 32'd0;
+	mult9A <= 32'd0;
+	mult9B <= 32'd0;
+	mult10A <= 32'd0;
+	mult10B <= 32'd0;
+	mult11A <= 32'd0;
+	mult11B <= 32'd0;
+	mult12A <= 32'd0;
+	mult12B <= 32'd0;
+	mult13A <= 32'd0;
+	mult13B <= 32'd0;
+	mult14A <= 32'd0;
+	mult14B <= 32'd0;
+	mult15A <= 32'd0;
+	mult15B <= 32'd0;
+
 end
 else begin
 	subband_clk_cnt <= subband_clk_cnt + 1'd1;
+
+	b0[0] <= b0[0];
+	b0[1] <= b0[1];
+	b0[2] <= b0[2];
+	b0[3] <= b0[3];
+	b0[4] <= b0[4];
+	b0[5] <= b0[5];
+	b0[6] <= b0[6];
+	b0[7] <= b0[7];
+
+	b1[0] <= b1[0];
+	b1[1] <= b1[1];
+	b1[2] <= b1[2];
+	b1[3] <= b1[3];
+	b1[4] <= b1[4];
+	b1[5] <= b1[5];
+	b1[6] <= b1[6];
+	b1[7] <= b1[7];
+
+	b2[0] <= b2[0];
+	b2[1] <= b2[1];
+	b2[2] <= b2[2];
+	b2[3] <= b2[3];
+	b2[4] <= b2[4];
+	b2[5] <= b2[5];
+	b2[6] <= b2[6];
+	b2[7] <= b2[7];
+
+	b3[0] <= b3[0];
+	b3[1] <= b3[1];
+	b3[2] <= b3[2];
+	b3[3] <= b3[3];
+	b3[4] <= b3[4];
+	b3[5] <= b3[5];
+	b3[6] <= b3[6];
+	b3[7] <= b3[7];
+
+	a0[0] <= a0[0];
+	a0[1] <= a0[1];
+	a0[2] <= a0[2];
+	a0[3] <= a0[3];
+
+	a1[0] <= a1[0];
+	a1[1] <= a1[1];
+	a1[2] <= a1[2];
+	a1[3] <= a1[3];
+
+	a2[0] <= a2[0];
+	a2[1] <= a2[1];
+	a2[2] <= a2[2];
+	a2[3] <= a2[3];
+
+	a3[0] <= a3[0];
+	a3[1] <= a3[1];
+	a3[2] <= a3[2];
+	a3[3] <= a3[3];
+
+	a4[0] <= a4[0];
+	a4[1] <= a4[1];
+	a4[2] <= a4[2];
+	a4[3] <= a4[3];
+
+	a5[0] <= a5[0];
+	a5[1] <= a5[1];
+	a5[2] <= a5[2];
+	a5[3] <= a5[3];
+
+	a6[0] <= a6[0];
+	a6[1] <= a6[1];
+	a6[2] <= a6[2];
+	a6[3] <= a6[3];
+
+	a7[0] <= a7[0];
+	a7[1] <= a7[1];
+	a7[2] <= a7[2];
+	a7[3] <= a7[3];
+
+	Ram_addrA <= Ram_addrA;
+	Ram_addrB <= Ram_addrB;
+	Ram_data <= Ram_data;
+
+
+	mult0A <= mult0A;
+	mult0B <= mult0B;
+	mult1A <= mult1A;
+	mult1B <= mult1B;
+	mult2A <= mult2A;
+	mult2B <= mult2B;
+	mult3A <= mult3A;
+	mult3B <= mult3B;
+	mult4A <= mult4A;
+	mult4B <= mult4B;
+	mult5A <= mult5A;
+	mult5B <= mult5B;	
+	mult6A <= mult6A;
+	mult6B <= mult6B;
+	mult7A <= mult7A; 
+	mult7B <= mult7B;
+	mult8A <= mult8A;
+	mult8B <= mult8B;
+	mult9A <= mult9A;
+	mult9B <= mult9B;
+	mult10A <= mult10A;
+	mult10B <= mult10B;
+	mult11A <= mult11A;
+	mult11B <= mult11B;
+	mult12A <= mult12A;
+	mult12B <= mult12B;
+	mult13A <= mult13A;
+	mult13B <= mult13B;
+	mult14A <= mult14A;
+	mult14B <= mult14B;
+	mult15A <= mult15A;
+	mult15B <= mult15B;
 
 	if ( subband_clk_cnt == 8'd0 ) begin
 		b0[0] <= buff[0] + buff[31];
@@ -442,15 +642,11 @@ else begin
 		b0[2] <= buff[16] + buff[23];
 		b0[3] <= buff[24] + buff[31];
 
-
-
 		//b3 = a3 + a4;
 		b3[0] <= buff[3] + buff[4];
 		b3[1] <= buff[11] + buff[12];
 		b3[2] <= buff[19] + buff[20];
 		b3[3] <= buff[27] + buff[28];
-
-
 
 		//b1 = a1 + a6;
 		b1[0] <= buff[ 1] + buff[ 6];
@@ -458,15 +654,11 @@ else begin
 		b1[2] <= buff[17] + buff[22];
 		b1[3] <= buff[25] + buff[30];
 
-
-		
-
 		//b2 = a2 + a5;
 		b2[0] <= buff[2] + buff[5];
 		b2[1] <= buff[10] + buff[13];
 		b2[2] <= buff[18] + buff[21];
 		b2[3] <= buff[26] + buff[29];
-
 
 		mult0A <= 32'h4140fb46;
 		mult0B <= buff[ 0] - buff[ 7];
@@ -661,15 +853,11 @@ else begin
 		b0[2] <= a0[2] + a1[2];
 		b0[3] <= a0[3] + a1[3];
 
-
-
 		// b2 = a2 + a3;
 		b2[0] <= a2[0] + a3[0];
 		b2[1] <= a2[1] + a3[1];
 		b2[2] <= a2[2] + a3[2];
 		b2[3] <= a2[3] + a3[3];
-
-
 
 		// b4 = a4 + a5;
 		b0[4] <= a4[0] + a5[0];
@@ -677,15 +865,11 @@ else begin
 		b0[6] <= a4[2] + a5[2];
 		b0[7] <= a4[3] + a5[3];
 
-
-
-
 		// b6 = a6 + a7;
 		b2[4] <= a6[0] + a7[0];
 		b2[5] <= a6[1] + a7[1];
 		b2[6] <= a6[2] + a7[2];
 		b2[7] <= a6[3] + a7[3];
-
 
 		mult0A <= 32'h5a82799a;
 		mult0B <= a0[0] - a1[0];
@@ -817,226 +1001,234 @@ else begin
 
 	else if ( subband_clk_cnt == 8'd11 ) begin
 		/* sample 0 - always delayed one block */
-	vbuf[0 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 0];
-	vbuf[8 + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 0];
 
-	/* samples 16 to 31 */
-
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)] 
-	<= buff[ 1];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)] 
-	<= buff[ 1];	
-
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64] 
-	<=buff[17] + buff[25] + buff[29];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64] 
-	<= buff[17] + buff[25] + buff[29];
-
-	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*2] 
-	<= buff[ 9] + buff[13];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*2] 
-	<= buff[ 9] + buff[13];
-	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*3] 
-	<= buff[21] + buff[25] + buff[29];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*3] 
-	<= buff[21] + buff[25] + buff[29];
-
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*4] 
-	<= buff[ 5];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*4] 
-	<= buff[ 5];
-	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*5] 
-	<= buff[21] + buff[29] + buff[27];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*5] 
-	<= buff[21] + buff[29] + buff[27];
-
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*6] 
-	<= buff[13] + buff[11];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*6] 
-	<= buff[13] + buff[11];
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*7] 
-	<= buff[19] + buff[29] + buff[27];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*7] 
-	<= buff[19] + buff[29] + buff[27];	
-			
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*8] 
-	<= buff[ 3];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*8] 
-	<= buff[ 3];	
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*9] 
-	<= buff[19] + buff[27] + buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*9] 
-	<= buff[19] + buff[27] + buff[31];	
-
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*10] 
-	<= buff[11] + buff[15];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*10] 
-	<= buff[11] + buff[15];	
-
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*11] 
-	<= buff[23] + buff[27] + buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*11] 
-	<= buff[23] + buff[27] + buff[31];	
-
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*12] 
-	<= buff[ 7];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*12] 
-	<= buff[ 7];	
-	
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*13] 
-	<= buff[23] + buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*13] 
-	<= buff[23] + buff[31];	
-		
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*14] 
-	<= buff[15];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*14] 
-	<= buff[15];	
-			
-	vbuf[0+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*15] 
-	<= buff[31];
-	vbuf[8+ offset + (oddBlock ? VBUF_LENGTH  : 0)+64*15] 
-	<= buff[31];
-
-
-	/* samples 16 to 1 (sample 16 used again) */
-				
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 1];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH)] 
-	<= buff[ 1];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1] 
-	<= buff[17] + buff[30] + buff[25];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*1] 
-	<= buff[17] + buff[30] + buff[25];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2] 
-	<= buff[14] + buff[ 9];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*2] 
-	<= buff[14] + buff[ 9];	
-		
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3] 
-	<= buff[22] + buff[30] + buff[25];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*3] 
-	<= buff[22] + buff[30] + buff[25];	
-			
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4] 
-	<= buff[ 6];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*4] 
-	<= buff[ 6];
-		
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5] 
-	<= buff[22] + buff[26] + buff[30];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*5] 
-	<= buff[22] + buff[26] + buff[30];	
-	
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6] 
-	<= buff[10] + buff[14];	
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*6] 
-	<= buff[10] + buff[14];	
-		
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7] 
-	<= buff[18] + buff[26] + buff[30];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*7] 
-	<= buff[18] + buff[26] + buff[30];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8] 
-	<= buff[ 2];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*8] 
-	<= buff[ 2];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9] 
-	<= buff[18] + buff[28] + buff[26];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*9] 
-	<= buff[18] + buff[28] + buff[26];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10] 
-	<= buff[12] + buff[10];	
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*10] 
-	<= buff[12] + buff[10];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11] 
-	<= buff[20] + buff[28] + buff[26];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*11] 
-	<= buff[20] + buff[28] + buff[26];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12] 
-	<= buff[ 4];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*12] 
-	<= buff[ 4];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13] 
-	<= buff[20] + buff[24] + buff[28];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*13] 
-	<= buff[20] + buff[24] + buff[28];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14] 
-	<= buff[ 8] + buff[12];	
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*14] 
-	<= buff[ 8] + buff[12];	
-
-	vbuf[0+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15] 
-	<= buff[16] + buff[24] + buff[28];
-	vbuf[8+ 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH) + 64*15] 
-	<= buff[16] + buff[24] + buff[28];
-
-//do not realize now
-	// 	if (es) 
-	// {
-	// 	d = dest + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
-	// 	s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);
-	
-	// 	d = dest + offset + (oddBlock ? VBUF_LENGTH  : 0);
-	// 	for (i = 16; i <= 31; i++) {
-	// 		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
-	// 	}
-
-	// 	d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
-	// 	for (i = 15; i >= 0; i--) {
-	// 		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
-	// 	}
-	// }
-
+		Ram_addrA <= 12'd1024 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_addrB <= 12'd1024 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_data <= buff[ 0];
 
 	end // else if ( subband_clk_cnt == 8'd11 )
 
-	//polyphase 1
-//	else if ( subband_clk_cnt == 8'd12 ) begin
-//		sum1L[15] <=  vbuf[0] * polyCoef[0];
-//		sum1R[15] <=  vbuf[32] * polyCoef[0];
+	else if ( subband_clk_cnt == 8'd12 ) begin
+	
 
-//		sum1L[16] <= vbuf[64*16] * polyCoef[256];
-//		sum1R[16] <= vbuf[64*16 + 32] * polyCoef[256];
+	/* samples 16 to 31 */
 
-//    genvar  i;
-//    generate
-    	
-//    	for(i = 0; i < 15; i = i + 1) begin
+		Ram_addrA <= offset + odd_plus[11:0];
+		Ram_addrB <= 12'd8 + offset + odd_plus[11:0];
+		Ram_data <= buff[ 1];	
+	end // else if ( subband_clk_cnt == 8'd12 )
 
-//		sum1L[i] <= vbuf[64*(i+1) + 0] * polyCoef[16+(2*i)];
-//		sum2L[i] <= vbuf[64*(i+1) + 0] * polyCoef[17+(2*i)];
-//		sum1R[i] <=	vbuf[64*(i+1) + 32 + 0 ] * polyCoef[16+(2*i)];
-//		sum2R[i] <= vbuf[64*(i+1) + 32 + 0 ] * polyCoef[17+(2*i)];
-//		end
-//    endgenerate
+	else if ( subband_clk_cnt == 8'd13 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd64;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd72;
+		Ram_data <= buff[17] + buff[25] + buff[29];
 
-//	end // else if ( subband_clk_cnt == 8'd12 )
+	end // else if ( subband_clk_cnt == 8'd13 )
+
+	else if ( subband_clk_cnt == 8'd14 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd128;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd136;
+		Ram_data <= buff[ 9] + buff[13];
+	
+	end // else if ( subband_clk_cnt == 8'd14 )
+
+	else if ( subband_clk_cnt == 8'd15 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd192;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd200;
+		Ram_data <= buff[21] + buff[25] + buff[29];
+	end // else if ( subband_clk_cnt == 8'd15 )
+
+	else if ( subband_clk_cnt == 8'd16 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd256;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd264;
+		Ram_data <= buff[ 5];
+
+	end // else if ( subband_clk_cnt == 8'd16 )
+
+	else if ( subband_clk_cnt == 8'd17 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd320;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd328;
+		Ram_data <= buff[21] + buff[29] + buff[27];
+	end // else if ( subband_clk_cnt == 8'd17 )
+
+	else if ( subband_clk_cnt == 8'd18 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd384;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd392; 
+		Ram_data <= buff[13] + buff[11];
+	end // else if ( subband_clk_cnt == 8'd18 )
+
+	else if ( subband_clk_cnt == 8'd19 ) begin		
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd448;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd456;
+		Ram_data <= buff[19] + buff[29] + buff[27];	
+
+	end // else if ( subband_clk_cnt == 8'd19 )
+
+	else if ( subband_clk_cnt == 8'd20 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd512;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd520;
+		Ram_data <= buff[ 3];		
+	end // else if ( subband_clk_cnt == 8'd20 )
+
+	else if ( subband_clk_cnt == 8'd21 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd576;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd584;
+		Ram_data <= buff[19] + buff[27] + buff[31];	
+	end // else if ( subband_clk_cnt == 8'd21 )
+
+	else if ( subband_clk_cnt == 8'd22 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd640;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd648;
+		Ram_data <= buff[11] + buff[15];	
+
+	end // else if ( subband_clk_cnt == 8'd22 )
+
+	else if ( subband_clk_cnt == 8'd23 ) begin
+
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd704;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd712;
+		Ram_data <= buff[23] + buff[27] + buff[31];	
+	end // else if ( subband_clk_cnt == 8'd23 )
+
+	else if ( subband_clk_cnt == 8'd24 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd768;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd776;
+		Ram_data <= buff[ 7];	
+
+	end // else if ( subband_clk_cnt == 8'd24 )
+
+	else if ( subband_clk_cnt == 8'd25 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd832;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd840; 
+		Ram_data <= buff[23] + buff[31];	
+	end // else if ( subband_clk_cnt == 8'd25 )
+
+	else if ( subband_clk_cnt == 8'd26 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd896;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd904;
+		Ram_data <= buff[15];	
+	end // else if ( subband_clk_cnt == 8'd26 )
+
+	else if ( subband_clk_cnt == 8'd27 ) begin
+		Ram_addrA <= offset + odd_plus[11:0] + 12'd960;
+		Ram_addrB <= offset + odd_plus[11:0] + 12'd968;
+		Ram_data <= buff[31];
+
+	end // else if ( subband_clk_cnt == 8'd27 )
+			
+
+	/* samples 16 to 1 (sample 16 used again) */
+		
+	else if ( subband_clk_cnt == 8'd28 ) begin
+		Ram_addrA <= 12'd16 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_addrB <= 12'd24 + ((offset - oddBlock) & 7) + odd_plus_n[11:0];
+		Ram_data <= buff[ 1];	
+
+	end // else if ( subband_clk_cnt == 8'd28 )			
+
+	else if ( subband_clk_cnt == 8'd29 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd80;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd88; 
+		Ram_data <= buff[17] + buff[30] + buff[25];	
+	end
+
+	else if ( subband_clk_cnt == 8'd30 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd144;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd152;
+		Ram_data <= buff[14] + buff[ 9];	
+	end // else if ( subband_clk_cnt == 8'd30 )
+
+	else if ( subband_clk_cnt == 8'd31 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd208;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd216;
+		Ram_data <= buff[22] + buff[30] + buff[25];	
+
+	end // else if ( subband_clk_cnt == 8'd31 )
+
+	else if ( subband_clk_cnt == 8'd32 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd272;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd280; 
+		Ram_data <= buff[ 6];
+
+	end // else if ( subband_clk_cnt == 8'd32 )
+		
+	else if ( subband_clk_cnt == 8'd33 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd336;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd344; 
+		Ram_data <= buff[22] + buff[26] + buff[30];	
+	end // else if ( subband_clk_cnt == 8'd33 )
+			
+	else if ( subband_clk_cnt == 8'd34 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd400;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd408;
+		Ram_data <= buff[10] + buff[14];	
+
+	end // else if ( subband_clk_cnt == 8'd34 )
+		
+	else if ( subband_clk_cnt == 8'd35 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd464;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd472; 
+		Ram_data <= buff[18] + buff[26] + buff[30];	
+
+	end // else if ( subband_clk_cnt == 8'd35 )
+	
+	else if ( subband_clk_cnt == 8'd36 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd528; 
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd536; 
+		Ram_data <= buff[ 2];
+	end // else if ( subband_clk_cnt == 8'd36 )
+		
+	else if ( subband_clk_cnt == 8'd37 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd592;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd600;
+		Ram_data <= buff[18] + buff[28] + buff[26];	
+	end // else if ( subband_clk_cnt == 8'd37 )
+
+	else if ( subband_clk_cnt == 8'd38 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd656;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd664;
+		Ram_data <= buff[12] + buff[10];	
+	end // else if ( subband_clk_cnt == 8'd38 )
+
+	else if ( subband_clk_cnt == 8'd39 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd720;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd728;
+		Ram_data <= buff[20] + buff[28] + buff[26];	
+	end // else if ( subband_clk_cnt == 8'd39 )
+
+	else if ( subband_clk_cnt == 8'd40 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd784;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd792;
+		Ram_data <= buff[ 4];	
+	end // else if ( subband_clk_cnt == 8'd40 )
+
+	else if ( subband_clk_cnt == 8'd41 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd848;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd856;
+		Ram_data <= buff[20] + buff[24] + buff[28];	
+	end // else if ( subband_clk_cnt == 8'd41 )
+
+	else if ( subband_clk_cnt == 8'd42 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd912;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd920;
+		Ram_data <= buff[ 8] + buff[12];		
+
+	end // else if ( subband_clk_cnt == 8'd42 )
+
+	else if ( subband_clk_cnt == 8'd43 ) begin
+		Ram_addrA <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd976;
+		Ram_addrB <= ((offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd984;
+		Ram_data <= buff[16] + buff[24] + buff[28];
+	end // else if ( subband_clk_cnt == 8'd43 )
+
+
 
 	else if ( subband_clk_cnt == 8'd50 ) begin
 	end // else if ( subband_clk_cnt == 8'd50 )
 
 
     else if ( subband_clk_cnt == 8'd100 )begin
-        test_output_reg <= vbuf[test_index];
+    	subband_clk_cnt <= 8'd0;
     end
 
 	
