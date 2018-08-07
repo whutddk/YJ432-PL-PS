@@ -106,74 +106,74 @@ input [31:0] offset;
 input  oddBlock;
 
 //one cycle to wirte,2cycle to read
-reg [11:0] Ram_addrA;
-reg [11:0] Ram_addrB;
-reg [31:0] Ram_data;
+output reg [11:0] Ram_addrA;
+output reg [11:0] Ram_addrB;
+output reg [31:0] Ram_data;
 
 
 output reg [31:0] mult0A;
 output reg [31:0] mult0B;
-input [64:0] mult0_out;
+input [63:0] mult0_out;
 
 output reg [31:0] mult1A;
 output reg [31:0] mult1B;
-input [64:0] mult1_out;
+input [63:0] mult1_out;
 
 output reg [31:0] mult2A;
 output reg [31:0] mult2B;
-input [64:0] mult2_out;
+input [63:0] mult2_out;
 	
 output reg [31:0] mult3A;
 output reg [31:0] mult3B;
-input [64:0] mult3_out;
+input [63:0] mult3_out;
 	
 output reg [31:0] mult4A;
 output reg [31:0] mult4B;
-input [64:0] mult4_out;
+input [63:0] mult4_out;
 	
 output reg [31:0] mult5A;
 output reg [31:0] mult5B;
-input [64:0] mult5_out;
+input [63:0] mult5_out;
 	
 output reg [31:0] mult6A;
 output reg [31:0] mult6B;
-input [64:0] mult6_out;
+input [63:0] mult6_out;
 	
 output reg [31:0] mult7A;
 output reg [31:0] mult7B;
-input [64:0] mult7_out;
+input [63:0] mult7_out;
 	
 output reg [31:0] mult8A;
 output reg [31:0] mult8B;
-input [64:0] mult8_out;
+input [63:0] mult8_out;
 	
 output reg [31:0] mult9A;
 output reg [31:0] mult9B;
-input [64:0] mult9_out;
+input [63:0] mult9_out;
 	
 output reg [31:0] mult10A;
 output reg [31:0] mult10B;
-input [64:0] mult10_out;
+input [63:0] mult10_out;
 	
 output reg [31:0] mult11A;
 output reg [31:0] mult11B;
-input [64:0] mult11_out;
+input [63:0] mult11_out;
 	
 output reg [31:0] mult12A;
 output reg [31:0] mult12B;
-input [64:0] mult12_out;
+input [63:0] mult12_out;
 	
 output reg [31:0] mult13A;
 output reg [31:0] mult13B;
-input [64:0] mult13_out;
+input [63:0] mult13_out;
 	
 output reg [31:0] mult14A;
 output reg [31:0] mult14B;
-input [64:0] mult14_out;
+input [63:0] mult14_out;
 	
 output reg [31:0] mult15A;
 output reg [31:0] mult15B;
-input [64:0] mult15_out;
+input [63:0] mult15_out;
 
 integer VBUF_LENGTH = 1088;
 
@@ -262,7 +262,7 @@ if ( !RST_n ) begin
 
 	a2[0] <= 32'd0;
 	a2[1] <= 32'd0;
-	a2[1] <= 32'd0;
+	a2[2] <= 32'd0;
 	a2[3] <= 32'd0;
 
 	a3[0] <= 32'd0;
