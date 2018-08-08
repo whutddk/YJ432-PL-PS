@@ -327,7 +327,6 @@ else begin
 
 	else begin	//MC2S PART
 		if ( MC2S_sub_cnt == 9'd0 ) begin
-
 			//vbuf
 			Ram_addrA <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
@@ -354,12 +353,12 @@ else begin
 		end // if ( MC2S_sub_cnt == 9'd0 )
 
 		else if ( MC2S_sub_cnt <= 9'd7 ) begin
-			//vbuf
+			//vbuf Final
 			Ram_addrA <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
-			//coef
+			//coef Final
 			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
-			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + MC2S_sub_cnt ;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt + 12'd1;
 
 			sum1L_pre_reg <= mult_out1L;
 			mult1L_A_reg <= Ram_dataA;
@@ -377,7 +376,124 @@ else begin
 			mult2R_A_reg <= Ram_dataB;
 			mult2R_B_reg <= Rom_dataB;
 
-		end // else if ( MC2S_sub_cnt == 9'd7 )
+		end // else if ( MC2S_sub_cnt <= 9'd7 )
+
+		else if ( MC2S_sub_cnt == 9'd8 ) begin
+
+			//vbuf First
+			Ram_addrA <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
+			Ram_addrB <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
+			//coef First
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+
+			//cal Final
+			sum1L_pre_reg <= mult_out1L;
+			mult1L_A_reg <= Ram_dataA;
+			mult1L_B_reg <= Rom_dataA;
+
+			sum1R_pre_reg <= mult_out1R;
+			mult1R_A_reg <= Ram_dataB;
+			mult1R_B_reg <= Rom_dataA;
+
+			sum2L_pre_reg <= mult_out2L;
+			mult2L_A_reg <= Ram_dataA;
+			mult2L_B_reg <= Rom_dataB;
+
+			sum2R_pre_reg <= mult_out2R;
+			mult2R_A_reg <= Ram_dataB;
+			mult2R_B_reg <= Rom_dataB;
+
+		end // else if ( MC2S_sub_cnt == 9'd8 )
+
+		else if ( MC2S_sub_cnt == 9'd9 ) begin
+
+			//vbuf 
+			Ram_addrA <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
+			Ram_addrB <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
+			//coef 
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+
+			//cal First
+			sum1L_pre_reg <= 64'd0;
+			mult1L_A_reg <= Ram_dataA;
+			mult1L_B_reg <= Rom_dataA;
+
+			sum1R_pre_reg <= 64'd0;
+			mult1R_A_reg <= Ram_dataB;
+			mult1R_B_reg <= Rom_dataA;
+
+			sum2L_pre_reg <= 64'd0;
+			mult2L_A_reg <= Ram_dataA;
+			mult2L_B_reg <= Rom_dataB;
+
+			sum2R_pre_reg <= 64'd0;
+			mult2R_A_reg <= Ram_dataB;
+			mult2R_B_reg <= Rom_dataB;	
+
+			//checkout result
+			sum1L_A <= mult_out1L;
+			sum2L_A <= mult_out2L;
+			sum1R_A <= mult_out1R;
+			sum2R_A <= mult_out2R;
+
+		end // else if ( MC2S_sub_cnt == 9'd9 )
+
+		else if ( MC2S_sub_cnt <= 9'd15 ) begin
+
+			//vbuf Final
+			Ram_addrA <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
+			Ram_addrB <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
+			//coef Final
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+
+			//cal
+			sum1L_pre_reg <= mult_out1L;
+			mult1L_A_reg  <= Ram_dataA;
+			mult1L_B_reg  <= Rom_dataA;
+			sum1R_pre_reg <= mult_out1R;
+			mult1R_A_reg  <= Ram_dataB;
+			mult1R_B_reg  <= Rom_dataA;
+			sum2L_pre_reg <= mult_out2L;
+			mult2L_A_reg  <= Ram_dataA;
+			mult2L_B_reg  <= Rom_dataB;
+			sum2R_pre_reg <= mult_out2R;
+			mult2R_A_reg  <= Ram_dataB;
+			mult2R_B_reg  <= Rom_dataB;
+
+		end // else if ( MC2S_sub_cnt <= 9'd15 )
+
+		else if ( MC2S_sub_cnt == 9'd16 ) begin
+			//cal Final
+			sum1L_pre_reg <= mult_out1L;
+			mult1L_A_reg  <= Ram_dataA;
+			mult1L_B_reg  <= Rom_dataA;
+
+			sum1R_pre_reg <= mult_out1R;
+			mult1R_A_reg  <= Ram_dataB;
+			mult1R_B_reg  <= Rom_dataA;
+
+			sum2L_pre_reg <= mult_out2L;
+			mult2L_A_reg  <= Ram_dataA;
+			mult2L_B_reg  <= Rom_dataB;
+			
+			sum2R_pre_reg <= mult_out2R;
+			mult2R_A_reg  <= Ram_dataB;
+			mult2R_B_reg  <= Rom_dataB;
+
+		end // else if ( MC2S_sub_cnt == 9'd16 )
+
+		else if ( MC2S_sub_cnt == 9'd17 ) begin
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<= ( sum1L_A[63:32] - mult_out1L[63:32] ) >> 2;
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<= ( sum1R_A[63:32] - mult_out1R[63:32] ) >> 2;
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<= ( sum2L_A[63:32] + mult_out2L[63:32] ) >> 2;
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<= ( sum2R_A[63:32] + mult_out2R[63:32] ) >> 2;
+		
+			MC2S_sub_cnt <= 9'd0;
+			MC2S_cnt <= MC2S_cnt + 9'd1;
+		end // else if ( MC2S_sub_cnt == 9'd17 )
 
 		else begin
 
