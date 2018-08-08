@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 天际432
 
 ---------------------------------------
@@ -7,6 +8,8 @@
 
 
 =======
+=======
+>>>>>>> 9beaaa7... start to implement polyphase
 # YJ432-PL
 
 #### 项目介绍
@@ -15,6 +18,7 @@
 
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 #### 安装教程
@@ -48,3 +52,5 @@
 >>>>>>> 5626c7d... Initial commit
 =======
 >>>>>>> ed1c472... readme
+=======
+>>>>>>> 9beaaa7... start to implement polyphase
