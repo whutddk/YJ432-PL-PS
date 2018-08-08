@@ -5,7 +5,7 @@
 // 
 // Create Date: 2018/08/01 11:18:36
 // Design Name: 
-// Module Name: subband
+// Module Name: FDCT32
 // Project Name: TJ432-B
 // Target Devices: Artix-7 35T
 // Tool Versions: 
@@ -21,7 +21,7 @@
 
 
 
-module subband (
+module FDCT32 (
 	CLK,    // Clock flexbus 40MHZ 
 	RST_n,  // Asynchronous reset active low
 
