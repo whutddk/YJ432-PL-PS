@@ -34,18 +34,22 @@ module mp3_top(
 
 );
 
+wire [63:0] sum0;
 wire [31:0] mult0A;
 wire [31:0] mult0B;
 wire [63:0] mult0_out;
 
+wire [63:0] sum1;
 wire [31:0] mult1A;
 wire [31:0] mult1B;
 wire [63:0] mult1_out;
 
+wire [63:0] sum2;
 wire [31:0] mult2A;
 wire [31:0] mult2B;
 wire [63:0] mult2_out;
-		
+
+wire [63:0] sum3;
 wire [31:0] mult3A;
 wire [31:0] mult3B;
 wire [63:0] mult3_out;
@@ -99,7 +103,7 @@ wire [31:0] mult15B;
 wire [63:0] mult15_out;
 
 
-subband i_subband(
+FDCT32 i_FDCT32(
 	.CLK(i_fb_clk),    // Clock flexbus 40MHZ 
 	.RST_n(RST_n),  // Asynchronous reset active low
 
@@ -107,18 +111,22 @@ subband i_subband(
 	.offset(offset),
 	.oddBlock(oddBlock),
 	
+	.sum0(sum0),
 	.mult0A(mult0A),
 	.mult0B(mult0B),
 	.mult0_out(mult0_out),
 
+	.sum1(sum1),
 	.mult1A(mult1A),
 	.mult1B(mult1B),
 	.mult1_out(mult1_out),
 
+	.sum2(sum2),
 	.mult2A(mult2A),
 	.mult2B(mult2B),
 	.mult2_out(mult2_out),
-		
+	
+	.sum3(sum3),	
 	.mult3A(mult3A),
 	.mult3B(mult3B),
 	.mult3_out(mult3_out),
@@ -178,6 +186,7 @@ subband i_subband(
 );
 
 multiplier i_mult0(
+	.sum(sum0),
 	.multA(mult0A),
 	.multB(mult0B),
 	.mult_out(mult0_out)
@@ -185,6 +194,7 @@ multiplier i_mult0(
 );
 
 multiplier i_mult1(
+	.sum(sum1),
 	.multA(mult1A),
 	.multB(mult1B),
 	.mult_out(mult1_out)
@@ -192,6 +202,7 @@ multiplier i_mult1(
 );
 
 multiplier i_mult2(
+	.sum(sum2),
 	.multA(mult2A),
 	.multB(mult2B),
 	.mult_out(mult2_out)
@@ -199,6 +210,7 @@ multiplier i_mult2(
 );
 
 multiplier i_mult3(
+	.sum(sum3),
 	.multA(mult3A),
 	.multB(mult3B),
 	.mult_out(mult3_out)
@@ -206,6 +218,7 @@ multiplier i_mult3(
 );
 
 multiplier i_mult4(
+	.sum( 64'd0 ),
 	.multA(mult4A),
 	.multB(mult4B),
 	.mult_out(mult4_out)
@@ -213,6 +226,7 @@ multiplier i_mult4(
 );
 
 multiplier i_mult5(
+	.sum( 64'd0 ),
 	.multA(mult5A),
 	.multB(mult5B),
 	.mult_out(mult5_out)
@@ -220,6 +234,7 @@ multiplier i_mult5(
 );
 
 multiplier i_mult6(
+	.sum( 64'd0 ),
 	.multA(mult6A),
 	.multB(mult6B),
 	.mult_out(mult6_out)
@@ -227,6 +242,7 @@ multiplier i_mult6(
 );
 
 multiplier i_mult7(
+	.sum( 64'd0 ),
 	.multA(mult7A),
 	.multB(mult7B),
 	.mult_out(mult7_out)
@@ -234,6 +250,7 @@ multiplier i_mult7(
 );
 
 multiplier i_mult8(
+	.sum( 64'd0 ),
 	.multA(mult8A),
 	.multB(mult8B),
 	.mult_out(mult8_out)
@@ -241,6 +258,7 @@ multiplier i_mult8(
 );
 
 multiplier i_mult9(
+	.sum( 64'd0 ),
 	.multA(mult9A),
 	.multB(mult9B),
 	.mult_out(mult9_out)
@@ -248,6 +266,7 @@ multiplier i_mult9(
 );
 
 multiplier i_mult10(
+	.sum( 64'd0 ),
 	.multA(mult10A),
 	.multB(mult10B),
 	.mult_out(mult10_out)
@@ -255,6 +274,7 @@ multiplier i_mult10(
 );
 
 multiplier i_mult11(
+	.sum( 64'd0 ),
 	.multA(mult11A),
 	.multB(mult11B),
 	.mult_out(mult11_out)
@@ -262,6 +282,7 @@ multiplier i_mult11(
 );
 
 multiplier i_mult12(
+	.sum( 64'd0 ),
 	.multA(mult12A),
 	.multB(mult12B),
 	.mult_out(mult12_out)
@@ -269,6 +290,7 @@ multiplier i_mult12(
 );
 
 multiplier i_mult13(
+	.sum( 64'd0 ),
 	.multA(mult13A),
 	.multB(mult13B),
 	.mult_out(mult13_out)
@@ -276,6 +298,7 @@ multiplier i_mult13(
 );
 
 multiplier i_mult14(
+	.sum( 64'd0 ),
 	.multA(mult14A),
 	.multB(mult14B),
 	.mult_out(mult14_out)
@@ -283,6 +306,7 @@ multiplier i_mult14(
 );
 
 multiplier i_mult15(
+	.sum( 64'd0 ),
 	.multA(mult15A),
 	.multB(mult15B),
 	.mult_out(mult15_out)

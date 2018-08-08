@@ -20,17 +20,19 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module multiplier(
+	sum,
 	multA,
 	multB,
 	mult_out
 
 );
 
+input [63:0] sum;
 input [31:0] multA;
 input [31:0] multB;
 output [63:0] mult_out;
 
-assign mult_out[63:0] = multA[31:0] * multB[31:0];
+assign mult_out[63:0] = sum[63:0] + multA[31:0] * multB[31:0];
 
 endmodule
 

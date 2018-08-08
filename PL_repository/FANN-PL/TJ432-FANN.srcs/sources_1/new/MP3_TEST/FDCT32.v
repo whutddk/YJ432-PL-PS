@@ -29,18 +29,22 @@ module FDCT32 (
 	offset,
 	oddBlock,
 	
+	sum0,
 	mult0A,
 	mult0B,
 	mult0_out,
 
+	sum1,
 	mult1A,
 	mult1B,
 	mult1_out,
 
+	sum2,
 	mult2A,
 	mult2B,
 	mult2_out,
-		
+	
+	sum3,	
 	mult3A,
 	mult3B,
 	mult3_out,
@@ -110,19 +114,22 @@ output reg [11:0] Ram_addrA;
 output reg [11:0] Ram_addrB;
 output reg [31:0] Ram_data;
 
-
+output reg [63:0] sum0;
 output reg [31:0] mult0A;
 output reg [31:0] mult0B;
 input [63:0] mult0_out;
 
+output reg [63:0] sum1;
 output reg [31:0] mult1A;
 output reg [31:0] mult1B;
 input [63:0] mult1_out;
 
+output reg [63:0] sum2;
 output reg [31:0] mult2A;
 output reg [31:0] mult2B;
 input [63:0] mult2_out;
 	
+output reg [63:0] sum3;
 output reg [31:0] mult3A;
 output reg [31:0] mult3B;
 input [63:0] mult3_out;
@@ -294,7 +301,10 @@ if ( !RST_n ) begin
 	Ram_addrB <= 12'd0;
 	Ram_data <= 32'd0;
 
-
+	sum0 <= 64'd0;
+	sum1 <= 64'd0;
+	sum2 <= 64'd0;
+	sum3 <= 64'd0;
 	mult0A <= 32'd0;
 	mult0B <= 32'd0;
 	mult1A <= 32'd0;
@@ -412,7 +422,10 @@ else begin
 	Ram_addrB <= Ram_addrB;
 	Ram_data <= Ram_data;
 
-
+	sum0 <= 64'd0;
+	sum1 <= 64'd0;
+	sum2 <= 64'd0;
+	sum3 <= 64'd0;
 	mult0A <= mult0A;
 	mult0B <= mult0B;
 	mult1A <= mult1A;
