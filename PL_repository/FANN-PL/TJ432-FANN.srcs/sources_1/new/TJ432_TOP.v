@@ -111,7 +111,7 @@ flexbus_comm i_flexbus(
 
 	.IP_Done(IP_Done_Wire),
 
-	.Is_Empty_Wire(Is_Empty_Wire),
+	.Is_Empty_Wire(Is_Empty_Wire)
 	// .STEAM_DATA(STREAM_DATA_Wire),  //put data into here
 	// .FIFO_CLK(FIFO_CLK_wire)
 	
