@@ -24,11 +24,20 @@ module mp3_mid(
 	input MP3_CLK,
 	input RST_n,
 
-	input [31:0] RAM_data_out,
-	inout [11:0] RAM_addr,
+	input [31:0] RAM_dataA_out,
+	input [31:0] RAM_dataB_out,
+	inout [11:0] RAM_addrA,
+	inout [11:0] RAM_addrB,
+
+	//Rom operate
+	inout [8:0] Rom_addrA,
+	inout [8:0] Rom_addrB,
+	input [31:0] Rom_dataA,
+	input [31:0] Rom_dataB,   
 
     input [3:0] subband_state,
-	    //CTL
+
+	//CTL
 	input [3:0] vindex,
 	input b,
 	output IP_Done,
@@ -74,21 +83,21 @@ polyphase i_polyhpase
 	.b(b),
 	.IP_Done(IP_Done),
 
-//ram operate
-inout [11:0] Ram_addrA,
-inout [11:0] Ram_addrB,
-input [31:0] Ram_dataA,
-input [31:0] Ram_dataB,
+	//ram operate
+	.Ram_addrA(RAM_addrA),
+	.Ram_addrB(RAM_addrB),
+	.Ram_dataA(RAM_dataA_out),
+	.Ram_dataB(RAM_dataB_out),
 
-//Rom operate
-inout [8:0] Rom_addrA,
-inout [8:0] Rom_addrB,
-input [31:0] Rom_dataA,
-input [31:0] Rom_dataB,    
+	//Rom operate
+	.Rom_addrA(Rom_addrA),
+	.Rom_addrB(Rom_addrB),
+	.Rom_dataA(Rom_dataA),
+	.Rom_dataB(Rom_dataB),    
 
-//FIFO pcm DATA
-output reg [31:0] fifo_data,
-output reg fifo_enable,
+	//FIFO pcm DATA
+	.fifo_data(FIFO_DATA),
+	.fifo_enable(FIFO_EN),
 
 	.sum1L_pre(sum0),
 	.mult1L_A(mult0A),
