@@ -29,17 +29,17 @@ module mp3_mid(
 	inout [11:0] RAM_addrA,
 	inout [11:0] RAM_addrB,
 
-    input [3:0] subband_state,
+	input [3:0] subband_state,
 
 	//CTL
 	input [3:0] vindex,
 	input b,
 	output IP_Done,
 
-    output FIFO_EN,
-    output [15:0] FIFO_DATA
+	output FIFO_EN,
+	output [15:0] FIFO_DATA
 
-    );
+	);
 
 wire [63:0] sum0;
 wire [31:0] mult0A;
@@ -118,7 +118,7 @@ polyphase i_polyhpase
 	.mult_out2R(mult3_out)
 
 );
-    
+	
 multiplier i_mult0(
 	.sum(sum0),
 	.multA(mult0A),
@@ -152,13 +152,13 @@ multiplier i_mult3(
 
 ROM_wrapper i_ROM(
 	.BRAM_PORTA_0_addr(Rom_addrA_wire),
-    .BRAM_PORTA_0_clk(MP3_CLK),
-    .BRAM_PORTA_0_dout(Rom_dataA_wire),
+	.BRAM_PORTA_0_clk(MP3_CLK),
+	.BRAM_PORTA_0_dout(Rom_dataA_wire),
 
-    .BRAM_PORTB_0_addr(Rom_addrB_wire),
-    .BRAM_PORTB_0_clk(MP3_CLK),
-    .BRAM_PORTB_0_dout(Rom_dataB_wire)
+	.BRAM_PORTB_0_addr(Rom_addrB_wire),
+	.BRAM_PORTB_0_clk(MP3_CLK),
+	.BRAM_PORTB_0_dout(Rom_dataB_wire)
 );  
-    
-    
+	
+	
 endmodule
