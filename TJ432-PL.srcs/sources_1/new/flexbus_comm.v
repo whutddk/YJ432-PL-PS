@@ -19,6 +19,11 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+parameter ST_IDLE = 0;
+parameter ST_MIBUF = 1;
+parameter ST_FDCT = 2;
+parameter ST_FBRAM = 3;
+parameter ST_PLOY = 4;
 
 module flexbus_comm(
 	input [31:0] FB_BASE,
@@ -44,7 +49,7 @@ module flexbus_comm(
 	
 	 
 	output reg [31:0] RAM_DATA_Reg,
-	output reg [11:0] RAM_ADDR_Reg,
+	inout [11:0] RAM_ADDR,
 
 	output reg [3:0] vindex,
 	output reg b,
@@ -70,6 +75,10 @@ assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);
 assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
    
 
+reg [11:0] RAM_ADDR_Reg;
+
+assign RAM_ADDR = ( subband_state != ST_FBRAM ) ? 12'bz : RAM_ADDR_Reg;
+
 always@( negedge FB_CLK or negedge RST_n )  begin
 	if ( !RST_n ) begin
 //        AD_TRI <= 1'b1;
@@ -89,7 +98,9 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		RAM_ADDR_Reg <= 12'd0;
 		// STEAM_DATA <= 32'd0;
 		// FIFO_CLK <= 1'b1;
-		
+		RAM_WR_EN_Reg <= 1'b0;
+		subband_state <= ST_IDLE;
+
 	end
 	else begin
 
@@ -107,6 +118,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 
 		RAM_DATA_Reg <= RAM_DATA_Reg;
 		RAM_ADDR_Reg <= RAM_ADDR_Reg;
+		RAM_WR_EN_Reg <= 1'b0;
+		subband_state <= subband_state;
  
 		if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
 //            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
@@ -152,10 +165,28 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								// STEAM_DATA[31:0] <= FB_AD[31:0];
 								// FIFO_CLK <= 1'b0;
 								
-								if ( (ip_ADDR & 12'b111111111111) < 12'd3000 )
+								if ( (ip_ADDR[11:0]) < 12'd3000 ) begin
 								
-								RAM_DATA_Reg <= FB_AD[31:0]
+									RAM_DATA_Reg[31:0] <= FB_AD[31:0];
+									RAM_ADDR_Reg[11:0] <= ip_ADDR[11:0];
+									RAM_WR_EN_Reg <= 1'b1;
+									subband_state <= ST_FBRAM;
+								end // if ( (ip_ADDR[11:0]) < 12'd3000 )
+								else begin
+									RAM_DATA_Reg <= RAM_DATA_Reg;
+									RAM_ADDR_Reg[11:0] <= RAM_ADDR_Reg[11:0];
+									RAM_WR_EN_Reg <= 1'b0;
+									subband_state <= ST_FBRAM;
+								end // else
 							end
+
+							32'h07810001:begin
+								subband_state <= ST_PLOY;
+								{vindex,b} <= FB_AD[4:0];
+								
+								RAM_WR_EN_Reg <= 1'b0;
+
+							end // 32'h07800001:
 							
 							default:begin
 							end // default:
@@ -183,7 +214,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							end
 							
 							32'h07810000:begin
-								FB_AD_reg[31:0] <= {31'b0,Is_Empty_Wire};
+								FB_AD_reg[31:0] <= {30'b0,IP_Done,Is_Empty_Wire};
 							end
 							default:begin
 							end // default:
