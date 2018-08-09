@@ -42,7 +42,17 @@ module flexbus_comm(
 	output reg [31:0] LEDG_Puty_Reg,
 	output reg [31:0] LEDB_Puty_Reg,
 	
+	 
+	output reg [31:0] RAM_DATA_Reg,
+	output reg [11:0] RAM_ADDR_Reg,
 
+	output reg [3:0] vindex,
+	output reg b,
+
+	output reg RAM_WR_EN_Reg,
+	output reg[3:0] subband_state,
+
+	input IP_Done,
 	input Is_Empty_Wire,
 	// output reg [31:0] STEAM_DATA,  //put data into here
 	// output reg FIFO_CLK
@@ -75,12 +85,14 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;  
 		
+		RAM_DATA_Reg <= 32'd0;
+		RAM_ADDR_Reg <= 12'd0;
 		// STEAM_DATA <= 32'd0;
 		// FIFO_CLK <= 1'b1;
 		
 	end
 	else begin
-		
+
 		FB_AD_reg <= FB_AD_reg;
 
 		ip_ADDR <= ip_ADDR;
@@ -93,7 +105,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= LEDG_Puty_Reg;
 		LEDB_Puty_Reg <= LEDB_Puty_Reg;
 
-
+		RAM_DATA_Reg <= RAM_DATA_Reg;
+		RAM_ADDR_Reg <= RAM_ADDR_Reg;
  
 		if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
 //            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
@@ -138,6 +151,10 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							32'h0780zzzz:begin
 								// STEAM_DATA[31:0] <= FB_AD[31:0];
 								// FIFO_CLK <= 1'b0;
+								
+								if ( (ip_ADDR & 12'b111111111111) < 12'd3000 )
+								
+								RAM_DATA_Reg <= FB_AD[31:0]
 							end
 							
 							default:begin
