@@ -1,5 +1,10 @@
 `timescale 1ns / 1ps
-`include "state.v"
+
+parameter ST_IDLE = 0;
+parameter ST_MIBUF = 1;
+parameter ST_FDCT = 2;
+parameter ST_FBRAM = 3;
+parameter ST_PLOY = 4;
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Wuhan university of technology
 // Engineer: RUIGE LEE
@@ -67,7 +72,7 @@ module polyphase
 	inout [63:0] sum2R_pre,
 	inout [31:0] mult2R_A,
 	inout [31:0] mult2R_B,
-	input [63:0] mult_out2R,
+	input [63:0] mult_out2R
 
 );
 
@@ -117,7 +122,7 @@ assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 assign Rom_addrA = ( subband_state != ST_PLOY ) ? 9'bz : Rom_addrA_reg;
 assign Rom_addrB = ( subband_state != ST_PLOY ) ? 9'bz : Rom_addrB_reg;
 
-reg [31:0] pcm[0:64];
+reg [15:0] pcm[0:64];
 reg [8:0] poly_cnt = 9'd0; 
 reg [4:0] MC2S_cnt = 5'd15;
 reg [8:0] MC2S_sub_cnt = 9'd0;
@@ -307,8 +312,8 @@ else begin
 		mult1R_B_reg <= Rom_dataA;
 
 		//MC0S result
-		pcm[0] <= ( sum1L_A[63:32] - mult_out1L[63:32] ) >> 2;
-		pcm[1] <= ( sum1R_A[63:32] - mult_out1R[63:32] ) >> 2;
+		pcm[0] <= ( sum1L_A[49:34] - mult_out1L[49:34] );
+		pcm[1] <= ( sum1R_A[49:34] - mult_out1R[49:34] );
 	
 	end // else if ( poly_cnt == 9'd17 )
 
@@ -349,8 +354,8 @@ else begin
 		sum1L_pre_reg <= 64'd0;
 		sum1R_pre_reg <= 64'd0;
 
-		pcm[32] <= mult_out1L[63:32] >> 2;
-		pcm[33] <= mult_out1R[63:32] >> 2;
+		pcm[32] <= mult_out1L[49:34];
+		pcm[33] <= mult_out1R[49:34];
 
 		MC2S_cnt <= 5'd15;
 		MC2S_sub_cnt <= 9'd0;
@@ -518,10 +523,10 @@ else begin
 		end // else if ( MC2S_sub_cnt == 9'd16 )
 
 		else if ( MC2S_sub_cnt == 9'd17 ) begin
-			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<= ( sum1L_A[63:32] - mult_out1L[63:32] ) >> 2;
-			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<= ( sum1R_A[63:32] - mult_out1R[63:32] ) >> 2;
-			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<= ( sum2L_A[63:32] + mult_out2L[63:32] ) >> 2;
-			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<= ( sum2R_A[63:32] + mult_out2R[63:32] ) >> 2;
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<= ( sum1L_A[49:34] - mult_out1L[49:34] ) ;
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<= ( sum1R_A[49:34] - mult_out1R[49:34] );
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<= ( sum2L_A[49:34] + mult_out2L[49:34] );
+			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<= ( sum2R_A[49:34] + mult_out2R[49:34] );
 		
 			MC2S_sub_cnt <= 9'd0;
 
