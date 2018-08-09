@@ -45,8 +45,8 @@ module polyphase
 	input [31:0] Ram_dataB,
 
 	//Rom operate
-	inout [8:0] Rom_addrA,
-	inout [8:0] Rom_addrB,
+	output reg [8:0] Rom_addrA,
+	output reg [8:0] Rom_addrB,
 	input [31:0] Rom_dataA,
 	input [31:0] Rom_dataB,	
 
@@ -97,8 +97,6 @@ reg [31:0] mult2R_B_reg;
 //memory
 reg [11:0] Ram_addrA_reg;
 reg [11:0] Ram_addrB_reg;
-reg [8:0] Rom_addrA_reg;
-reg [8:0] Rom_addrB_reg;
 
 //conntion
 assign sum1L_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum1L_pre_reg;
@@ -119,8 +117,6 @@ assign mult2R_B = ( subband_state != ST_PLOY ) ? 32'bz : mult2R_B_reg;
 
 assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
-assign Rom_addrA = ( subband_state != ST_PLOY ) ? 9'bz : Rom_addrA_reg;
-assign Rom_addrB = ( subband_state != ST_PLOY ) ? 9'bz : Rom_addrB_reg;
 
 reg [15:0] pcm[0:64];
 reg [8:0] poly_cnt = 9'd0; 
@@ -142,8 +138,8 @@ always @( posedge CLK or negedge RST_n ) begin
 if ( !RST_n ) begin
 	Ram_addrA_reg <= 12'b0;
 	Ram_addrB_reg <= 12'b0;
-	Rom_addrA_reg <= 9'b0;
-	Rom_addrB_reg <= 9'b0;
+	Rom_addrA <= 9'b0;
+	Rom_addrB <= 9'b0;
 
 	poly_cnt <= 9'd0;
 
@@ -172,8 +168,8 @@ else begin
 
 	Ram_addrA_reg <= Ram_addrA_reg;
 	Ram_addrB_reg <= Ram_addrB_reg;
-	Rom_addrA_reg <= Rom_addrA_reg;
-	Rom_addrB_reg <= Rom_addrB_reg;
+	Rom_addrA <= Rom_addrA;
+	Rom_addrB <= Rom_addrB;
 
 	sum1L_A <= sum1L_A;
 	// sum1L_B <= sum1L_B;
@@ -203,7 +199,7 @@ else begin
 		Ram_addrA_reg <= 12'd0;//0-7
 		Ram_addrB_reg <= 12'd32;//32-39
 		//coef
-		Rom_addrA_reg <= 9'd0;//0,2,4,6,8,10,12,14
+		Rom_addrA <= 9'd0;//0,2,4,6,8,10,12,14
 
 	end // if ( poly_cnt == 9'd0 )
 
@@ -212,7 +208,7 @@ else begin
 		Ram_addrA_reg <= {4'b0,poly_cnt};//1-7
 		Ram_addrB_reg <= 12'd32 + {4'b0,poly_cnt};//33-39
 		//coef
-		Rom_addrA_reg <= (poly_cnt << 1);//0,2,4,6,8,10,12,14
+		Rom_addrA <= (poly_cnt << 1);//0,2,4,6,8,10,12,14
 
 		sum1L_pre_reg <= mult_out1L;
 		mult1L_A_reg <= Ram_dataA;
@@ -229,7 +225,7 @@ else begin
 		Ram_addrA_reg <= 12'd23;//23
 		Ram_addrB_reg <= 12'd55;//55
 		//coef
-		Rom_addrA_reg <= 9'd1;//1
+		Rom_addrA <= 9'd1;//1
 
 		sum1L_pre_reg <= mult_out1L;
 		mult1L_A_reg <= Ram_dataA;
@@ -245,7 +241,7 @@ else begin
 		Ram_addrA_reg <= 12'd22;//22
 		Ram_addrB_reg <= 12'd54;//54
 		//coef
-		Rom_addrA_reg <= 9'd3;//1
+		Rom_addrA <= 9'd3;//1
 
 	//checkout half result
 		sum1L_A <= mult_out1L;
@@ -266,7 +262,7 @@ else begin
 		Ram_addrA_reg <= 12'd31 - poly_cnt ;//21-16
 		Ram_addrB_reg <= 12'd63 - poly_cnt ;//53-48
 		//coef MC0S Final
-		Rom_addrA_reg <= (poly_cnt - 9'd8) << 1;//5.7.9.11.13.15
+		Rom_addrA <= (poly_cnt - 9'd8) << 1;//5.7.9.11.13.15
 
 		sum1L_pre_reg <= mult_out1L;
 		mult1L_A_reg <= Ram_dataA;
@@ -283,7 +279,7 @@ else begin
 		Ram_addrA_reg <= 12'd1024 ;
 		Ram_addrB_reg <= 12'd1056 ;
 		//coef MC1S First
-		Rom_addrA_reg <= 9'd256;
+		Rom_addrA <= 9'd256;
 
 		//MC0S Final
 		sum1L_pre_reg <= mult_out1L;
@@ -301,7 +297,7 @@ else begin
 		Ram_addrA_reg <= 12'd1025 ;
 		Ram_addrB_reg <= 12'd1057 ;
 		//coef
-		Rom_addrA_reg <= 9'd257;
+		Rom_addrA <= 9'd257;
 
 		//MC1S First
 		sum1L_pre_reg <= 64'd0;
@@ -322,7 +318,7 @@ else begin
 		Ram_addrA_reg <= 12'd1008 + poly_cnt; //1026-1031
 		Ram_addrB_reg <= 12'd1040 + poly_cnt; //1058-1063
 		//coef MC1S Final
-		Rom_addrA_reg <= 9'd240 + poly_cnt;//258-263
+		Rom_addrA <= 9'd240 + poly_cnt;//258-263
 
 		sum1L_pre_reg <= mult_out1L;
 		mult1L_A_reg <= Ram_dataA;
@@ -368,8 +364,8 @@ else begin
 			Ram_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 			//coef
-			Rom_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
-			Rom_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + MC2S_sub_cnt ;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + MC2S_sub_cnt ;
 
 			sum1L_pre_reg <= 64'd0;
 			mult1L_A_reg <= 32'd0;
@@ -394,8 +390,8 @@ else begin
 			Ram_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 			//coef Final
-			Rom_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
-			Rom_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt + 12'd1;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt + 12'd1;
 
 			sum1L_pre_reg <= mult_out1L;
 			mult1L_A_reg <= Ram_dataA;
@@ -421,8 +417,8 @@ else begin
 			Ram_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
 			Ram_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 			//coef First
-			Rom_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
-			Rom_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
 
 			//cal Final
 			sum1L_pre_reg <= mult_out1L;
@@ -449,8 +445,8 @@ else begin
 			Ram_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
 			Ram_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 			//coef 
-			Rom_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
-			Rom_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
 
 			//cal First
 			sum1L_pre_reg <= 64'd0;
@@ -483,8 +479,8 @@ else begin
 			Ram_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
 			Ram_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 			//coef Final
-			Rom_addrA_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
-			Rom_addrB_reg <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
 
 			//cal
 			sum1L_pre_reg <= mult_out1L;

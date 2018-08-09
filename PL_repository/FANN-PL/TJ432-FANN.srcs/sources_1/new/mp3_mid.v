@@ -29,12 +29,6 @@ module mp3_mid(
 	inout [11:0] RAM_addrA,
 	inout [11:0] RAM_addrB,
 
-	//Rom operate
-	inout [8:0] Rom_addrA,
-	inout [8:0] Rom_addrB,
-	input [31:0] Rom_dataA,
-	input [31:0] Rom_dataB,   
-
     input [3:0] subband_state,
 
 	//CTL
@@ -67,7 +61,11 @@ wire [31:0] mult3A;
 wire [31:0] mult3B;
 wire [63:0] mult3_out;
 
-
+//Rom operate
+wire [8:0] Rom_addrA_wire;
+wire [8:0] Rom_addrB_wire;
+wire [31:0] Rom_dataA_wire;
+wire [31:0] Rom_dataB_wire;
 
   
 polyphase i_polyhpase
@@ -90,10 +88,10 @@ polyphase i_polyhpase
 	.Ram_dataB(RAM_dataB_out),
 
 	//Rom operate
-	.Rom_addrA(Rom_addrA),
-	.Rom_addrB(Rom_addrB),
-	.Rom_dataA(Rom_dataA),
-	.Rom_dataB(Rom_dataB),    
+	.Rom_addrA(Rom_addrA_wire),
+	.Rom_addrB(Rom_addrB_wire),
+	.Rom_dataA(Rom_dataA_wire),
+	.Rom_dataB(Rom_dataB_wire),    
 
 	//FIFO pcm DATA
 	.fifo_data(FIFO_DATA),
@@ -152,7 +150,15 @@ multiplier i_mult3(
 
 );
 
-    
+ROM_wrapper i_ROM(
+	.BRAM_PORTA_0_addr(Rom_addrA_wire),
+    .BRAM_PORTA_0_clk(MP3_CLK),
+    .BRAM_PORTA_0_dout(Rom_dataA_wire),
+
+    .BRAM_PORTB_0_addr(Rom_addrB_wire),
+    .BRAM_PORTB_0_clk(MP3_CLK),
+    .BRAM_PORTB_0_dout(Rom_dataB_wire)
+);  
     
     
 endmodule
