@@ -135,7 +135,7 @@ I2S_SUP_wrapper i_i2s_support(
 	);
 
 
-I2S16bit(
+I2S16bit i_i2s(
 	.CLK(I2S_MCLK_Wire),
 	.RST_n(1'b1), 
 	.data_input(i2s_data_Wire),
@@ -145,7 +145,7 @@ I2S16bit(
 	.BSCK(i_I2SBSCK),
 	.TXD(i_I2STXD),
 	.DATA_CLK(i2s_rd_Wire) //LCRK对齐的下跳沿请求数据
-	);
+);
 
 wire [31:0] RAM_DATA_OUTA_WIRE;
 wire [31:0] RAM_DATA_OUTB_WIRE;
@@ -184,7 +184,7 @@ RAM_wrapper i_RAM(
 	.BRAM_PORTB_0_clk(i_fb_clk),
 	.BRAM_PORTB_0_din,
 	.BRAM_PORTB_0_dout(RAM_DATA_OUTB_WIRE),
-	.BRAM_PORTB_0_we
+	.BRAM_PORTB_0_we(1'b0)
 );
 
 
