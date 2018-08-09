@@ -1,7 +1,7 @@
 //Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-//Date        : Sat Jul 21 14:37:39 2018
+//Date        : Thu Aug  9 15:05:48 2018
 //Host        : DESKTOP-WHUT running 64-bit major release  (build 9200)
 //Command     : generate_target I2S_SUP_wrapper.bd
 //Design      : I2S_SUP_wrapper
@@ -26,7 +26,7 @@ module I2S_SUP_wrapper
   output [15:0]FIFO_READ_0_rd_data;
   input FIFO_READ_0_rd_en;
   output FIFO_WRITE_0_full;
-  input [31:0]FIFO_WRITE_0_wr_data;
+  input [15:0]FIFO_WRITE_0_wr_data;
   input FIFO_WRITE_0_wr_en;
   output I2S_clk;
   input clk_100MHz;
@@ -39,7 +39,7 @@ module I2S_SUP_wrapper
   wire [15:0]FIFO_READ_0_rd_data;
   wire FIFO_READ_0_rd_en;
   wire FIFO_WRITE_0_full;
-  wire [31:0]FIFO_WRITE_0_wr_data;
+  wire [15:0]FIFO_WRITE_0_wr_data;
   wire FIFO_WRITE_0_wr_en;
   wire I2S_clk;
   wire clk_100MHz;
