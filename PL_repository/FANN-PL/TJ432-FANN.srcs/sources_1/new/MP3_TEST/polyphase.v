@@ -189,7 +189,10 @@ else begin
 
 	IP_Done <= IP_Done;
 
-	if ( poly_cnt == 9'd0 ) begin
+	if ( subband_state != ST_PLOY ) begin
+	end
+
+	else if ( poly_cnt == 9'd0 ) begin
 		// sum1L <= 64'd0;
 		// sum2L <= 64'd0;
 		// sum1R <= 64'd0;
