@@ -51,7 +51,7 @@ module polyphase
 	input [31:0] Rom_dataB,	
 
 	//FIFO pcm DATA
-	output reg [31:0] fifo_data,
+	output reg [15:0] fifo_data,
 	output reg fifo_enable,
 
 	inout [63:0] sum1L_pre,
@@ -161,7 +161,7 @@ if ( !RST_n ) begin
 	MC2S_sub_cnt <= 9'd0;
 
 	fifo_cnt <= 8'd0;
-	fifo_data <= 32'd0;
+	fifo_data <= 16'd0;
 	fifo_enable <= 1'b0;					
 
 	IP_Done <= 1'b0;
