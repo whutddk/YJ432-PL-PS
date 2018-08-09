@@ -66,8 +66,15 @@ wire [31:0] LEDR_Puty_Wire;
 wire [31:0] LEDG_Puty_Wire;
 wire [31:0] LEDB_Puty_Wire; 
 	
-wire [15:0] PCM_DATA_Wire;
-wire Is_empty_wire;
+
+wire [31:0] FB_RAM_DATA_Wire;
+wire [11:0] FB_RAM_ADDR_Wire;
+wire [3:0] vindex_Wire;
+wire b_Wire;
+wire RAM_WR_EN_Wire;
+wire [3:0] subband_state_Wire;
+wire IP_Done_Wire;
+
 // wire FIFO_CLK_wire;
 wire Is_Empty_Wire;
 
@@ -93,6 +100,17 @@ flexbus_comm i_flexbus(
 	.LEDG_Puty_Reg(LEDG_Puty_Wire),
 	.LEDB_Puty_Reg(LEDB_Puty_Wire),
 	
+	.RAM_DATA_Reg(FB_RAM_DATA_Wire),
+	.RAM_ADDR(FB_RAM_ADDR_Wire),
+
+	.vindex(vindex_Wire),
+	.b(b_Wire),
+
+	.RAM_WR_EN_Reg(RAM_WR_EN_Wire),
+	.subband_state(subband_state_Wire),
+
+	.IP_Done(IP_Done_Wire),
+
 	.Is_Empty_Wire(Is_Empty_Wire),
 	// .STEAM_DATA(STREAM_DATA_Wire),  //put data into here
 	// .FIFO_CLK(FIFO_CLK_wire)
@@ -118,6 +136,7 @@ wire I2S_MCLK_Wire;
 wire [15:0] i2s_data_Wire;
 wire i2s_rd_Wire;
 wire Pcm_wden_Wire;
+wire [15:0] PCM_DATA_Wire;
 
 I2S_SUP_wrapper i_i2s_support(
 	.FIFO_READ_0_empty(),
@@ -147,24 +166,25 @@ I2S16bit i_i2s(
 	.DATA_CLK(i2s_rd_Wire) //LCRK对齐的下跳沿请求数据
 );
 
-wire [31:0] RAM_DATA_OUTA_WIRE;
-wire [31:0] RAM_DATA_OUTB_WIRE;
+wire [31:0] RAM_DATA_OUTA_Wire;
+wire [31:0] RAM_DATA_OUTB_Wire;
+wire [11:0] RAM_ADDR_B_Wire;
 
 mp3_mid i_mp3(
 	.MP3_CLK(i_fb_clk),
 	.RST_n(1'b1),
 
-	.RAM_dataA_out(RAM_DATA_OUTA_WIRE),
-	.RAM_dataB_out(RAM_DATA_OUTB_WIRE),
-	inout [11:0] RAM_addrA,
-	inout [11:0] RAM_addrB,
+	.RAM_dataA_out(RAM_DATA_OUTA_Wire),
+	.RAM_dataB_out(RAM_DATA_OUTB_Wire),
+	.RAM_addrA(FB_RAM_ADDR_Wire),
+	.RAM_addrB(RAM_ADDR_B_Wire),
 
-	input [3:0] subband_state,
+	.subband_state(subband_state_Wire),
 
 	//CTL
-	input [3:0] vindex,
-	input b,
-	output IP_Done,
+	.vindex(vindex_Wire),
+	.b(b_Wire),
+	.IP_Done(IP_Done_Wire),
 
 	.FIFO_EN(Pcm_wden_Wire),
 	.FIFO_DATA(PCM_DATA_Wire)
@@ -174,16 +194,16 @@ mp3_mid i_mp3(
 
 
 RAM_wrapper i_RAM(
-	.BRAM_PORTA_0_addr,
+	.BRAM_PORTA_0_addr(FB_RAM_ADDR_Wire),
 	.BRAM_PORTA_0_clk(i_fb_clk),
-	.BRAM_PORTA_0_din,
-	.BRAM_PORTA_0_dout(RAM_DATA_OUTA_WIRE),
-	.BRAM_PORTA_0_we,
+	.BRAM_PORTA_0_din(FB_RAM_DATA_Wire),
+	.BRAM_PORTA_0_dout(RAM_DATA_OUTA_Wire),
+	.BRAM_PORTA_0_we(RAM_WR_EN_Wire),
 
-	.BRAM_PORTB_0_addr,
+	.BRAM_PORTB_0_addr(RAM_ADDR_B_Wire),
 	.BRAM_PORTB_0_clk(i_fb_clk),
-	.BRAM_PORTB_0_din,
-	.BRAM_PORTB_0_dout(RAM_DATA_OUTB_WIRE),
+	.BRAM_PORTB_0_din(),
+	.BRAM_PORTB_0_dout(RAM_DATA_OUTB_Wire),
 	.BRAM_PORTB_0_we(1'b0)
 );
 
