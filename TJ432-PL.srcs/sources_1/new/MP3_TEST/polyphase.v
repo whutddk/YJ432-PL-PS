@@ -1,10 +1,6 @@
 `timescale 1ns / 1ps
 
-parameter ST_IDLE = 0;
-parameter ST_MIBUF = 1;
-parameter ST_FDCT = 2;
-parameter ST_FBRAM = 3;
-parameter ST_PLOY = 4;
+
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Wuhan university of technology
 // Engineer: RUIGE LEE
@@ -76,7 +72,11 @@ module polyphase
 
 );
 
-
+parameter ST_IDLE = 0;
+parameter ST_MIBUF = 1;
+parameter ST_FDCT = 2;
+parameter ST_FBRAM = 3;
+parameter ST_PLOY = 4;
 
 reg [63:0] sum1L_pre_reg;
 reg [31:0] mult1L_A_reg;

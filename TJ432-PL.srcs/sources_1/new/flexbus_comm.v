@@ -19,11 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-//parameter ST_IDLE = 0;
-//parameter ST_MIBUF = 1;
-//parameter ST_FDCT = 2;
-//parameter ST_FBRAM = 3;
-//parameter ST_PLOY = 4;
+
 
 module flexbus_comm(
 	input [31:0] FB_BASE,
@@ -64,6 +60,11 @@ module flexbus_comm(
 	
 	);
 
+parameter ST_IDLE = 0;
+parameter ST_MIBUF = 1;
+parameter ST_FDCT = 2;
+parameter ST_FBRAM = 3;
+parameter ST_PLOY = 4;
 
 wire AD_TRI_n ;//高阻状态标志位,posedge logic
 reg ADD_COMF = 1'b0;
