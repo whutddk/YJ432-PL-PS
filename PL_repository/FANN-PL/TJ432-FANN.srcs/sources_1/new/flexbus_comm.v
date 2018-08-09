@@ -19,11 +19,11 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-parameter ST_IDLE = 0;
-parameter ST_MIBUF = 1;
-parameter ST_FDCT = 2;
-parameter ST_FBRAM = 3;
-parameter ST_PLOY = 4;
+//parameter ST_IDLE = 0;
+//parameter ST_MIBUF = 1;
+//parameter ST_FDCT = 2;
+//parameter ST_FBRAM = 3;
+//parameter ST_PLOY = 4;
 
 module flexbus_comm(
 	input [31:0] FB_BASE,
@@ -58,7 +58,7 @@ module flexbus_comm(
 	output reg[3:0] subband_state,
 
 	input IP_Done,
-	input Is_Empty_Wire,
+	input Is_Empty_Wire
 	// output reg [31:0] STEAM_DATA,  //put data into here
 	// output reg FIFO_CLK
 	
