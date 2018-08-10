@@ -69,8 +69,9 @@ wire [31:0] LEDB_Puty_Wire;
 
 wire [31:0] FB_RAM_DATA_Wire;
 wire [11:0] FB_RAM_ADDR_Wire;
-wire [3:0] vindex_Wire;
-wire b_Wire;
+// wire [3:0] vindex_Wire;
+// wire b_Wire;
+wire [11:0] vbuf_offset_Wire;
 wire RAM_WR_EN_Wire;
 wire [3:0] subband_state_Wire;
 wire IP_Done_Wire;
@@ -103,8 +104,10 @@ flexbus_comm i_flexbus(
 	.RAM_DATA_Reg(FB_RAM_DATA_Wire),
 	.RAM_ADDR(FB_RAM_ADDR_Wire),
 
-	.vindex(vindex_Wire),
-	.b(b_Wire),
+	// .vindex(vindex_Wire),
+	// .b(b_Wire),
+
+	.vbuf_offset(vbuf_offset_Wire),
 
 	.RAM_WR_EN_Reg(RAM_WR_EN_Wire),
 	.subband_state(subband_state_Wire),
@@ -182,8 +185,11 @@ mp3_mid i_mp3(
 	.subband_state(subband_state_Wire),
 
 	//CTL
-	.vindex(vindex_Wire),
-	.b(b_Wire),
+	// .vindex(vindex_Wire),
+	// .b(b_Wire),
+	
+	.vbuf_offset(vbuf_offset_Wire),
+	
 	.IP_Done(IP_Done_Wire),
 
 	.FIFO_EN(Pcm_wden_Wire),
