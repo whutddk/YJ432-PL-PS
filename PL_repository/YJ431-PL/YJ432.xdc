@@ -97,21 +97,21 @@ set_property -dict {PACKAGE_PIN R16 IOSTANDARD LVCMOS33} [get_ports i_QEI0_CH0_P
 
 #set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { btn[1] }]; #IO_L19P_T3_16 Sch=btn[1]
 
-# PMOD1 
-set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports i_I2SMCLK];    #BANK14 
-set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports i_I2SLRCK];    #BANK14 
-set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports i_I2SBSCK];    #BANK14 
-set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD];    #BANK14
+# PMOD1
+set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports i_I2SMCLK]
+set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports i_I2SLRCK]
+set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports i_I2SBSCK]
+set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD]
 
 #set_property -dict {PACKAGE_PIN P8 IOSTANDARD LVCMOS33} [get_ports PMOD1_7];    #BANK14
 #set_property -dict {PACKAGE_PIN T7 IOSTANDARD LVCMOS33} [get_ports PMOD1_8];    #BANK14
 #set_property -dict {PACKAGE_PIN R7 IOSTANDARD LVCMOS33} [get_ports PMOD1_9];    #BANK14
 #set_property -dict {PACKAGE_PIN R6 IOSTANDARD LVCMOS33} [get_ports PMOD1_10];    #BANK14
 
-# PMOD2 
-#set_property -dict {PACKAGE_PIN T3 IOSTANDARD LVCMOS33} [get_ports PMOD2_1];    #BANK34 
-#set_property -dict {PACKAGE_PIN R3 IOSTANDARD LVCMOS33} [get_ports PMOD2_2];    #BANK34 
-#set_property -dict {PACKAGE_PIN T2 IOSTANDARD LVCMOS33} [get_ports PMOD2_3];    #BANK34 
+# PMOD2
+#set_property -dict {PACKAGE_PIN T3 IOSTANDARD LVCMOS33} [get_ports PMOD2_1];    #BANK34
+#set_property -dict {PACKAGE_PIN R3 IOSTANDARD LVCMOS33} [get_ports PMOD2_2];    #BANK34
+#set_property -dict {PACKAGE_PIN T2 IOSTANDARD LVCMOS33} [get_ports PMOD2_3];    #BANK34
 #set_property -dict {PACKAGE_PIN R2 IOSTANDARD LVCMOS33} [get_ports PMOD2_4];    #BANK34
 
 #set_property -dict {PACKAGE_PIN T4 IOSTANDARD LVCMOS33} [get_ports PMOD2_7];    #BANK34
@@ -119,10 +119,10 @@ set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD];   
 #set_property -dict {PACKAGE_PIN N3 IOSTANDARD LVCMOS33} [get_ports PMOD2_9];    #BANK34
 #set_property -dict {PACKAGE_PIN M4 IOSTANDARD LVCMOS33} [get_ports PMOD2_10];    #BANK34
 
-## PMOD3 
-#set_property -dict {PACKAGE_PIN N2 IOSTANDARD LVCMOS33} [get_ports PMOD3_1];    #BANK34 
-#set_property -dict {PACKAGE_PIN N1 IOSTANDARD LVCMOS33} [get_ports PMOD3_2];    #BANK34 
-#set_property -dict {PACKAGE_PIN M2 IOSTANDARD LVCMOS33} [get_ports PMOD3_3];    #BANK34 
+## PMOD3
+#set_property -dict {PACKAGE_PIN N2 IOSTANDARD LVCMOS33} [get_ports PMOD3_1];    #BANK34
+#set_property -dict {PACKAGE_PIN N1 IOSTANDARD LVCMOS33} [get_ports PMOD3_2];    #BANK34
+#set_property -dict {PACKAGE_PIN M2 IOSTANDARD LVCMOS33} [get_ports PMOD3_3];    #BANK34
 #set_property -dict {PACKAGE_PIN M1 IOSTANDARD LVCMOS33} [get_ports PMOD3_4];    #BANK34
 
 #set_property -dict {PACKAGE_PIN R1 IOSTANDARD LVCMOS33} [get_ports PMOD3_7];    #BANK34
@@ -213,3 +213,44 @@ set_property CONFIG_MODE SPIx4 [current_design]
 
 
 
+<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
+=======
+
+
+set_property SLEW FAST [get_ports {i_fb_ad[31]}]
+set_property SLEW FAST [get_ports {i_fb_ad[30]}]
+set_property SLEW FAST [get_ports {i_fb_ad[29]}]
+set_property SLEW FAST [get_ports {i_fb_ad[28]}]
+set_property SLEW FAST [get_ports {i_fb_ad[27]}]
+set_property SLEW FAST [get_ports {i_fb_ad[26]}]
+set_property SLEW FAST [get_ports {i_fb_ad[25]}]
+set_property SLEW FAST [get_ports {i_fb_ad[24]}]
+set_property SLEW FAST [get_ports {i_fb_ad[23]}]
+set_property SLEW FAST [get_ports {i_fb_ad[22]}]
+set_property SLEW FAST [get_ports {i_fb_ad[21]}]
+set_property SLEW FAST [get_ports {i_fb_ad[20]}]
+set_property SLEW FAST [get_ports {i_fb_ad[19]}]
+set_property SLEW FAST [get_ports {i_fb_ad[18]}]
+set_property SLEW FAST [get_ports {i_fb_ad[17]}]
+set_property SLEW FAST [get_ports {i_fb_ad[16]}]
+set_property SLEW FAST [get_ports {i_fb_ad[15]}]
+set_property SLEW FAST [get_ports {i_fb_ad[14]}]
+set_property SLEW FAST [get_ports {i_fb_ad[13]}]
+set_property SLEW FAST [get_ports {i_fb_ad[12]}]
+set_property SLEW FAST [get_ports {i_fb_ad[11]}]
+set_property SLEW FAST [get_ports {i_fb_ad[10]}]
+set_property SLEW FAST [get_ports {i_fb_ad[9]}]
+set_property SLEW FAST [get_ports {i_fb_ad[8]}]
+set_property SLEW FAST [get_ports {i_fb_ad[7]}]
+set_property SLEW FAST [get_ports {i_fb_ad[6]}]
+set_property SLEW FAST [get_ports {i_fb_ad[5]}]
+set_property SLEW FAST [get_ports {i_fb_ad[4]}]
+set_property SLEW FAST [get_ports {i_fb_ad[3]}]
+set_property SLEW FAST [get_ports {i_fb_ad[2]}]
+set_property SLEW FAST [get_ports {i_fb_ad[1]}]
+set_property SLEW FAST [get_ports {i_fb_ad[0]}]
+
+
+set_property CONFIG_VOLTAGE 3.3 [current_design]
+set_property CFGBVS VCCO [current_design]
+>>>>>>> 45c08ed... 芯片配置电压:TJ432.xdc
