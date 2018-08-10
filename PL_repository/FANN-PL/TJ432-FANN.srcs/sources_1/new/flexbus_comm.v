@@ -47,8 +47,11 @@ module flexbus_comm(
 	output reg [31:0] RAM_DATA_Reg,
 	inout [11:0] RAM_ADDR,
 
-	output reg [3:0] vindex,
-	output reg b,
+	// output reg [3:0] vindex,
+	// output reg b,
+	
+	output reg [11:0] vbuf_offset,
+	
 
 	output reg RAM_WR_EN_Reg,
 	output reg[3:0] subband_state,
