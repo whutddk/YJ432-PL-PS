@@ -73,7 +73,7 @@ wire [11:0] FB_RAM_ADDR_Wire;
 // wire b_Wire;
 wire [11:0] vbuf_offset_Wire;
 wire RAM_WR_EN_Wire;
-wire [2:0] subband_state_Wire;
+(* dont_touch="true" *) wire [2:0] subband_state_Wire;
 wire IP_Done_Wire;
 
 // wire FIFO_CLK_wire;

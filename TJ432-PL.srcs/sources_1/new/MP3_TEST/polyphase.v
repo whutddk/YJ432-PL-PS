@@ -27,7 +27,8 @@ module polyphase
 	input RST_n,  // Asynchronous reset active low
 	
 	//state
-	input [2:0] subband_state,
+	
+	(* DONT_TOUCH = "TRUE" *) input [2:0] subband_state,
 
 	//CTL
 	// input [3:0] vindex,
@@ -75,11 +76,11 @@ module polyphase
 
 );
 
-parameter ST_IDLE = 0;
-parameter ST_MIBUF = 1;
-parameter ST_FDCT = 2;
-parameter ST_FBRAM = 3;
-parameter ST_PLOY = 4;
+parameter ST_IDLE = 3'd0;
+parameter ST_MIBUF = 3'd1;
+parameter ST_FDCT = 3'd2;
+parameter ST_FBRAM = 3'd3;
+parameter ST_PLOY = 3'd4;
 
 reg [63:0] sum1L_pre_reg;
 reg [31:0] mult1L_A_reg;
