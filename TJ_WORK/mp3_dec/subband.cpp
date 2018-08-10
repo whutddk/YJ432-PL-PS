@@ -46,6 +46,7 @@
 #include "coder.h"
 #include "assembly.h"
 
+#include "include.h"
 /**************************************************************************************
  * Function:    Subband
  *
@@ -84,9 +85,11 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			memmove((void*)TJBMP3_reg,(void*)sbi->vbuf,2176);//将FDCT32结果传送过去（有浪费）
 			*(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
 
-			PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
-			sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
-			pcmBuf += (2 * NBANDS);
+			// PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
+			// sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
+			// pcmBuf += (2 * NBANDS);
+			
+			while((*TJBMP3_MESSAGE_REG) != 3);
 		}
 	} 
 	else 

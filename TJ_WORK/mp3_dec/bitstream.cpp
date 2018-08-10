@@ -256,7 +256,7 @@ int UnpackFrameHeader(MP3DecInfo *mp3DecInfo, unsigned char *buf)
 	mp3DecInfo->nGrans = 2;
 	mp3DecInfo->nGranSamps = ((int)1152) / mp3DecInfo->nGrans;
 	mp3DecInfo->layer = 3;
-	mp3DecInfo->version = 0;
+	mp3DecInfo->version = (MPEGVersion)0;
 
 	mp3DecInfo->bitrate = (int)128000;
 
