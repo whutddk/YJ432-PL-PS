@@ -19,7 +19,11 @@ set_property -dict {PACKAGE_PIN D13 IOSTANDARD LVCMOS33} [get_ports i_fb_clk];
 create_clock -period 33.333 -name fb_clk_pin -waveform {0.000 16.666} -add [get_ports i_fb_clk];
 
 ## FB_OE
+<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
 set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen];
+=======
+#set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen]
+>>>>>>> f96ff61... 开始布线测试:TJ432.xdc
 
 ## FB_RW
 set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33} [get_ports i_fb_rw];

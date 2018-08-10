@@ -29,11 +29,14 @@ module mp3_mid(
 	inout [11:0] RAM_addrA,
 	inout [11:0] RAM_addrB,
 
-	input [3:0] subband_state,
+	input [2:0] subband_state,
 
 	//CTL
-	input [3:0] vindex,
-	input b,
+	// input [3:0] vindex,
+	// input b,
+
+	input [11:0] vbuf_offset,
+
 	output IP_Done,
 
 	output FIFO_EN,
@@ -77,8 +80,11 @@ polyphase i_polyhpase
 	.subband_state(subband_state),
 
 	//CTL
-	.vindex(vindex),
-	.b(b),
+	// .vindex(vindex),
+	// .b(b),
+	
+	.vbuf_offset(vbuf_offset),
+	
 	.IP_Done(IP_Done),
 
 	//ram operate

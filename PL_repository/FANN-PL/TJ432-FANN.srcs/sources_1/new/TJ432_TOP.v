@@ -24,7 +24,7 @@ module TJ432_TOP(
 	i_sysclk,
 	i_fb_clk,
 
-	i_fb_oen,
+	// i_fb_oen,
 	i_fb_rw,
 	i_fb_csn,
 	i_fb_ale,
@@ -44,7 +44,7 @@ module TJ432_TOP(
 input i_sysclk;
 input i_fb_clk;
 
-input i_fb_oen;
+// input i_fb_oen;
 input i_fb_rw;
 input i_fb_csn;
 input i_fb_ale;
@@ -73,7 +73,7 @@ wire [11:0] FB_RAM_ADDR_Wire;
 // wire b_Wire;
 wire [11:0] vbuf_offset_Wire;
 wire RAM_WR_EN_Wire;
-wire [3:0] subband_state_Wire;
+wire [2:0] subband_state_Wire;
 wire IP_Done_Wire;
 
 // wire FIFO_CLK_wire;
@@ -84,7 +84,7 @@ flexbus_comm i_flexbus(
 
 	.FB_CLK(i_fb_clk),
 	.RST_n(1'b1),
-	.FB_OE(i_fb_oen),
+	// .FB_OE(i_fb_oen),
 	.FB_RW(i_fb_rw),
 	.FB_CS(i_fb_csn),
 	.FB_ALE(i_fb_ale),
