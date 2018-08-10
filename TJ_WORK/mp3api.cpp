@@ -117,32 +117,34 @@ void play_mp3(char* filename)
 			}
 
 
-		    if ( flag_sw == 0 )
-		    {
-		        temp = (uint32_t)buf_rec1;
-		        flag_sw = 1;
-		        // num_read = fread((void*)TJBMP3_reg,4,4*NUM_BYTE_READ,fd);
-		        memmove((void*)TJBMP3_reg,(void*)temp,4608);
-				//fc.printf("sent %dB\n\r", num_read);
-				while(!(*TJBMP3_IsEMPTY_REG));
+		 //    if ( flag_sw == 0 )
+		 //    {
+		 //        temp = (uint32_t)buf_rec1;
+		 //        flag_sw = 1;
+		 //        // num_read = fread((void*)TJBMP3_reg,4,4*NUM_BYTE_READ,fd);
+		 //        memmove((void*)TJBMP3_reg,(void*)temp,4608);
+			// 	//fc.printf("sent %dB\n\r", num_read);
+			// 	while(!(*TJBMP3_IsEMPTY_REG));
 
 
-		    }
-		    else
-		    {
-		        temp = (uint32_t)buf_rec2;
-		        flag_sw = 0;
+		 //    }
+		 //    else
+		 //    {
+		 //        temp = (uint32_t)buf_rec2;
+		 //        flag_sw = 0;
 
-		        memmove((void*)TJBMP3_reg,(void*)temp,4608);
-		        //fc.printf("sent %dB\n\r", num_read);
-				while(!(*TJBMP3_IsEMPTY_REG));
-		    }
+		 //        memmove((void*)TJBMP3_reg,(void*)temp,4608);
+		 //        //fc.printf("sent %dB\n\r", num_read);
+			// 	while(!(*TJBMP3_IsEMPTY_REG));
+		 //    }
 
-		    /********************************
+		 //    /********************************
 
-			transfer here!!!
+			// transfer here!!!
 
-			*******************************/
+			// *******************************/
+			
+			
 			if (byte_left < NUM_BYTE_READ) 
 			{
 				memmove(buf_read,read_ptr,byte_left);
