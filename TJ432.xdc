@@ -24,7 +24,7 @@ create_clock -period 25.000 -name fb_clk_pin -waveform {0.000 12.500} -add [get_
 set_clock_groups -name async_sys_fb -asynchronous -group sys_clk_pin -group fb_clk_pin
 
 ## FB_OE
-set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen]
+#set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen]
 
 ## FB_RW
 set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33} [get_ports i_fb_rw]

@@ -88,6 +88,8 @@ begin
         lcrk_reg <= 1'b1;
         txd_reg <= 1'b0;
         data_clk_reg <= 1'b0;
+
+        i2s_data <= 16'd0;
     end
     else
     begin

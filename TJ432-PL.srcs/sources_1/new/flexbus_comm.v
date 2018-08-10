@@ -26,7 +26,7 @@ module flexbus_comm(
 
 	input FB_CLK,
 	input RST_n,
-	input FB_OE,
+	// input FB_OE,
 	input FB_RW,
 	input FB_CS,
 	input FB_ALE,
@@ -54,7 +54,7 @@ module flexbus_comm(
 	
 
 	output reg RAM_WR_EN_Reg,
-	output reg[3:0] subband_state,
+	output reg [2:0] subband_state,
 
 	input IP_Done,
 	input Is_Empty_Wire
@@ -105,6 +105,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		RAM_WR_EN_Reg <= 1'b0;
 		subband_state <= ST_IDLE;
 
+		vbuf_offset <= 12'd0;
+
 	end
 	else begin
 
@@ -124,6 +126,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		RAM_ADDR_Reg <= RAM_ADDR_Reg;
 		RAM_WR_EN_Reg <= 1'b0;
 		subband_state <= subband_state;
+
+		vbuf_offset <= vbuf_offset;
  
 		if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
 //            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
@@ -186,7 +190,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 
 							32'h07810001:begin
 								subband_state <= ST_PLOY;
-								{vindex,b} <= FB_AD[4:0];
+								vbuf_offset[11:0] <= FB_AD[11:0];
 								
 								RAM_WR_EN_Reg <= 1'b0;
 

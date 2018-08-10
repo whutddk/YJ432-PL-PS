@@ -27,7 +27,7 @@ module polyphase
 	input RST_n,  // Asynchronous reset active low
 	
 	//state
-	input [3:0] subband_state,
+	input [2:0] subband_state,
 
 	//CTL
 	// input [3:0] vindex,
@@ -121,7 +121,7 @@ assign mult2R_B =  mult2R_B_reg;
 assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
-reg [15:0] pcm[0:64];
+reg [15:0] pcm[0:63];
 reg [8:0] poly_cnt = 9'd0; 
 reg [4:0] MC2S_cnt = 5'd15;
 reg [8:0] MC2S_sub_cnt = 9'd0;
@@ -137,7 +137,7 @@ reg [63:0] sum1R_A;
 reg [63:0] sum2R_A;
 // reg [63:0] sum2R_B;
 
-always @( posedge CLK or negedge RST_n ) begin
+always @( negedge CLK or negedge RST_n ) begin
 if ( !RST_n ) begin
 	Ram_addrA_reg <= 12'b0;
 	Ram_addrB_reg <= 12'b0;
@@ -147,14 +147,9 @@ if ( !RST_n ) begin
 	poly_cnt <= 9'd0;
 
 	sum1L_A <= 64'd0;
-	// sum1L_B <= 64'd0;
 	sum2L_A <= 64'd0;
-	// sum2L_B <= 64'd0;
-
 	sum1R_A <= 64'd0;
-	// sum1R_B <= 64'd0;
 	sum2R_A <= 64'd0;
-	// sum2R_B <= 64'd0;
 
 	MC2S_cnt <= 5'd15;
 	MC2S_sub_cnt <= 9'd0;
@@ -164,6 +159,20 @@ if ( !RST_n ) begin
 	fifo_enable <= 1'b0;					
 
 	IP_Done <= 1'b0;
+
+	sum1L_pre_reg <= 64'd0;
+	mult1L_A_reg <= 32'd0;
+	mult1L_B_reg <= 32'd0;
+	sum2L_pre_reg <= 64'd0;
+	mult2L_A_reg <= 32'd0;
+	mult2L_B_reg <= 32'd0;
+	sum1R_pre_reg <= 64'd0;
+	mult1R_A_reg <= 32'd0;
+	mult1R_B_reg <= 32'd0;
+	sum2R_pre_reg <= 64'd0;
+	mult2R_A_reg <= 32'd0;
+	mult2R_B_reg <= 32'd0;
+
 end
 
 else begin
@@ -193,6 +202,16 @@ else begin
 	IP_Done <= IP_Done;
 
 	if ( subband_state != ST_PLOY ) begin
+		//reset
+		MC2S_cnt <= 9'd15;
+		fifo_cnt <= 8'd0;
+		poly_cnt <= 9'd0;
+
+		fifo_data <= fifo_data;
+		fifo_enable <= 1'b0;
+
+		IP_Done <= 1'b0;
+
 	end
 
 	else if ( poly_cnt == 9'd0 ) begin
@@ -539,17 +558,17 @@ else begin
 
 			else begin //MC2S_cnt == 9'd1
 				
-				if ( fifo_cnt < 8'd63 ) begin
+				if ( fifo_cnt <= 8'd63 ) begin
 					fifo_cnt <= fifo_cnt + 8'd1;
 					fifo_data <= pcm[fifo_cnt];
 					fifo_enable <= 1'b1;
 				end
 
 				else begin //module complete
-
-					MC2S_cnt <= 9'd15;
-					fifo_cnt <= 8'd0;
-					poly_cnt <= 9'd0;
+					//waie to reset
+					MC2S_cnt <= MC2S_cnt;
+					fifo_cnt <= fifo_cnt;
+					poly_cnt <= poly_cnt;
 
 					fifo_data <= fifo_data;
 					fifo_enable <= 1'b0;
