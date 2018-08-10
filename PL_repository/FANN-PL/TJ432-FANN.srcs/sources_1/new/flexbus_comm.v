@@ -34,7 +34,7 @@ module flexbus_comm(
 //    input FB_BE23_16,
 //    input FB_BE15_8,
 //    input FB_BE7_0,
-	inout [31:0] FB_AD,
+	(* DONT_TOUCH = "TRUE" *) inout [31:0] FB_AD,
 	
 
 	output reg [31:0] FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
@@ -63,16 +63,16 @@ module flexbus_comm(
 	
 	);
 
-parameter ST_IDLE = 0;
-parameter ST_MIBUF = 1;
-parameter ST_FDCT = 2;
-parameter ST_FBRAM = 3;
-parameter ST_PLOY = 4;
+parameter ST_IDLE = 3'd0;
+parameter ST_MIBUF = 3'd1;
+parameter ST_FDCT = 3'd2;
+parameter ST_FBRAM = 3'd3;
+parameter ST_PLOY = 3'd4;
 
 wire AD_TRI_n ;//高阻状态标志位,posedge logic
 reg ADD_COMF = 1'b0;
 
-reg [31:0] FB_AD_reg = 32'b0;
+(* DONT_TOUCH = "TRUE" *) reg [31:0] FB_AD_reg = 32'b0;
 reg [31:0] ip_ADDR = 32'b0;
 
 assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);      
@@ -173,13 +173,13 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								// STEAM_DATA[31:0] <= FB_AD[31:0];
 								// FIFO_CLK <= 1'b0;
 								
-								if ( (ip_ADDR[11:0]) < 12'd3000 ) begin
+								if ( (ip_ADDR[13:2]) < 12'd3000 ) begin
 								
 									RAM_DATA_Reg[31:0] <= FB_AD[31:0];
-									RAM_ADDR_Reg[11:0] <= ip_ADDR[11:0];
+									RAM_ADDR_Reg[11:0] <= ip_ADDR[13:2];
 									RAM_WR_EN_Reg <= 1'b1;
 									subband_state <= ST_FBRAM;
-								end // if ( (ip_ADDR[11:0]) < 12'd3000 )
+								end // if ( (ip_ADDR[13:2]) < 12'd3000 )
 								else begin
 									RAM_DATA_Reg <= RAM_DATA_Reg;
 									RAM_ADDR_Reg[11:0] <= RAM_ADDR_Reg[11:0];
