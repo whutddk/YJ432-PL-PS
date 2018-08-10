@@ -138,7 +138,7 @@ reg [63:0] sum1R_A;
 reg [63:0] sum2R_A;
 // reg [63:0] sum2R_B;
 
-always @( negedge CLK or negedge RST_n ) begin
+always @( posedge CLK or negedge RST_n ) begin
 if ( !RST_n ) begin
 	Ram_addrA_reg <= 12'b0;
 	Ram_addrB_reg <= 12'b0;
