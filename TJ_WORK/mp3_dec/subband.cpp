@@ -88,13 +88,13 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 				*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
 			}
 
-			*(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
+			// *(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
 
 			// PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
-			// sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
+			sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
 			// pcmBuf += (2 * NBANDS);
 			
-			while((*TJBMP3_MESSAGE_REG) != 3);
+			// while((*TJBMP3_MESSAGE_REG) != 3);
 		}
 	} 
 	else 
