@@ -227,6 +227,15 @@ else begin
 		//coef
 		Rom_addrA <= 9'd0;//0,2,4,6,8,10,12,14
 
+		sum1L_pre_reg <= 64'd0;
+		mult1L_A_reg <= 32'd0;
+		mult1L_B_reg <= 32'd0;
+
+		sum1R_pre_reg <= 64'd0;
+		mult1R_A_reg <= 32'd0;
+		mult1R_B_reg <= 32'd0;
+
+
 	end // if ( poly_cnt == 9'd0 )
 
 	else if ( poly_cnt <= 9'd7 ) begin
@@ -288,7 +297,7 @@ else begin
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd31 - poly_cnt ;//21-16
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd63 - poly_cnt ;//53-48
 		//coef MC0S Final
-		Rom_addrA <= (poly_cnt - 9'd8) << 1;//5.7.9.11.13.15
+		Rom_addrA <= ((poly_cnt - 9'd8) << 1) + 9'd1;//5.7.9.11.13.15
 
 		sum1L_pre_reg <= mult_out1L;
 		mult1L_A_reg <= Ram_dataA;
@@ -391,8 +400,8 @@ else begin
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 			//coef
-			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
-			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + MC2S_sub_cnt ;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 );
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + ( MC2S_sub_cnt << 1) ;
 
 			sum1L_pre_reg <= 64'd0;
 			mult1L_A_reg <= 32'd0;
@@ -417,8 +426,8 @@ else begin
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 			//coef Final
-			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt;
-			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt + 12'd1;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 );
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 ) + 12'd1;
 
 			sum1L_pre_reg <= mult_out1L;
 			mult1L_A_reg <= Ram_dataA;
@@ -444,8 +453,8 @@ else begin
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 			//coef First
-			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
-			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1 + 12'd1;
 
 			//cal Final
 			sum1L_pre_reg <= mult_out1L;
@@ -472,8 +481,8 @@ else begin
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 			//coef 
-			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
-			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1 + 12'd1;
 
 			//cal First
 			sum1L_pre_reg <= 64'd0;
@@ -506,8 +515,8 @@ else begin
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 			//coef Final
-			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd8;
-			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + MC2S_sub_cnt - 12'd7;
+			Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1;
+			Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1 + 12'd1;
 
 			//cal
 			sum1L_pre_reg <= mult_out1L;
