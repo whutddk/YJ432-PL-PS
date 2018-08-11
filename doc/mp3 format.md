@@ -127,6 +127,22 @@ fh->crc = 1
 
 
 
+---------------------
+## polyphase
+* subband_state
+    - FBRAM
+        + poly_cnt == 0
+    - POLY
+        + poly_cnt = 0~26
+        + polu_cnt == 26
+            * MC2S_cnt = 15-1
+                - MC2S_sub_cnt = 0~17
+                - sub == 17 && MS2C_cnt == 1
+                    + fifo_cnt = 0~64
+                    + fifo_cnt == 64
+                        * done 保持
+
+
 
 
 
