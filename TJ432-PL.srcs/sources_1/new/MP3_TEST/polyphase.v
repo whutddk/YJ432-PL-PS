@@ -124,7 +124,7 @@ assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
 reg [15:0] pcm[0:63];
 reg [8:0] poly_cnt = 9'd0; 
-reg [4:0] MC2S_cnt = 5'd15;
+reg [3:0] MC2S_cnt = 4'd15;
 reg [8:0] MC2S_sub_cnt = 9'd0;
 reg [7:0] fifo_cnt = 8'd0;
 
@@ -152,7 +152,7 @@ if ( !RST_n ) begin
 	sum1R_A <= 64'd0;
 	sum2R_A <= 64'd0;
 
-	MC2S_cnt <= 5'd15;
+	MC2S_cnt <= 4'd15;
 	MC2S_sub_cnt <= 9'd0;
 
 	fifo_cnt <= 8'd0;
@@ -177,7 +177,7 @@ if ( !RST_n ) begin
 end
 
 else begin
-	poly_cnt <= poly_cnt + 9'd1;
+	poly_cnt <= poly_cnt;
 
 	Ram_addrA_reg <= Ram_addrA_reg;
 	Ram_addrB_reg <= Ram_addrB_reg;
@@ -204,7 +204,7 @@ else begin
 
 	if ( subband_state != ST_PLOY ) begin
 		//reset
-		MC2S_cnt <= 5'd15;
+		MC2S_cnt <= 4'd15;
 		fifo_cnt <= 8'd0;
 		poly_cnt <= 9'd0;
 
@@ -216,6 +216,7 @@ else begin
 	end
 
 	else if ( poly_cnt == 9'd0 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		// sum1L <= 64'd0;
 		// sum2L <= 64'd0;
 		// sum1R <= 64'd0;
@@ -239,6 +240,7 @@ else begin
 	end // if ( poly_cnt == 9'd0 )
 
 	else if ( poly_cnt <= 9'd7 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf
 		Ram_addrA_reg <= vbuf_offset[11:0] + poly_cnt;//1-7
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd32 + poly_cnt;//33-39
@@ -256,6 +258,7 @@ else begin
 	end // else if ( poly_cnt <= 9'd7 )
 
 	else if ( poly_cnt == 9'd8 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd23;//23
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd55;//55
@@ -272,6 +275,7 @@ else begin
 	end // else if ( poly_cnt == 9'd8 )
 
 	else if ( poly_cnt == 9'd9 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd22;//22
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd54;//54
@@ -293,6 +297,7 @@ else begin
 	end // else if ( poly_cnt == 9'd9 )
 
 	else if ( poly_cnt <= 9'd15 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf MC0S Final
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd31 - poly_cnt ;//21-16
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd63 - poly_cnt ;//53-48
@@ -310,6 +315,7 @@ else begin
 	end // else if ( poly_cnt <= 9'd15 )
 
 	else if ( poly_cnt == 9'd16 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf MC1S First
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd1024 ;
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd1056 ;
@@ -328,6 +334,7 @@ else begin
 	end // else if ( poly_cnt == 9'd16 )
 
 	else if ( poly_cnt == 9'd17 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd1025 ;
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd1057 ;
@@ -349,6 +356,7 @@ else begin
 	end // else if ( poly_cnt == 9'd17 )
 
 	else if ( poly_cnt <= 9'd23 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf MC1S Final
 		Ram_addrA_reg <= vbuf_offset[11:0] + 12'd1008 + poly_cnt; //1026-1031
 		Ram_addrB_reg <= vbuf_offset[11:0] + 12'd1040 + poly_cnt; //1058-1063
@@ -366,6 +374,7 @@ else begin
 	end // else if ( poly_cnt <= 9'd23 )
 
 	else if ( poly_cnt == 9'd24 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 		//vbuf clear to re-write
 
 		//coef clear to re_write
@@ -381,6 +390,7 @@ else begin
 	end // else if ( poly_cnt ==9'd24 )
 
 	else if ( poly_cnt == 9'd25 ) begin
+		poly_cnt <= poly_cnt + 9'd1;
 
 		sum1L_pre_reg <= 64'd0;
 		sum1R_pre_reg <= 64'd0;
@@ -388,14 +398,17 @@ else begin
 		pcm[32] <= mult_out1L[49:34];
 		pcm[33] <= mult_out1R[49:34];
 
-		MC2S_cnt <= 5'd15;
+		MC2S_cnt <= 4'd15;
 		MC2S_sub_cnt <= 9'd0;
 
 	end // else if ( poly_cnt ==9'd25 )
 
 	else begin	//MC2S PART
-		MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
+		poly_cnt <= poly_cnt;
+
+		
 		if ( MC2S_sub_cnt == 9'd0 ) begin
+			MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 			//vbuf
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
@@ -422,6 +435,7 @@ else begin
 		end // if ( MC2S_sub_cnt == 9'd0 )
 
 		else if ( MC2S_sub_cnt <= 9'd7 ) begin
+			MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 			//vbuf Final
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
 			Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
@@ -448,6 +462,7 @@ else begin
 		end // else if ( MC2S_sub_cnt <= 9'd7 )
 
 		else if ( MC2S_sub_cnt == 9'd8 ) begin
+			MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 
 			//vbuf First
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
@@ -476,6 +491,7 @@ else begin
 		end // else if ( MC2S_sub_cnt == 9'd8 )
 
 		else if ( MC2S_sub_cnt == 9'd9 ) begin
+			MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 
 			//vbuf 
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
@@ -510,6 +526,7 @@ else begin
 		end // else if ( MC2S_sub_cnt == 9'd9 )
 
 		else if ( MC2S_sub_cnt <= 9'd15 ) begin
+			MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 
 			//vbuf Final
 			Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
@@ -535,6 +552,7 @@ else begin
 		end // else if ( MC2S_sub_cnt <= 9'd15 )
 
 		else if ( MC2S_sub_cnt == 9'd16 ) begin
+			MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 			//cal Final
 			sum1L_pre_reg <= mult_out1L;
 			mult1L_A_reg  <= Ram_dataA;
@@ -555,6 +573,8 @@ else begin
 		end // else if ( MC2S_sub_cnt == 9'd16 )
 
 		else if ( MC2S_sub_cnt == 9'd17 ) begin
+			
+
 			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<= ( sum1L_A[49:34] - mult_out1L[49:34] ) ;
 			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<= ( sum1R_A[49:34] - mult_out1R[49:34] );
 			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<= ( sum2L_A[49:34] + mult_out2L[49:34] );
@@ -562,13 +582,13 @@ else begin
 		
 			
 
-			if ( MC2S_cnt != 9'd1  ) begin
-				MC2S_cnt <= MC2S_cnt - 9'd1;
+			if ( MC2S_cnt != 4'd1  ) begin
+				MC2S_cnt <= MC2S_cnt - 4'd1;
 				MC2S_sub_cnt <= 9'd0;
 			end // if ( MC2S_cnt != 9'd1  )
 
 			else begin //MC2S_cnt == 9'd1
-				
+				MC2S_sub_cnt <= MC2S_sub_cnt;
 				if ( fifo_cnt <= 8'd63 ) begin
 					fifo_cnt <= fifo_cnt + 8'd1;
 					fifo_data <= pcm[fifo_cnt];

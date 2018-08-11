@@ -253,35 +253,3 @@ set_property SLEW FAST [get_ports {i_fb_ad[0]}]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 set_property CFGBVS VCCO [current_design]
 
-
-
-create_debug_core u_ila_0 ila
-set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
-set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
-set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0]
-set_property C_DATA_DEPTH 4096 [get_debug_cores u_ila_0]
-set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0]
-set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
-set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
-set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
-set_property port_width 1 [get_debug_ports u_ila_0/clk]
-connect_debug_port u_ila_0/clk [get_nets [list i_fb_clk_IBUF_BUFG]]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
-set_property port_width 32 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {i_mp3/i_ROM/Rom_dataB_wire[0]} {i_mp3/i_ROM/Rom_dataB_wire[1]} {i_mp3/i_ROM/Rom_dataB_wire[2]} {i_mp3/i_ROM/Rom_dataB_wire[3]} {i_mp3/i_ROM/Rom_dataB_wire[4]} {i_mp3/i_ROM/Rom_dataB_wire[5]} {i_mp3/i_ROM/Rom_dataB_wire[6]} {i_mp3/i_ROM/Rom_dataB_wire[7]} {i_mp3/i_ROM/Rom_dataB_wire[8]} {i_mp3/i_ROM/Rom_dataB_wire[9]} {i_mp3/i_ROM/Rom_dataB_wire[10]} {i_mp3/i_ROM/Rom_dataB_wire[11]} {i_mp3/i_ROM/Rom_dataB_wire[12]} {i_mp3/i_ROM/Rom_dataB_wire[13]} {i_mp3/i_ROM/Rom_dataB_wire[14]} {i_mp3/i_ROM/Rom_dataB_wire[15]} {i_mp3/i_ROM/Rom_dataB_wire[16]} {i_mp3/i_ROM/Rom_dataB_wire[17]} {i_mp3/i_ROM/Rom_dataB_wire[18]} {i_mp3/i_ROM/Rom_dataB_wire[19]} {i_mp3/i_ROM/Rom_dataB_wire[20]} {i_mp3/i_ROM/Rom_dataB_wire[21]} {i_mp3/i_ROM/Rom_dataB_wire[22]} {i_mp3/i_ROM/Rom_dataB_wire[23]} {i_mp3/i_ROM/Rom_dataB_wire[24]} {i_mp3/i_ROM/Rom_dataB_wire[25]} {i_mp3/i_ROM/Rom_dataB_wire[26]} {i_mp3/i_ROM/Rom_dataB_wire[27]} {i_mp3/i_ROM/Rom_dataB_wire[28]} {i_mp3/i_ROM/Rom_dataB_wire[29]} {i_mp3/i_ROM/Rom_dataB_wire[30]} {i_mp3/i_ROM/Rom_dataB_wire[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 9 [get_debug_ports u_ila_0/probe1]
-connect_debug_port u_ila_0/probe1 [get_nets [list {i_mp3/Rom_addrA_wire[0]} {i_mp3/Rom_addrA_wire[1]} {i_mp3/Rom_addrA_wire[2]} {i_mp3/Rom_addrA_wire[3]} {i_mp3/Rom_addrA_wire[4]} {i_mp3/Rom_addrA_wire[5]} {i_mp3/Rom_addrA_wire[6]} {i_mp3/Rom_addrA_wire[7]} {i_mp3/Rom_addrA_wire[8]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
-set_property port_width 32 [get_debug_ports u_ila_0/probe2]
-connect_debug_port u_ila_0/probe2 [get_nets [list {i_mp3/Rom_dataA_wire[0]} {i_mp3/Rom_dataA_wire[1]} {i_mp3/Rom_dataA_wire[2]} {i_mp3/Rom_dataA_wire[3]} {i_mp3/Rom_dataA_wire[4]} {i_mp3/Rom_dataA_wire[5]} {i_mp3/Rom_dataA_wire[6]} {i_mp3/Rom_dataA_wire[7]} {i_mp3/Rom_dataA_wire[8]} {i_mp3/Rom_dataA_wire[9]} {i_mp3/Rom_dataA_wire[10]} {i_mp3/Rom_dataA_wire[11]} {i_mp3/Rom_dataA_wire[12]} {i_mp3/Rom_dataA_wire[13]} {i_mp3/Rom_dataA_wire[14]} {i_mp3/Rom_dataA_wire[15]} {i_mp3/Rom_dataA_wire[16]} {i_mp3/Rom_dataA_wire[17]} {i_mp3/Rom_dataA_wire[18]} {i_mp3/Rom_dataA_wire[19]} {i_mp3/Rom_dataA_wire[20]} {i_mp3/Rom_dataA_wire[21]} {i_mp3/Rom_dataA_wire[22]} {i_mp3/Rom_dataA_wire[23]} {i_mp3/Rom_dataA_wire[24]} {i_mp3/Rom_dataA_wire[25]} {i_mp3/Rom_dataA_wire[26]} {i_mp3/Rom_dataA_wire[27]} {i_mp3/Rom_dataA_wire[28]} {i_mp3/Rom_dataA_wire[29]} {i_mp3/Rom_dataA_wire[30]} {i_mp3/Rom_dataA_wire[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
-set_property port_width 9 [get_debug_ports u_ila_0/probe3]
-connect_debug_port u_ila_0/probe3 [get_nets [list {i_mp3/Rom_addrB_wire[0]} {i_mp3/Rom_addrB_wire[1]} {i_mp3/Rom_addrB_wire[2]} {i_mp3/Rom_addrB_wire[3]} {i_mp3/Rom_addrB_wire[4]} {i_mp3/Rom_addrB_wire[5]} {i_mp3/Rom_addrB_wire[6]} {i_mp3/Rom_addrB_wire[7]} {i_mp3/Rom_addrB_wire[8]}]]
-set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
-set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
-set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
-connect_debug_port dbg_hub/clk [get_nets i_fb_clk_IBUF_BUFG]
