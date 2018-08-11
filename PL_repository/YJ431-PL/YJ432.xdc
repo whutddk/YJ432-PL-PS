@@ -257,6 +257,7 @@ set_property CFGBVS VCCO [current_design]
 >>>>>>> 45c08ed... 芯片配置电压:TJ432.xdc
 =======
 
+<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
 
 
 create_debug_core u_ila_0 ila
@@ -290,3 +291,5 @@ set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
 set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
 connect_debug_port dbg_hub/clk [get_nets i_fb_clk_IBUF_BUFG]
 >>>>>>> 6de3416... 又学了一手，不是吗:TJ432.xdc
+=======
+>>>>>>> 8d733c6... 状态机有可能溢出了:TJ432.xdc
