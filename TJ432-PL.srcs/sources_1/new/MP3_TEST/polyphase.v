@@ -612,11 +612,6 @@ always @( negedge CLK or negedge RST_n ) begin
 				end // else if ( MC2S_sub_cnt == 9'd17 )
 			end // else MC2S
 		end // else //POLY
-
-		else begin
-
-		end // else
-
 	end // else RST_N
 end
 

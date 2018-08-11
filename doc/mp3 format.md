@@ -142,6 +142,12 @@ fh->crc = 1
                     + fifo_cnt == 64
                         * done 保持
 
+subband 3->4
+polycnt = 0
+mc2s_cnt = 15
+mc2s_sub_cnt = 0
+fifo_cnt 0 ->1
+
 
 
 
