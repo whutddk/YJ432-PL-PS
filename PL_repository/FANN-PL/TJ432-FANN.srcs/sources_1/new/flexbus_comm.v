@@ -188,7 +188,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								end // else
 							end
 
-							32'h07810001:begin
+							32'h07810004:begin
 								subband_state <= ST_PLOY;
 								vbuf_offset[11:0] <= FB_AD[11:0];
 								
