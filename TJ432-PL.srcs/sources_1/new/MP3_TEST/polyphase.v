@@ -204,7 +204,7 @@ else begin
 
 	if ( subband_state != ST_PLOY ) begin
 		//reset
-		MC2S_cnt <= 9'd15;
+		MC2S_cnt <= 5'd15;
 		fifo_cnt <= 8'd0;
 		poly_cnt <= 9'd0;
 
@@ -551,10 +551,11 @@ else begin
 			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<= ( sum2L_A[49:34] + mult_out2L[49:34] );
 			pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<= ( sum2R_A[49:34] + mult_out2R[49:34] );
 		
-			MC2S_sub_cnt <= 9'd0;
+			
 
 			if ( MC2S_cnt != 9'd1  ) begin
 				MC2S_cnt <= MC2S_cnt - 9'd1;
+				MC2S_sub_cnt <= 9'd0;
 			end // if ( MC2S_cnt != 9'd1  )
 
 			else begin //MC2S_cnt == 9'd1
@@ -566,7 +567,7 @@ else begin
 				end
 
 				else begin //module complete
-					//waie to reset
+					//wait to reset
 					MC2S_cnt <= MC2S_cnt;
 					fifo_cnt <= fifo_cnt;
 					poly_cnt <= poly_cnt;
