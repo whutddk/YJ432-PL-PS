@@ -123,10 +123,10 @@ assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
 reg [15:0] pcm[0:63];
-reg [8:0] poly_cnt = 9'd0; 
-reg [3:0] MC2S_cnt = 4'd15;
-reg [8:0] MC2S_sub_cnt = 9'd0;
-reg [7:0] fifo_cnt = 8'd0;
+(* DONT_TOUCH = "TRUE" *)reg [8:0] poly_cnt = 9'd0; 
+(* DONT_TOUCH = "TRUE" *)reg [3:0] MC2S_cnt = 4'd15;
+(* DONT_TOUCH = "TRUE" *)reg [8:0] MC2S_sub_cnt = 9'd0;
+(* DONT_TOUCH = "TRUE" *)reg [7:0] fifo_cnt = 8'd0;
 
 reg [63:0] sum1L_A;
 // reg [63:0] sum1L_B;
@@ -573,7 +573,7 @@ always @( negedge CLK or negedge RST_n ) begin
 
 				end // else if ( MC2S_sub_cnt == 9'd16 )
 
-				else if ( MC2S_sub_cnt == 9'd17 ) begin
+				else begin //if ( MC2S_sub_cnt == 9'd17 )
 				
 
 					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<= ( sum1L_A[49:34] - mult_out1L[49:34] ) ;
@@ -609,7 +609,7 @@ always @( negedge CLK or negedge RST_n ) begin
 						end // if ( fifo_cnt == 8'd63 )
 
 					end // else
-				end // else if ( MC2S_sub_cnt == 9'd17 )
+				end // else //( MC2S_sub_cnt == 9'd17 )
 			end // else MC2S
 		end // else //POLY
 	end // else RST_N
