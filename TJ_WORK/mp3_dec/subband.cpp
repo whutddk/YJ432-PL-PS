@@ -83,6 +83,7 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			FDCT32(mi->outBuf[1][b], sbi->vbuf + 1*32, sbi->vindex, (b & 0x01), mi->gb[1]);
 			
 			// memmove((void*)TJBMP3_reg,(void*)sbi->vbuf,2176);//将FDCT32结果传送过去（有浪费）
+			
 			for (uint16_t i = 0;i < 2176;i++)
 			{
 				*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
@@ -93,8 +94,8 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			// PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
 			sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
 			// pcmBuf += (2 * NBANDS);
-			
 			while((*TJBMP3_MESSAGE_REG) != 3);
+			
 		}
 	} 
 	else 
