@@ -189,12 +189,17 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							end
 
 							32'h07810004:begin
-								subband_state <= ST_PLOY;
+								subband_state <= ST_FBRAM;
 								vbuf_offset[11:0] <= FB_AD[11:0];
 								
 								RAM_WR_EN_Reg <= 1'b0;
 
-							end // 32'h07800001:
+							end // 32'h07800004:
+
+							32'h07810008:begin
+								subband_state <= ST_PLOY;
+								RAM_WR_EN_Reg <= 1'b0;
+							end // 32'h07810008:
 							
 							default:begin
 							end // default:
