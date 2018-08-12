@@ -86,11 +86,11 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			
 			for (uint16_t i = 0;i < 2176;i++)
 			{
-				*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
+				*( TJBMP3_reg + i ) = (uint32_t)i;
 			}
 
 			*(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
-
+			*(TJBMP3_STATE_REG) = 0;
 			// PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
 			sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
 			// pcmBuf += (2 * NBANDS);
