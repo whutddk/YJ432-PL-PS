@@ -34,45 +34,45 @@ module polyphase
 	// input [3:0] vindex,
 	// input b,
 	
-	input [11:0] vbuf_offset,
+	(* DONT_TOUCH = "TRUE" *)input [11:0] vbuf_offset,
 
 	output reg IP_Done,
 
 	//ram operate
-	inout [11:0] Ram_addrA,
-	inout [11:0] Ram_addrB,
-	input [31:0] Ram_dataA,
-	input [31:0] Ram_dataB,
+	(* DONT_TOUCH = "TRUE" *)inout [11:0] Ram_addrA,
+	(* DONT_TOUCH = "TRUE" *)inout [11:0] Ram_addrB,
+	(* DONT_TOUCH = "TRUE" *)input [31:0] Ram_dataA,
+	(* DONT_TOUCH = "TRUE" *)input [31:0] Ram_dataB,
 
 	//Rom operate
-	output reg [8:0] Rom_addrA,
-	output reg [8:0] Rom_addrB,
-	input [31:0] Rom_dataA,
-	input [31:0] Rom_dataB,	
+	(* DONT_TOUCH = "TRUE" *)output reg [8:0] Rom_addrA,
+	(* DONT_TOUCH = "TRUE" *)output reg [8:0] Rom_addrB,
+	(* DONT_TOUCH = "TRUE" *)input [31:0] Rom_dataA,
+	(* DONT_TOUCH = "TRUE" *)input [31:0] Rom_dataB,	
 
 	//FIFO pcm DATA
-	output reg [15:0] fifo_data,
-	output reg fifo_enable,
+	(* DONT_TOUCH = "TRUE" *)output reg [15:0] fifo_data,
+	(* DONT_TOUCH = "TRUE" *)output reg fifo_enable,
 
-	output [63:0] sum1L_pre,
-	output [31:0] mult1L_A,
-	output [31:0] mult1L_B,
-	input [63:0] mult_out1L,
+	(* DONT_TOUCH = "TRUE" *)output [63:0] sum1L_pre,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult1L_A,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult1L_B,
+	(* DONT_TOUCH = "TRUE" *)input [63:0] mult_out1L,
 
-	output [63:0] sum2L_pre,
-	output [31:0] mult2L_A,
-	output [31:0] mult2L_B,
-	input [63:0] mult_out2L,
+	(* DONT_TOUCH = "TRUE" *)output [63:0] sum2L_pre,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult2L_A,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult2L_B,
+	(* DONT_TOUCH = "TRUE" *)input [63:0] mult_out2L,
 
-	output [63:0] sum1R_pre,
-	output [31:0] mult1R_A,
-	output [31:0] mult1R_B,
-	input [63:0] mult_out1R,
+	(* DONT_TOUCH = "TRUE" *)output [63:0] sum1R_pre,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult1R_A,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult1R_B,
+	(* DONT_TOUCH = "TRUE" *)input [63:0] mult_out1R,
 
-	output [63:0] sum2R_pre,
-	output [31:0] mult2R_A,
-	output [31:0] mult2R_B,
-	input [63:0] mult_out2R
+	(* DONT_TOUCH = "TRUE" *)output [63:0] sum2R_pre,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult2R_A,
+	(* DONT_TOUCH = "TRUE" *)output [31:0] mult2R_B,
+	(* DONT_TOUCH = "TRUE" *)input [63:0] mult_out2R
 
 	);
 
@@ -82,21 +82,21 @@ module polyphase
 	parameter ST_FBRAM = 3'd3;
 	parameter ST_PLOY = 3'd4;
 
-	reg [63:0] sum1L_pre_reg;
-	reg [31:0] mult1L_A_reg;
-	reg [31:0] mult1L_B_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [63:0] sum1L_pre_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult1L_A_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult1L_B_reg;
 
-	reg [63:0] sum2L_pre_reg;
-	reg [31:0] mult2L_A_reg;
-	reg [31:0] mult2L_B_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [63:0] sum2L_pre_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult2L_A_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult2L_B_reg;
 
-	reg [63:0] sum1R_pre_reg;
-	reg [31:0] mult1R_A_reg;
-	reg [31:0] mult1R_B_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [63:0] sum1R_pre_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult1R_A_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult1R_B_reg;
 
-	reg [63:0] sum2R_pre_reg;
-	reg [31:0] mult2R_A_reg;
-	reg [31:0] mult2R_B_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [63:0] sum2R_pre_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult2R_A_reg;
+	(* DONT_TOUCH = "TRUE" *)reg [31:0] mult2R_B_reg;
 
 //memory
 reg [11:0] Ram_addrA_reg;
@@ -128,14 +128,14 @@ reg [15:0] pcm[0:63];
 (* DONT_TOUCH = "TRUE" *)reg [8:0] MC2S_sub_cnt = 9'd0;
 (* DONT_TOUCH = "TRUE" *)reg [7:0] fifo_cnt = 8'd0;
 
-reg [63:0] sum1L_A;
+(* DONT_TOUCH = "TRUE" *)reg [63:0] sum1L_A;
 // reg [63:0] sum1L_B;
-reg [63:0] sum2L_A;
+(* DONT_TOUCH = "TRUE" *)reg [63:0] sum2L_A;
 // reg [63:0] sum2L_B;
 
-reg [63:0] sum1R_A;
+(* DONT_TOUCH = "TRUE" *)reg [63:0] sum1R_A;
 // reg [63:0] sum1R_B;
-reg [63:0] sum2R_A;
+(* DONT_TOUCH = "TRUE" *)reg [63:0] sum2R_A;
 // reg [63:0] sum2R_B;
 
 always @( negedge CLK or negedge RST_n ) begin
