@@ -264,6 +264,7 @@ set_property CFGBVS VCCO [current_design]
 
 
 
+<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
 
 create_debug_core u_ila_0 ila
 set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
@@ -405,3 +406,5 @@ connect_debug_port dbg_hub/clk [get_nets i_fb_clk_IBUF_BUFG]
 >>>>>>> 8d733c6... 状态机有可能溢出了:TJ432.xdc
 =======
 >>>>>>> b871821... 重新排版，fifo_cnt提早跳变，找不到原因:TJ432.xdc
+=======
+>>>>>>> dc92cc4... 修正，由于缩小的太厉害，能听到歌曲，畸变严重，怀疑某处错误：溢出，运算错误:TJ432.xdc

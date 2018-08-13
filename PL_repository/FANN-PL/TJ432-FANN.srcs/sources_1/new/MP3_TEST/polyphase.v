@@ -351,8 +351,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				mult1R_B_reg <= Rom_dataA;
 
 				//MC0S result
-				pcm[0] <= ( sum1L_A[49:34] - mult_out1L[49:34] );
-				pcm[1] <= ( sum1R_A[49:34] - mult_out1R[49:34] );
+				pcm[0] <= ( sum1L_A[63:26] - mult_out1L[63:26] );
+				pcm[1] <= ( sum1R_A[63:26] - mult_out1R[63:26] );
 
 			end // else if ( poly_cnt == 9'd17 )
 
@@ -396,8 +396,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				sum1L_pre_reg <= 64'd0;
 				sum1R_pre_reg <= 64'd0;
 
-				pcm[32] <= mult_out1L[49:34];
-				pcm[33] <= mult_out1R[49:34];
+				pcm[32] <= mult_out1L[63:26];
+				pcm[33] <= mult_out1R[63:26];
 
 				MC2S_cnt <= 4'd15;
 				MC2S_sub_cnt <= 9'd0;
@@ -576,10 +576,10 @@ always @( negedge CLK or negedge RST_n ) begin
 				else begin //if ( MC2S_sub_cnt == 9'd17 )
 				
 
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<= ( sum1L_A[49:34] - mult_out1L[49:34] ) ;
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<= ( sum1R_A[49:34] - mult_out1R[49:34] );
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<= ( sum2L_A[49:34] + mult_out2L[49:34] );
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<= ( sum2R_A[49:34] + mult_out2R[49:34] );
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<=  sum1L_A[63:26] - mult_out1L[63:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<=  sum1R_A[63:26] - mult_out1R[63:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<=  sum2L_A[63:26] + mult_out2L[63:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_A[63:26] + mult_out2R[63:26];
 
 				
 
