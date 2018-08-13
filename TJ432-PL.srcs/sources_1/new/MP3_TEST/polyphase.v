@@ -51,7 +51,7 @@ module polyphase
 	(* DONT_TOUCH = "TRUE" *)input signed [31:0] Rom_dataB,	
 
 	//FIFO pcm DATA
-	(* DONT_TOUCH = "TRUE" *)output reg [15:0] fifo_data,
+	(* DONT_TOUCH = "TRUE" *)output reg signed [15:0] fifo_data,
 	(* DONT_TOUCH = "TRUE" *)output reg fifo_enable,
 
 	(* DONT_TOUCH = "TRUE" *)output signed [63:0] sum1L_pre,
@@ -122,7 +122,7 @@ assign mult2R_B =  mult2R_B_reg;
 assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
-reg [15:0] pcm[0:63];
+reg signed [15:0] pcm[0:63];
 (* DONT_TOUCH = "TRUE" *)reg [8:0] poly_cnt = 9'd0; 
 (* DONT_TOUCH = "TRUE" *)reg [3:0] MC2S_cnt = 4'd15;
 (* DONT_TOUCH = "TRUE" *)reg [8:0] MC2S_sub_cnt = 9'd0;

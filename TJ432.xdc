@@ -256,7 +256,6 @@ set_property CFGBVS VCCO [current_design]
 
 
 
-
 create_debug_core u_ila_0 ila
 set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
 set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
@@ -273,40 +272,32 @@ set_property port_width 9 [get_debug_ports u_ila_0/probe0]
 connect_debug_port u_ila_0/probe0 [get_nets [list {i_mp3/i_polyhpase/MC2S_sub_cnt[0]} {i_mp3/i_polyhpase/MC2S_sub_cnt[1]} {i_mp3/i_polyhpase/MC2S_sub_cnt[2]} {i_mp3/i_polyhpase/MC2S_sub_cnt[3]} {i_mp3/i_polyhpase/MC2S_sub_cnt[4]} {i_mp3/i_polyhpase/MC2S_sub_cnt[5]} {i_mp3/i_polyhpase/MC2S_sub_cnt[6]} {i_mp3/i_polyhpase/MC2S_sub_cnt[7]} {i_mp3/i_polyhpase/MC2S_sub_cnt[8]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 9 [get_debug_ports u_ila_0/probe1]
-connect_debug_port u_ila_0/probe1 [get_nets [list {i_mp3/i_polyhpase/poly_cnt[0]} {i_mp3/i_polyhpase/poly_cnt[1]} {i_mp3/i_polyhpase/poly_cnt[2]} {i_mp3/i_polyhpase/poly_cnt[3]} {i_mp3/i_polyhpase/poly_cnt[4]} {i_mp3/i_polyhpase/poly_cnt[5]} {i_mp3/i_polyhpase/poly_cnt[6]} {i_mp3/i_polyhpase/poly_cnt[7]} {i_mp3/i_polyhpase/poly_cnt[8]}]]
+set_property port_width 4 [get_debug_ports u_ila_0/probe1]
+connect_debug_port u_ila_0/probe1 [get_nets [list {i_mp3/i_polyhpase/MC2S_cnt[0]} {i_mp3/i_polyhpase/MC2S_cnt[1]} {i_mp3/i_polyhpase/MC2S_cnt[2]} {i_mp3/i_polyhpase/MC2S_cnt[3]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
-set_property port_width 4 [get_debug_ports u_ila_0/probe2]
-connect_debug_port u_ila_0/probe2 [get_nets [list {i_mp3/i_polyhpase/MC2S_cnt[0]} {i_mp3/i_polyhpase/MC2S_cnt[1]} {i_mp3/i_polyhpase/MC2S_cnt[2]} {i_mp3/i_polyhpase/MC2S_cnt[3]}]]
+set_property port_width 9 [get_debug_ports u_ila_0/probe2]
+connect_debug_port u_ila_0/probe2 [get_nets [list {i_mp3/i_polyhpase/poly_cnt[0]} {i_mp3/i_polyhpase/poly_cnt[1]} {i_mp3/i_polyhpase/poly_cnt[2]} {i_mp3/i_polyhpase/poly_cnt[3]} {i_mp3/i_polyhpase/poly_cnt[4]} {i_mp3/i_polyhpase/poly_cnt[5]} {i_mp3/i_polyhpase/poly_cnt[6]} {i_mp3/i_polyhpase/poly_cnt[7]} {i_mp3/i_polyhpase/poly_cnt[8]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
-set_property port_width 32 [get_debug_ports u_ila_0/probe3]
-connect_debug_port u_ila_0/probe3 [get_nets [list {i_mp3/mult0A[0]} {i_mp3/mult0A[1]} {i_mp3/mult0A[2]} {i_mp3/mult0A[3]} {i_mp3/mult0A[4]} {i_mp3/mult0A[5]} {i_mp3/mult0A[6]} {i_mp3/mult0A[7]} {i_mp3/mult0A[8]} {i_mp3/mult0A[9]} {i_mp3/mult0A[10]} {i_mp3/mult0A[11]} {i_mp3/mult0A[12]} {i_mp3/mult0A[13]} {i_mp3/mult0A[14]} {i_mp3/mult0A[15]} {i_mp3/mult0A[16]} {i_mp3/mult0A[17]} {i_mp3/mult0A[18]} {i_mp3/mult0A[19]} {i_mp3/mult0A[20]} {i_mp3/mult0A[21]} {i_mp3/mult0A[22]} {i_mp3/mult0A[23]} {i_mp3/mult0A[24]} {i_mp3/mult0A[25]} {i_mp3/mult0A[26]} {i_mp3/mult0A[27]} {i_mp3/mult0A[28]} {i_mp3/mult0A[29]} {i_mp3/mult0A[30]} {i_mp3/mult0A[31]}]]
+set_property port_width 2 [get_debug_ports u_ila_0/probe3]
+connect_debug_port u_ila_0/probe3 [get_nets [list {i_mp3/fifo_cnt_reg[4][0]} {i_mp3/fifo_cnt_reg[4][1]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
-set_property port_width 32 [get_debug_ports u_ila_0/probe4]
-connect_debug_port u_ila_0/probe4 [get_nets [list {i_mp3/Rom_dataA_wire[0]} {i_mp3/Rom_dataA_wire[1]} {i_mp3/Rom_dataA_wire[2]} {i_mp3/Rom_dataA_wire[3]} {i_mp3/Rom_dataA_wire[4]} {i_mp3/Rom_dataA_wire[5]} {i_mp3/Rom_dataA_wire[6]} {i_mp3/Rom_dataA_wire[7]} {i_mp3/Rom_dataA_wire[8]} {i_mp3/Rom_dataA_wire[9]} {i_mp3/Rom_dataA_wire[10]} {i_mp3/Rom_dataA_wire[11]} {i_mp3/Rom_dataA_wire[12]} {i_mp3/Rom_dataA_wire[13]} {i_mp3/Rom_dataA_wire[14]} {i_mp3/Rom_dataA_wire[15]} {i_mp3/Rom_dataA_wire[16]} {i_mp3/Rom_dataA_wire[17]} {i_mp3/Rom_dataA_wire[18]} {i_mp3/Rom_dataA_wire[19]} {i_mp3/Rom_dataA_wire[20]} {i_mp3/Rom_dataA_wire[21]} {i_mp3/Rom_dataA_wire[22]} {i_mp3/Rom_dataA_wire[23]} {i_mp3/Rom_dataA_wire[24]} {i_mp3/Rom_dataA_wire[25]} {i_mp3/Rom_dataA_wire[26]} {i_mp3/Rom_dataA_wire[27]} {i_mp3/Rom_dataA_wire[28]} {i_mp3/Rom_dataA_wire[29]} {i_mp3/Rom_dataA_wire[30]} {i_mp3/Rom_dataA_wire[31]}]]
+set_property port_width 16 [get_debug_ports u_ila_0/probe4]
+connect_debug_port u_ila_0/probe4 [get_nets [list {PCM_DATA_Wire[0]} {PCM_DATA_Wire[1]} {PCM_DATA_Wire[2]} {PCM_DATA_Wire[3]} {PCM_DATA_Wire[4]} {PCM_DATA_Wire[5]} {PCM_DATA_Wire[6]} {PCM_DATA_Wire[7]} {PCM_DATA_Wire[8]} {PCM_DATA_Wire[9]} {PCM_DATA_Wire[10]} {PCM_DATA_Wire[11]} {PCM_DATA_Wire[12]} {PCM_DATA_Wire[13]} {PCM_DATA_Wire[14]} {PCM_DATA_Wire[15]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
-set_property port_width 32 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {i_mp3/mult0B[0]} {i_mp3/mult0B[1]} {i_mp3/mult0B[2]} {i_mp3/mult0B[3]} {i_mp3/mult0B[4]} {i_mp3/mult0B[5]} {i_mp3/mult0B[6]} {i_mp3/mult0B[7]} {i_mp3/mult0B[8]} {i_mp3/mult0B[9]} {i_mp3/mult0B[10]} {i_mp3/mult0B[11]} {i_mp3/mult0B[12]} {i_mp3/mult0B[13]} {i_mp3/mult0B[14]} {i_mp3/mult0B[15]} {i_mp3/mult0B[16]} {i_mp3/mult0B[17]} {i_mp3/mult0B[18]} {i_mp3/mult0B[19]} {i_mp3/mult0B[20]} {i_mp3/mult0B[21]} {i_mp3/mult0B[22]} {i_mp3/mult0B[23]} {i_mp3/mult0B[24]} {i_mp3/mult0B[25]} {i_mp3/mult0B[26]} {i_mp3/mult0B[27]} {i_mp3/mult0B[28]} {i_mp3/mult0B[29]} {i_mp3/mult0B[30]} {i_mp3/mult0B[31]}]]
+set_property port_width 3 [get_debug_ports u_ila_0/probe5]
+connect_debug_port u_ila_0/probe5 [get_nets [list {subband_state_Wire[0]} {subband_state_Wire[1]} {subband_state_Wire[2]}]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
-set_property port_width 64 [get_debug_ports u_ila_0/probe6]
-connect_debug_port u_ila_0/probe6 [get_nets [list {i_mp3/mult0_out[0]} {i_mp3/mult0_out[1]} {i_mp3/mult0_out[2]} {i_mp3/mult0_out[3]} {i_mp3/mult0_out[4]} {i_mp3/mult0_out[5]} {i_mp3/mult0_out[6]} {i_mp3/mult0_out[7]} {i_mp3/mult0_out[8]} {i_mp3/mult0_out[9]} {i_mp3/mult0_out[10]} {i_mp3/mult0_out[11]} {i_mp3/mult0_out[12]} {i_mp3/mult0_out[13]} {i_mp3/mult0_out[14]} {i_mp3/mult0_out[15]} {i_mp3/mult0_out[16]} {i_mp3/mult0_out[17]} {i_mp3/mult0_out[18]} {i_mp3/mult0_out[19]} {i_mp3/mult0_out[20]} {i_mp3/mult0_out[21]} {i_mp3/mult0_out[22]} {i_mp3/mult0_out[23]} {i_mp3/mult0_out[24]} {i_mp3/mult0_out[25]} {i_mp3/mult0_out[26]} {i_mp3/mult0_out[27]} {i_mp3/mult0_out[28]} {i_mp3/mult0_out[29]} {i_mp3/mult0_out[30]} {i_mp3/mult0_out[31]} {i_mp3/mult0_out[32]} {i_mp3/mult0_out[33]} {i_mp3/mult0_out[34]} {i_mp3/mult0_out[35]} {i_mp3/mult0_out[36]} {i_mp3/mult0_out[37]} {i_mp3/mult0_out[38]} {i_mp3/mult0_out[39]} {i_mp3/mult0_out[40]} {i_mp3/mult0_out[41]} {i_mp3/mult0_out[42]} {i_mp3/mult0_out[43]} {i_mp3/mult0_out[44]} {i_mp3/mult0_out[45]} {i_mp3/mult0_out[46]} {i_mp3/mult0_out[47]} {i_mp3/mult0_out[48]} {i_mp3/mult0_out[49]} {i_mp3/mult0_out[50]} {i_mp3/mult0_out[51]} {i_mp3/mult0_out[52]} {i_mp3/mult0_out[53]} {i_mp3/mult0_out[54]} {i_mp3/mult0_out[55]} {i_mp3/mult0_out[56]} {i_mp3/mult0_out[57]} {i_mp3/mult0_out[58]} {i_mp3/mult0_out[59]} {i_mp3/mult0_out[60]} {i_mp3/mult0_out[61]} {i_mp3/mult0_out[62]} {i_mp3/mult0_out[63]}]]
+set_property port_width 1 [get_debug_ports u_ila_0/probe6]
+connect_debug_port u_ila_0/probe6 [get_nets [list Pcm_wden_Wire]]
 create_debug_port u_ila_0 probe
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
-set_property port_width 64 [get_debug_ports u_ila_0/probe7]
-connect_debug_port u_ila_0/probe7 [get_nets [list {i_mp3/sum0[0]} {i_mp3/sum0[1]} {i_mp3/sum0[2]} {i_mp3/sum0[3]} {i_mp3/sum0[4]} {i_mp3/sum0[5]} {i_mp3/sum0[6]} {i_mp3/sum0[7]} {i_mp3/sum0[8]} {i_mp3/sum0[9]} {i_mp3/sum0[10]} {i_mp3/sum0[11]} {i_mp3/sum0[12]} {i_mp3/sum0[13]} {i_mp3/sum0[14]} {i_mp3/sum0[15]} {i_mp3/sum0[16]} {i_mp3/sum0[17]} {i_mp3/sum0[18]} {i_mp3/sum0[19]} {i_mp3/sum0[20]} {i_mp3/sum0[21]} {i_mp3/sum0[22]} {i_mp3/sum0[23]} {i_mp3/sum0[24]} {i_mp3/sum0[25]} {i_mp3/sum0[26]} {i_mp3/sum0[27]} {i_mp3/sum0[28]} {i_mp3/sum0[29]} {i_mp3/sum0[30]} {i_mp3/sum0[31]} {i_mp3/sum0[32]} {i_mp3/sum0[33]} {i_mp3/sum0[34]} {i_mp3/sum0[35]} {i_mp3/sum0[36]} {i_mp3/sum0[37]} {i_mp3/sum0[38]} {i_mp3/sum0[39]} {i_mp3/sum0[40]} {i_mp3/sum0[41]} {i_mp3/sum0[42]} {i_mp3/sum0[43]} {i_mp3/sum0[44]} {i_mp3/sum0[45]} {i_mp3/sum0[46]} {i_mp3/sum0[47]} {i_mp3/sum0[48]} {i_mp3/sum0[49]} {i_mp3/sum0[50]} {i_mp3/sum0[51]} {i_mp3/sum0[52]} {i_mp3/sum0[53]} {i_mp3/sum0[54]} {i_mp3/sum0[55]} {i_mp3/sum0[56]} {i_mp3/sum0[57]} {i_mp3/sum0[58]} {i_mp3/sum0[59]} {i_mp3/sum0[60]} {i_mp3/sum0[61]} {i_mp3/sum0[62]} {i_mp3/sum0[63]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
-set_property port_width 32 [get_debug_ports u_ila_0/probe8]
-connect_debug_port u_ila_0/probe8 [get_nets [list {RAM_DATA_OUTA_Wire[0]} {RAM_DATA_OUTA_Wire[1]} {RAM_DATA_OUTA_Wire[2]} {RAM_DATA_OUTA_Wire[3]} {RAM_DATA_OUTA_Wire[4]} {RAM_DATA_OUTA_Wire[5]} {RAM_DATA_OUTA_Wire[6]} {RAM_DATA_OUTA_Wire[7]} {RAM_DATA_OUTA_Wire[8]} {RAM_DATA_OUTA_Wire[9]} {RAM_DATA_OUTA_Wire[10]} {RAM_DATA_OUTA_Wire[11]} {RAM_DATA_OUTA_Wire[12]} {RAM_DATA_OUTA_Wire[13]} {RAM_DATA_OUTA_Wire[14]} {RAM_DATA_OUTA_Wire[15]} {RAM_DATA_OUTA_Wire[16]} {RAM_DATA_OUTA_Wire[17]} {RAM_DATA_OUTA_Wire[18]} {RAM_DATA_OUTA_Wire[19]} {RAM_DATA_OUTA_Wire[20]} {RAM_DATA_OUTA_Wire[21]} {RAM_DATA_OUTA_Wire[22]} {RAM_DATA_OUTA_Wire[23]} {RAM_DATA_OUTA_Wire[24]} {RAM_DATA_OUTA_Wire[25]} {RAM_DATA_OUTA_Wire[26]} {RAM_DATA_OUTA_Wire[27]} {RAM_DATA_OUTA_Wire[28]} {RAM_DATA_OUTA_Wire[29]} {RAM_DATA_OUTA_Wire[30]} {RAM_DATA_OUTA_Wire[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
-set_property port_width 3 [get_debug_ports u_ila_0/probe9]
-connect_debug_port u_ila_0/probe9 [get_nets [list {subband_state_Wire[0]} {subband_state_Wire[1]} {subband_state_Wire[2]}]]
+set_property port_width 1 [get_debug_ports u_ila_0/probe7]
+connect_debug_port u_ila_0/probe7 [get_nets [list i_fb_clk_IBUF]]
 set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
 set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
 set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
