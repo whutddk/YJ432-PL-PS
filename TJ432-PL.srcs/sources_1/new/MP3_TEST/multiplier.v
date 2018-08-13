@@ -34,9 +34,9 @@ module multiplier(
 
 wire signed [63:0] mult_res;
 
-assign mult_res[63:0] = multA[31:0] * multB[31:0];
+assign mult_res = multA * multB;
 
-assign mult_out[63:0] = sum[63:0] + mult_res[63:0];
+assign mult_out = sum + mult_res;
 
 endmodule
 
