@@ -86,7 +86,7 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			
 			for (uint16_t i = 0;i < 2176;i++)
 			{
-				*( TJBMP3_reg + i ) = (uint32_t)i;
+				*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
 			}
 
 			*(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
