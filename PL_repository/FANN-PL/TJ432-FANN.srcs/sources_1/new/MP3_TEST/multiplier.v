@@ -27,12 +27,16 @@ module multiplier(
 
 );
 
-input [63:0] sum;
-input [31:0] multA;
-input [31:0] multB;
-output [63:0] mult_out;
+(* DONT_TOUCH = "TRUE" *) input signed [63:0] sum;
+(* DONT_TOUCH = "TRUE" *) input signed [31:0] multA;
+(* DONT_TOUCH = "TRUE" *) input signed [31:0] multB;
+(* DONT_TOUCH = "TRUE" *) output signed [63:0] mult_out;
 
-assign mult_out[63:0] = sum[63:0] + multA[31:0] * multB[31:0];
+wire signed [63:0] mult_res;
+
+assign mult_res[63:0] = multA[31:0] * multB[31:0];
+
+assign mult_out[63:0] = sum[63:0] + mult_res[63:0];
 
 endmodule
 

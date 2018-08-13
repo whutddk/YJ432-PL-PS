@@ -24,8 +24,8 @@ module mp3_mid(
 	input MP3_CLK,
 	input RST_n,
 
-	input [31:0] RAM_dataA_out,
-	input [31:0] RAM_dataB_out,
+	input signed [31:0] RAM_dataA_out,
+	input signed [31:0] RAM_dataB_out,
 	inout [11:0] RAM_addrA,
 	inout [11:0] RAM_addrB,
 
@@ -44,31 +44,31 @@ module mp3_mid(
 
 	);
 
-wire [63:0] sum0;
-wire [31:0] mult0A;
-wire [31:0] mult0B;
-wire [63:0] mult0_out;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum0;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult0A;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult0B;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult0_out;
 
-wire [63:0] sum1;
-wire [31:0] mult1A;
-wire [31:0] mult1B;
-wire [63:0] mult1_out;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum1;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult1A;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult1B;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult1_out;
 
-wire [63:0] sum2;
-wire [31:0] mult2A;
-wire [31:0] mult2B;
-wire [63:0] mult2_out;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum2;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult2A;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult2B;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult2_out;
 
-wire [63:0] sum3;
-wire [31:0] mult3A;
-wire [31:0] mult3B;
-wire [63:0] mult3_out;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum3;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult3A;
+(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult3B;
+(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult3_out;
 
 //Rom operate
 wire [8:0] Rom_addrA_wire;
 wire [8:0] Rom_addrB_wire;
-wire [31:0] Rom_dataA_wire;
-wire [31:0] Rom_dataB_wire;
+wire signed [31:0] Rom_dataA_wire;
+wire signed [31:0] Rom_dataB_wire;
 
   
 polyphase i_polyhpase
