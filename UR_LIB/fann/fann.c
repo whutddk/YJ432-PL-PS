@@ -137,6 +137,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	fann_seed_rand();
 
 	/* allocate the general structure */
+	/*动态分配内存，初始化网络，为每一层分配空间*/
 	ann = fann_allocate_structure(num_layers);
 	if(ann == NULL)
 	{
@@ -147,6 +148,8 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	ann->connection_rate = connection_rate;
 
 	multiplier = ann->multiplier;
+
+	/*提前算好步长有少量log和浮点运算*/
 	fann_update_stepwise(ann);
 
 	/* determine how many neurons there should be in each layer */
@@ -155,15 +158,18 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	{
 		/* we do not allocate room here, but we make sure that
 		 * last_neuron - first_neuron is the number of neurons */
+		/*神经元指针指空，只计算了指针差*/
 		layer_it->first_neuron = NULL;
 		layer_it->last_neuron = layer_it->first_neuron + layers[i++] + 1;	/* +1 for bias */
 		ann->total_neurons += (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
 	}
 
+	/*怎么算来的。。。*/
 	ann->num_output = (uint32_t)((ann->last_layer - 1)->last_neuron - (ann->last_layer - 1)->first_neuron - 1);
 	ann->num_input = (uint32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1);
 
 	/* allocate room for the actual neurons */
+	/*为神经元申请空间*/
 	fann_allocate_neurons(ann);
 	if(ann->errno_f == FANN_E_CANT_ALLOCATE_MEM)
 	{
@@ -178,10 +184,11 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 #endif
 
 	num_neurons_in = ann->num_input;
+	/*遍历除第一层之外的所有层，初始化连接参数*/
 	for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer; layer_it++)
 	{
 		num_neurons_out = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron - 1);
-		/*�if all neurons in each layer should be connected to at least one neuron
+		/* if all neurons in each layer should be connected to at least one neuron
 		 * in the previous layer, and one neuron in the next layer.
 		 * and the bias node should be connected to the all neurons in the next layer.
 		 * Then this is the minimum amount of neurons */
@@ -277,6 +284,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 		/* All the connections are cleared by calloc, because we want to
 		 * be able to see which connections are allready connected */
 
+		/*除第一层之外遍历所有层（第一层没有输入）*/
 		for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer; layer_it++)
 		{
 
@@ -286,15 +294,17 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 			/* first connect the bias neuron */
 			bias_neuron = (layer_it - 1)->last_neuron - 1;
 			last_neuron = layer_it->last_neuron - 1;
+			/*遍历每一层的所有神经元*/
 			for(neuron_it = layer_it->first_neuron; neuron_it != last_neuron; neuron_it++)
 			{
-
+				/*随机旁路了？*/
 				ann->connections[neuron_it->first_con] = bias_neuron;
 				ann->weights[neuron_it->first_con] = (fann_type) fann_random_bias_weight();
 			}
 
 			/* then connect all neurons in the input layer */
 			last_neuron = (layer_it - 1)->last_neuron - 1;
+			/*遍历上一层的第一个神经元到倒数第二个神经元（最后一个已经连接了）*/
 			for(neuron_it = (layer_it - 1)->first_neuron; neuron_it != last_neuron; neuron_it++)
 			{
 
@@ -1524,6 +1534,7 @@ void fann_allocate_neurons(struct fann *ann)
 	uint32_t num_neurons = 0;
 
 	/* all the neurons is allocated in one long array (calloc clears mem) */
+	/*一次性把所有神经元申请完*/
 	neurons = (struct fann_neuron *) calloc(ann->total_neurons, sizeof(struct fann_neuron));
 	ann->total_neurons_allocated = ann->total_neurons;
 
@@ -1533,6 +1544,8 @@ void fann_allocate_neurons(struct fann *ann)
 		return;
 	}
 
+	/*遍历每一层*/
+	/*把神经元地址分配到每一层到位到位：头神经元和尾神经元*/
 	for(layer_it = ann->first_layer; layer_it != ann->last_layer; layer_it++)
 	{
 		num_neurons = (uint32_t)(layer_it->last_neuron - layer_it->first_neuron);
@@ -1541,6 +1554,7 @@ void fann_allocate_neurons(struct fann *ann)
 		num_neurons_so_far += num_neurons;
 	}
 
+	/*初始化输出数组*/
 	ann->output = (fann_type *) calloc(num_neurons, sizeof(fann_type));
 	if(ann->output == NULL)
 	{
@@ -1552,8 +1566,10 @@ void fann_allocate_neurons(struct fann *ann)
 /* INTERNAL FUNCTION
    Allocate room for the connections.
  */
+/*为连接申请空间*/
 void fann_allocate_connections(struct fann *ann)
 {
+	/*一次性为所有连接申请空间*/
 	ann->weights = (fann_type *) calloc(ann->total_connections, sizeof(fann_type));
 	if(ann->weights == NULL)
 	{
@@ -1565,6 +1581,7 @@ void fann_allocate_connections(struct fann *ann)
 	/* TODO make special cases for all places where the connections
 	 * is used, so that it is not needed for fully connected networks.
 	 */
+	/*申请指向神经元的指针的指针，没有初始化*/
 	ann->connections =
 		(struct fann_neuron **) calloc(ann->total_connections_allocated,
 									   sizeof(struct fann_neuron *));
