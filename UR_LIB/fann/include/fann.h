@@ -40,11 +40,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #define FIXEDFANN
 /* just to allow for inclusion of fann.h in normal stuations where only floats are needed */ 
-#ifdef FIXEDFANN
+
 #include "fixedfann.h"
-#else
-#include "floatfann.h"
-#endif	/* FIXEDFANN  */
+
 	
 #else
 	
@@ -72,7 +70,6 @@ extern "C"
 #include "fann_data.h"
 #include "fann_internal.h"
 #include "fann_train.h"
-#include "fann_cascade.h"
 #include "fann_io.h"
 
 /* Function: fann_create_standard

@@ -1,0 +1,31 @@
+/*
+ * parallel_FANN.h
+ *
+ *     Author: Alessandro Pietro Bardelli
+ */
+#ifndef DISABLE_PARALLEL_FANN
+#ifndef PARALLEL_FANN_H_
+#define PARALLEL_FANN_H_
+
+#include "fann.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+	
+#ifndef __cplusplus
+} /* to fool automatic indention engines */ 
+#endif
+#endif	/* __cplusplus */
+
+#ifdef __cplusplus
+#ifndef __cplusplus
+/* to fool automatic indention engines */ 
+{
+	
+#endif
+} 
+#endif	/* __cplusplus */
+
+#endif /* PARALLEL_FANN_H_ */
+#endif /* DISABLE_PARALLEL_FANN */
