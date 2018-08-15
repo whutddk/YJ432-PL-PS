@@ -550,9 +550,6 @@ void fann_disable_seed_rand();
    This function appears in FANN >= 2.3.0
 */
 void fann_enable_seed_rand();
-
-
-#ifdef FIXEDFANN
 	
 /* Function: fann_get_decimal_point
 
@@ -589,7 +586,7 @@ uint32_t fann_get_decimal_point(struct fann *ann);
 */ 
 uint32_t fann_get_multiplier(struct fann *ann);
 
-#endif	/* FIXEDFANN */
+
 
 #ifdef __cplusplus
 #ifndef __cplusplus
