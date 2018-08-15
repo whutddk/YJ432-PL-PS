@@ -578,6 +578,7 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 	for(i = 0; i != num_input; i++)
 	{
 
+		/*检验输入是否溢出*/
 		if(fann_abs(input[i]) > multiplier)
 		{
 			printf
@@ -591,11 +592,13 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 
 	(ann->first_layer->last_neuron - 1)->value = multiplier;
 
-
+	/*算力集中在这里*/
 	last_layer = ann->last_layer;
+	/*遍历除输入层之外的所有层*/
 	for(layer_it = ann->first_layer + 1; layer_it != last_layer; layer_it++)
 	{
 		last_neuron = layer_it->last_neuron;
+		/*每层遍历所有神经元*/
 		for(neuron_it = layer_it->first_neuron; neuron_it != last_neuron; neuron_it++)
 		{
 			if(neuron_it->first_con == neuron_it->last_con)
@@ -609,11 +612,14 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 			steepness = neuron_it->activation_steepness;
 
 			neuron_sum = 0;
+
+			/*一共有几个连接*/
 			num_connections = neuron_it->last_con - neuron_it->first_con;
 			weights = ann->weights + neuron_it->first_con;
 
 			if(ann->connection_rate >= 1)
 			{
+				/*扁平化网络*/
 				if(ann->network_type == FANN_NETTYPE_SHORTCUT)
 				{
 					neurons = ann->first_layer->first_neuron;
@@ -684,6 +690,7 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 
 			neuron_it->sum = fann_mult(steepness, neuron_sum);
 
+			/*激活函数和步进值跟上一层不同，则刷新参数*/
 			if(activation_function != last_activation_function || steepness != last_steepness)
 			{
 				switch (activation_function)
@@ -723,6 +730,7 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 				}
 			}
 
+			/*核心算力*/
 			switch (activation_function)
 			{
 				case FANN_SIGMOID:
