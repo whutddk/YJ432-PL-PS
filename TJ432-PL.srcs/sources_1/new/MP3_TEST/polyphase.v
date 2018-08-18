@@ -138,6 +138,17 @@ reg signed [15:0] pcm[0:63];
 (* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum2R_A;
 // reg [63:0] sum2R_B;
 
+wire signed [63:0] sum1L_sub_pre;
+wire signed [63:0] sum2L_sub_pre;
+wire signed [63:0] sum1R_sub_pre;
+wire signed [63:0] sum2R_sub_pre;
+
+assign sum1L_sub_pre = sum1L_A - mult_out1L;
+assign sum2L_sub_pre = sum2L_A + mult_out2L;
+assign sum1R_sub_pre = sum1R_A - mult_out1R;
+assign sum2R_sub_pre = sum2R_A + mult_out2R;
+
+
 always @( negedge CLK or negedge RST_n ) begin
 	if ( !RST_n ) begin
 		Ram_addrA_reg <= 12'b0;
@@ -224,8 +235,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				// sum2R <= 64'd0;
 
 				//vbuf
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd0;//0-7
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd32;//32-39
+				Ram_addrA_reg <= vbuf_offset + 12'd0;//0-7
+				Ram_addrB_reg <= vbuf_offset + 12'd32;//32-39
 				//coef
 				Rom_addrA <= 9'd0;//0,2,4,6,8,10,12,14
 
@@ -243,8 +254,8 @@ always @( negedge CLK or negedge RST_n ) begin
 			else if ( poly_cnt <= 9'd7 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf
-				Ram_addrA_reg <= vbuf_offset[11:0] + poly_cnt;//1-7
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd32 + poly_cnt;//33-39
+				Ram_addrA_reg <= vbuf_offset + poly_cnt;//1-7
+				Ram_addrB_reg <= vbuf_offset + 12'd32 + poly_cnt;//33-39
 				//coef
 				Rom_addrA <= (poly_cnt << 1);//0,2,4,6,8,10,12,14
 
@@ -261,8 +272,8 @@ always @( negedge CLK or negedge RST_n ) begin
 			else if ( poly_cnt == 9'd8 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd23;//23
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd55;//55
+				Ram_addrA_reg <= vbuf_offset + 12'd23;//23
+				Ram_addrB_reg <= vbuf_offset + 12'd55;//55
 				//coef
 				Rom_addrA <= 9'd1;//1
 
@@ -278,8 +289,8 @@ always @( negedge CLK or negedge RST_n ) begin
 			else if ( poly_cnt == 9'd9 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd22;//22
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd54;//54
+				Ram_addrA_reg <= vbuf_offset + 12'd22;//22
+				Ram_addrB_reg <= vbuf_offset + 12'd54;//54
 				//coef
 				Rom_addrA <= 9'd3;//1
 
@@ -300,8 +311,8 @@ always @( negedge CLK or negedge RST_n ) begin
 			else if ( poly_cnt <= 9'd15 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf MC0S Final
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd31 - poly_cnt ;//21-16
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd63 - poly_cnt ;//53-48
+				Ram_addrA_reg <= vbuf_offset + 12'd31 - poly_cnt ;//21-16
+				Ram_addrB_reg <= vbuf_offset + 12'd63 - poly_cnt ;//53-48
 				//coef MC0S Final
 				Rom_addrA <= ((poly_cnt - 9'd8) << 1) + 9'd1;//5.7.9.11.13.15
 
@@ -318,8 +329,8 @@ always @( negedge CLK or negedge RST_n ) begin
 			else if ( poly_cnt == 9'd16 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf MC1S First
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd1024 ;
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd1056 ;
+				Ram_addrA_reg <= vbuf_offset + 12'd1024 ;
+				Ram_addrB_reg <= vbuf_offset + 12'd1056 ;
 				//coef MC1S First
 				Rom_addrA <= 9'd256;
 
@@ -337,8 +348,8 @@ always @( negedge CLK or negedge RST_n ) begin
 			else if ( poly_cnt == 9'd17 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd1025 ;
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd1057 ;
+				Ram_addrA_reg <= vbuf_offset + 12'd1025 ;
+				Ram_addrB_reg <= vbuf_offset + 12'd1057 ;
 				//coef
 				Rom_addrA <= 9'd257;
 
@@ -351,16 +362,18 @@ always @( negedge CLK or negedge RST_n ) begin
 				mult1R_B_reg <= Rom_dataA;
 
 				//MC0S result
-				pcm[0] <= ( sum1L_A[63:26] - mult_out1L[63:26] );
-				pcm[1] <= ( sum1R_A[63:26] - mult_out1R[63:26] );
+				// pcm[0] <= ( sum1L_A[63:26] - mult_out1L[63:26] );
+				// pcm[1] <= ( sum1R_A[63:26] - mult_out1R[63:26] );
+				pcm[0] <= sum1L_sub_pre[41:26];
+				pcm[1] <= sum1R_sub_pre[41:26];
 
 			end // else if ( poly_cnt == 9'd17 )
 
 			else if ( poly_cnt <= 9'd23 ) begin
 				poly_cnt <= poly_cnt + 9'd1;
 				//vbuf MC1S Final
-				Ram_addrA_reg <= vbuf_offset[11:0] + 12'd1008 + poly_cnt; //1026-1031
-				Ram_addrB_reg <= vbuf_offset[11:0] + 12'd1040 + poly_cnt; //1058-1063
+				Ram_addrA_reg <= vbuf_offset + 12'd1008 + poly_cnt; //1026-1031
+				Ram_addrB_reg <= vbuf_offset + 12'd1040 + poly_cnt; //1058-1063
 				//coef MC1S Final
 				Rom_addrA <= 9'd240 + poly_cnt;//258-263
 
@@ -411,8 +424,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				if ( MC2S_sub_cnt == 9'd0 ) begin
 					MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 					//vbuf
-					Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
-					Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
+					Ram_addrA_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
+					Ram_addrB_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 					//coef
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 );
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + ( MC2S_sub_cnt << 1) ;
@@ -438,8 +451,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				else if ( MC2S_sub_cnt <= 9'd7 ) begin
 					MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 					//vbuf Final
-					Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
-					Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
+					Ram_addrA_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + MC2S_sub_cnt;
+					Ram_addrB_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 					//coef Final
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 );
 					Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 ) + 12'd1;
@@ -466,8 +479,8 @@ always @( negedge CLK or negedge RST_n ) begin
 					MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 
 					//vbuf First
-					Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
-					Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
+					Ram_addrA_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
+					Ram_addrB_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 					//coef First
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1;
 					Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1 + 12'd1;
@@ -495,8 +508,8 @@ always @( negedge CLK or negedge RST_n ) begin
 					MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 
 					//vbuf 
-					Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
-					Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
+					Ram_addrA_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
+					Ram_addrB_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 					//coef 
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1;
 					Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1 + 12'd1;
@@ -530,8 +543,8 @@ always @( negedge CLK or negedge RST_n ) begin
 					MC2S_sub_cnt <= MC2S_sub_cnt + 9'd1;
 
 					//vbuf Final
-					Ram_addrA_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
-					Ram_addrB_reg <= vbuf_offset[11:0] + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
+					Ram_addrA_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd31 - MC2S_sub_cnt;
+					Ram_addrB_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd63 - MC2S_sub_cnt;
 					//coef Final
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1;
 					Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt - 12'd8 ) << 1 + 12'd1;
@@ -576,12 +589,17 @@ always @( negedge CLK or negedge RST_n ) begin
 				else begin //if ( MC2S_sub_cnt == 9'd17 )
 				
 
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<=  sum1L_A[63:26] - mult_out1L[63:26];
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<=  sum1R_A[63:26] - mult_out1R[63:26];
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<=  sum2L_A[63:26] + mult_out2L[63:26];
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_A[63:26] + mult_out2R[63:26];
-
+					// pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<=  sum1L_A[63:26] - mult_out1L[63:26];
+					// pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<=  sum1R_A[63:26] - mult_out1R[63:26];
+					// pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<=  sum2L_A[63:26] + mult_out2L[63:26];
+					// pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_A[63:26] + mult_out2R[63:26];
 				
+				
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<=  sum1L_sub_pre[41:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<=  sum1R_sub_pre[41:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<=  sum2L_sub_pre[41:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_sub_pre[41:26];
+
 
 					if ( MC2S_cnt != 4'd1  ) begin
 						MC2S_cnt <= MC2S_cnt - 4'd1;
