@@ -409,8 +409,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				sum1L_pre_reg <= 64'd0;
 				sum1R_pre_reg <= 64'd0;
 
-				pcm[32] <= mult_out1L[63:26];
-				pcm[33] <= mult_out1R[63:26];
+				pcm[32] <= mult_out1L[41:26];
+				pcm[33] <= mult_out1R[41:26];
 
 				MC2S_cnt <= 4'd15;
 				MC2S_sub_cnt <= 9'd0;
