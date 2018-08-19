@@ -79,6 +79,9 @@ wire IP_Done_Wire;
 // wire FIFO_CLK_wire;
 wire Is_Empty_Wire;
 
+wire [5:0] PCM_ADDR_Wire;
+wire [31:0] PCM_DATA_Wire;
+
 flexbus_comm i_flexbus(
 	.FB_BASE(32'h60000000),
 
@@ -114,10 +117,13 @@ flexbus_comm i_flexbus(
 
 	.IP_Done(IP_Done_Wire),
 
-	.Is_Empty_Wire(Is_Empty_Wire)
+	.Is_Empty_Wire(Is_Empty_Wire),
 	// .STEAM_DATA(STREAM_DATA_Wire),  //put data into here
 	// .FIFO_CLK(FIFO_CLK_wire)
 	
+	.PCM_ADDR(PCM_ADDR_Wire),
+	.PCM_DATA(PCM_DATA_Wire)
+
 	);
 	
 BZLED i_BZLED(
@@ -193,8 +199,10 @@ mp3_mid i_mp3(
 	.IP_Done(IP_Done_Wire),
 
 	.FIFO_EN(Pcm_wden_Wire),
-	.FIFO_DATA(PCM_DATA_Wire)
+	.FIFO_DATA(PCM_DATA_Wire),
 
+	.PCM_ADDR(PCM_ADDR_Wire),
+	.PCM_DATA(PCM_DATA_Wire)
 	);
 
 
