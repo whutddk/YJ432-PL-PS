@@ -40,7 +40,10 @@ module mp3_mid(
 	output IP_Done,
 
 	output FIFO_EN,
-	output [15:0] FIFO_DATA
+	output [15:0] FIFO_DATA,
+
+	input [5:0] PCM_ADDR,
+	output [31:0] PCM_DATA
 
 	);
 
@@ -121,7 +124,10 @@ polyphase i_polyhpase
 	.sum2R_pre(sum3),
 	.mult2R_A(mult3A),
 	.mult2R_B(mult3B),
-	.mult_out2R(mult3_out)
+	.mult_out2R(mult3_out),
+
+	.PCM_ADDR(PCM_ADDR),
+	.PCM_DATA(PCM_DATA)
 
 );
 	
