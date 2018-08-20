@@ -44,16 +44,14 @@ module flexbus_comm(
 	output reg [31:0] LEDB_Puty_Reg,
 	
 	 
-	output reg [31:0] RAM_DATA_Reg,
-	inout [11:0] RAM_ADDR,
+	output reg [31:0] MIBUF_DATA_Reg,
+	output reg [5:0] MIBUF_ADDR,
 
 	// output reg [3:0] vindex,
 	// output reg b,
 	
 	output reg [11:0] vbuf_offset,
 	
-
-	output reg RAM_WR_EN_Reg,
 	output reg [2:0] subband_state,
 
 	input IP_Done,
@@ -82,9 +80,6 @@ assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);
 assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
    
 
-reg [11:0] RAM_ADDR_Reg;
-
-assign RAM_ADDR = ( subband_state != ST_FBRAM ) ? 12'bz : RAM_ADDR_Reg;
 
 always@( negedge FB_CLK or negedge RST_n )  begin
 	if ( !RST_n ) begin
@@ -125,9 +120,9 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= LEDG_Puty_Reg;
 		LEDB_Puty_Reg <= LEDB_Puty_Reg;
 
-		RAM_DATA_Reg <= RAM_DATA_Reg;
-		RAM_ADDR_Reg <= RAM_ADDR_Reg;
-		RAM_WR_EN_Reg <= 1'b0;
+		MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
+		MIBUF_ADDR_Reg <= MIBUF_ADDR_Reg;
+
 		subband_state <= subband_state;
 
 		vbuf_offset <= vbuf_offset;
@@ -183,33 +178,33 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								// STEAM_DATA[31:0] <= FB_AD[31:0];
 								// FIFO_CLK <= 1'b0;
 								
-								if ( (ip_ADDR[13:2]) < 12'd3000 ) begin
+								if ( (ip_ADDR[13:2]) < 12'd100 ) begin
 								
-									RAM_DATA_Reg[31:0] <= FB_AD[31:0];
-									RAM_ADDR_Reg[11:0] <= ip_ADDR[13:2];
-									RAM_WR_EN_Reg <= 1'b1;
-									subband_state <= ST_FBRAM;
+									MIBUF_DATA_Reg[31:0] <= FB_AD[31:0];
+									MIBUF_ADDR[5:0] <= ip_ADDR[7:2];
+
+									subband_state <= ST_MIBUF;
 								end // if ( (ip_ADDR[13:2]) < 12'd3000 )
 								else begin
-									RAM_DATA_Reg <= RAM_DATA_Reg;
-									RAM_ADDR_Reg[11:0] <= RAM_ADDR_Reg[11:0];
-									RAM_WR_EN_Reg <= 1'b0;
-									subband_state <= ST_FBRAM;
+									MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
+									MIBUF_ADDR[11:0] <= MIBUF_ADDR[11:0];
+
+									subband_state <= ST_MIBUF;
 								end // else
 							end
 
-							32'h07810004:begin
-								subband_state <= ST_FBRAM;
-								vbuf_offset[11:0] <= FB_AD[11:0];
+							// 32'h07810004:begin
+							// 	subband_state <= ST_FBRAM;
+							// 	vbuf_offset[11:0] <= FB_AD[11:0];
 								
-								RAM_WR_EN_Reg <= 1'b0;
 
-							end // 32'h07800004:
 
-							32'h07810008:begin
-								subband_state <= ST_PLOY;
-								RAM_WR_EN_Reg <= 1'b0;
-							end // 32'h07810008:
+							// end // 32'h07800004:
+
+							// 32'h07810008:begin
+							// 	subband_state <= ST_PLOY;
+
+							// end // 32'h07810008:
 							
 							default:begin
 							end // default:
