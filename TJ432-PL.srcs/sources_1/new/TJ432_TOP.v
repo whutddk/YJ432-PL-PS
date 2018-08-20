@@ -80,7 +80,7 @@ wire IP_Done_Wire;
 wire Is_Empty_Wire;
 
 wire [5:0] PCM_ADDR_Wire;
-wire [31:0] PCM_DATA_Wire;
+wire [31:0] PCM_DATAOUTPUT_Wire;
 
 flexbus_comm i_flexbus(
 	.FB_BASE(32'h60000000),
@@ -122,7 +122,7 @@ flexbus_comm i_flexbus(
 	// .FIFO_CLK(FIFO_CLK_wire)
 	
 	.PCM_ADDR(PCM_ADDR_Wire),
-	.PCM_DATA(PCM_DATA_Wire)
+	.PCM_DATA(PCM_DATAOUTPUT_Wire)
 
 	);
 	
@@ -202,7 +202,7 @@ mp3_mid i_mp3(
 	.FIFO_DATA(PCM_DATA_Wire),
 
 	.PCM_ADDR(PCM_ADDR_Wire),
-	.PCM_DATA(PCM_DATA_Wire)
+	.PCM_DATA(PCM_DATAOUTPUT_Wire)
 	);
 
 
