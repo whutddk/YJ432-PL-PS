@@ -142,15 +142,98 @@ reg signed [63:0] sum1R_A;
 reg signed [63:0] sum2R_A;
 
 
-wire signed [63:0] sum1L_sub_pre;
-wire signed [63:0] sum2L_sub_pre;
-wire signed [63:0] sum1R_sub_pre;
-wire signed [63:0] sum2R_sub_pre;
+wire signed [63:0] sum1L_sub_pre1;
+wire signed [63:0] sum2L_sub_pre1;
+wire signed [63:0] sum1R_sub_pre1;
+wire signed [63:0] sum2R_sub_pre1;
 
-assign sum1L_sub_pre = sum1L_A - mult_out1L;
-assign sum2L_sub_pre = sum2L_A + mult_out2L;
-assign sum1R_sub_pre = sum1R_A - mult_out1R;
-assign sum2R_sub_pre = sum2R_A + mult_out2R;
+wire signed [15:0] sum1L_sub_pre;
+wire signed [15:0] sum2L_sub_pre;
+wire signed [15:0] sum1R_sub_pre;
+wire signed [15:0] sum2R_sub_pre;
+
+assign sum1L_sub_pre1 = sum1L_A - mult_out1L;
+assign sum2L_sub_pre1 = sum2L_A + mult_out2L;
+assign sum1R_sub_pre1 = sum1R_A - mult_out1R;
+assign sum2R_sub_pre1 = sum2R_A + mult_out2R;
+
+always @ ( sum1L_sub_pre1 ) begin
+	if ( sum1L_sub_pre1[63] == 1'b0 ) begin
+		if ( sum1L_sub_pre1[62:41] == 22'd0 ) begin
+			sum1L_sub_pre[15:0] = sum1L_sub_pre1[41:26];
+		end
+		else begin
+			sum1L_sub_pre[15:0] = 16'd32767;
+		end // else
+	end // if ( sum1L_sub_pre1[63] == 1'b0 )
+	else begin
+		if ( sum1L_sub_pre1[62:41] == 22'b1111111111111111111111 ) begin
+			sum1L_sub_pre[15:0] = sum1L_sub_pre1[41:26];
+		end
+		else begin
+			sum1L_sub_pre[15:0] = 16'h8000;
+		end // else
+	end
+end
+
+always @ ( sum2L_sub_pre1 ) begin
+	if ( sum2L_sub_pre1[63] == 1'b0 ) begin
+		if ( sum2L_sub_pre1[62:41] == 22'd0 ) begin
+			sum2L_sub_pre[15:0] = sum2L_sub_pre1[41:26];
+		end
+		else begin
+			sum2L_sub_pre[15:0] = 16'd32767;
+		end // else
+	end // if ( sum1L_sub_pre1[63] == 1'b0 )
+	else begin
+		if ( sum2L_sub_pre1[62:41] == 22'b1111111111111111111111 ) begin
+			sum2L_sub_pre[15:0] = sum2L_sub_pre1[41:26];
+		end
+		else begin
+			sum2L_sub_pre[15:0] = 16'h8000;
+		end // else
+	end
+end
+
+always @ ( sum1R_sub_pre1 ) begin
+	if ( sum1R_sub_pre1[63] == 1'b0 ) begin
+		if ( sum1R_sub_pre1[62:41] == 22'd0 ) begin
+			sum1R_sub_pre[15:0] = sum1R_sub_pre1[41:26];
+		end
+		else begin
+			sum1R_sub_pre[15:0] = 16'd32767;
+		end // else
+	end // if ( sum1L_sub_pre1[63] == 1'b0 )
+	else begin
+		if ( sum1R_sub_pre1[62:41] == 22'b1111111111111111111111 ) begin
+			sum1R_sub_pre[15:0] = sum1R_sub_pre1[41:26];
+		end
+		else begin
+			sum1R_sub_pre[15:0] = 16'h8000;
+		end // else
+	end
+end
+
+always @ ( sum2R_sub_pre1 ) begin
+	if ( sum2R_sub_pre1[63] == 1'b0 ) begin
+		if ( sum2R_sub_pre1[62:41] == 22'd0 ) begin
+			sum2R_sub_pre[15:0] = sum2R_sub_pre1[41:26];
+		end
+		else begin
+			sum2R_sub_pre[15:0] = 16'd32767;
+		end // else
+	end // if ( sum1L_sub_pre1[63] == 1'b0 )
+	else begin
+		if ( sum2R_sub_pre1[62:41] == 22'b1111111111111111111111 ) begin
+			sum2R_sub_pre[15:0] = sum2R_sub_pre1[41:26];
+		end
+		else begin
+			sum2R_sub_pre[15:0] = 16'h8000;
+		end // else
+	end
+end
+
+
 
 assign PCM_DATA = {pcm[PCM_ADDR],16'h0000};
 
@@ -366,8 +449,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				//MC0S result
 				// pcm[0] <= ( sum1L_A[63:26] - mult_out1L[63:26] );
 				// pcm[1] <= ( sum1R_A[63:26] - mult_out1R[63:26] );
-				pcm[0] <= sum1L_sub_pre[41:26];
-				pcm[1] <= sum1R_sub_pre[41:26];
+				pcm[0] <= sum1L_sub_pre;
+				pcm[1] <= sum1R_sub_pre;
 
 			end // else if ( poly_cnt == 9'd17 )
 
@@ -411,8 +494,8 @@ always @( negedge CLK or negedge RST_n ) begin
 				sum1L_pre_reg <= 64'd0;
 				sum1R_pre_reg <= 64'd0;
 
-				pcm[32] <= mult_out1L[41:26];
-				pcm[33] <= mult_out1R[41:26];
+				pcm[32] <= mult_out1L;
+				pcm[33] <= mult_out1R;
 
 				MC2S_cnt <= 4'd15;
 				MC2S_sub_cnt <= 9'd0;
@@ -597,10 +680,10 @@ always @( negedge CLK or negedge RST_n ) begin
 					// pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_A[63:26] + mult_out2R[63:26];
 				
 				
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<=  sum1L_sub_pre[41:26];
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<=  sum1R_sub_pre[41:26];
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<=  sum2L_sub_pre[41:26];
-					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_sub_pre[41:26];
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) ] 						<=  sum1L_sub_pre;
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + 12'd1 ] 					<=  sum1R_sub_pre;
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2  ] 		<=  sum2L_sub_pre;
+					pcm[ ( ( 12'd16 - MC2S_cnt ) << 1 ) + MC2S_cnt << 2 + 12'd1 ] 	<=  sum2R_sub_pre;
 
 
 					if ( MC2S_cnt != 4'd1  ) begin
