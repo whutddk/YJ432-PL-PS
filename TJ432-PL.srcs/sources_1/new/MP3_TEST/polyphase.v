@@ -28,51 +28,51 @@ module polyphase
 	
 	//state
 	
-	(* DONT_TOUCH = "TRUE" *) input [2:0] subband_state,
+	input [2:0] subband_state,
 
 	//CTL
 	// input [3:0] vindex,
 	// input b,
 	
-	(* DONT_TOUCH = "TRUE" *)input [11:0] vbuf_offset,
+	input [11:0] vbuf_offset,
 
 	output reg IP_Done,
 
 	//ram operate
-	(* DONT_TOUCH = "TRUE" *)inout [11:0] Ram_addrA,
-	(* DONT_TOUCH = "TRUE" *)inout [11:0] Ram_addrB,
-	(* DONT_TOUCH = "TRUE" *)input signed [31:0] Ram_dataA,
-	(* DONT_TOUCH = "TRUE" *)input signed [31:0] Ram_dataB,
+	inout [11:0] Ram_addrA,
+	inout [11:0] Ram_addrB,
+	input signed [31:0] Ram_dataA,
+	input signed [31:0] Ram_dataB,
 
 	//Rom operate
-	(* DONT_TOUCH = "TRUE" *)output reg [8:0] Rom_addrA,
-	(* DONT_TOUCH = "TRUE" *)output reg [8:0] Rom_addrB,
-	(* DONT_TOUCH = "TRUE" *)input signed [31:0] Rom_dataA,
-	(* DONT_TOUCH = "TRUE" *)input signed [31:0] Rom_dataB,	
+	output reg [8:0] Rom_addrA,
+	output reg [8:0] Rom_addrB,
+	input signed [31:0] Rom_dataA,
+	input signed [31:0] Rom_dataB,	
 
 	//FIFO pcm DATA
-	(* DONT_TOUCH = "TRUE" *)output reg signed [15:0] fifo_data,
-	(* DONT_TOUCH = "TRUE" *)output reg fifo_enable,
+	output reg signed [15:0] fifo_data,
+	output reg fifo_enable,
 
-	(* DONT_TOUCH = "TRUE" *)output signed [63:0] sum1L_pre,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult1L_A,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult1L_B,
-	(* DONT_TOUCH = "TRUE" *)input signed [63:0] mult_out1L,
+	output signed [63:0] sum1L_pre,
+	output signed [31:0] mult1L_A,
+	output signed [31:0] mult1L_B,
+	input signed [63:0] mult_out1L,
 
-	(* DONT_TOUCH = "TRUE" *)output signed [63:0] sum2L_pre,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult2L_A,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult2L_B,
-	(* DONT_TOUCH = "TRUE" *)input signed [63:0] mult_out2L,
+	output signed [63:0] sum2L_pre,
+	output signed [31:0] mult2L_A,
+	output signed [31:0] mult2L_B,
+	input signed [63:0] mult_out2L,
 
-	(* DONT_TOUCH = "TRUE" *)output signed [63:0] sum1R_pre,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult1R_A,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult1R_B,
-	(* DONT_TOUCH = "TRUE" *)input signed [63:0] mult_out1R,
+	output signed [63:0] sum1R_pre,
+	output signed [31:0] mult1R_A,
+	output signed [31:0] mult1R_B,
+	input signed [63:0] mult_out1R,
 
-	(* DONT_TOUCH = "TRUE" *)output signed [63:0] sum2R_pre,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult2R_A,
-	(* DONT_TOUCH = "TRUE" *)output signed [31:0] mult2R_B,
-	(* DONT_TOUCH = "TRUE" *)input signed [63:0] mult_out2R,
+	output signed [63:0] sum2R_pre,
+	output signed [31:0] mult2R_A,
+	output signed [31:0] mult2R_B,
+	input signed [63:0] mult_out2R,
 
 	input [5:0] PCM_ADDR,
 	output [31:0] PCM_DATA
@@ -81,17 +81,6 @@ module polyphase
 
 
 
-// reg [31:0]
-
-// always @(posedge CLK or negedge RST_n) begin
-// 	if ( !RST_n ) begin
-
-// 	end // if ( !RST_n )
-// 	else begin
-
-// 	end // else
-// end
-
 
 	parameter ST_IDLE = 3'd0;
 	parameter ST_MIBUF = 3'd1;
@@ -99,21 +88,21 @@ module polyphase
 	parameter ST_FBRAM = 3'd3;
 	parameter ST_PLOY = 3'd4;
 
-	(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum1L_pre_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult1L_A_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult1L_B_reg;
+	reg signed [63:0] sum1L_pre_reg;
+	reg signed [31:0] mult1L_A_reg;
+	reg signed [31:0] mult1L_B_reg;
 
-	(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum2L_pre_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult2L_A_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult2L_B_reg;
+	reg signed [63:0] sum2L_pre_reg;
+	reg signed [31:0] mult2L_A_reg;
+	reg signed [31:0] mult2L_B_reg;
 
-	(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum1R_pre_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult1R_A_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult1R_B_reg;
+	reg signed [63:0] sum1R_pre_reg;
+	reg signed [31:0] mult1R_A_reg;
+	reg signed [31:0] mult1R_B_reg;
 
-	(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum2R_pre_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult2R_A_reg;
-	(* DONT_TOUCH = "TRUE" *)reg signed [31:0] mult2R_B_reg;
+	reg signed [63:0] sum2R_pre_reg;
+	reg signed [31:0] mult2R_A_reg;
+	reg signed [31:0] mult2R_B_reg;
 
 //memory
 reg [11:0] Ram_addrA_reg;
@@ -140,20 +129,18 @@ assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
 reg signed [15:0] pcm[0:63];
-(* DONT_TOUCH = "TRUE" *)reg [8:0] poly_cnt = 9'd0; 
-(* DONT_TOUCH = "TRUE" *)reg [3:0] MC2S_cnt = 4'd15;
-(* DONT_TOUCH = "TRUE" *)reg [8:0] MC2S_sub_cnt = 9'd0;
-(* DONT_TOUCH = "TRUE" *)reg [7:0] fifo_cnt = 8'd0;
+reg [8:0] poly_cnt = 9'd0; 
+reg [3:0] MC2S_cnt = 4'd15;
+reg [8:0] MC2S_sub_cnt = 9'd0;
+reg [7:0] fifo_cnt = 8'd0;
 
-(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum1L_A;
-// reg [63:0] sum1L_B;
-(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum2L_A;
-// reg [63:0] sum2L_B;
+reg signed [63:0] sum1L_A;
+reg signed [63:0] sum2L_A;
 
-(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum1R_A;
-// reg [63:0] sum1R_B;
-(* DONT_TOUCH = "TRUE" *)reg signed [63:0] sum2R_A;
-// reg [63:0] sum2R_B;
+reg signed [63:0] sum1R_A;
+
+reg signed [63:0] sum2R_A;
+
 
 wire signed [63:0] sum1L_sub_pre;
 wire signed [63:0] sum2L_sub_pre;
@@ -215,13 +202,9 @@ always @( negedge CLK or negedge RST_n ) begin
 		Rom_addrB <= Rom_addrB;
 
 		sum1L_A <= sum1L_A;
-		// sum1L_B <= sum1L_B;
 		sum2L_A <= sum2L_A;
-		// sum2L_B <= sum2L_B;
 		sum1R_A <= sum1R_A;
-		// sum1R_B <= sum1R_B;
 		sum2R_A <= sum2R_A;
-		// sum2R_B <= sum2R_B;
 
 		MC2S_cnt <= MC2S_cnt;
 		MC2S_sub_cnt <= MC2S_sub_cnt;
