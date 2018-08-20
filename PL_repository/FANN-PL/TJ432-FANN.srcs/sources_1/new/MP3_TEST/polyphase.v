@@ -165,7 +165,7 @@ assign sum2L_sub_pre = sum2L_A + mult_out2L;
 assign sum1R_sub_pre = sum1R_A - mult_out1R;
 assign sum2R_sub_pre = sum2R_A + mult_out2R;
 
-assign PCM_DATA = pcm[PCM_ADDR];
+assign PCM_DATA = {pcm[PCM_ADDR],16'h0000};
 
 
 always @( negedge CLK or negedge RST_n ) begin
@@ -447,7 +447,7 @@ always @( negedge CLK or negedge RST_n ) begin
 					Ram_addrB_reg <= vbuf_offset + ( ( 12'd16 - MC2S_cnt ) << 6 ) + 12'd32 + MC2S_sub_cnt;
 					//coef
 					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + ( MC2S_sub_cnt << 1 );
-					Rom_addrA <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + ( MC2S_sub_cnt << 1) ;
+					Rom_addrB <= ( ( 12'd16 - MC2S_cnt ) << 4 ) + 12'd1 + ( MC2S_sub_cnt << 1) ;
 
 					sum1L_pre_reg <= 64'd0;
 					mult1L_A_reg <= 32'd0;
