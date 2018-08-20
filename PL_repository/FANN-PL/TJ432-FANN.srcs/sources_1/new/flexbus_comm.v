@@ -34,7 +34,7 @@ module flexbus_comm(
 //    input FB_BE23_16,
 //    input FB_BE15_8,
 //    input FB_BE7_0,
-	(* DONT_TOUCH = "TRUE" *) inout [31:0] FB_AD,
+	inout [31:0] FB_AD,
 	
 
 	output reg [31:0] FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
@@ -142,7 +142,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 				ip_ADDR[31:0] <= FB_AD[31:0];
 
 				// output test pcm data
-				if ( FB_AD[31:0] & 32'h0fff0000 == 32'h07820000 ) begin
+				if ( ( FB_AD[31:0] & 32'h0fff0000 ) == 32'h07820000 ) begin
 					PCM_ADDR[5:0] <= FB_AD[5:0];
 				end // if ( FB_AD[31:0] & 32'h0fff0000 == 32'h07810000 )
 
