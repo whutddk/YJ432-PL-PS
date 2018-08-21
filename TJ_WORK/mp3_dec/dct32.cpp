@@ -151,15 +151,15 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	 * (in practice this is already true 99% of time, so this code is
 	 *  almost never triggered)
 	 */
-	es = 0;
-	if (gb < 6) 
-	{
-		es = 6 - gb;
-		for (i = 0; i < 32; i++)
-		{
-			buf[i] >>= es;
-		}
-	}
+	// es = 0;
+	// if (gb < 6) 
+	// {
+	// 	es = 6 - gb;
+	// 	for (i = 0; i < 32; i++)
+	// 	{
+	// 		buf[i] >>= es;
+	// 	}
+	// }
 
 	/* first pass */
 	D32FP(0, 1, 5, 1);
@@ -269,21 +269,21 @@ void FDCT32(int *buf, int *dest, int offset, int oddBlock, int gb)
 	 *   shuffle code (one for no shift, one for clip + variable shift) like in IMDCT
 	 * here we just load, clip, shift, and store on the rare instances that es != 0
 	 */
-	if (es) 
-	{
-		d = dest + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
-		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);
+	// if (es) 
+	// {
+	// 	d = dest + 64*16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+	// 	s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);
 	
-		d = dest + offset + (oddBlock ? VBUF_LENGTH  : 0);
-		for (i = 16; i <= 31; i++) 
-		{
-			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
-		}
+	// 	d = dest + offset + (oddBlock ? VBUF_LENGTH  : 0);
+	// 	for (i = 16; i <= 31; i++) 
+	// 	{
+	// 		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
+	// 	}
 
-		d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
-		for (i = 15; i >= 0; i--) 
-		{
-			s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
-		}
-	}
+	// 	d = dest + 16 + ((offset - oddBlock) & 7) + (oddBlock ? 0 : VBUF_LENGTH);
+	// 	for (i = 15; i >= 0; i--) 
+	// 	{
+	// 		s = d[0];	CLIP_2N(s, 31 - es);	d[0] = d[8] = (s << es);	d += 64;
+	// 	}
+	// }
 }
