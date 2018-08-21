@@ -98,6 +98,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		subband_state <= ST_IDLE;
 
 		vbuf_offset <= 12'd0;
+		dest_vindex_offset <= 12'd0;
+		oddBlock <= 1'b0;
 
 		MIBUF_DATA_Reg <= 32'd0;
 		MIBUF_ADDR_Reg <= 6'd0;
