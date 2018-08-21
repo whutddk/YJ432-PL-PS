@@ -74,9 +74,6 @@ module polyphase
 	output signed [31:0] mult2R_B,
 	input signed [63:0] mult_out2R,
 
-	input [5:0] PCM_ADDR,
-	output [31:0] PCM_DATA
-
 	);
 
 
@@ -151,8 +148,6 @@ assign sum1L_sub_pre = sum1L_A - mult_out1L;
 assign sum2L_sub_pre = sum2L_A + mult_out2L;
 assign sum1R_sub_pre = sum1R_A - mult_out1R;
 assign sum2R_sub_pre = sum2R_A + mult_out2R;
-
-assign PCM_DATA = {pcm[PCM_ADDR],16'h0000};
 
 
 always @( negedge CLK or negedge RST_n ) begin

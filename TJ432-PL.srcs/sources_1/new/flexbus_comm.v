@@ -59,9 +59,6 @@ module flexbus_comm(
 	// output reg [31:0] STEAM_DATA,  //put data into here
 	// output reg FIFO_CLK
 	
-	output reg [5:0] PCM_ADDR,
-	input [31:0] PCM_DATA
-
 	);
 
 parameter ST_IDLE = 3'd0;
@@ -96,11 +93,6 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;  
 		
-		RAM_DATA_Reg <= 32'd0;
-		RAM_ADDR_Reg <= 12'd0;
-		// STEAM_DATA <= 32'd0;
-		// FIFO_CLK <= 1'b1;
-		RAM_WR_EN_Reg <= 1'b0;
 		subband_state <= ST_IDLE;
 
 		vbuf_offset <= 12'd0;
@@ -135,12 +127,6 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 			if ( (FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 ) ) begin// check base address 
 				ADD_COMF <= 1'b1;
 				ip_ADDR[31:0] <= FB_AD[31:0];
-
-				// output test pcm data
-				if ( ( FB_AD[31:0] & 32'h0fff0000 ) == 32'h07820000 ) begin
-					PCM_ADDR[5:0] <= FB_AD[5:0];
-				end // if ( FB_AD[31:0] & 32'h0fff0000 == 32'h07810000 )
-
 
 			end
 			else begin // IN ADDRESS LATCH MODE BUT THE ADDRESS IS NOT SELECT THIS FLEXBUS IP
@@ -235,8 +221,6 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								FB_AD_reg[31:0] <= {30'b0,IP_Done,Is_Empty_Wire};
 							end
 
-							32'h0782zzzz:begin
-								FB_AD_reg[31:0] <= PCM_DATA[31:0];
 
 							end // 32'h0782zzzz:
 
