@@ -51,7 +51,7 @@ module flexbus_comm(
 	// output reg b,
 	
 	output reg [11:0] vbuf_offset,
-	output reg [31:0] dest_vindex_offset,
+	output reg [11:0] dest_vindex_offset,
 	output reg oddBlock,
 	
 	output reg [2:0] subband_state,
@@ -98,6 +98,9 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		subband_state <= ST_IDLE;
 
 		vbuf_offset <= 12'd0;
+
+		MIBUF_DATA_Reg <= 32'd0;
+		MIBUF_ADDR_Reg <= 6'd0;
 
 	end
 	else begin
@@ -193,7 +196,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							end // 32'h07810008:
 							
 							32'h0781000c:begin
-								dest_vindex_offset <= FB_AD;
+								dest_vindex_offset[11:0] <= FB_AD[11:0];
 								subband_state <= ST_IDLE;
 							end // 32'h0781000c:
 

@@ -120,7 +120,7 @@ parameter ST_PLOY = 3'd4;
 
 input CLK;
 input RST_n;
-input [31:0] dest_vindex_offset;
+input [11:0] dest_vindex_offset;
 input oddBlock;
 
 //one cycle to wirte,2cycle to read
@@ -129,73 +129,73 @@ inout [11:0] Ram_addrB;
 output reg [31:0] Ram_data;
 output reg Ram_wr_en;
 
-inout [63:0] sum0;
-inout [31:0] mult0A;
-inout [31:0] mult0B;
-input [63:0] mult0_out;
+inout signed [63:0] sum0;
+inout signed [31:0] mult0A;
+inout signed [31:0] mult0B;
+input signed [63:0] mult0_out;
 
-inout [63:0] sum1;
-inout [31:0] mult1A;
-inout [31:0] mult1B;
-input [63:0] mult1_out;
+inout signed [63:0] sum1;
+inout signed [31:0] mult1A;
+inout signed [31:0] mult1B;
+input signed [63:0] mult1_out;
 
-inout [63:0] sum2;
-inout [31:0] mult2A;
-inout [31:0] mult2B;
-input [63:0] mult2_out;
+inout signed [63:0] sum2;
+inout signed [31:0] mult2A;
+inout signed [31:0] mult2B;
+input signed [63:0] mult2_out;
 	
-inout [63:0] sum3;
-inout [31:0] mult3A;
-inout [31:0] mult3B;
-input [63:0] mult3_out;
+inout signed [63:0] sum3;
+inout signed [31:0] mult3A;
+inout signed [31:0] mult3B;
+input signed [63:0] mult3_out;
 
-inout [31:0] mult4A;
-inout [31:0] mult4B;
-input [63:0] mult4_out;
+inout signed [31:0] mult4A;
+inout signed [31:0] mult4B;
+input signed [63:0] mult4_out;
 
-inout [31:0] mult5A;
-inout [31:0] mult5B;
-input [63:0] mult5_out;
+inout signed [31:0] mult5A;
+inout signed [31:0] mult5B;
+input signed [63:0] mult5_out;
 	
-inout [31:0] mult6A;
-inout [31:0] mult6B;
-input [63:0] mult6_out;
+inout signed [31:0] mult6A;
+inout signed [31:0] mult6B;
+input signed [63:0] mult6_out;
 
-inout [31:0] mult7A;
-inout [31:0] mult7B;
-input [63:0] mult7_out;
+inout signed [31:0] mult7A;
+inout signed [31:0] mult7B;
+input signed [63:0] mult7_out;
 
-inout [31:0] mult8A;
-inout [31:0] mult8B;
-input [63:0] mult8_out;
+inout signed [31:0] mult8A;
+inout signed [31:0] mult8B;
+input signed [63:0] mult8_out;
 
-inout [31:0] mult9A;
-inout [31:0] mult9B;
-input [63:0] mult9_out;
+inout signed [31:0] mult9A;
+inout signed [31:0] mult9B;
+input signed [63:0] mult9_out;
 
-inout [31:0] mult10A;
-inout [31:0] mult10B;
-input [63:0] mult10_out;
+inout signed [31:0] mult10A;
+inout signed [31:0] mult10B;
+input signed [63:0] mult10_out;
 	
-inout [31:0] mult11A;
-inout [31:0] mult11B;
-input [63:0] mult11_out;
+inout signed [31:0] mult11A;
+inout signed [31:0] mult11B;
+input signed [63:0] mult11_out;
 
-inout [31:0] mult12A;
-inout [31:0] mult12B;
-input [63:0] mult12_out;
+inout signed [31:0] mult12A;
+inout signed [31:0] mult12B;
+input signed [63:0] mult12_out;
 
-inout [31:0] mult13A;
-inout [31:0] mult13B;
-input [63:0] mult13_out;
+inout signed [31:0] mult13A;
+inout signed [31:0] mult13B;
+input signed [63:0] mult13_out;
 
-inout [31:0] mult14A;
-inout [31:0] mult14B;
-input [63:0] mult14_out;
+inout signed [31:0] mult14A;
+inout signed [31:0] mult14B;
+input signed [63:0] mult14_out;
 
-inout [31:0] mult15A;
-inout [31:0] mult15B;
-input [63:0] mult15_out;
+inout signed [31:0] mult15A;
+inout signed [31:0] mult15B;
+input signed [63:0] mult15_out;
 
 input [31:0] FB_MIBUF_DATA;
 input [5:0] FB_MIBUF_ADDR;
@@ -327,24 +327,24 @@ wire [11:0] odd_plus_n;
 assign odd_plus = oddBlock ? VBUF_LENGTH  : 0;
 assign odd_plus_n = oddBlock ? 0 : VBUF_LENGTH;
 
-reg [31:0] MI_BUF[0:31];
+reg signed [31:0] MI_BUF[0:31];
 
 reg [7:0] fdct32_clk_cnt = 8'd0;
 
-reg [31:0] b0[0:7];
-reg [31:0] b1[0:7];
-reg [31:0] b2[0:7];
-reg [31:0] b3[0:7];
+reg signed [31:0] b0[0:7];
+reg signed [31:0] b1[0:7];
+reg signed [31:0] b2[0:7];
+reg signed [31:0] b3[0:7];
 
 
-reg [31:0] a0[0:3];
-reg [31:0] a1[0:3];
-reg [31:0] a2[0:3];
-reg [31:0] a3[0:3];
-reg [31:0] a4[0:3];
-reg [31:0] a5[0:3];
-reg [31:0] a6[0:3];
-reg [31:0] a7[0:3];
+reg signed [31:0] a0[0:3];
+reg signed [31:0] a1[0:3];
+reg signed [31:0] a2[0:3];
+reg signed [31:0] a3[0:3];
+reg signed [31:0] a4[0:3];
+reg signed [31:0] a5[0:3];
+reg signed [31:0] a6[0:3];
+reg signed [31:0] a7[0:3];
 
 
 
@@ -704,11 +704,11 @@ else begin
 
 			mult0A_Reg <= 32'h4140fb46;
 			mult0B_Reg <= MI_BUF[ 0] - MI_BUF[ 7];
-			mult1A_Reg <= 32'h4140fb46	;	
+			mult1A_Reg <= 32'h4140fb46;
 			mult1B_Reg <= MI_BUF[15] - MI_BUF[ 8];
-			mult2A_Reg <= 32'h4140fb46;		
+			mult2A_Reg <= 32'h4140fb46;
 			mult2B_Reg <= MI_BUF[16] - MI_BUF[23];
-			mult3A_Reg <= 32'h4140fb46;		
+			mult3A_Reg <= 32'h4140fb46;
 			mult3B_Reg <= MI_BUF[31] - MI_BUF[24];
 			mult4A_Reg <= 32'h52036742;
 			mult4B_Reg <= MI_BUF[ 3] - MI_BUF[ 4];

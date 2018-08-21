@@ -68,7 +68,7 @@ wire [31:0] LEDB_Puty_Wire;
 	
 
 wire [11:0] vbuf_offset_Wire;
-wire [31:0] dest_vindex_offset_Wire;
+wire [11:0] dest_vindex_offset_Wire;
 wire oddBlock_Wire;
 
 
