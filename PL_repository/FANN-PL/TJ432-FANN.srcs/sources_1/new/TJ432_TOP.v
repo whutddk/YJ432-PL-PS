@@ -72,7 +72,7 @@ wire [11:0] dest_vindex_offset_Wire;
 wire oddBlock_Wire;
 
 
-(* dont_touch="true" *) wire [2:0] subband_state_Wire;
+wire [2:0] subband_state_Wire;
 wire POLY_Done_Wire;
 wire FDCT_Done_Wire;
 

@@ -350,7 +350,7 @@ reg signed [31:0] a7[0:3];
 
 
 //D32FP
-always@(posedge CLK or negedge RST_n)
+always@(negedge CLK or negedge RST_n)
 if ( !RST_n ) begin
 	fdct32_clk_cnt <= 8'd0;
 
