@@ -54,30 +54,27 @@ module polyphase
 	output reg signed [15:0] fifo_data,
 	output reg fifo_enable,
 
-	output signed [63:0] sum1L_pre,
-	output signed [31:0] mult1L_A,
-	output signed [31:0] mult1L_B,
+	inout signed [63:0] sum1L_pre,
+	inout signed [31:0] mult1L_A,
+	inout signed [31:0] mult1L_B,
 	input signed [63:0] mult_out1L,
 
-	output signed [63:0] sum2L_pre,
-	output signed [31:0] mult2L_A,
-	output signed [31:0] mult2L_B,
+	inout signed [63:0] sum2L_pre,
+	inout signed [31:0] mult2L_A,
+	inout signed [31:0] mult2L_B,
 	input signed [63:0] mult_out2L,
 
-	output signed [63:0] sum1R_pre,
-	output signed [31:0] mult1R_A,
-	output signed [31:0] mult1R_B,
+	inout signed [63:0] sum1R_pre,
+	inout signed [31:0] mult1R_A,
+	inout signed [31:0] mult1R_B,
 	input signed [63:0] mult_out1R,
 
-	output signed [63:0] sum2R_pre,
-	output signed [31:0] mult2R_A,
-	output signed [31:0] mult2R_B,
+	inout signed [63:0] sum2R_pre,
+	inout signed [31:0] mult2R_A,
+	inout signed [31:0] mult2R_B,
 	input signed [63:0] mult_out2R
 
 	);
-
-
-
 
 	parameter ST_IDLE = 3'd0;
 	parameter ST_MIBUF = 3'd1;
@@ -106,21 +103,21 @@ reg [11:0] Ram_addrA_reg;
 reg [11:0] Ram_addrB_reg;
 
 //conntion
-assign sum1L_pre =  sum1L_pre_reg;
-assign mult1L_A =  mult1L_A_reg;
-assign mult1L_B =  mult1L_B_reg;
+assign sum1L_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum1L_pre_reg;
+assign mult1L_A = ( subband_state != ST_PLOY ) ? 32'bz : mult1L_A_reg;
+assign mult1L_B = ( subband_state != ST_PLOY ) ? 32'bz : mult1L_B_reg;
 
-assign sum2L_pre = sum2L_pre_reg;
-assign mult2L_A =  mult2L_A_reg;
-assign mult2L_B =  mult2L_B_reg;
+assign sum2L_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum2L_pre_reg;
+assign mult2L_A = ( subband_state != ST_PLOY ) ? 32'bz : mult2L_A_reg;
+assign mult2L_B = ( subband_state != ST_PLOY ) ? 32'bz : mult2L_B_reg;
 
-assign sum1R_pre =  sum1R_pre_reg;
-assign mult1R_A =  mult1R_A_reg;
-assign mult1R_B =  mult1R_B_reg;
+assign sum1R_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum1R_pre_reg;
+assign mult1R_A = ( subband_state != ST_PLOY ) ? 32'bz : mult1R_A_reg;
+assign mult1R_B = ( subband_state != ST_PLOY ) ? 32'bz : mult1R_B_reg;
 
-assign sum2R_pre =  sum2R_pre_reg;
-assign mult2R_A =  mult2R_A_reg;
-assign mult2R_B =  mult2R_B_reg;
+assign sum2R_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum2R_pre_reg;
+assign mult2R_A = ( subband_state != ST_PLOY ) ? 32'bz : mult2R_A_reg;
+assign mult2R_B = ( subband_state != ST_PLOY ) ? 32'bz : mult2R_B_reg;
 
 assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;

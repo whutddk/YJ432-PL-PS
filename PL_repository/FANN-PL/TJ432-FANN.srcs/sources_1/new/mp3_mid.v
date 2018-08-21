@@ -28,7 +28,7 @@ module mp3_mid(
 
 	input [11:0] vbuf_offset,
 
-	input [31:0] dest_vindex_offset,
+	input [11:0] dest_vindex_offset,
 	input oddBlock,
 
 	output POLY_Done,
@@ -108,6 +108,8 @@ module mp3_mid(
 (* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult15A_Wire;
 (* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult15B_Wire;
 (* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult15_out_Wire;
+
+
 
 //Rom operate
 wire [8:0] Rom_addrA_wire;
@@ -284,7 +286,7 @@ multiplier i_mult12(
 	.sum(64'd0),
 	.multA(mult12A_Wire),
 	.multB(mult12B_Wire),
-	.mult_out(mult11_out_Wire)
+	.mult_out(mult12_out_Wire)
 
 );
 
