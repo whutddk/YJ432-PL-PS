@@ -473,6 +473,7 @@ if ( !RST_n ) begin
 	mult15A_Reg <= 32'd0;
 	mult15B_Reg <= 32'd0;
 
+	FDCT_Done <= 1'b0;
 end
 else begin
 	if ( subband_state == ST_MIBUF ) begin

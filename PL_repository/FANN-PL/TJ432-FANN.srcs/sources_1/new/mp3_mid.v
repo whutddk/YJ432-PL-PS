@@ -41,73 +41,73 @@ module mp3_mid(
 	input [5:0] FB_MIBUF_ADDR
 	);
 
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum0_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult0A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult0B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult0_out_Wire;
+wire signed [63:0] sum0_Wire;
+wire signed [31:0] mult0A_Wire;
+wire signed [31:0] mult0B_Wire;
+wire signed [63:0] mult0_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum1_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult1A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult1B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult1_out_Wire;
+wire signed [63:0] sum1_Wire;
+wire signed [31:0] mult1A_Wire;
+wire signed [31:0] mult1B_Wire;
+wire signed [63:0] mult1_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum2_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult2A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult2B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult2_out_Wire;
+wire signed [63:0] sum2_Wire;
+wire signed [31:0] mult2A_Wire;
+wire signed [31:0] mult2B_Wire;
+wire signed [63:0] mult2_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] sum3_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult3A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult3B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult3_out_Wire;
+wire signed [63:0] sum3_Wire;
+wire signed [31:0] mult3A_Wire;
+wire signed [31:0] mult3B_Wire;
+wire signed [63:0] mult3_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult4A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult4B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult4_out_Wire;
+wire signed [31:0] mult4A_Wire;
+wire signed [31:0] mult4B_Wire;
+wire signed [63:0] mult4_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult5A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult5B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult5_out_Wire;
+wire signed [31:0] mult5A_Wire;
+wire signed [31:0] mult5B_Wire;
+wire signed [63:0] mult5_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult6A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult6B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult6_out_Wire;
+wire signed [31:0] mult6A_Wire;
+wire signed [31:0] mult6B_Wire;
+wire signed [63:0] mult6_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult7A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult7B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult7_out_Wire;
+wire signed [31:0] mult7A_Wire;
+wire signed [31:0] mult7B_Wire;
+wire signed [63:0] mult7_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult8A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult8B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult8_out_Wire;
+wire signed [31:0] mult8A_Wire;
+wire signed [31:0] mult8B_Wire;
+wire signed [63:0] mult8_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult9A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult9B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult9_out_Wire;
+wire signed [31:0] mult9A_Wire;
+wire signed [31:0] mult9B_Wire;
+wire signed [63:0] mult9_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult10A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult10B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult10_out_Wire;
+wire signed [31:0] mult10A_Wire;
+wire signed [31:0] mult10B_Wire;
+wire signed [63:0] mult10_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult11A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult11B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult11_out_Wire;
+wire signed [31:0] mult11A_Wire;
+wire signed [31:0] mult11B_Wire;
+wire signed [63:0] mult11_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult12A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult12B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult12_out_Wire;
+wire signed [31:0] mult12A_Wire;
+wire signed [31:0] mult12B_Wire;
+wire signed [63:0] mult12_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult13A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult13B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult13_out_Wire;
+wire signed [31:0] mult13A_Wire;
+wire signed [31:0] mult13B_Wire;
+wire signed [63:0] mult13_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult14A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult14B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult14_out_Wire;
+wire signed [31:0] mult14A_Wire;
+wire signed [31:0] mult14B_Wire;
+wire signed [63:0] mult14_out_Wire;
 
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult15A_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [31:0] mult15B_Wire;
-(* DONT_TOUCH = "TRUE" *) wire signed [63:0] mult15_out_Wire;
+wire signed [31:0] mult15A_Wire;
+wire signed [31:0] mult15B_Wire;
+wire signed [63:0] mult15_out_Wire;
 
 
 
