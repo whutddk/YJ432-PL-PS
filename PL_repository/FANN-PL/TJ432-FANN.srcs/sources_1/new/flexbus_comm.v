@@ -45,23 +45,21 @@ module flexbus_comm(
 	
 	 
 	output reg [31:0] MIBUF_DATA_Reg,
-	output reg [5:0] MIBUF_ADDR,
+	output reg [5:0] MIBUF_ADDR_Reg,
 
 	// output reg [3:0] vindex,
 	// output reg b,
 	
 	output reg [11:0] vbuf_offset,
 	output reg [31:0] dest_vindex_offset,
-	output oddBlock,
+	output reg oddBlock,
 	
 	output reg [2:0] subband_state,
 
 	input POLY_Done,
 	input FDCT_Done,
 
-	input Is_Empty_Wire,
-	// output reg [31:0] STEAM_DATA,  //put data into here
-	// output reg FIFO_CLK
+	input Is_Empty_Wire
 	
 	);
 
@@ -171,13 +169,13 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								if ( (ip_ADDR[13:2]) < 12'd100 ) begin
 								
 									MIBUF_DATA_Reg[31:0] <= FB_AD[31:0];
-									MIBUF_ADDR[5:0] <= ip_ADDR[7:2];
+									MIBUF_ADDR_Reg[5:0] <= ip_ADDR[7:2];
 
 									subband_state <= ST_MIBUF;
 								end // if ( (ip_ADDR[13:2]) < 12'd3000 )
 								else begin
 									MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
-									MIBUF_ADDR[11:0] <= MIBUF_ADDR[11:0];
+									MIBUF_ADDR_Reg[5:0] <= MIBUF_ADDR_Reg[5:0];
 
 									subband_state <= ST_MIBUF;
 								end // else
@@ -214,26 +212,23 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 						casez( ip_ADDR & 32'h0fffffff )
 							32'b00000: begin
 								FB_AD_reg[31:0] <= FREQ_Cnt_Reg[31:0];
-							end
+							end // 32'b00000:
 							32'b00100:begin
 								FB_AD_reg[31:0] <= BZ_Puty_Reg[31:0];
-							end
+							end // 32'b00100:
 							32'b01000:begin
 								FB_AD_reg[31:0] <= LEDR_Puty_Reg[31:0];
-							end
+							end // 32'b01000:
 							32'b01100:begin
 								FB_AD_reg[31:0] <= LEDG_Puty_Reg[31:0];
-							end
+							end // 32'b01100:
 							32'b10000:begin
 								FB_AD_reg[31:0] <= LEDB_Puty_Reg[31:0];
-							end
+							end // 32'b10000:
 							
 							32'h07810000:begin
 								FB_AD_reg[31:0] <= {29'b0,FDCT_Done,POLY_Done,Is_Empty_Wire};
-							end
-
-
-							end // 32'h0782zzzz:
+							end // 32'h07810000:
 
 							default:begin
 							end // default:

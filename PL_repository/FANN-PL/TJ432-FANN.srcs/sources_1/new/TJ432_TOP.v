@@ -104,7 +104,7 @@ flexbus_comm i_flexbus(
 	.LEDB_Puty_Reg(LEDB_Puty_Wire),
 	
 	.MIBUF_DATA_Reg(MIBUF_DATA_Wire),
-	.MIBUF_ADDR(MIBUF_ADDR_Wire),
+	.MIBUF_ADDR_Reg(MIBUF_ADDR_Wire),
 
 	.vbuf_offset(vbuf_offset_Wire),
 	.dest_vindex_offset(dest_vindex_offset_Wire),
@@ -115,7 +115,7 @@ flexbus_comm i_flexbus(
 	.POLY_Done(POLY_Done_Wire),
 	.FDCT_Done(FDCT_Done_Wire),
 
-	.Is_Empty_Wire(Is_Empty_Wire),
+	.Is_Empty_Wire(Is_Empty_Wire)
 
 	
 	);
