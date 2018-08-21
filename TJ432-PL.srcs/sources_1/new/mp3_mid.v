@@ -162,25 +162,25 @@ polyphase i_polyhpase
 	.fifo_data(FIFO_DATA),
 	.fifo_enable(FIFO_EN),
 
-	.sum1L_pre(sum0),
-	.mult1L_A(mult0A),
-	.mult1L_B(mult0B),
-	.mult_out1L(mult0_out),
+	.sum1L_pre(sum0_Wire),
+	.mult1L_A(mult0A_Wire),
+	.mult1L_B(mult0B_Wire),
+	.mult_out1L(mult0_out_Wire),
 
-	.sum2L_pre(sum1),
-	.mult2L_A(mult1A),
-	.mult2L_B(mult1B),
-	.mult_out2L(mult1_out),
+	.sum2L_pre(sum1_Wire),
+	.mult2L_A(mult1A_Wire),
+	.mult2L_B(mult1B_Wire),
+	.mult_out2L(mult1_out_Wire),
 
-	.sum1R_pre(sum2),
-	.mult1R_A(mult2A),
-	.mult1R_B(mult2B),
-	.mult_out1R(mult2_out),
+	.sum1R_pre(sum2_Wire),
+	.mult1R_A(mult2A_Wire),
+	.mult1R_B(mult2B_Wire),
+	.mult_out1R(mult2_out_Wire),
 
-	.sum2R_pre(sum3),
-	.mult2R_A(mult3A),
-	.mult2R_B(mult3B),
-	.mult_out2R(mult3_out)
+	.sum2R_pre(sum3_Wire),
+	.mult2R_A(mult3A_Wire),
+	.mult2R_B(mult3B_Wire),
+	.mult_out2R(mult3_out_Wire)
 
 );
 	

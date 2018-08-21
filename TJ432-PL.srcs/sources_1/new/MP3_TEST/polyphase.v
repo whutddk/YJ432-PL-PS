@@ -72,7 +72,7 @@ module polyphase
 	output signed [63:0] sum2R_pre,
 	output signed [31:0] mult2R_A,
 	output signed [31:0] mult2R_B,
-	input signed [63:0] mult_out2R,
+	input signed [63:0] mult_out2R
 
 	);
 
