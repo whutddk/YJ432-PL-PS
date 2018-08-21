@@ -36,7 +36,7 @@ module polyphase
 	
 	input [11:0] vbuf_offset,
 
-	output reg IP_Done,
+	output reg POLY_Done,
 
 	//ram operate
 	inout [11:0] Ram_addrA,
@@ -171,7 +171,7 @@ always @( negedge CLK or negedge RST_n ) begin
 		fifo_data <= 16'd0;
 		fifo_enable <= 1'b0;					
 
-		IP_Done <= 1'b0;
+		POLY_Done <= 1'b0;
 
 		sum1L_pre_reg <= 64'd0;
 		mult1L_A_reg <= 32'd0;
@@ -208,7 +208,7 @@ always @( negedge CLK or negedge RST_n ) begin
 		fifo_data <= fifo_data;
 		fifo_enable <= fifo_enable;					
 
-		IP_Done <= IP_Done;
+		POLY_Done <= POLY_Done;
 
 		if ( subband_state != ST_PLOY ) begin
 			//reset
@@ -219,7 +219,7 @@ always @( negedge CLK or negedge RST_n ) begin
 			fifo_data <= fifo_data;
 			fifo_enable <= 1'b0;
 
-			IP_Done <= 1'b0;
+			POLY_Done <= 1'b0;
 
 		end
 
@@ -620,7 +620,7 @@ always @( negedge CLK or negedge RST_n ) begin
 							fifo_data <= fifo_data;
 							fifo_enable <= 1'b0;
 
-							IP_Done <= 1'b1;
+							POLY_Done <= 1'b1;
 						end // if ( fifo_cnt == 8'd63 )
 
 					end // else

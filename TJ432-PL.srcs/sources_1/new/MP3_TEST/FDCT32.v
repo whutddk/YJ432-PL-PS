@@ -109,7 +109,7 @@ module FDCT32 (
 
 	//state
 	subband_state,
-	FDCT_done
+	FDCT_Done
 );
 
 parameter ST_IDLE = 3'd0;
@@ -201,7 +201,7 @@ input [31:0] FB_MIBUF_DATA;
 input [5:0] FB_MIBUF_ADDR;
 
 input [2:0] subband_state;
-output reg FDCT_done = 1'b0;
+output reg FDCT_Done = 1'b0;
 
 // ---------------------------------------
 
@@ -1360,7 +1360,7 @@ else begin
 		
 		else begin
 			Ram_wr_en <= 1'b0;
-			FDCT_done <= 1'b1;
+			FDCT_Done <= 1'b1;
 			fdct32_clk_cnt <= fdct32_clk_cnt;
 		   
 		end // else
@@ -1368,7 +1368,7 @@ else begin
 
 	else begin
 		Ram_wr_en <= 1'b0;
-		FDCT_done <= 1'b0;
+		FDCT_Done <= 1'b0;
 		fdct32_clk_cnt <= 8'd0;
 	end // else ( subband_state == other )
 

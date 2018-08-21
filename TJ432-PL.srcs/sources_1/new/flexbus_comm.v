@@ -51,10 +51,14 @@ module flexbus_comm(
 	// output reg b,
 	
 	output reg [11:0] vbuf_offset,
+	output reg [31:0] dest_vindex_offset,
+	output oddBlock,
 	
 	output reg [2:0] subband_state,
 
-	input IP_Done,
+	input POLY_Done,
+	input FDCT_Done,
+
 	input Is_Empty_Wire,
 	// output reg [31:0] STEAM_DATA,  //put data into here
 	// output reg FIFO_CLK
@@ -179,19 +183,26 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								end // else
 							end
 
-							// 32'h07810004:begin
-							// 	subband_state <= ST_FBRAM;
-							// 	vbuf_offset[11:0] <= FB_AD[11:0];
-								
+							32'h07810004:begin
+								subband_state <= ST_IDLE;
+								vbuf_offset[11:0] <= FB_AD[11:0];							
 
+							end // 32'h07800004:
 
-							// end // 32'h07800004:
+							32'h07810008:begin
+								subband_state <= ST_PLOY;
 
-							// 32'h07810008:begin
-							// 	subband_state <= ST_PLOY;
-
-							// end // 32'h07810008:
+							end // 32'h07810008:
 							
+							32'h0781000c:begin
+								dest_vindex_offset <= FB_AD;
+								subband_state <= ST_IDLE;
+							end // 32'h0781000c:
+
+							32'h07810010:begin
+								oddBlock <= FB_AD[0];
+								subband_state <= ST_FDCT;
+							end // 32'h07810010:
 							default:begin
 							end // default:
 						endcase
@@ -218,7 +229,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							end
 							
 							32'h07810000:begin
-								FB_AD_reg[31:0] <= {30'b0,IP_Done,Is_Empty_Wire};
+								FB_AD_reg[31:0] <= {29'b0,FDCT_Done,POLY_Done,Is_Empty_Wire};
 							end
 
 

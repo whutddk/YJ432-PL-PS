@@ -67,14 +67,15 @@ wire [31:0] LEDG_Puty_Wire;
 wire [31:0] LEDB_Puty_Wire; 
 	
 
-
-// wire [3:0] vindex_Wire;
-// wire b_Wire;
 wire [11:0] vbuf_offset_Wire;
-(* dont_touch="true" *) wire [2:0] subband_state_Wire;
-wire IP_Done_Wire;
+wire [31:0] dest_vindex_offset_Wire;
+wire oddBlock_Wire;
 
-// wire FIFO_CLK_wire;
+
+(* dont_touch="true" *) wire [2:0] subband_state_Wire;
+wire POLY_Done_Wire;
+wire FDCT_Done_Wire;
+
 wire Is_Empty_Wire;
 
 wire [31:0] MIBUF_DATA_Wire;
@@ -105,14 +106,14 @@ flexbus_comm i_flexbus(
 	.MIBUF_DATA_Reg(MIBUF_DATA_Wire),
 	.MIBUF_ADDR(MIBUF_ADDR_Wire),
 
-	// .vindex(vindex_Wire),
-	// .b(b_Wire),
-
 	.vbuf_offset(vbuf_offset_Wire),
+	.dest_vindex_offset(dest_vindex_offset_Wire),
+	.oddBlock(oddBlock_Wire),
 
 	.subband_state(subband_state_Wire),
 
-	.IP_Done(IP_Done_Wire),
+	.POLY_Done(POLY_Done_Wire),
+	.FDCT_Done(FDCT_Done_Wire),
 
 	.Is_Empty_Wire(Is_Empty_Wire),
 
@@ -175,14 +176,13 @@ mp3_mid i_mp3(
 	.RST_n(1'b1),
 
 	.subband_state(subband_state_Wire),
-
-	//CTL
-	// .vindex(vindex_Wire),
-	// .b(b_Wire),
 	
 	.vbuf_offset(vbuf_offset_Wire),
+	.dest_vindex_offset(dest_vindex_offset_Wire),
+	.oddBlock(oddBlock_Wire),
 	
-	.IP_Done(IP_Done_Wire),
+	.POLY_Done(POLY_Done_Wire),
+	.FDCT_Done(FDCT_Done_Wire),
 
 	.FIFO_EN(Pcm_wden_Wire),
 	.FIFO_DATA(PCM_DATA_Wire),

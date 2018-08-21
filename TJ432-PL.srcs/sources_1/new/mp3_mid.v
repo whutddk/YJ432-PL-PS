@@ -26,13 +26,13 @@ module mp3_mid(
 
 	input [2:0] subband_state,
 
-	//CTL
-	// input [3:0] vindex,
-	// input b,
-
 	input [11:0] vbuf_offset,
 
-	output IP_Done,
+	input [31:0] dest_vindex_offset,
+	input oddBlock,
+
+	output POLY_Done,
+	output FDCT_Done,
 
 	output FIFO_EN,
 	output [15:0] FIFO_DATA,
@@ -144,7 +144,7 @@ polyphase i_polyhpase
 	
 	.vbuf_offset(vbuf_offset),
 	
-	.IP_Done(IP_Done),
+	.POLY_Done(POLY_Done),
 
 	//ram operate
 	.Ram_addrA(RAM_ADDR_A_Wire),
@@ -343,8 +343,8 @@ FDCT32 i_FDCT32(
 	.CLK(MP3_CLK),    // Clock flexbus 40MHZ 
 	.RST_n(RST_n),  // Asynchronous reset active low
 
-	dest_vindex_offset,
-	oddBlock,
+	.dest_vindex_offset(dest_vindex_offset),
+	.oddBlock(oddBlock),
 	
 	.sum0(sum0_Wire),
 	.mult0A(mult0A_Wire),
@@ -425,8 +425,8 @@ FDCT32 i_FDCT32(
 	.FB_MIBUF_ADDR(FB_MIBUF_ADDR),
 
 	//state
-	subband_state,
-	FDCT_done
+	.subband_state(subband_state),
+	.FDCT_Done(FDCT_Done)
 );
 
 
