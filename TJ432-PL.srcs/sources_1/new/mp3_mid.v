@@ -162,6 +162,102 @@ multiplier i_mult3(
 
 );
 
+multiplier i_mult4(
+	.sum(64'd0),
+	.multA(mult4A),
+	.multB(mult4B),
+	.mult_out(mult4_out)
+
+);
+
+multiplier i_mult5(
+	.sum(64'd0),
+	.multA(mult5A),
+	.multB(mult5B),
+	.mult_out(mult5_out)
+
+);
+
+multiplier i_mult6(
+	.sum(64'd0),
+	.multA(mult6A),
+	.multB(mult6B),
+	.mult_out(mult6_out)
+
+);
+
+multiplier i_mult7(
+	.sum(64'd0),
+	.multA(mult7A),
+	.multB(mult7B),
+	.mult_out(mult7_out)
+
+);
+
+multiplier i_mult8(
+	.sum(64'd0),
+	.multA(mult8A),
+	.multB(mult8B),
+	.mult_out(mult8_out)
+
+);
+
+multiplier i_mult9(
+	.sum(64'd0),
+	.multA(mult9A),
+	.multB(mult9B),
+	.mult_out(mult9_out)
+
+);
+
+multiplier i_mult10(
+	.sum(64'd0),
+	.multA(mult10A),
+	.multB(mult10B),
+	.mult_out(mult10_out)
+
+);
+
+multiplier i_mult11(
+	.sum(64'd0),
+	.multA(mult11A),
+	.multB(mult11B),
+	.mult_out(mult11_out)
+
+);
+
+multiplier i_mult12(
+	.sum(64'd0),
+	.multA(mult12A),
+	.multB(mult12B),
+	.mult_out(mult11_out)
+
+);
+
+multiplier i_mult13(
+	.sum(64'd0),
+	.multA(mult13A),
+	.multB(mult13B),
+	.mult_out(mult13_out)
+
+);
+
+multiplier i_mult14(
+	.sum(64'd0),
+	.multA(mult14A),
+	.multB(mult14B),
+	.mult_out(mult14_out)
+
+);
+
+multiplier i_mult15(
+	.sum(64'd0),
+	.multA(mult15A),
+	.multB(mult15B),
+	.mult_out(mult15_out)
+
+);
+
 ROM_wrapper i_ROM(
 	.BRAM_PORTA_0_addr(Rom_addrA_wire),
 	.BRAM_PORTA_0_clk(MP3_CLK),
@@ -172,5 +268,95 @@ ROM_wrapper i_ROM(
 	.BRAM_PORTB_0_dout(Rom_dataB_wire)
 );  
 	
+FDCT32 i_FDCT32(
+	CLK,    // Clock flexbus 40MHZ 
+	RST_n,  // Asynchronous reset active low
+
+	offset,
+	oddBlock,
 	
+	sum0,
+	mult0A,
+	mult0B,
+	mult0_out,
+
+	sum1,
+	mult1A,
+	mult1B,
+	mult1_out,
+
+	sum2,
+	mult2A,
+	mult2B,
+	mult2_out,
+	
+	sum3,	
+	mult3A,
+	mult3B,
+	mult3_out,
+	
+	mult4A,
+	mult4B,
+	mult4_out,
+		
+	mult5A,
+	mult5B,
+	mult5_out,
+
+	mult6A,
+	mult6B,
+	mult6_out,
+	
+	mult7A,
+	mult7B,
+	mult7_out,
+	
+	mult8A,
+	mult8B,
+	mult8_out,
+	
+	mult9A,
+	mult9B,
+	mult9_out,
+	
+	mult10A,
+	mult10B,
+	mult10_out,
+	
+	mult11A,
+	mult11B,
+	mult11_out,
+	
+	mult12A,
+	mult12B,
+	mult12_out,
+	
+	mult13A,
+	mult13B,
+	mult13_out,
+	
+	mult14A,
+	mult14B,
+	mult14_out,
+	
+	mult15A,
+	mult15B,
+	mult15_out,
+
+	//ram operate
+	Ram_addrA,
+	Ram_addrB,
+	Ram_data,
+
+	//MIBUF
+	FB_MIBUF_DATA,
+	FB_MIBUF_ADDR,
+
+	//state
+	subband_state,
+	FDCT_done
+);
+
+
+
 endmodule

@@ -25,7 +25,6 @@ module FDCT32 (
 	CLK,    // Clock flexbus 40MHZ 
 	RST_n,  // Asynchronous reset active low
 
-	gb,
 	offset,
 	oddBlock,
 	
@@ -49,62 +48,50 @@ module FDCT32 (
 	mult3B,
 	mult3_out,
 	
-	sum4,	
 	mult4A,
 	mult4B,
 	mult4_out,
 		
-	sum5,
 	mult5A,
 	mult5B,
 	mult5_out,
 
-	sum6,
 	mult6A,
 	mult6B,
 	mult6_out,
 	
-	sum7,	
 	mult7A,
 	mult7B,
 	mult7_out,
 	
-	sum8,	
 	mult8A,
 	mult8B,
 	mult8_out,
 	
-	sum9,	
 	mult9A,
 	mult9B,
 	mult9_out,
 	
-	sum10,	
 	mult10A,
 	mult10B,
 	mult10_out,
 	
-	sum11,	
 	mult11A,
 	mult11B,
 	mult11_out,
 	
-	sum12,	
 	mult12A,
 	mult12B,
 	mult12_out,
 	
-	sum13,	
 	mult13A,
 	mult13B,
 	mult13_out,
 	
-	sum14,	
 	mult14A,
 	mult14B,
 	mult14_out,
 	
-	sum15,	
 	mult15A,
 	mult15B,
 	mult15_out,
@@ -131,7 +118,6 @@ parameter ST_PLOY = 3'd4;
 
 input CLK;
 input RST_n;
-input gb;
 input [31:0] offset;
 input oddBlock;
 
@@ -160,62 +146,50 @@ inout [31:0] mult3A;
 inout [31:0] mult3B;
 input [63:0] mult3_out;
 
-inout [63:0] sum4;	
 inout [31:0] mult4A;
 inout [31:0] mult4B;
 input [63:0] mult4_out;
 
-inout [63:0] sum5;
 inout [31:0] mult5A;
 inout [31:0] mult5B;
 input [63:0] mult5_out;
 	
-inout [63:0] sum6;
 inout [31:0] mult6A;
 inout [31:0] mult6B;
 input [63:0] mult6_out;
 
-inout [63:0] sum7;	
 inout [31:0] mult7A;
 inout [31:0] mult7B;
 input [63:0] mult7_out;
 
-inout [63:0] sum8;	
 inout [31:0] mult8A;
 inout [31:0] mult8B;
 input [63:0] mult8_out;
 
-inout [63:0] sum9;	
 inout [31:0] mult9A;
 inout [31:0] mult9B;
 input [63:0] mult9_out;
 
-inout [63:0] sum10;	
 inout [31:0] mult10A;
 inout [31:0] mult10B;
 input [63:0] mult10_out;
 	
-inout [63:0] sum11;	
 inout [31:0] mult11A;
 inout [31:0] mult11B;
 input [63:0] mult11_out;
 
-inout [63:0] sum12;	
 inout [31:0] mult12A;
 inout [31:0] mult12B;
 input [63:0] mult12_out;
 
-inout [63:0] sum13;	
 inout [31:0] mult13A;
 inout [31:0] mult13B;
 input [63:0] mult13_out;
 
-inout [63:0] sum14;	
 inout [31:0] mult14A;
 inout [31:0] mult14B;
 input [63:0] mult14_out;
 
-inout [63:0] sum15;	
 inout [31:0] mult15A;
 inout [31:0] mult15B;
 input [63:0] mult15_out;
@@ -247,51 +221,39 @@ reg signed [63:0] sum3_Reg;
 reg signed [31:0] mult3A_Reg;
 reg signed [31:0] mult3B_Reg;
 
-reg signed [63:0] sum4_Reg;	
 reg signed [31:0] mult4A_Reg;
 reg signed [31:0] mult4B_Reg;
 
-reg signed [63:0] sum5_Reg;
 reg signed [31:0] mult5A_Reg;
 reg signed [31:0] mult5B_Reg;
 
-reg signed [63:0] sum6_Reg;
 reg signed [31:0] mult6A_Reg;
 reg signed [31:0] mult6B_Reg;
 
-reg signed [63:0] sum7_Reg;	
 reg signed [31:0] mult7A_Reg;
 reg signed [31:0] mult7B_Reg;
 
-reg signed [63:0] sum8_Reg;	
 reg signed [31:0] mult8A_Reg;
 reg signed [31:0] mult8B_Reg;
 
-reg signed [63:0] sum9_Reg;	
 reg signed [31:0] mult9A_Reg;
 reg signed [31:0] mult9B_Reg;
 
-reg signed [63:0] sum10_Reg;	
 reg signed [31:0] mult10A_Reg;
 reg signed [31:0] mult10B_Reg;
 	
-reg signed [63:0] sum11_Reg;	
 reg signed [31:0] mult11A_Reg;
 reg signed [31:0] mult11B_Reg;
 
-reg signed [63:0] sum12_Reg;	
 reg signed [31:0] mult12A_Reg;
 reg signed [31:0] mult12B_Reg;
 
-reg signed [63:0] sum13_Reg;	
 reg signed [31:0] mult13A_Reg;
 reg signed [31:0] mult13B_Reg;
 
-reg signed [63:0] sum14_Reg;	
 reg signed [31:0] mult14A_Reg;
 reg signed [31:0] mult14B_Reg;
 
-reg signed [63:0] sum15_Reg;	
 reg signed [31:0] mult15A_Reg;
 reg signed [31:0] mult15B_Reg;
 
@@ -316,51 +278,39 @@ assign sum3 = ( subband_state != ST_FDCT ) ? 64'bz : sum3_Reg;
 assign mult3A = ( subband_state != ST_FDCT ) ? 32'bz : mult3A_Reg;
 assign mult3B = ( subband_state != ST_FDCT ) ? 32'bz : mult3B_Reg;
 
-assign sum4 = ( subband_state != ST_FDCT ) ? 64'bz : sum4_Reg;	
 assign mult4A = ( subband_state != ST_FDCT ) ? 32'bz : mult4A_Reg;
 assign mult4B = ( subband_state != ST_FDCT ) ? 32'bz : mult4B_Reg;
 
-assign sum5 = ( subband_state != ST_FDCT ) ? 64'bz : sum5_Reg;
 assign mult5A = ( subband_state != ST_FDCT ) ? 32'bz : mult5A_Reg;
 assign mult5B = ( subband_state != ST_FDCT ) ? 32'bz : mult5B_Reg;
 
-assign sum6 = ( subband_state != ST_FDCT ) ? 64'bz : sum6_Reg;
 assign mult6A = ( subband_state != ST_FDCT ) ? 32'bz : mult6A_Reg;
 assign mult6B = ( subband_state != ST_FDCT ) ? 32'bz : mult6B_Reg;
 
-assign sum7 = ( subband_state != ST_FDCT ) ? 64'bz : sum7_Reg;	
 assign mult7A = ( subband_state != ST_FDCT ) ? 32'bz : mult7A_Reg;
 assign mult7B = ( subband_state != ST_FDCT ) ? 32'bz : mult7B_Reg;
 
-assign sum8 = ( subband_state != ST_FDCT ) ? 64'bz : sum8_Reg;	
 assign mult8A = ( subband_state != ST_FDCT ) ? 32'bz : mult8A_Reg;
 assign mult8B = ( subband_state != ST_FDCT ) ? 32'bz : mult8B_Reg;
 
-assign sum9 = ( subband_state != ST_FDCT ) ? 64'bz : sum9_Reg;	
 assign mult9A = ( subband_state != ST_FDCT ) ? 32'bz : mult9A_Reg;
 assign mult9B = ( subband_state != ST_FDCT ) ? 32'bz : mult9B_Reg;
 
-assign sum10 = ( subband_state != ST_FDCT ) ? 64'bz : sum10_Reg;	
 assign mult10A = ( subband_state != ST_FDCT ) ? 32'bz : mult10A_Reg;
 assign mult10B = ( subband_state != ST_FDCT ) ? 32'bz : mult10B_Reg;
 	
-assign sum11 = ( subband_state != ST_FDCT ) ? 64'bz : sum11_Reg;	
 assign mult11A = ( subband_state != ST_FDCT ) ? 32'bz : mult11A_Reg;
 assign mult11B = ( subband_state != ST_FDCT ) ? 32'bz : mult11B_Reg;
 
-assign sum12 = ( subband_state != ST_FDCT ) ? 64'bz : sum12_Reg;	
 assign mult12A = ( subband_state != ST_FDCT ) ? 32'bz : mult12A_Reg;
 assign mult12B = ( subband_state != ST_FDCT ) ? 32'bz : mult12B_Reg;
 
-assign sum13 = ( subband_state != ST_FDCT ) ? 64'bz : sum13_Reg;	
 assign mult13A = ( subband_state != ST_FDCT ) ? 32'bz : mult13A_Reg;
 assign mult13B = ( subband_state != ST_FDCT ) ? 32'bz : mult13B_Reg;
 
-assign sum14 = ( subband_state != ST_FDCT ) ? 64'bz : sum14_Reg;	
 assign mult14A = ( subband_state != ST_FDCT ) ? 32'bz : mult14A_Reg;
 assign mult14B = ( subband_state != ST_FDCT ) ? 32'bz : mult14B_Reg;
 
-assign sum15 = ( subband_state != ST_FDCT ) ? 64'bz : sum15_Reg;	
 assign mult15A = ( subband_state != ST_FDCT ) ? 32'bz : mult15A_Reg;
 assign mult15B = ( subband_state != ST_FDCT ) ? 32'bz : mult15B_Reg;
 
