@@ -68,7 +68,8 @@ wire [31:0] LEDB_Puty_Wire;
 	
 
 wire [11:0] vbuf_offset_Wire;
-wire [11:0] dest_vindex_offset_Wire;
+wire dest_offset_Wire;
+wire [11:0] vindex_offset_Wire;
 wire oddBlock_Wire;
 
 
@@ -107,7 +108,9 @@ flexbus_comm i_flexbus(
 	.MIBUF_ADDR_Reg(MIBUF_ADDR_Wire),
 
 	.vbuf_offset(vbuf_offset_Wire),
-	.dest_vindex_offset(dest_vindex_offset_Wire),
+
+	.dest_offset(dest_offset_Wire),
+	.vindex_offset(vindex_offset_Wire),
 	.oddBlock(oddBlock_Wire),
 
 	.subband_state(subband_state_Wire),
@@ -178,7 +181,9 @@ mp3_mid i_mp3(
 	.subband_state(subband_state_Wire),
 	
 	.vbuf_offset(vbuf_offset_Wire),
-	.dest_vindex_offset(dest_vindex_offset_Wire),
+
+	.dest_offset(dest_offset_Wire),
+	.vindex_offset(vindex_offset_Wire),
 	.oddBlock(oddBlock_Wire),
 	
 	.POLY_Done(POLY_Done_Wire),

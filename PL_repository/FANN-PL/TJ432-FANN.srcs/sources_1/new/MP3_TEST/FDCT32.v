@@ -25,8 +25,8 @@ module FDCT32 (
 	CLK,    // Clock flexbus 40MHZ 
 	RST_n,  // Asynchronous reset active low
 
-
-	dest_vindex_offset,
+	dest_offset,
+	vindex_offset,
 	oddBlock,
 	
 	sum0,
@@ -120,7 +120,8 @@ parameter ST_PLOY = 3'd4;
 
 input CLK;
 input RST_n;
-input [11:0] dest_vindex_offset;
+input dest_offset;
+input [11:0] vindex_offset;
 input oddBlock;
 
 //one cycle to wirte,2cycle to read
@@ -320,12 +321,17 @@ assign mult15B = ( subband_state != ST_FDCT ) ? 32'bz : mult15B_Reg;
 
 
 //----------------------------
-integer VBUF_LENGTH = 1088;
+reg [11:0] VBUF_LENGTH = 12'd1088;
 
+wire [11:0] dest_offset_Value;
 wire [11:0] odd_plus;
 wire [11:0] odd_plus_n;
 assign odd_plus = oddBlock ? VBUF_LENGTH  : 0;
 assign odd_plus_n = oddBlock ? 0 : VBUF_LENGTH;
+
+
+assign dest_offset_Value = dest_offset ? 12'd32 : 12'd0;
+
 
 reg signed [31:0] MI_BUF[0:31];
 
@@ -1047,8 +1053,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= 12'd1024 + ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0];
-			Ram_addrB_Reg <= 12'd1024 + ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0];
+			Ram_addrA_Reg <= 12'd1024 + ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + dest_offset_Value;
+			Ram_addrB_Reg <= 12'd1024 + ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + dest_offset_Value;
 			Ram_data <= MI_BUF[ 0];
 
 		end // else if ( fdct32_clk_cnt == 8'd11 )
@@ -1059,8 +1065,8 @@ else begin
 
 		/* samples 16 to 31 */
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0];
-			Ram_addrB_Reg <= 12'd8 + dest_vindex_offset + odd_plus[11:0];
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + dest_offset_Value;
+			Ram_addrB_Reg <= 12'd8 + vindex_offset + odd_plus[11:0] + dest_offset_Value;
 			Ram_data <= MI_BUF[ 1];	
 		end // else if ( fdct32_clk_cnt == 8'd12 )
 
@@ -1068,8 +1074,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd64;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd72;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd64 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd72 + dest_offset_Value;
 			Ram_data <= MI_BUF[17] + MI_BUF[25] + MI_BUF[29];
 
 		end // else if ( fdct32_clk_cnt == 8'd13 )
@@ -1078,8 +1084,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd128;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd136;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd128 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd136 + dest_offset_Value;
 			Ram_data <= MI_BUF[ 9] + MI_BUF[13];
 		
 		end // else if ( fdct32_clk_cnt == 8'd14 )
@@ -1088,8 +1094,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd192;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd200;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd192 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd200 + dest_offset_Value;
 			Ram_data <= MI_BUF[21] + MI_BUF[25] + MI_BUF[29];
 		end // else if ( fdct32_clk_cnt == 8'd15 )
 
@@ -1097,8 +1103,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd256;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd264;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd256 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd264 + dest_offset_Value;
 			Ram_data <= MI_BUF[ 5];
 
 		end // else if ( fdct32_clk_cnt == 8'd16 )
@@ -1107,8 +1113,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd320;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd328;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd320 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd328 + dest_offset_Value;
 			Ram_data <= MI_BUF[21] + MI_BUF[29] + MI_BUF[27];
 		end // else if ( fdct32_clk_cnt == 8'd17 )
 
@@ -1116,8 +1122,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd384;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd392; 
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd384 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd392 + dest_offset_Value; 
 			Ram_data <= MI_BUF[13] + MI_BUF[11];
 		end // else if ( fdct32_clk_cnt == 8'd18 )
 
@@ -1125,8 +1131,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd448;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd456;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd448 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd456 + dest_offset_Value;
 			Ram_data <= MI_BUF[19] + MI_BUF[29] + MI_BUF[27];	
 
 		end // else if ( fdct32_clk_cnt == 8'd19 )
@@ -1135,8 +1141,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd512;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd520;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd512 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd520 + dest_offset_Value;
 			Ram_data <= MI_BUF[ 3];		
 		end // else if ( fdct32_clk_cnt == 8'd20 )
 
@@ -1144,8 +1150,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd576;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd584;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd576 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd584 + dest_offset_Value;
 			Ram_data <= MI_BUF[19] + MI_BUF[27] + MI_BUF[31];	
 		end // else if ( fdct32_clk_cnt == 8'd21 )
 
@@ -1153,8 +1159,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd640;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd648;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd640 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd648 + dest_offset_Value;
 			Ram_data <= MI_BUF[11] + MI_BUF[15];	
 
 		end // else if ( fdct32_clk_cnt == 8'd22 )
@@ -1163,8 +1169,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd704;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd712;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd704 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd712 + dest_offset_Value;
 			Ram_data <= MI_BUF[23] + MI_BUF[27] + MI_BUF[31];	
 		end // else if ( fdct32_clk_cnt == 8'd23 )
 
@@ -1172,8 +1178,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd768;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd776;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd768 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd776 + dest_offset_Value;
 			Ram_data <= MI_BUF[ 7];	
 
 		end // else if ( fdct32_clk_cnt == 8'd24 )
@@ -1182,8 +1188,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd832;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd840; 
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd832 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd840 + dest_offset_Value; 
 			Ram_data <= MI_BUF[23] + MI_BUF[31];	
 		end // else if ( fdct32_clk_cnt == 8'd25 )
 
@@ -1191,8 +1197,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd896;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd904;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd896 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd904 + dest_offset_Value;
 			Ram_data <= MI_BUF[15];	
 		end // else if ( fdct32_clk_cnt == 8'd26 )
 
@@ -1200,8 +1206,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd960;
-			Ram_addrB_Reg <= dest_vindex_offset + odd_plus[11:0] + 12'd968;
+			Ram_addrA_Reg <= vindex_offset + odd_plus[11:0] + 12'd960 + dest_offset_Value;
+			Ram_addrB_Reg <= vindex_offset + odd_plus[11:0] + 12'd968 + dest_offset_Value;
 			Ram_data <= MI_BUF[31];
 
 		end // else if ( fdct32_clk_cnt == 8'd27 )
@@ -1213,8 +1219,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= 12'd16 + ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0];
-			Ram_addrB_Reg <= 12'd24 + ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0];
+			Ram_addrA_Reg <= 12'd16 + ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + dest_offset_Value;
+			Ram_addrB_Reg <= 12'd24 + ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + dest_offset_Value;
 			Ram_data <= MI_BUF[ 1];	
 
 		end // else if ( fdct32_clk_cnt == 8'd28 )			
@@ -1223,8 +1229,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd80;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd88; 
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd80 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd88 + dest_offset_Value; 
 			Ram_data <= MI_BUF[17] + MI_BUF[30] + MI_BUF[25];	
 		end
 
@@ -1232,8 +1238,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd144;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd152;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd144 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd152 + dest_offset_Value;
 			Ram_data <= MI_BUF[14] + MI_BUF[ 9];	
 		end // else if ( fdct32_clk_cnt == 8'd30 )
 
@@ -1241,8 +1247,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd208;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd216;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd208 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd216 + dest_offset_Value;
 			Ram_data <= MI_BUF[22] + MI_BUF[30] + MI_BUF[25];	
 
 		end // else if ( fdct32_clk_cnt == 8'd31 )
@@ -1251,8 +1257,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd272;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd280; 
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd272 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd280 + dest_offset_Value; 
 			Ram_data <= MI_BUF[ 6];
 
 		end // else if ( fdct32_clk_cnt == 8'd32 )
@@ -1261,8 +1267,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd336;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd344; 
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd336 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd344 + dest_offset_Value; 
 			Ram_data <= MI_BUF[22] + MI_BUF[26] + MI_BUF[30];	
 		end // else if ( fdct32_clk_cnt == 8'd33 )
 				
@@ -1270,8 +1276,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd400;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd408;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd400 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd408 + dest_offset_Value;
 			Ram_data <= MI_BUF[10] + MI_BUF[14];	
 
 		end // else if ( fdct32_clk_cnt == 8'd34 )
@@ -1280,8 +1286,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd464;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd472; 
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd464 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd472 + dest_offset_Value; 
 			Ram_data <= MI_BUF[18] + MI_BUF[26] + MI_BUF[30];	
 
 		end // else if ( fdct32_clk_cnt == 8'd35 )
@@ -1290,8 +1296,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd528; 
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd536; 
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd528 + dest_offset_Value; 
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd536 + dest_offset_Value; 
 			Ram_data <= MI_BUF[ 2];
 		end // else if ( fdct32_clk_cnt == 8'd36 )
 			
@@ -1299,8 +1305,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd592;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd600;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd592 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd600 + dest_offset_Value;
 			Ram_data <= MI_BUF[18] + MI_BUF[28] + MI_BUF[26];	
 		end // else if ( fdct32_clk_cnt == 8'd37 )
 
@@ -1308,8 +1314,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd656;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd664;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd656 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd664 + dest_offset_Value;
 			Ram_data <= MI_BUF[12] + MI_BUF[10];	
 		end // else if ( fdct32_clk_cnt == 8'd38 )
 
@@ -1317,8 +1323,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd720;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd728;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd720 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd728 + dest_offset_Value;
 			Ram_data <= MI_BUF[20] + MI_BUF[28] + MI_BUF[26];	
 		end // else if ( fdct32_clk_cnt == 8'd39 )
 
@@ -1326,8 +1332,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd784;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd792;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd784 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd792 + dest_offset_Value;
 			Ram_data <= MI_BUF[ 4];	
 		end // else if ( fdct32_clk_cnt == 8'd40 )
 
@@ -1335,8 +1341,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd848;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd856;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd848 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd856 + dest_offset_Value;
 			Ram_data <= MI_BUF[20] + MI_BUF[24] + MI_BUF[28];	
 		end // else if ( fdct32_clk_cnt == 8'd41 )
 
@@ -1344,8 +1350,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd912;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd920;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd912 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd920 + dest_offset_Value;
 			Ram_data <= MI_BUF[ 8] + MI_BUF[12];		
 
 		end // else if ( fdct32_clk_cnt == 8'd42 )
@@ -1354,8 +1360,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd976;
-			Ram_addrB_Reg <= ((dest_vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd984;
+			Ram_addrA_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd976 + dest_offset_Value;
+			Ram_addrB_Reg <= ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + 12'd984 + dest_offset_Value;
 			Ram_data <= MI_BUF[16] + MI_BUF[24] + MI_BUF[28];
 		end // else if ( fdct32_clk_cnt == 8'd43 )
 		

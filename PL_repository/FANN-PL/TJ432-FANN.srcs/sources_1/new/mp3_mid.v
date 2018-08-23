@@ -28,7 +28,8 @@ module mp3_mid(
 
 	input [11:0] vbuf_offset,
 
-	input [11:0] dest_vindex_offset,
+	input dest_offset,
+	input [11:0] vindex_offset,
 	input oddBlock,
 
 	output POLY_Done,
@@ -345,7 +346,8 @@ FDCT32 i_FDCT32(
 	.CLK(MP3_CLK),    // Clock flexbus 40MHZ 
 	.RST_n(RST_n),  // Asynchronous reset active low
 
-	.dest_vindex_offset(dest_vindex_offset),
+	.dest_offset(dest_offset),
+	.vindex_offset(vindex_offset),
 	.oddBlock(oddBlock),
 	
 	.sum0(sum0_Wire),
