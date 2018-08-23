@@ -79,22 +79,61 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 		/* stereo */
 		for (b = 0; b < BLOCK_SIZE; b++) 
 		{
-			FDCT32(mi->outBuf[0][b], sbi->vbuf + 0*32, sbi->vindex, (b & 0x01), mi->gb[0]);
-			FDCT32(mi->outBuf[1][b], sbi->vbuf + 1*32, sbi->vindex, (b & 0x01), mi->gb[1]);
+			// FDCT32(mi->outBuf[0][b], sbi->vbuf + 0*32, sbi->vindex, (b & 0x01), mi->gb[0]);
+			// FDCT32(mi->outBuf[1][b], sbi->vbuf + 1*32, sbi->vindex, (b & 0x01), mi->gb[1]);
 			
 			// memmove((void*)TJBMP3_reg,(void*)sbi->vbuf,2176);//将FDCT32结果传送过去（有浪费）
-			
-			for (uint16_t i = 0;i < 2176;i++)
+	
+//---------------------------------------------------------
+
+			/* transfer first FDCT32(0) data  */
+			for ( uint8_t i = 0; i < 32;i++ )
 			{
-				*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
+				*(TJBMP3_STREAM_REG + i ) = *(mi->outBuf[0][b] + i );
 			}
 
+			/* transfer setting */
+			*(TJBMP3_VINDEXOFS_REG) = sbi->vindex;
+			*(TJBMP3_FDCTSETTG_REG) = (uint32_t)(b & 0x01);
+
+//--------------------------------------------------------------------
+			/* wait until FDCT(0) complete ,FDCT_Done was set to 1*/
+			while ( ((*TJBMP3_MESSAGE_REG) & 0x4 ) == 0 ) 
+
+//----------------------------------------------------------
+
+			/* transfer first FDCT32(1) data  */
+			for ( uint8_t i = 0; i < 32;i++ )
+			{
+				*(TJBMP3_STREAM_REG + i ) = *(mi->outBuf[1][b] + i );
+			}
+
+			/* transfer setting */
+			*(TJBMP3_VINDEXOFS_REG) = sbi->vindex;
+			*(TJBMP3_FDCTSETTG_REG) = (uint32_t)((b & 0x01) | 0x02 );
+
+//-------------------------------------------------------------
+
+			/* wait until FDCT(0) complete ,FDCT_Done was set to 1*/
+			while ( ((*TJBMP3_MESSAGE_REG) & 0x4 ) == 0 ) 
+
+//------------------------------------------------------------
+			// for (uint16_t i = 0;i < 2176;i++)
+			// {
+			// 	*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
+			// }
+			
+			while( ((*TJBMP3_MESSAGE_REG) & 0x01 ) == 0 )	//empty
+			
+//-------------------------------------------------------------			
 			*(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
 			*(TJBMP3_STATE_REG) = 0;
 			// PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
 			sbi->vindex = (sbi->vindex - (b & 0x01)) & 7;
 			// pcmBuf += (2 * NBANDS);
-			while((*TJBMP3_MESSAGE_REG) != 3);
+			
+			//wait until POLYPHASE complete
+			while( ((*TJBMP3_MESSAGE_REG) & 0x02 ) == 0 ); 
 			
 		}
 	} 
