@@ -60,11 +60,17 @@ volatile uint32_t *BLUE_DUTY_REG = bzled_reg + 4;
 // volatile uint32_t *po3PID1_KDB_REG = po3PID1_reg + 14;
 // volatile uint32_t *po3PID1_OUT_REG = po3PID1_reg + 15;
 
-volatile uint32_t *TJBMP3_STREAM_REG = (uint32_t*)TJBMP3_reg;
+volatile uint32_t *TJBMP3_STREAM_REG = (uint32_t*)TJBMP3_reg;	//数据流
+
 volatile uint32_t *TJBMP3_MESSAGE_REG = (uint32_t*)( PL_START_ADDRESS | 0x07810000U );
+
 volatile uint32_t *TJBMP3_VBUFOFFSET_REG = (uint32_t*)( PL_START_ADDRESS | 0x07810004U );
+
 volatile uint32_t *TJBMP3_STATE_REG = (uint32_t*)( PL_START_ADDRESS | 0x07810008U );
 
+volatile uint32_t *TJBMP3_VINDEXOFS_REG = (uint32_t*)( PL_START_ADDRESS | 0x0781000CU );
+
+volatile uint32_t *TJBMP3_FDCTSETTG_REG = (uint32_t*)( PL_START_ADDRESS | 0x07810010U );
 
 
 

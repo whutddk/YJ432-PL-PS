@@ -70,7 +70,15 @@ extern volatile uint32_t *TJBMP3_STREAM_REG;
 extern volatile uint32_t *TJBMP3_MESSAGE_REG;
 
 extern volatile uint32_t *TJBMP3_VBUFOFFSET_REG;
+
 extern volatile uint32_t *TJBMP3_STATE_REG;
+
+extern volatile uint32_t *TJBMP3_POLYSTATE_REG;
+
+extern volatile uint32_t *TJBMP3_VINDEXOFS_REG;
+
+extern volatile uint32_t *TJBMP3_FDCTSETTG_REG;
+
 
 #endif
 
