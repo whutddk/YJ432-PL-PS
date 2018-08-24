@@ -617,6 +617,7 @@ else begin
 			mult6B_Reg <= b0[6] - b1[6];
 			mult7A_Reg <= 32'h519e4e04;
 			mult7B_Reg <= b0[7] - b1[7];
+
 			mult8A_Reg <= 32'h404f4672; 
 			mult8B_Reg <= b3[0] - b2[0]; 
 			mult9A_Reg <= 32'h42e13c10; 
@@ -662,7 +663,8 @@ else begin
 			MI_BUF[11] <= mult4_out[62:31];
 			MI_BUF[10] <= mult5_out[61:30];
 			MI_BUF[ 9] <= mult6_out[61:30];
-			MI_BUF[ 8] <= mult7_out[59:28]; 
+			MI_BUF[ 8] <= mult7_out[59:28];
+
 			MI_BUF[31] <= mult8_out[62:31]; 
 			MI_BUF[30] <= mult9_out[62:31]; 
 			MI_BUF[29] <= mult10_out[62:31]; 
@@ -707,6 +709,7 @@ else begin
 			mult2B_Reg <= MI_BUF[16] - MI_BUF[23];
 			mult3A_Reg <= 32'h4140fb46;
 			mult3B_Reg <= MI_BUF[31] - MI_BUF[24];
+
 			mult4A_Reg <= 32'h52036742;
 			mult4B_Reg <= MI_BUF[ 3] - MI_BUF[ 4];
 			mult5A_Reg <= 32'h52036742;
@@ -715,6 +718,7 @@ else begin
 			mult6B_Reg <= MI_BUF[19] - MI_BUF[20];
 			mult7A_Reg <= 32'h52036742;
 			mult7B_Reg <= MI_BUF[28] - MI_BUF[27];
+
 			mult8A_Reg <= 32'h4cf8de88;
 			mult8B_Reg <= MI_BUF[ 1] - MI_BUF[ 6];
 			mult9A_Reg <= 32'h4cf8de88;
@@ -723,6 +727,7 @@ else begin
 			mult10B_Reg <= MI_BUF[17] - MI_BUF[22];
 			mult11A_Reg <= 32'h4cf8de88;
 			mult11B_Reg <= MI_BUF[30] - MI_BUF[25];
+
 			mult12A_Reg <= 32'h73326bbf;
 			mult12B_Reg <= MI_BUF[ 2] - MI_BUF[ 5];
 			mult13A_Reg <= 32'h73326bbf;
@@ -762,14 +767,17 @@ else begin
 			b3[5] <= mult1_out[62:31];
 			b3[6] <= mult2_out[62:31];
 			b3[7] <= mult3_out[62:31];
+
 			b0[4] <= mult4_out[60:29];
 			b0[5] <= mult5_out[60:29];
 			b0[6] <= mult6_out[60:29];
 			b0[7] <= mult7_out[60:29];
+
 			b2[4] <= mult8_out[62:31];
 			b2[5] <= mult9_out[62:31];
 			b2[6] <= mult10_out[62:31];
 			b2[7] <= mult11_out[62:31];
+
 			b1[4] <= mult12_out[62:31];
 			b1[5] <= mult13_out[62:31];
 			b1[6] <= mult14_out[62:31];
@@ -818,6 +826,7 @@ else begin
 			mult2B_Reg <= b0[2] - b3[2];
 			mult3A_Reg <= 32'h4545e9ef;
 			mult3B_Reg <= b0[3] - b3[3];
+
 			mult4A_Reg <= 32'h4545e9ef;
 			mult4B_Reg <= b3[4] - b0[4];
 			mult5A_Reg <= 32'h4545e9ef;
@@ -826,6 +835,7 @@ else begin
 			mult6B_Reg <= b3[6] - b0[6];
 			mult7A_Reg <= 32'h4545e9ef;
 			mult7B_Reg <= b3[7] - b0[7];
+
 			mult8A_Reg <= 32'h539eba45;
 			mult8B_Reg <= b1[0] - b2[0];
 			mult9A_Reg <= 32'h539eba45;
@@ -834,6 +844,7 @@ else begin
 			mult10B_Reg <= b1[2] - b2[2];
 			mult11A_Reg <= 32'h539eba45;
 			mult11B_Reg <= b1[3] - b2[3];
+
 			mult12A_Reg <= 32'h539eba45;
 			mult12B_Reg <= b2[4] - b1[4];
 			mult13A_Reg <= 32'h539eba45;
@@ -871,14 +882,17 @@ else begin
 			a3[1] <= mult1_out[62:31];
 			a3[2] <= mult2_out[62:31];
 			a3[3] <= mult3_out[62:31];
+
 			a7[0] <= mult4_out[62:31];
 			a7[1] <= mult5_out[62:31];
 			a7[2] <= mult6_out[62:31];
 			a7[3] <= mult7_out[62:31];
+
 			a2[0] <= mult8_out[61:30];
 			a2[1] <= mult9_out[61:30];
 			a2[2] <= mult10_out[61:30];
 			a2[3] <= mult11_out[61:30];
+
 			a6[0] <= mult12_out[61:30];
 			a6[1] <= mult13_out[61:30];
 			a6[2] <= mult14_out[61:30];
@@ -918,6 +932,7 @@ else begin
 			mult2B_Reg <= a0[2] - a1[2];
 			mult3A_Reg <= 32'h5a82799a;
 			mult3B_Reg <= a0[3] - a1[3];
+
 			mult4A_Reg <= 32'h5a82799a;
 			mult4B_Reg <= a3[0] - a2[0];
 			mult5A_Reg <= 32'h5a82799a;
@@ -926,6 +941,7 @@ else begin
 			mult6B_Reg <= a3[2] - a2[2];
 			mult7A_Reg <= 32'h5a82799a;
 			mult7B_Reg <= a3[3] - a2[3];
+
 			mult8A_Reg <= 32'h5a82799a;
 			mult8B_Reg <= a4[0] - a5[0];
 			mult9A_Reg <= 32'h5a82799a;
@@ -934,6 +950,7 @@ else begin
 			mult10B_Reg <= a4[2] - a5[2];
 			mult11A_Reg <= 32'h5a82799a;
 			mult11B_Reg <= a4[3] - a5[3];
+
 			mult12A_Reg <= 32'h5a82799a;
 			mult12B_Reg <= a7[0] - a6[0];
 			mult13A_Reg <= 32'h5a82799a;
@@ -971,14 +988,17 @@ else begin
 			b1[1] <= mult1_out[62:31];
 			b1[2] <= mult2_out[62:31];
 			b1[3] <= mult3_out[62:31];
+
 			b3[0] <= mult4_out[62:31];
 			b3[1] <= mult5_out[62:31];
 			b3[2] <= mult6_out[62:31];
 			b3[3] <= mult7_out[62:31];
+
 			b1[4] <= mult8_out[62:31];
 			b1[5] <= mult9_out[62:31];
 			b1[6] <= mult10_out[62:31];
 			b1[7] <= mult11_out[62:31];
+
 			b3[4] <= mult12_out[62:31];
 			b3[5] <= mult13_out[62:31];
 			b3[6] <= mult14_out[62:31];
@@ -1036,7 +1056,7 @@ else begin
 		end // else if ( fdct32_clk_cnt == 8'd10 )
 
 
-
+//------------------------------------------------------检查到这里
 
 		else if ( fdct32_clk_cnt == 8'd11 ) begin
 			/* sample 0 - always delayed one block */
