@@ -335,7 +335,7 @@ assign dest_offset_Value = dest_offset ? 12'd32 : 12'd0;
 
 reg signed [31:0] MI_BUF[0:31];
 
-reg [7:0] fdct32_clk_cnt = 8'd0;
+(* DONT_TOUCH = "TRUE" *)reg [7:0] fdct32_clk_cnt = 8'd0;
 
 reg signed [31:0] b0[0:7];
 reg signed [31:0] b1[0:7];
@@ -485,6 +485,7 @@ else begin
 	if ( subband_state == ST_MIBUF ) begin
 			MI_BUF[FB_MIBUF_ADDR] <= FB_MIBUF_DATA;
 			Ram_wr_en <= 1'b0;
+			FDCT_Done <= 1'b0;
 	end // if ( subband_state == ST_MIBUF )
 
 	else if ( subband_state == ST_FDCT )begin

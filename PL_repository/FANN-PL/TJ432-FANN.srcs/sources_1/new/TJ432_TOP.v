@@ -73,9 +73,9 @@ wire [11:0] vindex_offset_Wire;
 wire oddBlock_Wire;
 
 
-wire [2:0] subband_state_Wire;
-wire POLY_Done_Wire;
-wire FDCT_Done_Wire;
+(* DONT_TOUCH = "TRUE" *)wire [2:0] subband_state_Wire;
+(* DONT_TOUCH = "TRUE" *)wire POLY_Done_Wire;
+(* DONT_TOUCH = "TRUE" *)wire FDCT_Done_Wire;
 
 wire Is_Empty_Wire;
 
