@@ -1063,8 +1063,8 @@ else begin
 
 			Ram_wr_en <= 1'b1;
 
-			Ram_addrA_Reg <= 12'd1024 + ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + dest_offset_Value;
-			Ram_addrB_Reg <= 12'd1032 + ((vindex_offset - oddBlock) & 7) + odd_plus_n[11:0] + dest_offset_Value;
+			Ram_addrA_Reg <= 12'd1024 + ((vindex_offset - oddBlock) & 12'd7) + odd_plus_n[11:0] + dest_offset_Value;
+			Ram_addrB_Reg <= 12'd1032 + ((vindex_offset - oddBlock) & 12'd7) + odd_plus_n[11:0] + dest_offset_Value;
 			Ram_data <= MI_BUF[ 0];
 
 		end // else if ( fdct32_clk_cnt == 8'd11 )
