@@ -98,8 +98,11 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 
 //--------------------------------------------------------------------
 			/* wait until FDCT(0) complete ,FDCT_Done was set to 1*/
-			while ( ((*TJBMP3_MESSAGE_REG) & 0x4 ) == 0 ) 
-
+			while ( ((*TJBMP3_MESSAGE_REG) & 0x4 ) == 0 )
+			{
+				;
+			}
+			// fc.printf("TJBMP3_MESSAGE_REG = %d\r\n",(*TJBMP3_MESSAGE_REG));
 //----------------------------------------------------------
 
 			/* transfer first FDCT32(1) data  */
@@ -114,18 +117,30 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 
 //-------------------------------------------------------------
 
-			/* wait until FDCT(0) complete ,FDCT_Done was set to 1*/
-			while ( ((*TJBMP3_MESSAGE_REG) & 0x4 ) == 0 ) 
-
-//------------------------------------------------------------
 			// for (uint16_t i = 0;i < 2176;i++)
 			// {
 			// 	*( TJBMP3_reg + i ) = *(sbi->vbuf + i);
 			// }
 			
 			while( ((*TJBMP3_MESSAGE_REG) & 0x01 ) == 0 )	//empty
+			{
+				;
+			}
+			// fc.printf("TJBMP3_MESSAGE_REG = %d\r\n",(*TJBMP3_MESSAGE_REG));
 			
-//-------------------------------------------------------------			
+			
+//-------------------------------------------------------------		
+
+				
+			/* wait until FDCT(1) complete ,FDCT_Done was set to 1*/
+			while ( ((volatile uint32_t)(*TJBMP3_MESSAGE_REG) & 0x4 ) == 0 )
+			{
+				;
+			} 
+			// fc.printf("TJBMP3_MESSAGE_REG = %d\r\n",(*TJBMP3_MESSAGE_REG));
+			
+			
+//------------------------------------------------------------		
 			*(TJBMP3_VBUFOFFSET_REG) = ( sbi->vindex + VBUF_LENGTH * (b & 0x01) );
 			*(TJBMP3_STATE_REG) = 0;
 			// PolyphaseStereo(pcmBuf, sbi->vbuf + sbi->vindex + VBUF_LENGTH * (b & 0x01), polyCoef);
@@ -133,8 +148,11 @@ int Subband(MP3DecInfo *mp3DecInfo, short *pcmBuf)
 			// pcmBuf += (2 * NBANDS);
 			
 			//wait until POLYPHASE complete
-			while( ((*TJBMP3_MESSAGE_REG) & 0x02 ) == 0 ); 
-			
+			while( ((*TJBMP3_MESSAGE_REG) & 0x02 ) == 0 )
+			{
+				;
+			}
+			// fc.printf("TJBMP3_MESSAGE_REG = %d\r\n",(*TJBMP3_MESSAGE_REG));
 		}
 	} 
 	else 
