@@ -123,10 +123,10 @@ assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
 reg signed [15:0] pcm[0:63];
-reg [8:0] poly_cnt = 9'd0; 
-reg [3:0] MC2S_cnt = 4'd15;
-reg [8:0] MC2S_sub_cnt = 9'd0;
-reg [7:0] fifo_cnt = 8'd0;
+(* DONT_TOUCH = "TRUE" *)reg [8:0] poly_cnt = 9'd0; 
+(* DONT_TOUCH = "TRUE" *)reg [3:0] MC2S_cnt = 4'd15;
+(* DONT_TOUCH = "TRUE" *)reg [8:0] MC2S_sub_cnt = 9'd0;
+(* DONT_TOUCH = "TRUE" *)reg [7:0] fifo_cnt = 8'd0;
 
 reg signed [63:0] sum1L_A;
 reg signed [63:0] sum2L_A;
