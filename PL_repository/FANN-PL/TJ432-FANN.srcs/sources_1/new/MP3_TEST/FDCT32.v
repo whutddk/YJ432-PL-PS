@@ -209,19 +209,16 @@ output reg FDCT_Done = 1'b0;
 reg [11:0] Ram_addrA_Reg;
 reg [11:0] Ram_addrB_Reg;
 
-reg signed [63:0] sum0_Reg;
+
 reg signed [31:0] mult0A_Reg;
 reg signed [31:0] mult0B_Reg;
 
-reg signed [63:0] sum1_Reg;
 reg signed [31:0] mult1A_Reg;
 reg signed [31:0] mult1B_Reg;
 
-reg signed [63:0] sum2_Reg;
 reg signed [31:0] mult2A_Reg;
 reg signed [31:0] mult2B_Reg;
 	
-reg signed [63:0] sum3_Reg;
 reg signed [31:0] mult3A_Reg;
 reg signed [31:0] mult3B_Reg;
 
@@ -266,19 +263,19 @@ reg signed [31:0] mult15B_Reg;
 assign Ram_addrA = ( subband_state != ST_FDCT ) ? 12'bz : Ram_addrA_Reg;
 assign Ram_addrB = ( subband_state != ST_FDCT ) ? 12'bz : Ram_addrB_Reg;
 
-assign sum0 = ( subband_state != ST_FDCT ) ? 64'bz : sum0_Reg;
+assign sum0 = ( subband_state != ST_FDCT ) ? 64'bz : 64'd0;
 assign mult0A = ( subband_state != ST_FDCT ) ? 32'bz : mult0A_Reg;
 assign mult0B = ( subband_state != ST_FDCT ) ? 32'bz : mult0B_Reg;
 
-assign sum1 = ( subband_state != ST_FDCT ) ? 64'bz : sum1_Reg;
+assign sum1 = ( subband_state != ST_FDCT ) ? 64'bz : 64'd0;
 assign mult1A = ( subband_state != ST_FDCT ) ? 32'bz : mult1A_Reg;
 assign mult1B = ( subband_state != ST_FDCT ) ? 32'bz : mult1B_Reg;
 
-assign sum2 = ( subband_state != ST_FDCT ) ? 64'bz : sum2_Reg;
+assign sum2 = ( subband_state != ST_FDCT ) ? 64'bz : 64'd0;
 assign mult2A = ( subband_state != ST_FDCT ) ? 32'bz : mult2A_Reg;
 assign mult2B = ( subband_state != ST_FDCT ) ? 32'bz : mult2B_Reg;
 	
-assign sum3 = ( subband_state != ST_FDCT ) ? 64'bz : sum3_Reg;
+assign sum3 = ( subband_state != ST_FDCT ) ? 64'bz : 64'd0;
 assign mult3A = ( subband_state != ST_FDCT ) ? 32'bz : mult3A_Reg;
 assign mult3B = ( subband_state != ST_FDCT ) ? 32'bz : mult3B_Reg;
 
@@ -442,10 +439,6 @@ if ( !RST_n ) begin
 	Ram_data <= 32'd0;
 	Ram_wr_en <= 1'b0;
 
-	sum0_Reg <= 64'd0;
-	sum1_Reg <= 64'd0;
-	sum2_Reg <= 64'd0;
-	sum3_Reg <= 64'd0;
 	mult0A_Reg <= 32'd0;
 	mult0B_Reg <= 32'd0;
 	mult1A_Reg <= 32'd0;
@@ -491,10 +484,6 @@ else begin
 	else if ( subband_state == ST_FDCT )begin
 		fdct32_clk_cnt <= fdct32_clk_cnt + 1'd1;
 
-		sum0_Reg <= 64'd0;
-		sum1_Reg <= 64'd0;
-		sum2_Reg <= 64'd0;
-		sum3_Reg <= 64'd0;
 
 		if ( fdct32_clk_cnt == 8'd0 ) begin
 			b0[0] <= MI_BUF[0] + MI_BUF[31];
