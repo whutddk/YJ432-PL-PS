@@ -570,14 +570,14 @@ else begin
 			b3[6] <= mult6_out[62:31];
 			b3[7] <= mult7_out[62:31];
 
-			b2[0] <= mult7_out[58:27];
-			b2[0] <= mult7_out[60:29];
-			b2[0] <= mult7_out[60:29];
-			b2[0] <= mult7_out[61:30];
-			b2[0] <= mult7_out[61:30];
-			b2[0] <= mult7_out[62:31];
-			b2[0] <= mult7_out[62:31];
-			b2[0] <= mult7_out[62:31];
+			b2[0] <= mult8_out[58:27];
+			b2[0] <= mult9_out[60:29];
+			b2[0] <= mult10_out[60:29];
+			b2[0] <= mult11_out[61:30];
+			b2[0] <= mult12_out[61:30];
+			b2[0] <= mult13_out[62:31];
+			b2[0] <= mult14_out[62:31];
+			b2[0] <= mult15_out[62:31];
 		end // else if ( fdct32_clk_cnt == 8'd1 )
 		else if ( fdct32_clk_cnt == 8'd2 ) begin
 
