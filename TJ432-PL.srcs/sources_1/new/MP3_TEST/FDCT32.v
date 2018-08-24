@@ -561,23 +561,23 @@ else begin
 
 		else if ( fdct32_clk_cnt == 8'd1 ) begin
 
-			b3[0] <= mult0_out[62:31]; //bug:64-32 -1
-			b3[1] <= mult1_out[62:31];
-			b3[2] <= mult2_out[62:31];
-			b3[3] <= mult3_out[62:31];
-			b3[4] <= mult4_out[62:31];
-			b3[5] <= mult5_out[62:31];
-			b3[6] <= mult6_out[62:31];
-			b3[7] <= mult7_out[62:31];
+			b3[0] <= { mult0_out[63] , mult0_out[61:31] }; //bug:64-32 -1
+			b3[1] <= { mult1_out[63] , mult1_out[61:31] };
+			b3[2] <= { mult2_out[63] , mult2_out[61:31] };
+			b3[3] <= { mult3_out[63] , mult3_out[61:31] };
+			b3[4] <= { mult4_out[63] , mult4_out[61:31] };
+			b3[5] <= { mult5_out[63] , mult5_out[61:31] };
+			b3[6] <= { mult6_out[63] , mult6_out[61:31] };
+			b3[7] <= { mult7_out[63] , mult7_out[61:31] };
 
-			b2[0] <= mult8_out[58:27];
-			b2[0] <= mult9_out[60:29];
-			b2[0] <= mult10_out[60:29];
-			b2[0] <= mult11_out[61:30];
-			b2[0] <= mult12_out[61:30];
-			b2[0] <= mult13_out[62:31];
-			b2[0] <= mult14_out[62:31];
-			b2[0] <= mult15_out[62:31];
+			b2[0] <= { mult8_out[63] , mult8_out[57:27] };
+			b2[0] <= { mult9_out[63] , mult9_out[59:29] };
+			b2[0] <= { mult10_out[63] , mult10_out[59:29] };
+			b2[0] <= { mult11_out[63] , mult11_out[60:30] };
+			b2[0] <= { mult12_out[63] , mult12_out[60:30] };
+			b2[0] <= { mult13_out[63] , mult13_out[62:31] };
+			b2[0] <= { mult14_out[63] , mult14_out[62:31] };
+			b2[0] <= { mult15_out[63] , mult15_out[62:31] };
 		end // else if ( fdct32_clk_cnt == 8'd1 )
 		else if ( fdct32_clk_cnt == 8'd2 ) begin
 
@@ -656,23 +656,23 @@ else begin
 
 		else if ( fdct32_clk_cnt == 8'd3 ) begin
 
-			MI_BUF[15] <= mult0_out[62:31];
-			MI_BUF[14] <= mult1_out[62:31];
-			MI_BUF[13] <= mult2_out[62:31];
-			MI_BUF[12] <= mult3_out[62:31];
-			MI_BUF[11] <= mult4_out[62:31];
-			MI_BUF[10] <= mult5_out[61:30];
-			MI_BUF[ 9] <= mult6_out[61:30];
-			MI_BUF[ 8] <= mult7_out[59:28];
+			MI_BUF[15] <= { mult0_out[63] , mult0_out[61:31] };
+			MI_BUF[14] <= { mult1_out[63] , mult1_out[61:31] };
+			MI_BUF[13] <= { mult2_out[63] , mult2_out[61:31] };
+			MI_BUF[12] <= { mult3_out[63] , mult3_out[61:31] };
+			MI_BUF[11] <= { mult4_out[63] , mult4_out[61:31] };
+			MI_BUF[10] <= { mult5_out[63] , mult5_out[60:30] };
+			MI_BUF[ 9] <= { mult6_out[63] , mult6_out[60:30] };
+			MI_BUF[ 8] <= { mult7_out[63] , mult7_out[58:28] };
 
-			MI_BUF[31] <= mult8_out[62:31]; 
-			MI_BUF[30] <= mult9_out[62:31]; 
-			MI_BUF[29] <= mult10_out[62:31]; 
-			MI_BUF[28] <= mult11_out[62:31]; 
-			MI_BUF[27] <= mult12_out[62:31]; 
-			MI_BUF[26] <= mult13_out[61:30]; 
-			MI_BUF[25] <= mult14_out[61:30]; 
-			MI_BUF[24] <= mult15_out[59:28]; 
+			MI_BUF[31] <= { mult8_out[63] , mult8_out[61:31] }; 
+			MI_BUF[30] <= { mult9_out[63] , mult9_out[61:31] }; 
+			MI_BUF[29] <= { mult10_out[63] , mult10_out[61:31] }; 
+			MI_BUF[28] <= { mult11_out[63] , mult11_out[61:31] }; 
+			MI_BUF[27] <= { mult12_out[63] , mult12_out[61:31] }; 
+			MI_BUF[26] <= { mult13_out[63] , mult13_out[60:30] }; 
+			MI_BUF[25] <= { mult14_out[63] , mult14_out[60:30] }; 
+			MI_BUF[24] <= { mult15_out[63] , mult15_out[58:28] }; 
 
 		end // else if ( fdct32_clk_cnt == 8'd3 )
 
@@ -763,25 +763,25 @@ else begin
 
 		else if ( fdct32_clk_cnt == 8'd5 ) begin
 
-			b3[4] <= mult0_out[62:31];
-			b3[5] <= mult1_out[62:31];
-			b3[6] <= mult2_out[62:31];
-			b3[7] <= mult3_out[62:31];
+			b3[4] <= { mult0_out[63] , mult0_out[61:31] };
+			b3[5] <= { mult1_out[63] , mult1_out[61:31] };
+			b3[6] <= { mult2_out[63] , mult2_out[61:31] };
+			b3[7] <= { mult3_out[63] , mult3_out[61:31] };
 
-			b0[4] <= mult4_out[60:29];
-			b0[5] <= mult5_out[60:29];
-			b0[6] <= mult6_out[60:29];
-			b0[7] <= mult7_out[60:29];
+			b0[4] <= { mult4_out[63] , mult4_out[59:29] };
+			b0[5] <= { mult5_out[63] , mult5_out[59:29] };
+			b0[6] <= { mult6_out[63] , mult6_out[59:29] };
+			b0[7] <= { mult7_out[63] , mult7_out[59:29] };
 
-			b2[4] <= mult8_out[62:31];
-			b2[5] <= mult9_out[62:31];
-			b2[6] <= mult10_out[62:31];
-			b2[7] <= mult11_out[62:31];
+			b2[4] <= { mult8_out[63] , mult8_out[61:31] };
+			b2[5] <= { mult9_out[63] , mult9_out[61:31] };
+			b2[6] <= { mult10_out[63] , mult10_out[61:31] };
+			b2[7] <= { mult11_out[63] , mult11_out[61:31] };
 
-			b1[4] <= mult12_out[62:31];
-			b1[5] <= mult13_out[62:31];
-			b1[6] <= mult14_out[62:31];
-			b1[7] <= mult15_out[62:31];
+			b1[4] <= { mult12_out[63] , mult12_out[61:31] };
+			b1[5] <= { mult13_out[63] , mult13_out[61:31] };
+			b1[6] <= { mult14_out[63] , mult14_out[61:31] };
+			b1[7] <= { mult15_out[63] , mult15_out[61:31] };
 
 		end // else if ( fdct32_clk_cnt == 8'd5 )
 
@@ -878,25 +878,25 @@ else begin
 		end // else if ( fdct32_clk_cnt == 8'd6 )
 
 		else if ( fdct32_clk_cnt == 8'd7 ) begin
-			a3[0] <= mult0_out[62:31];
-			a3[1] <= mult1_out[62:31];
-			a3[2] <= mult2_out[62:31];
-			a3[3] <= mult3_out[62:31];
+			a3[0] <= { mult0_out[63] , mult0_out[61:31] };
+			a3[1] <= { mult1_out[63] , mult1_out[61:31] };
+			a3[2] <= { mult2_out[63] , mult2_out[61:31] };
+			a3[3] <= { mult3_out[63] , mult3_out[61:31] };
 
-			a7[0] <= mult4_out[62:31];
-			a7[1] <= mult5_out[62:31];
-			a7[2] <= mult6_out[62:31];
-			a7[3] <= mult7_out[62:31];
+			a7[0] <= { mult4_out[63] , mult4_out[61:31] };
+			a7[1] <= { mult5_out[63] , mult5_out[61:31] };
+			a7[2] <= { mult6_out[63] , mult6_out[61:31] };
+			a7[3] <= { mult7_out[63] , mult7_out[61:31] };
 
-			a2[0] <= mult8_out[61:30];
-			a2[1] <= mult9_out[61:30];
-			a2[2] <= mult10_out[61:30];
-			a2[3] <= mult11_out[61:30];
+			a2[0] <= { mult8_out[63] , mult8_out[60:30] };
+			a2[1] <= { mult9_out[63] , mult9_out[60:30] };
+			a2[2] <= { mult10_out[63] , mult10_out[60:30] };
+			a2[3] <= { mult11_out[63] , mult11_out[60:30] };
 
-			a6[0] <= mult12_out[61:30];
-			a6[1] <= mult13_out[61:30];
-			a6[2] <= mult14_out[61:30];
-			a6[3] <= mult15_out[61:30];
+			a6[0] <= { mult12_out[63] , mult12_out[60:30] };
+			a6[1] <= { mult13_out[63] , mult13_out[60:30] };
+			a6[2] <= { mult14_out[63] , mult14_out[60:30] };
+			a6[3] <= { mult15_out[63] , mult15_out[60:30] };
 		end // else if ( fdct32_clk_cnt == 8'd7 )
 
 		else if ( fdct32_clk_cnt == 8'd8 ) begin
@@ -984,25 +984,25 @@ else begin
 		end // else if ( fdct32_clk_cnt == 8'd8 )
 
 		else if ( fdct32_clk_cnt == 8'd9 ) begin
-			b1[0] <= mult0_out[62:31];
-			b1[1] <= mult1_out[62:31];
-			b1[2] <= mult2_out[62:31];
-			b1[3] <= mult3_out[62:31];
+			b1[0] <= { mult0_out[63] , mult0_out[61:31] };
+			b1[1] <= { mult1_out[63] , mult1_out[61:31] };
+			b1[2] <= { mult2_out[63] , mult2_out[61:31] };
+			b1[3] <= { mult3_out[63] , mult3_out[61:31] };
 
-			b3[0] <= mult4_out[62:31];
-			b3[1] <= mult5_out[62:31];
-			b3[2] <= mult6_out[62:31];
-			b3[3] <= mult7_out[62:31];
+			b3[0] <= { mult4_out[63] , mult4_out[61:31] };
+			b3[1] <= { mult5_out[63] , mult5_out[61:31] };
+			b3[2] <= { mult6_out[63] , mult6_out[61:31] };
+			b3[3] <= { mult7_out[63] , mult7_out[61:31] };
 
-			b1[4] <= mult8_out[62:31];
-			b1[5] <= mult9_out[62:31];
-			b1[6] <= mult10_out[62:31];
-			b1[7] <= mult11_out[62:31];
+			b1[4] <= { mult8_out[63] , mult8_out[61:31] };
+			b1[5] <= { mult9_out[63] , mult9_out[61:31] };
+			b1[6] <= { mult10_out[63] , mult10_out[61:31] };
+			b1[7] <= { mult11_out[63] , mult11_out[61:31] };
 
-			b3[4] <= mult12_out[62:31];
-			b3[5] <= mult13_out[62:31];
-			b3[6] <= mult14_out[62:31];
-			b3[7] <= mult15_out[62:31];
+			b3[4] <= { mult12_out[63] , mult12_out[61:31] };
+			b3[5] <= { mult13_out[63] , mult13_out[61:31] };
+			b3[6] <= { mult14_out[63] , mult14_out[61:31] };
+			b3[7] <= { mult15_out[63] , mult15_out[61:31] };
 		end // else if ( fdct32_clk_cnt == 8'd9 )
 
 		else if ( fdct32_clk_cnt == 8'd10 ) begin
