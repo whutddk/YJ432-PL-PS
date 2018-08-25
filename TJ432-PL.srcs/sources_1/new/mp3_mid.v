@@ -186,132 +186,131 @@ polyphase i_polyhpase
 	.mult_out2R(mult3_out_Wire)
 
 );
+
+// mult_add_wrapper
+//    (A_0,
+//     B_0,
+//     C_0,
+//     P_0);
+
 	
-multiplier i_mult0(
-	.sum(sum0_Wire),
-	.multA(mult0A_Wire),
-	.multB(mult0B_Wire),
-	.mult_out(mult0_out_Wire)
+mult_add_wrapper i_mult0(	
+	.A_0(mult0A_Wire),
+	.B_0(mult0B_Wire),
+	.C_0(sum0_Wire),
+	.P_0(mult0_out_Wire)
 
 );
 
-multiplier i_mult1(
-	.sum(sum1_Wire),
-	.multA(mult1A_Wire),
-	.multB(mult1B_Wire),
-	.mult_out(mult1_out_Wire)
+mult_add_wrapper i_mult1(
+	
+	.A_0(mult1A_Wire),
+	.B_0(mult1B_Wire),
+	.C_0(sum1_Wire),
+	.P_0(mult1_out_Wire)
 
 );
 
-multiplier i_mult2(
-	.sum(sum2_Wire),
-	.multA(mult2A_Wire),
-	.multB(mult2B_Wire),
-	.mult_out(mult2_out_Wire)
+mult_add_wrapper i_mult2(
+	
+	.A_0(mult2A_Wire),
+	.B_0(mult2B_Wire),
+	.C_0(sum2_Wire),
+	.P_0(mult2_out_Wire)
 
 );
 
-multiplier i_mult3(
-	.sum(sum3_Wire),
-	.multA(mult3A_Wire),
-	.multB(mult3B_Wire),
-	.mult_out(mult3_out_Wire)
+mult_add_wrapper i_mult3(
+	
+	.A_0(mult3A_Wire),
+	.B_0(mult3B_Wire),
+	.C_0(sum3_Wire),
+	.P_0(mult3_out_Wire)
 
 );
 
-multiplier i_mult4(
-	.sum(64'd0),
-	.multA(mult4A_Wire),
-	.multB(mult4B_Wire),
-	.mult_out(mult4_out_Wire)
+pure_mult_wrapper i_mult4(
+	
+	.A_0(mult4A_Wire),
+	.B_0(mult4B_Wire),
+	.P_0(mult4_out_Wire)
 
 );
 
-multiplier i_mult5(
-	.sum(64'd0),
-	.multA(mult5A_Wire),
-	.multB(mult5B_Wire),
-	.mult_out(mult5_out_Wire)
+pure_mult_wrapper i_mult5(	
+	.A_0(mult5A_Wire),
+	.B_0(mult5B_Wire),
+	.P_0(mult5_out_Wire)
 
 );
 
-multiplier i_mult6(
-	.sum(64'd0),
-	.multA(mult6A_Wire),
-	.multB(mult6B_Wire),
-	.mult_out(mult6_out_Wire)
+pure_mult_wrapper i_mult6(
+	.A_0(mult6A_Wire),
+	.B_0(mult6B_Wire),
+	.P_0(mult6_out_Wire)
 
 );
 
-multiplier i_mult7(
-	.sum(64'd0),
-	.multA(mult7A_Wire),
-	.multB(mult7B_Wire),
-	.mult_out(mult7_out_Wire)
+pure_mult_wrapper i_mult7(
+	.A_0(mult7A_Wire),
+	.B_0(mult7B_Wire),
+	.P_0(mult7_out_Wire)
 
 );
 
-multiplier i_mult8(
-	.sum(64'd0),
-	.multA(mult8A_Wire),
-	.multB(mult8B_Wire),
-	.mult_out(mult8_out_Wire)
+pure_mult_wrapper i_mult8(
+	.A_0(mult8A_Wire),
+	.B_0(mult8B_Wire),
+	.P_0(mult8_out_Wire)
 
 );
 
-multiplier i_mult9(
-	.sum(64'd0),
-	.multA(mult9A_Wire),
-	.multB(mult9B_Wire),
-	.mult_out(mult9_out_Wire)
+pure_mult_wrapper i_mult9(
+	.A_0(mult9A_Wire),
+	.B_0(mult9B_Wire),
+	.P_0(mult9_out_Wire)
 
 );
 
-multiplier i_mult10(
-	.sum(64'd0),
-	.multA(mult10A_Wire),
-	.multB(mult10B_Wire),
-	.mult_out(mult10_out_Wire)
+pure_mult_wrapper i_mult10(
+	.A_0(mult10A_Wire),
+	.B_0(mult10B_Wire),
+	.P_0(mult10_out_Wire)
 
 );
 
-multiplier i_mult11(
-	.sum(64'd0),
-	.multA(mult11A_Wire),
-	.multB(mult11B_Wire),
-	.mult_out(mult11_out_Wire)
+pure_mult_wrapper i_mult11(
+	.A_0(mult11A_Wire),
+	.B_0(mult11B_Wire),
+	.P_0(mult11_out_Wire)
 
 );
 
-multiplier i_mult12(
-	.sum(64'd0),
-	.multA(mult12A_Wire),
-	.multB(mult12B_Wire),
-	.mult_out(mult12_out_Wire)
+pure_mult_wrapper i_mult12(
+	.A_0(mult12A_Wire),
+	.B_0(mult12B_Wire),
+	.P_0(mult12_out_Wire)
 
 );
 
-multiplier i_mult13(
-	.sum(64'd0),
-	.multA(mult13A_Wire),
-	.multB(mult13B_Wire),
-	.mult_out(mult13_out_Wire)
+pure_mult_wrapper i_mult13(
+	.A_0(mult13A_Wire),
+	.B_0(mult13B_Wire),
+	.P_0(mult13_out_Wire)
 
 );
 
-multiplier i_mult14(
-	.sum(64'd0),
-	.multA(mult14A_Wire),
-	.multB(mult14B_Wire),
-	.mult_out(mult14_out_Wire)
+pure_mult_wrapper i_mult14(	
+	.A_0(mult14A_Wire),
+	.B_0(mult14B_Wire),
+	.P_0(mult14_out_Wire)
 
 );
 
-multiplier i_mult15(
-	.sum(64'd0),
-	.multA(mult15A_Wire),
-	.multB(mult15B_Wire),
-	.mult_out(mult15_out_Wire)
+pure_mult_wrapper i_mult15(
+	.A_0(mult15A_Wire),
+	.B_0(mult15B_Wire),
+	.P_0(mult15_out_Wire)
 
 );
 
