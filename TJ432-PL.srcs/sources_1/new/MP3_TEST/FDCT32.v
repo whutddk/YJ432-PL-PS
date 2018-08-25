@@ -323,8 +323,8 @@ reg [11:0] VBUF_LENGTH = 12'd1088;
 wire [11:0] dest_offset_Value;
 wire [11:0] odd_plus;
 wire [11:0] odd_plus_n;
-assign odd_plus = oddBlock ? VBUF_LENGTH  : 0;
-assign odd_plus_n = oddBlock ? 0 : VBUF_LENGTH;
+assign odd_plus = oddBlock ? VBUF_LENGTH  : 12'd0;
+assign odd_plus_n = oddBlock ? 12'd0 : VBUF_LENGTH;
 
 
 assign dest_offset_Value = dest_offset ? 12'd32 : 12'd0;
@@ -571,13 +571,13 @@ else begin
 			b3[7] <= { mult7_out[63] , mult7_out[61:31] };
 
 			b2[0] <= { mult8_out[63] , mult8_out[57:27] };
-			b2[0] <= { mult9_out[63] , mult9_out[59:29] };
-			b2[0] <= { mult10_out[63] , mult10_out[59:29] };
-			b2[0] <= { mult11_out[63] , mult11_out[60:30] };
-			b2[0] <= { mult12_out[63] , mult12_out[60:30] };
-			b2[0] <= { mult13_out[63] , mult13_out[62:31] };
-			b2[0] <= { mult14_out[63] , mult14_out[62:31] };
-			b2[0] <= { mult15_out[63] , mult15_out[62:31] };
+			b2[1] <= { mult9_out[63] , mult9_out[59:29] };
+			b2[2] <= { mult10_out[63] , mult10_out[59:29] };
+			b2[3] <= { mult11_out[63] , mult11_out[60:30] };
+			b2[4] <= { mult12_out[63] , mult12_out[60:30] };
+			b2[5] <= { mult13_out[63] , mult13_out[62:31] };
+			b2[6] <= { mult14_out[63] , mult14_out[62:31] };
+			b2[7] <= { mult15_out[63] , mult15_out[62:31] };
 		end // else if ( fdct32_clk_cnt == 8'd1 )
 		else if ( fdct32_clk_cnt == 8'd2 ) begin
 
