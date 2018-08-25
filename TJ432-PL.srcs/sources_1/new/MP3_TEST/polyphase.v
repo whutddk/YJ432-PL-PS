@@ -36,7 +36,7 @@ module polyphase
 	
 	input [11:0] vbuf_offset,
 
-	output reg IP_Done,
+	output reg POLY_Done,
 
 	//ram operate
 	inout [11:0] Ram_addrA,
@@ -54,33 +54,27 @@ module polyphase
 	output reg signed [15:0] fifo_data,
 	output reg fifo_enable,
 
-	output signed [63:0] sum1L_pre,
-	output signed [31:0] mult1L_A,
-	output signed [31:0] mult1L_B,
+	inout signed [63:0] sum1L_pre,
+	inout signed [31:0] mult1L_A,
+	inout signed [31:0] mult1L_B,
 	input signed [63:0] mult_out1L,
 
-	output signed [63:0] sum2L_pre,
-	output signed [31:0] mult2L_A,
-	output signed [31:0] mult2L_B,
+	inout signed [63:0] sum2L_pre,
+	inout signed [31:0] mult2L_A,
+	inout signed [31:0] mult2L_B,
 	input signed [63:0] mult_out2L,
 
-	output signed [63:0] sum1R_pre,
-	output signed [31:0] mult1R_A,
-	output signed [31:0] mult1R_B,
+	inout signed [63:0] sum1R_pre,
+	inout signed [31:0] mult1R_A,
+	inout signed [31:0] mult1R_B,
 	input signed [63:0] mult_out1R,
 
-	output signed [63:0] sum2R_pre,
-	output signed [31:0] mult2R_A,
-	output signed [31:0] mult2R_B,
-	input signed [63:0] mult_out2R,
-
-	input [5:0] PCM_ADDR,
-	output [31:0] PCM_DATA
+	inout signed [63:0] sum2R_pre,
+	inout signed [31:0] mult2R_A,
+	inout signed [31:0] mult2R_B,
+	input signed [63:0] mult_out2R
 
 	);
-
-
-
 
 	parameter ST_IDLE = 3'd0;
 	parameter ST_MIBUF = 3'd1;
@@ -109,30 +103,30 @@ reg [11:0] Ram_addrA_reg;
 reg [11:0] Ram_addrB_reg;
 
 //conntion
-assign sum1L_pre =  sum1L_pre_reg;
-assign mult1L_A =  mult1L_A_reg;
-assign mult1L_B =  mult1L_B_reg;
+assign sum1L_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum1L_pre_reg;
+assign mult1L_A = ( subband_state != ST_PLOY ) ? 32'bz : mult1L_A_reg;
+assign mult1L_B = ( subband_state != ST_PLOY ) ? 32'bz : mult1L_B_reg;
 
-assign sum2L_pre = sum2L_pre_reg;
-assign mult2L_A =  mult2L_A_reg;
-assign mult2L_B =  mult2L_B_reg;
+assign sum2L_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum2L_pre_reg;
+assign mult2L_A = ( subband_state != ST_PLOY ) ? 32'bz : mult2L_A_reg;
+assign mult2L_B = ( subband_state != ST_PLOY ) ? 32'bz : mult2L_B_reg;
 
-assign sum1R_pre =  sum1R_pre_reg;
-assign mult1R_A =  mult1R_A_reg;
-assign mult1R_B =  mult1R_B_reg;
+assign sum1R_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum1R_pre_reg;
+assign mult1R_A = ( subband_state != ST_PLOY ) ? 32'bz : mult1R_A_reg;
+assign mult1R_B = ( subband_state != ST_PLOY ) ? 32'bz : mult1R_B_reg;
 
-assign sum2R_pre =  sum2R_pre_reg;
-assign mult2R_A =  mult2R_A_reg;
-assign mult2R_B =  mult2R_B_reg;
+assign sum2R_pre = ( subband_state != ST_PLOY ) ? 64'bz : sum2R_pre_reg;
+assign mult2R_A = ( subband_state != ST_PLOY ) ? 32'bz : mult2R_A_reg;
+assign mult2R_B = ( subband_state != ST_PLOY ) ? 32'bz : mult2R_B_reg;
 
 assign Ram_addrA = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrA_reg;
 assign Ram_addrB = ( subband_state != ST_PLOY ) ? 12'bz : Ram_addrB_reg;
 
 reg signed [15:0] pcm[0:63];
-reg [8:0] poly_cnt = 9'd0; 
-reg [3:0] MC2S_cnt = 4'd15;
-reg [8:0] MC2S_sub_cnt = 9'd0;
-reg [7:0] fifo_cnt = 8'd0;
+(* DONT_TOUCH = "TRUE" *)reg [8:0] poly_cnt = 9'd0; 
+(* DONT_TOUCH = "TRUE" *)reg [3:0] MC2S_cnt = 4'd15;
+(* DONT_TOUCH = "TRUE" *)reg [8:0] MC2S_sub_cnt = 9'd0;
+(* DONT_TOUCH = "TRUE" *)reg [7:0] fifo_cnt = 8'd0;
 
 reg signed [63:0] sum1L_A;
 reg signed [63:0] sum2L_A;
@@ -151,8 +145,6 @@ assign sum1L_sub_pre = sum1L_A - mult_out1L;
 assign sum2L_sub_pre = sum2L_A + mult_out2L;
 assign sum1R_sub_pre = sum1R_A - mult_out1R;
 assign sum2R_sub_pre = sum2R_A + mult_out2R;
-
-assign PCM_DATA = {pcm[PCM_ADDR],16'h0000};
 
 
 always @( negedge CLK or negedge RST_n ) begin
@@ -176,7 +168,7 @@ always @( negedge CLK or negedge RST_n ) begin
 		fifo_data <= 16'd0;
 		fifo_enable <= 1'b0;					
 
-		IP_Done <= 1'b0;
+		POLY_Done <= 1'b0;
 
 		sum1L_pre_reg <= 64'd0;
 		mult1L_A_reg <= 32'd0;
@@ -213,7 +205,7 @@ always @( negedge CLK or negedge RST_n ) begin
 		fifo_data <= fifo_data;
 		fifo_enable <= fifo_enable;					
 
-		IP_Done <= IP_Done;
+		POLY_Done <= POLY_Done;
 
 		if ( subband_state != ST_PLOY ) begin
 			//reset
@@ -224,7 +216,7 @@ always @( negedge CLK or negedge RST_n ) begin
 			fifo_data <= fifo_data;
 			fifo_enable <= 1'b0;
 
-			IP_Done <= 1'b0;
+			POLY_Done <= 1'b0;
 
 		end
 
@@ -625,7 +617,7 @@ always @( negedge CLK or negedge RST_n ) begin
 							fifo_data <= fifo_data;
 							fifo_enable <= 1'b0;
 
-							IP_Done <= 1'b1;
+							POLY_Done <= 1'b1;
 						end // if ( fifo_cnt == 8'd63 )
 
 					end // else

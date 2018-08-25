@@ -67,20 +67,20 @@ wire [31:0] LEDG_Puty_Wire;
 wire [31:0] LEDB_Puty_Wire; 
 	
 
-wire [31:0] FB_RAM_DATA_Wire;
-wire [11:0] FB_RAM_ADDR_Wire;
-// wire [3:0] vindex_Wire;
-// wire b_Wire;
 wire [11:0] vbuf_offset_Wire;
-wire RAM_WR_EN_Wire;
-(* dont_touch="true" *) wire [2:0] subband_state_Wire;
-wire IP_Done_Wire;
+wire dest_offset_Wire;
+wire [11:0] vindex_offset_Wire;
+wire oddBlock_Wire;
 
-// wire FIFO_CLK_wire;
+
+(* DONT_TOUCH = "TRUE" *)wire [2:0] subband_state_Wire;
+(* DONT_TOUCH = "TRUE" *)wire POLY_Done_Wire;
+(* DONT_TOUCH = "TRUE" *)wire FDCT_Done_Wire;
+
 wire Is_Empty_Wire;
 
-wire [5:0] PCM_ADDR_Wire;
-wire [31:0] PCM_DATAOUTPUT_Wire;
+wire [31:0] MIBUF_DATA_Wire;
+wire [5:0] MIBUF_ADDR_Wire;
 
 flexbus_comm i_flexbus(
 	.FB_BASE(32'h60000000),
@@ -104,26 +104,23 @@ flexbus_comm i_flexbus(
 	.LEDG_Puty_Reg(LEDG_Puty_Wire),
 	.LEDB_Puty_Reg(LEDB_Puty_Wire),
 	
-	.RAM_DATA_Reg(FB_RAM_DATA_Wire),
-	.RAM_ADDR(FB_RAM_ADDR_Wire),
-
-	// .vindex(vindex_Wire),
-	// .b(b_Wire),
+	.MIBUF_DATA_Reg(MIBUF_DATA_Wire),
+	.MIBUF_ADDR_Reg(MIBUF_ADDR_Wire),
 
 	.vbuf_offset(vbuf_offset_Wire),
 
-	.RAM_WR_EN_Reg(RAM_WR_EN_Wire),
+	.dest_offset(dest_offset_Wire),
+	.vindex_offset(vindex_offset_Wire),
+	.oddBlock(oddBlock_Wire),
+
 	.subband_state(subband_state_Wire),
 
-	.IP_Done(IP_Done_Wire),
+	.POLY_Done(POLY_Done_Wire),
+	.FDCT_Done(FDCT_Done_Wire),
 
-	.Is_Empty_Wire(Is_Empty_Wire),
-	// .STEAM_DATA(STREAM_DATA_Wire),  //put data into here
-	// .FIFO_CLK(FIFO_CLK_wire)
+	.Is_Empty_Wire(Is_Empty_Wire)
+
 	
-	.PCM_ADDR(PCM_ADDR_Wire),
-	.PCM_DATA(PCM_DATAOUTPUT_Wire)
-
 	);
 	
 BZLED i_BZLED(
@@ -175,51 +172,34 @@ I2S16bit i_i2s(
 	.DATA_CLK(i2s_rd_Wire) //LCRK对齐的下跳沿请求数据
 );
 
-wire [31:0] RAM_DATA_OUTA_Wire;
-wire [31:0] RAM_DATA_OUTB_Wire;
-wire [11:0] RAM_ADDR_B_Wire;
+
 
 mp3_mid i_mp3(
 	.MP3_CLK(i_fb_clk),
 	.RST_n(1'b1),
 
-	.RAM_dataA_out(RAM_DATA_OUTA_Wire),
-	.RAM_dataB_out(RAM_DATA_OUTB_Wire),
-	.RAM_addrA(FB_RAM_ADDR_Wire),
-	.RAM_addrB(RAM_ADDR_B_Wire),
-
 	.subband_state(subband_state_Wire),
-
-	//CTL
-	// .vindex(vindex_Wire),
-	// .b(b_Wire),
 	
 	.vbuf_offset(vbuf_offset_Wire),
+
+	.dest_offset(dest_offset_Wire),
+	.vindex_offset(vindex_offset_Wire),
+	.oddBlock(oddBlock_Wire),
 	
-	.IP_Done(IP_Done_Wire),
+	.POLY_Done(POLY_Done_Wire),
+	.FDCT_Done(FDCT_Done_Wire),
 
 	.FIFO_EN(Pcm_wden_Wire),
 	.FIFO_DATA(PCM_DATA_Wire),
 
-	.PCM_ADDR(PCM_ADDR_Wire),
-	.PCM_DATA(PCM_DATAOUTPUT_Wire)
+	.FB_MIBUF_DATA(MIBUF_DATA_Wire),
+	.FB_MIBUF_ADDR(MIBUF_ADDR_Wire)
+
 	);
 
 
 
-RAM_wrapper i_RAM(
-	.BRAM_PORTA_0_addr(FB_RAM_ADDR_Wire),
-	.BRAM_PORTA_0_clk(i_fb_clk),
-	.BRAM_PORTA_0_din(FB_RAM_DATA_Wire),
-	.BRAM_PORTA_0_dout(RAM_DATA_OUTA_Wire),
-	.BRAM_PORTA_0_we(RAM_WR_EN_Wire),
 
-	.BRAM_PORTB_0_addr(RAM_ADDR_B_Wire),
-	.BRAM_PORTB_0_clk(i_fb_clk),
-	.BRAM_PORTB_0_din(),
-	.BRAM_PORTB_0_dout(RAM_DATA_OUTB_Wire),
-	.BRAM_PORTB_0_we(1'b0)
-);
 
 
 endmodule

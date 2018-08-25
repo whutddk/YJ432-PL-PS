@@ -44,26 +44,25 @@ module flexbus_comm(
 	output reg [31:0] LEDB_Puty_Reg,
 	
 	 
-	output reg [31:0] RAM_DATA_Reg,
-	inout [11:0] RAM_ADDR,
+	output reg [31:0] MIBUF_DATA_Reg,
+	output reg [5:0] MIBUF_ADDR_Reg,
 
 	// output reg [3:0] vindex,
 	// output reg b,
 	
 	output reg [11:0] vbuf_offset,
-	
 
-	output reg RAM_WR_EN_Reg,
+	output reg dest_offset,
+	output reg [11:0] vindex_offset,
+	output reg oddBlock,
+	
 	output reg [2:0] subband_state,
 
-	input IP_Done,
-	input Is_Empty_Wire,
-	// output reg [31:0] STEAM_DATA,  //put data into here
-	// output reg FIFO_CLK
-	
-	output reg [5:0] PCM_ADDR,
-	input [31:0] PCM_DATA
+	input POLY_Done,
+	input FDCT_Done,
 
+	input Is_Empty_Wire
+	
 	);
 
 parameter ST_IDLE = 3'd0;
@@ -82,9 +81,6 @@ assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);
 assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
    
 
-reg [11:0] RAM_ADDR_Reg;
-
-assign RAM_ADDR = ( subband_state != ST_FBRAM ) ? 12'bz : RAM_ADDR_Reg;
 
 always@( negedge FB_CLK or negedge RST_n )  begin
 	if ( !RST_n ) begin
@@ -101,14 +97,16 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;  
 		
-		RAM_DATA_Reg <= 32'd0;
-		RAM_ADDR_Reg <= 12'd0;
-		// STEAM_DATA <= 32'd0;
-		// FIFO_CLK <= 1'b1;
-		RAM_WR_EN_Reg <= 1'b0;
 		subband_state <= ST_IDLE;
 
 		vbuf_offset <= 12'd0;
+
+		dest_offset <= 1'b1;
+		vindex_offset <= 12'd0;
+		oddBlock <= 1'b0;
+
+		MIBUF_DATA_Reg <= 32'd0;
+		MIBUF_ADDR_Reg <= 6'd0;
 
 	end
 	else begin
@@ -125,9 +123,9 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= LEDG_Puty_Reg;
 		LEDB_Puty_Reg <= LEDB_Puty_Reg;
 
-		RAM_DATA_Reg <= RAM_DATA_Reg;
-		RAM_ADDR_Reg <= RAM_ADDR_Reg;
-		RAM_WR_EN_Reg <= 1'b0;
+		MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
+		MIBUF_ADDR_Reg <= MIBUF_ADDR_Reg;
+
 		subband_state <= subband_state;
 
 		vbuf_offset <= vbuf_offset;
@@ -140,12 +138,6 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 			if ( (FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 ) ) begin// check base address 
 				ADD_COMF <= 1'b1;
 				ip_ADDR[31:0] <= FB_AD[31:0];
-
-				// output test pcm data
-				if ( ( FB_AD[31:0] & 32'h0fff0000 ) == 32'h07820000 ) begin
-					PCM_ADDR[5:0] <= FB_AD[5:0];
-				end // if ( FB_AD[31:0] & 32'h0fff0000 == 32'h07810000 )
-
 
 			end
 			else begin // IN ADDRESS LATCH MODE BUT THE ADDRESS IS NOT SELECT THIS FLEXBUS IP
@@ -183,34 +175,42 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 								// STEAM_DATA[31:0] <= FB_AD[31:0];
 								// FIFO_CLK <= 1'b0;
 								
-								if ( (ip_ADDR[13:2]) < 12'd3000 ) begin
+								if ( (ip_ADDR[13:2]) < 12'd100 ) begin
 								
-									RAM_DATA_Reg[31:0] <= FB_AD[31:0];
-									RAM_ADDR_Reg[11:0] <= ip_ADDR[13:2];
-									RAM_WR_EN_Reg <= 1'b1;
-									subband_state <= ST_FBRAM;
+									MIBUF_DATA_Reg[31:0] <= FB_AD[31:0];
+									MIBUF_ADDR_Reg[5:0] <= ip_ADDR[7:2];
+
+									subband_state <= ST_MIBUF;
 								end // if ( (ip_ADDR[13:2]) < 12'd3000 )
 								else begin
-									RAM_DATA_Reg <= RAM_DATA_Reg;
-									RAM_ADDR_Reg[11:0] <= RAM_ADDR_Reg[11:0];
-									RAM_WR_EN_Reg <= 1'b0;
-									subband_state <= ST_FBRAM;
+									MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
+									MIBUF_ADDR_Reg[5:0] <= MIBUF_ADDR_Reg[5:0];
+
+									subband_state <= ST_MIBUF;
 								end // else
 							end
 
 							32'h07810004:begin
-								subband_state <= ST_FBRAM;
-								vbuf_offset[11:0] <= FB_AD[11:0];
-								
-								RAM_WR_EN_Reg <= 1'b0;
+								subband_state <= ST_IDLE;
+								vbuf_offset[11:0] <= FB_AD[11:0];							
 
 							end // 32'h07800004:
 
 							32'h07810008:begin
 								subband_state <= ST_PLOY;
-								RAM_WR_EN_Reg <= 1'b0;
+
 							end // 32'h07810008:
 							
+							32'h0781000c:begin
+								vindex_offset[11:0] <= FB_AD[11:0];
+								subband_state <= ST_IDLE;
+							end // 32'h0781000c:
+
+							32'h07810010:begin
+								dest_offset <= FB_AD[1];
+								oddBlock <= FB_AD[0];
+								subband_state <= ST_FDCT;
+							end // 32'h07810010:
 							default:begin
 							end // default:
 						endcase
@@ -222,28 +222,23 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 						casez( ip_ADDR & 32'h0fffffff )
 							32'b00000: begin
 								FB_AD_reg[31:0] <= FREQ_Cnt_Reg[31:0];
-							end
+							end // 32'b00000:
 							32'b00100:begin
 								FB_AD_reg[31:0] <= BZ_Puty_Reg[31:0];
-							end
+							end // 32'b00100:
 							32'b01000:begin
 								FB_AD_reg[31:0] <= LEDR_Puty_Reg[31:0];
-							end
+							end // 32'b01000:
 							32'b01100:begin
 								FB_AD_reg[31:0] <= LEDG_Puty_Reg[31:0];
-							end
+							end // 32'b01100:
 							32'b10000:begin
 								FB_AD_reg[31:0] <= LEDB_Puty_Reg[31:0];
-							end
+							end // 32'b10000:
 							
 							32'h07810000:begin
-								FB_AD_reg[31:0] <= {30'b0,IP_Done,Is_Empty_Wire};
-							end
-
-							32'h0782zzzz:begin
-								FB_AD_reg[31:0] <= PCM_DATA[31:0];
-
-							end // 32'h0782zzzz:
+								FB_AD_reg[31:0] <= {29'b0,FDCT_Done,POLY_Done,Is_Empty_Wire};
+							end // 32'h07810000:
 
 							default:begin
 							end // default:
