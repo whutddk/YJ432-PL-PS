@@ -40,7 +40,7 @@
 
 module fann_net (
 	input CLK,    // Clock
-	input RST_n,  // Asynchronous reset active low
+	input RST_n  // Asynchronous reset active low
 	
 );
 
@@ -69,8 +69,18 @@ reg [7:0] neure_cnt = 8'd0;
 
 `define MAX_BANDWIDTH 	50
 
+//放在一起方便寻址
+// reg [17:0] Weight_Lay[0:400 + 2500 * 7 + 200 - 1];
 
+/*打一拍直接把下一拍需要的所有数据读出来 18bit*50 */
+reg [900:0] Weight_Lay;
 
+//generate
+//    genvar i;
+
+//endgenerate
+reg [24:0] Neure_Buff_A[ 0 : MAX_BANDWIDTH - 1 ];
+reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
 
 always @( posedge CLK or negedge RST_n ) begin
 	if ( !RST_n ) begin
@@ -87,20 +97,56 @@ always @( posedge CLK or negedge RST_n ) begin
 
 		else begin //( state_initialize == WORK_STATE )
 
-			// /* Layer state machine Start*/
-			// if ( layer_cnt == 8'd0 ) begin	//input layer
+			/* Layer state machine Start*/
+			if ( layer_cnt == 8'd0 ) begin	//input layer 
 
-			// end // if ( layer_cnt == 8'd0 )
+			end // if ( layer_cnt == 8'd0 )
 
-			// else if ( layer_cnt >= LAYER_NUM ) begin //Final Layer
+			else if ( layer_cnt >= LAYER_NUM ) begin //Final Layer
 
-			// end // else if ( layer_cnt == LAYER_NUM ) //Final Layer
+			end // else if ( layer_cnt == LAYER_NUM ) //Final Layer
 
-			// else begin // Hiden Layer
+			else begin // Hiden Layer
+				if ( layer_cnt[0]  == 1'b0 ) begin // 偶数层
+					//上一层神经元装在A buff中
+					//本层神经元装在B buff中
+					
 
-			// end // else // Hiden Layer
 
-			// /* Layer state machine End */
+
+				end // if ( layer_cnt[0]  == 1'b0 )偶数层
+
+				else begin	//奇数层
+					/*上一层神经元装在B buff中*/
+					/*本层神经元装在A buff中*/
+					
+					/*乘和累加*/
+					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[]
+					// ...
+					//Neure_Buff_B[49] <= Neure_Buff_B[49] + Neure_Buff_A[neure_cnt] * Weight_Lay[]
+
+					//neure_cnt <= neure_cnt + 8'd1;
+
+					//if ( neure_cnt == NEURE_LAY1 && layer_cnt == 1 
+					//	|| neure_cnt == NEURE_LAY2 && layer_cnt == 2
+					//	|| ...
+					//	|| ...) begin
+					//layer_cnt <= layer_cnt + 8'd1
+					//neure_cnt <= 8'd0;
+					
+					/*激活*/
+					//Neure_Buff_B[0] <= Neure_Buff_B[0] * Sign_ROM
+					//Neure_Buff_B[1] <= Neure_Buff_B[0] * Sign_ROM
+					//...
+					//Neure_Buff_B[49] <= Neure_Buff_B[49] * Sign_ROM
+					//end
+
+
+				end // else 奇数层
+
+			end // else // Hiden Layer
+
+			/* Layer state machine End */
 
 
 
