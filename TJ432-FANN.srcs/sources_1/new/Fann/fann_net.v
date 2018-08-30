@@ -75,6 +75,11 @@ reg [7:0] neure_cnt = 8'd0;
 /*打一拍直接把下一拍需要的所有数据读出来 18bit*50 */
 reg [900:0] Weight_Lay;
 
+wire [7:0] Address_Wire;
+
+assign Address_Wire = ( neure_cnt << 4 ) + ( neure_cnt << 1 );
+
+
 //generate
 //    genvar i;
 
@@ -121,9 +126,9 @@ always @( posedge CLK or negedge RST_n ) begin
 					/*本层神经元装在A buff中*/
 					
 					/*乘和累加*/
-					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[]
+					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire]
 					// ...
-					//Neure_Buff_B[49] <= Neure_Buff_B[49] + Neure_Buff_A[neure_cnt] * Weight_Lay[]
+					//Neure_Buff_B[49] <= Neure_Buff_B[49] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire + 49]
 
 					//neure_cnt <= neure_cnt + 8'd1;
 
@@ -134,7 +139,7 @@ always @( posedge CLK or negedge RST_n ) begin
 					//layer_cnt <= layer_cnt + 8'd1
 					//neure_cnt <= 8'd0;
 					
-					/*激活*/
+					/* 激活  建议Q级数查表法 */
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] * Sign_ROM
 					//Neure_Buff_B[1] <= Neure_Buff_B[0] * Sign_ROM
 					//...
