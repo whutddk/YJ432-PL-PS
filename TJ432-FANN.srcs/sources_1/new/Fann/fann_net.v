@@ -65,8 +65,8 @@ reg [18 * MAX_BANDWIDTH - 1 : 0] Weight_Lay;
 
 
 /* Q24 -16777216~16777215 */
-reg [24:0] Neure_Buff_A[ 0 : 49 ];
-reg [24:0] Neure_Buff_B[ 0 : 49 ];
+reg [24:0] Neure_Buff_A[ 0 : MAX_BANDWIDTH - 1 ];
+reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
 
 /* Q17 -131072~131071 */
 
@@ -103,12 +103,47 @@ always @( posedge CLK or negedge RST_n ) begin
 
 
 
-				end // if ( layer_cnt[0]  == 1'b0 )ÂÅ∂Êï∞Â±?
+				end // if ( layer_cnt[0]  == 1'b0 ) even layer
 
 				else begin	// odd LAYER
 					/* last layer neure data has been put in buff A*/
 					/* this layer neure data should be put into buff B*/
 					
+					
+
+					neure_cnt <= neure_cnt + 8'd1;
+
+					begin:  DEAL_WITH_ROM_ADDRESS
+						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
+							Activation_ROM_Addr <= Neure_Buff_A[LAYERX_NEURE_OFFSET + neure_cnt];
+							Weight_ROM_Addr <= LAYERX_NEURE_OFFSET + neure_cnt;
+						end
+					end
+
+					begin: CALCULATE
+						if ( neure_cnt == 8'd0 ) begin
+							Mult_C_BUS_Reg <= {48 * MAX_BANDWIDTH{1'b0}};
+						end
+						else begin
+							Mult_C_BUS_Reg <= Mult_P_BUS; //adder sum reload 
+						end
+					end
+
+					if ( neure_cnt == NEURE_LAYx_num + 1 && layer_cnt == 
+						|| neure_cnt == && 
+						|| ) begin
+						Neure_Buff_B[0] <= Mult_P_BUS[:];
+								...
+						Neure_Buff_B[49] <= Mult_P_BUS[:];
+
+						neure_cnt <= 8'd0;
+
+						layer_cnt <= layer_cnt + 7'd1;	//it 's in hidden layer ,so it unnecessary to check if is the output layer
+					end
+
+
+
+
 					/* mult and add†*/
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire]
 					// ...
