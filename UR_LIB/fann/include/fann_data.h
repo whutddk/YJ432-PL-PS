@@ -541,6 +541,7 @@ struct fann
 	 */
 	enum fann_train_enum training_algorithm;
 
+#ifdef FIXEDFANN
 	/* the decimal_point, used for shifting the fix point
 	 * in fixed point integer operatons.
 	 */
@@ -561,7 +562,7 @@ struct fann
 	fann_type sigmoid_values[6];
 	fann_type sigmoid_symmetric_results[6];
 	fann_type sigmoid_symmetric_values[6];
-
+#endif
 
 	/* Total number of connections.
 	 * very useful, because the actual connections
@@ -764,6 +765,39 @@ struct fann
 	 */
 	fann_type *prev_weights_deltas;
 	
+#ifndef FIXEDFANN
+	/* Arithmetic mean used to remove steady component in input data.  */
+	float *scale_mean_in;
+
+	/* Standart deviation used to normalize input data (mostly to [-1;1]). */
+	float *scale_deviation_in;
+
+	/* User-defined new minimum for input data.
+	 * Resulting data values may be less than user-defined minimum. 
+	 */
+	float *scale_new_min_in;
+
+	/* Used to scale data to user-defined new maximum for input data.
+	 * Resulting data values may be greater than user-defined maximum. 
+	 */
+	float *scale_factor_in;
+	
+	/* Arithmetic mean used to remove steady component in output data.  */
+	float *scale_mean_out;
+
+	/* Standart deviation used to normalize output data (mostly to [-1;1]). */
+	float *scale_deviation_out;
+
+	/* User-defined new minimum for output data.
+	 * Resulting data values may be less than user-defined minimum. 
+	 */
+	float *scale_new_min_out;
+
+	/* Used to scale data to user-defined new maximum for output data.
+	 * Resulting data values may be greater than user-defined maximum. 
+	 */
+	float *scale_factor_out;
+#endif
 };
 
 /* Type: fann_connection
