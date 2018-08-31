@@ -574,7 +574,7 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 	struct fann_neuron *first_neuron = ann->first_layer->first_neuron;
 
 #ifdef FIXEDFANN
-	int32_t multiplier = ann->multiplier;
+	int32_tmultiplier = ann->multiplier;
 	uint32_t decimal_point = ann->decimal_point;
 
 	/* values used for the stepwise linear sigmoid function */
@@ -1856,7 +1856,7 @@ void fann_enable_seed_rand()
  */
 void fann_seed_rand()
 {
-
+#ifndef _WIN32
 	FILE *fp = fopen("/dev/urandom", "r");
 	uint32_t foo;
 	struct timeval t;
@@ -1884,6 +1884,11 @@ void fann_seed_rand()
     if(FANN_SEED_RAND) {
         srand(foo);
     }
-
+#else
+	/* COMPAT_TIME REPLACEMENT */
+    if(FANN_SEED_RAND) {
+    	srand(GetTickCount());
+    }
+#endif
 }
 

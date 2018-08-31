@@ -37,8 +37,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* Group: Creation, Destruction & Execution */
 	
 #ifndef FANN_INCLUDE
-
-#define FIXEDFANN
 /* just to allow for inclusion of fann.h in normal stuations where only floats are needed */ 
 #ifdef FIXEDFANN
 #include "fixedfann.h"
