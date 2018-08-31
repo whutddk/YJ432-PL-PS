@@ -66,6 +66,28 @@ struct fann_train_data
 /* Section: FANN Training */
 
 /* Group: Training */
+
+#ifndef FIXEDFANN
+/* Function: fann_train
+
+   Train one iteration with a set of inputs, and a set of desired outputs.
+   This training is always incremental training (see <fann_train_enum>), since
+   only one pattern is presented.
+   
+   Parameters:
+   	ann - The neural network structure
+   	input - an array of inputs. This array must be exactly <fann_get_num_input> long.
+   	desired_output - an array of desired outputs. This array must be exactly <fann_get_num_output> long.
+   	
+   	See also:
+   		<fann_train_on_data>, <fann_train_epoch>
+   	
+   	This function appears in FANN >= 1.0.0.
+ */ 
+void fann_train(struct fann *ann, fann_type * input,
+									   fann_type * desired_output);
+
+#endif	/* NOT FIXEDFANN */
 	
 /* Function: fann_test
    Test with a set of inputs, and a set of desired outputs.
@@ -124,6 +146,73 @@ uint32_t fann_get_bit_fail(struct fann *ann);
 void fann_reset_MSE(struct fann *ann);
 
 /* Group: Training Data Training */
+
+#ifndef FIXEDFANN
+	
+/* Function: fann_train_on_data
+
+   Trains on an entire dataset, for a period of time. 
+   
+   This training uses the training algorithm chosen by <fann_set_training_algorithm>,
+   and the parameters set for these training algorithms.
+   
+   Parameters:
+   		ann - The neural network
+   		data - The data, which should be used during training
+   		max_epochs - The maximum number of epochs the training should continue
+   		epochs_between_reports - The number of epochs between printing a status report to stdout.
+   			A value of zero means no reports should be printed.
+   		desired_error - The desired <fann_get_MSE> or <fann_get_bit_fail>, depending on which stop function
+   			is chosen by <fann_set_train_stop_function>.
+
+	Instead of printing out reports every epochs_between_reports, a callback function can be called 
+	(see <fann_set_callback>).
+	
+	See also:
+		<fann_train_on_file>, <fann_train_epoch>, <Parameters>
+
+	This function appears in FANN >= 1.0.0.
+*/ 
+void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
+											   float desired_error);
+
+/* Function: fann_train_on_file
+   
+   Does the same as <fann_train_on_data>, but reads the training data directly from a file.
+   
+   See also:
+   		<fann_train_on_data>
+
+	This function appears in FANN >= 1.0.0.
+*/ 
+void fann_train_on_file(struct fann *ann, const char *filename,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
+											   float desired_error);
+
+/* Function: fann_train_epoch
+   Train one epoch with a set of training data.
+   
+    Train one epoch with the training data stored in data. One epoch is where all of 
+    the training data is considered exactly once.
+
+	This function returns the MSE error as it is calculated either before or during 
+	the actual training. This is not the actual MSE after the training epoch, but since 
+	calculating this will require to go through the entire training set once more, it is 
+	more than adequate to use this value during training.
+
+	The training algorithm used by this function is chosen by the <fann_set_training_algorithm> 
+	function.
+	
+	See also:
+		<fann_train_on_data>, <fann_test_data>
+		
+	This function appears in FANN >= 1.2.0.
+ */ 
+float fann_train_epoch(struct fann *ann, struct fann_train_data *data);
+#endif	/* NOT FIXEDFANN */
 
 /* Function: fann_test_data
   
@@ -282,6 +371,211 @@ fann_type * fann_get_train_output(struct fann_train_data * data, uint32_t positi
    This function appears in FANN >= 1.1.0.
  */ 
 void fann_shuffle_train_data(struct fann_train_data *train_data);
+
+#ifndef FIXEDFANN
+
+/* Function: fann_get_min_train_input
+
+   Get the minimum value of all in the input data
+
+   This function appears in FANN >= 2.3.0
+*/
+fann_type fann_get_min_train_input(struct fann_train_data *train_data);
+
+/* Function: fann_get_max_train_input
+
+   Get the maximum value of all in the input data
+
+   This function appears in FANN >= 2.3.0
+*/
+fann_type fann_get_max_train_input(struct fann_train_data *train_data);
+
+/* Function: fann_get_min_train_output
+
+   Get the minimum value of all in the output data
+
+   This function appears in FANN >= 2.3.0
+*/
+fann_type fann_get_min_train_output(struct fann_train_data *train_data);
+
+/* Function: fann_get_max_train_output
+
+   Get the maximum value of all in the output data
+
+   This function appears in FANN >= 2.3.0
+*/
+fann_type fann_get_max_train_output(struct fann_train_data *train_data);
+
+
+/* Function: fann_scale_train
+
+   Scale input and output data based on previously calculated parameters.
+   
+   Parameters:
+     ann      - ann for which trained parameters were calculated before
+     data     - training data that needs to be scaled
+     
+   See also:
+   	<fann_descale_train>, <fann_set_scaling_params>
+
+    This function appears in FANN >= 2.1.0
+*/
+void fann_scale_train( struct fann *ann, struct fann_train_data *data );
+
+/* Function: fann_descale_train
+
+   Descale input and output data based on previously calculated parameters.
+   
+   Parameters:
+     ann      - ann for which trained parameters were calculated before
+     data     - training data that needs to be descaled
+     
+   See also:
+   	<fann_scale_train>, <fann_set_scaling_params>
+
+    This function appears in FANN >= 2.1.0
+ */
+void fann_descale_train( struct fann *ann, struct fann_train_data *data );
+
+/* Function: fann_set_input_scaling_params
+
+   Calculate input scaling parameters for future use based on training data.
+   
+   Parameters:
+   	 ann           - ann for which parameters need to be calculated
+   	 data          - training data that will be used to calculate scaling parameters
+   	 new_input_min - desired lower bound in input data after scaling (not strictly followed)
+   	 new_input_max - desired upper bound in input data after scaling (not strictly followed)
+   	 
+   See also:
+   	 <fann_set_output_scaling_params>
+
+    This function appears in FANN >= 2.1.0
+ */
+int32_t fann_set_input_scaling_params(
+	struct fann *ann,
+	const struct fann_train_data *data,
+	float new_input_min,
+	float new_input_max);
+
+/* Function: fann_set_output_scaling_params
+
+   Calculate output scaling parameters for future use based on training data.
+   
+   Parameters:
+   	 ann            - ann for which parameters need to be calculated
+   	 data           - training data that will be used to calculate scaling parameters
+   	 new_output_min - desired lower bound in output data after scaling (not strictly followed)
+   	 new_output_max - desired upper bound in output data after scaling (not strictly followed)
+   	 
+   See also:
+   	 <fann_set_input_scaling_params>
+
+    This function appears in FANN >= 2.1.0
+ */
+int32_t fann_set_output_scaling_params(
+	struct fann *ann,
+	const struct fann_train_data *data,
+	float new_output_min,
+	float new_output_max);
+
+/* Function: fann_set_scaling_params
+
+   Calculate input and output scaling parameters for future use based on training data.
+
+   Parameters:
+   	 ann            - ann for which parameters need to be calculated
+   	 data           - training data that will be used to calculate scaling parameters
+   	 new_input_min  - desired lower bound in input data after scaling (not strictly followed)
+   	 new_input_max  - desired upper bound in input data after scaling (not strictly followed)
+   	 new_output_min - desired lower bound in output data after scaling (not strictly followed)
+   	 new_output_max - desired upper bound in output data after scaling (not strictly followed)
+   	 
+   See also:
+   	 <fann_set_input_scaling_params>, <fann_set_output_scaling_params>
+
+    This function appears in FANN >= 2.1.0
+ */
+int32_t fann_set_scaling_params(
+	struct fann *ann,
+	const struct fann_train_data *data,
+	float new_input_min,
+	float new_input_max,
+	float new_output_min,
+	float new_output_max);
+
+/* Function: fann_clear_scaling_params
+
+   Clears scaling parameters.
+   
+   Parameters:
+     ann - ann for which to clear scaling parameters
+
+    This function appears in FANN >= 2.1.0
+ */
+int32_t fann_clear_scaling_params(struct fann *ann);
+
+/* Function: fann_scale_input
+
+   Scale data in input vector before feeding it to ann based on previously calculated parameters.
+   
+   Parameters:
+     ann          - for which scaling parameters were calculated
+     input_vector - input vector that will be scaled
+   
+   See also:
+     <fann_descale_input>, <fann_scale_output>
+
+    This function appears in FANN >= 2.1.0
+*/
+void fann_scale_input( struct fann *ann, fann_type *input_vector );
+
+/* Function: fann_scale_output
+
+   Scale data in output vector before feeding it to ann based on previously calculated parameters.
+   
+   Parameters:
+     ann           - for which scaling parameters were calculated
+     output_vector - output vector that will be scaled
+   
+   See also:
+     <fann_descale_output>, <fann_scale_input>
+
+    This function appears in FANN >= 2.1.0
+ */
+void fann_scale_output( struct fann *ann, fann_type *output_vector );
+
+/* Function: fann_descale_input
+
+   Scale data in input vector after getting it from ann based on previously calculated parameters.
+   
+   Parameters:
+     ann          - for which scaling parameters were calculated
+     input_vector - input vector that will be descaled
+   
+   See also:
+     <fann_scale_input>, <fann_descale_output>
+
+    This function appears in FANN >= 2.1.0
+ */
+void fann_descale_input( struct fann *ann, fann_type *input_vector );
+
+/* Function: fann_descale_output
+
+   Scale data in output vector after getting it from ann based on previously calculated parameters.
+   
+   Parameters:
+     ann           - for which scaling parameters were calculated
+     output_vector - output vector that will be descaled
+   
+   See also:
+     <fann_scale_output>, <fann_descale_input>
+
+    This function appears in FANN >= 2.1.0
+ */
+void fann_descale_output( struct fann *ann, fann_type *output_vector );
+
+#endif
 
 /* Function: fann_scale_input_train_data
    

@@ -97,6 +97,222 @@ float fann_test_data(struct fann *ann, struct fann_train_data *data)
 	return fann_get_MSE(ann);
 }
 
+#ifndef FIXEDFANN
+
+/*
+ * Internal train function 
+ */
+float fann_train_epoch_quickprop(struct fann *ann, struct fann_train_data *data)
+{
+	uint32_t i;
+
+	if(ann->prev_train_slopes == NULL)
+	{
+		fann_clear_train_arrays(ann);
+	}
+
+	fann_reset_MSE(ann);
+
+	for(i = 0; i < data->num_data; i++)
+	{
+		fann_run(ann, data->input[i]);
+		fann_compute_MSE(ann, data->output[i]);
+		fann_backpropagate_MSE(ann);
+		fann_update_slopes_batch(ann, ann->first_layer + 1, ann->last_layer - 1);
+	}
+	fann_update_weights_quickprop(ann, data->num_data, 0, ann->total_connections);
+
+	return fann_get_MSE(ann);
+}
+
+/*
+ * Internal train function 
+ */
+float fann_train_epoch_irpropm(struct fann *ann, struct fann_train_data *data)
+{
+	uint32_t i;
+
+	if(ann->prev_train_slopes == NULL)
+	{
+		fann_clear_train_arrays(ann);
+	}
+
+	fann_reset_MSE(ann);
+
+	for(i = 0; i < data->num_data; i++)
+	{
+		fann_run(ann, data->input[i]);
+		fann_compute_MSE(ann, data->output[i]);
+		fann_backpropagate_MSE(ann);
+		fann_update_slopes_batch(ann, ann->first_layer + 1, ann->last_layer - 1);
+	}
+
+	fann_update_weights_irpropm(ann, 0, ann->total_connections);
+
+	return fann_get_MSE(ann);
+}
+
+/*
+ * Internal train function 
+ */
+float fann_train_epoch_sarprop(struct fann *ann, struct fann_train_data *data)
+{
+	uint32_t i;
+
+	if(ann->prev_train_slopes == NULL)
+	{
+		fann_clear_train_arrays(ann);
+	}
+
+	fann_reset_MSE(ann);
+
+	for(i = 0; i < data->num_data; i++)
+	{
+		fann_run(ann, data->input[i]);
+		fann_compute_MSE(ann, data->output[i]);
+		fann_backpropagate_MSE(ann);
+		fann_update_slopes_batch(ann, ann->first_layer + 1, ann->last_layer - 1);
+	}
+
+	fann_update_weights_sarprop(ann, ann->sarprop_epoch, 0, ann->total_connections);
+
+	++(ann->sarprop_epoch);
+
+	return fann_get_MSE(ann);
+}
+
+/*
+ * Internal train function 
+ */
+float fann_train_epoch_batch(struct fann *ann, struct fann_train_data *data)
+{
+	uint32_t i;
+
+	fann_reset_MSE(ann);
+
+	for(i = 0; i < data->num_data; i++)
+	{
+		fann_run(ann, data->input[i]);
+		fann_compute_MSE(ann, data->output[i]);
+		fann_backpropagate_MSE(ann);
+		fann_update_slopes_batch(ann, ann->first_layer + 1, ann->last_layer - 1);
+	}
+
+	fann_update_weights_batch(ann, data->num_data, 0, ann->total_connections);
+
+	return fann_get_MSE(ann);
+}
+
+/*
+ * Internal train function 
+ */
+float fann_train_epoch_incremental(struct fann *ann, struct fann_train_data *data)
+{
+	uint32_t i;
+
+	fann_reset_MSE(ann);
+
+	for(i = 0; i != data->num_data; i++)
+	{
+		fann_train(ann, data->input[i], data->output[i]);
+	}
+
+	return fann_get_MSE(ann);
+}
+
+/*
+ * Train for one epoch with the selected training algorithm 
+ */
+float fann_train_epoch(struct fann *ann, struct fann_train_data *data)
+{
+	if(fann_check_input_output_sizes(ann, data) == -1)
+		return 0;
+	
+	switch (ann->training_algorithm)
+	{
+	case FANN_TRAIN_QUICKPROP:
+		return fann_train_epoch_quickprop(ann, data);
+	case FANN_TRAIN_RPROP:
+		return fann_train_epoch_irpropm(ann, data);
+	case FANN_TRAIN_SARPROP:
+		return fann_train_epoch_sarprop(ann, data);
+	case FANN_TRAIN_BATCH:
+		return fann_train_epoch_batch(ann, data);
+	case FANN_TRAIN_INCREMENTAL:
+		return fann_train_epoch_incremental(ann, data);
+	}
+	return 0;
+}
+
+void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
+											   float desired_error)
+{
+	float error;
+	uint32_t i;
+	int32_t desired_error_reached;
+
+#ifdef DEBUG
+	printf("Training with %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
+#endif
+
+	if(epochs_between_reports && ann->callback == NULL)
+	{
+		printf("Max epochs %8d. Desired error: %.10f.\n", max_epochs, desired_error);
+	}
+
+	for(i = 1; i <= max_epochs; i++)
+	{
+		/*
+		 * train 
+		 */
+		error = fann_train_epoch(ann, data);
+		desired_error_reached = fann_desired_error_reached(ann, desired_error);
+
+		/*
+		 * print current output 
+		 */
+		if(epochs_between_reports &&
+		   (i % epochs_between_reports == 0 || i == max_epochs || i == 1 ||
+			desired_error_reached == 0))
+		{
+			if(ann->callback == NULL)
+			{
+				printf("Epochs     %8d. Current error: %.10f. Bit fail %d.\n", i, error,
+					   ann->num_bit_fail);
+			}
+			else if(((*ann->callback)(ann, data, max_epochs, epochs_between_reports, 
+									  desired_error, i)) == -1)
+			{
+				/*
+				 * you can break the training by returning -1 
+				 */
+				break;
+			}
+		}
+
+		if(desired_error_reached == 0)
+			break;
+	}
+}
+
+void fann_train_on_file(struct fann *ann, const char *filename,
+											   uint32_t max_epochs,
+											   uint32_t epochs_between_reports,
+											   float desired_error)
+{
+	struct fann_train_data *data = fann_read_train_from_file(filename);
+
+	if(data == NULL)
+	{
+		return;
+	}
+	fann_train_on_data(ann, data, max_epochs, epochs_between_reports, desired_error);
+	fann_destroy_train(data);
+}
+
+#endif
 
 /*
  * shuffles training data, randomizing the order 
@@ -525,6 +741,9 @@ int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, c
 	uint32_t i, j;
 	int32_t retval = 0;
 
+#ifndef FIXEDFANN
+	uint32_t multiplier = 1 << decimal_point;
+#endif
 
 	fprintf(file, "%u %u %u\n", data->num_data, data->num_input, data->num_output);
 
@@ -532,13 +751,51 @@ int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, c
 	{
 		for(j = 0; j < num_input; j++)
 		{
+#ifndef FIXEDFANN
+			if(save_as_fixed)
+			{
+				fprintf(file, "%d ", (int) (data->input[i][j] * multiplier));
+			}
+			else
+			{
+				if(((int) floor(data->input[i][j] + 0.5) * 1000000) ==
+				   ((int) floor(data->input[i][j] * 1000000.0 + 0.5)))
+				{
+					fprintf(file, "%d ", (int) data->input[i][j]);
+				}
+				else
+				{
+					fprintf(file, "%f ", data->input[i][j]);
+				}
+			}
+#else
 			fprintf(file, FANNPRINTF " ", data->input[i][j]);
+#endif
 		}
 		fprintf(file, "\n");
 
 		for(j = 0; j < num_output; j++)
 		{
+#ifndef FIXEDFANN
+			if(save_as_fixed)
+			{
+				fprintf(file, "%d ", (int) (data->output[i][j] * multiplier));
+			}
+			else
+			{
+				if(((int) floor(data->output[i][j] + 0.5) * 1000000) ==
+				   ((int) floor(data->output[i][j] * 1000000.0 + 0.5)))
+				{
+					fprintf(file, "%d ", (int) data->output[i][j]);
+				}
+				else
+				{
+					fprintf(file, "%f ", data->output[i][j]);
+				}
+			}
+#else
 			fprintf(file, FANNPRINTF " ", data->output[i][j]);
+#endif
 		}
 		fprintf(file, "\n");
 	}
@@ -755,6 +1012,314 @@ int32_t fann_desired_error_reached(struct fann *ann, float desired_error)
 	}
 	return -1;
 }
+
+#ifndef FIXEDFANN
+/*
+ * Scale data in input vector before feed it to ann based on previously calculated parameters.
+ */
+void fann_scale_input( struct fann *ann, fann_type *input_vector )
+{
+	unsigned cur_neuron;
+	if(ann->scale_mean_in == NULL)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_SCALE_NOT_PRESENT );
+		return;
+	}
+	
+	for( cur_neuron = 0; cur_neuron < ann->num_input; cur_neuron++ )
+		input_vector[ cur_neuron ] =
+			(
+				( input_vector[ cur_neuron ] - ann->scale_mean_in[ cur_neuron ] )
+				/ ann->scale_deviation_in[ cur_neuron ]
+				- ( (fann_type)-1.0 ) /* This is old_min */
+			)
+			* ann->scale_factor_in[ cur_neuron ]
+			+ ann->scale_new_min_in[ cur_neuron ];
+}
+
+/*
+ * Scale data in output vector before feed it to ann based on previously calculated parameters.
+ */
+void fann_scale_output( struct fann *ann, fann_type *output_vector )
+{
+	unsigned cur_neuron;
+	if(ann->scale_mean_in == NULL)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_SCALE_NOT_PRESENT );
+		return;
+	}
+
+	for( cur_neuron = 0; cur_neuron < ann->num_output; cur_neuron++ )
+		output_vector[ cur_neuron ] =
+			(
+				( output_vector[ cur_neuron ] - ann->scale_mean_out[ cur_neuron ] )
+				/ ann->scale_deviation_out[ cur_neuron ]
+				- ( (fann_type)-1.0 ) /* This is old_min */
+			)
+			* ann->scale_factor_out[ cur_neuron ]
+			+ ann->scale_new_min_out[ cur_neuron ];
+}
+
+/*
+ * Descale data in input vector after based on previously calculated parameters.
+ */
+void fann_descale_input( struct fann *ann, fann_type *input_vector )
+{
+	unsigned cur_neuron;
+	if(ann->scale_mean_in == NULL)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_SCALE_NOT_PRESENT );
+		return;
+	}
+
+	for( cur_neuron = 0; cur_neuron < ann->num_input; cur_neuron++ )
+		input_vector[ cur_neuron ] =
+			(
+				(
+					input_vector[ cur_neuron ]
+					- ann->scale_new_min_in[ cur_neuron ]
+				)
+				/ ann->scale_factor_in[ cur_neuron ]
+				+ ( (fann_type)-1.0 ) /* This is old_min */
+			)
+			* ann->scale_deviation_in[ cur_neuron ]
+			+ ann->scale_mean_in[ cur_neuron ];
+}
+
+/*
+ * Descale data in output vector after get it from ann based on previously calculated parameters.
+ */
+void fann_descale_output( struct fann *ann, fann_type *output_vector )
+{
+	unsigned cur_neuron;
+	if(ann->scale_mean_in == NULL)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_SCALE_NOT_PRESENT );
+		return;
+	}
+
+	for( cur_neuron = 0; cur_neuron < ann->num_output; cur_neuron++ )
+		output_vector[ cur_neuron ] =
+			(
+				(
+					output_vector[ cur_neuron ]
+					- ann->scale_new_min_out[ cur_neuron ]
+				)
+				/ ann->scale_factor_out[ cur_neuron ]
+				+ ( (fann_type)-1.0 ) /* This is old_min */
+			)
+			* ann->scale_deviation_out[ cur_neuron ]
+			+ ann->scale_mean_out[ cur_neuron ];
+}
+
+/*
+ * Scale input and output data based on previously calculated parameters.
+ */
+void fann_scale_train( struct fann *ann, struct fann_train_data *data )
+{
+	unsigned cur_sample;
+	if(ann->scale_mean_in == NULL)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_SCALE_NOT_PRESENT );
+		return;
+	}
+	/* Check that we have good training data. */
+	if(fann_check_input_output_sizes(ann, data) == -1)
+		return;
+
+	for( cur_sample = 0; cur_sample < data->num_data; cur_sample++ )
+	{
+		fann_scale_input( ann, data->input[ cur_sample ] );
+		fann_scale_output( ann, data->output[ cur_sample ] );
+	}
+}
+
+/*
+ * Scale input and output data based on previously calculated parameters.
+ */
+void fann_descale_train( struct fann *ann, struct fann_train_data *data )
+{
+	unsigned cur_sample;
+	if(ann->scale_mean_in == NULL)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_SCALE_NOT_PRESENT );
+		return;
+	}
+	/* Check that we have good training data. */
+	if(fann_check_input_output_sizes(ann, data) == -1)
+		return;
+
+	for( cur_sample = 0; cur_sample < data->num_data; cur_sample++ )
+	{
+		fann_descale_input( ann, data->input[ cur_sample ] );
+		fann_descale_output( ann, data->output[ cur_sample ] );
+	}
+}
+
+#define SCALE_RESET( what, where, default_value )							\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )	\
+		ann->what##_##where[ cur_neuron ] = ( default_value );
+
+#define SCALE_SET_PARAM( where )																		\
+	/* Calculate mean: sum(x)/length */																	\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		ann->scale_mean_##where[ cur_neuron ] = 0.0f;													\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		for( cur_sample = 0; cur_sample < data->num_data; cur_sample++ )								\
+			ann->scale_mean_##where[ cur_neuron ] += (float)data->where##put[ cur_sample ][ cur_neuron ];\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		ann->scale_mean_##where[ cur_neuron ] /= (float)data->num_data;									\
+	/* Calculate deviation: sqrt(sum((x-mean)^2)/length) */												\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		ann->scale_deviation_##where[ cur_neuron ] = 0.0f; 												\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		for( cur_sample = 0; cur_sample < data->num_data; cur_sample++ )								\
+			ann->scale_deviation_##where[ cur_neuron ] += 												\
+				/* Another local variable in macro? Oh no! */											\
+				( 																						\
+					(float)data->where##put[ cur_sample ][ cur_neuron ] 								\
+					- ann->scale_mean_##where[ cur_neuron ] 											\
+				) 																						\
+				*																						\
+				( 																						\
+					(float)data->where##put[ cur_sample ][ cur_neuron ] 								\
+					- ann->scale_mean_##where[ cur_neuron ] 											\
+				); 																						\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		ann->scale_deviation_##where[ cur_neuron ] =													\
+			sqrtf( ann->scale_deviation_##where[ cur_neuron ] / (float)data->num_data ); 			\
+	/* Calculate factor: (new_max-new_min)/(old_max(1)-old_min(-1)) */									\
+	/* Looks like we dont need whole array of factors? */												\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		ann->scale_factor_##where[ cur_neuron ] =														\
+			( new_##where##put_max - new_##where##put_min )												\
+			/																							\
+			( 1.0f - ( -1.0f ) );																		\
+	/* Copy new minimum. */																				\
+	/* Looks like we dont need whole array of new minimums? */											\
+	for( cur_neuron = 0; cur_neuron < ann->num_##where##put; cur_neuron++ )								\
+		ann->scale_new_min_##where[ cur_neuron ] = new_##where##put_min;
+
+int32_t fann_set_input_scaling_params(
+	struct fann *ann,
+	const struct fann_train_data *data,
+	float new_input_min,
+	float new_input_max)
+{
+	unsigned cur_neuron, cur_sample;
+
+	/* Check that we have good training data. */
+	/* No need for if( !params || !ann ) */
+	if(data->num_input != ann->num_input
+	   || data->num_output != ann->num_output)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_TRAIN_DATA_MISMATCH );
+		return -1;
+	}
+
+	if(ann->scale_mean_in == NULL)
+		fann_allocate_scale(ann);
+	
+	if(ann->scale_mean_in == NULL)
+		return -1;
+		
+	if( !data->num_data )
+	{
+		SCALE_RESET( scale_mean,		in,	0.0 )
+		SCALE_RESET( scale_deviation,	in,	1.0 )
+		SCALE_RESET( scale_new_min,		in,	-1.0 )
+		SCALE_RESET( scale_factor,		in,	1.0 )
+	}
+	else
+	{
+		SCALE_SET_PARAM( in );
+	}
+
+	return 0;
+}
+
+int32_t fann_set_output_scaling_params(
+	struct fann *ann,
+	const struct fann_train_data *data,
+	float new_output_min,
+	float new_output_max)
+{
+	unsigned cur_neuron, cur_sample;
+
+	/* Check that we have good training data. */
+	/* No need for if( !params || !ann ) */
+	if(data->num_input != ann->num_input
+	   || data->num_output != ann->num_output)
+	{
+		fann_error( (struct fann_error *) ann, FANN_E_TRAIN_DATA_MISMATCH );
+		return -1;
+	}
+
+	if(ann->scale_mean_out == NULL)
+		fann_allocate_scale(ann);
+	
+	if(ann->scale_mean_out == NULL)
+		return -1;
+		
+	if( !data->num_data )
+	{
+		SCALE_RESET( scale_mean,		out,	0.0 )
+		SCALE_RESET( scale_deviation,	out,	1.0 )
+		SCALE_RESET( scale_new_min,		out,	-1.0 )
+		SCALE_RESET( scale_factor,		out,	1.0 )
+	}
+	else
+	{
+		SCALE_SET_PARAM( out );
+	}
+
+	return 0;
+}
+
+/*
+ * Calculate scaling parameters for future use based on training data.
+ */
+int32_t fann_set_scaling_params(
+	struct fann *ann,
+	const struct fann_train_data *data,
+	float new_input_min,
+	float new_input_max,
+	float new_output_min,
+	float new_output_max)
+{
+	if(fann_set_input_scaling_params(ann, data, new_input_min, new_input_max) == 0)
+		return fann_set_output_scaling_params(ann, data, new_output_min, new_output_max);
+	else
+		return -1;
+}
+
+/*
+ * Clears scaling parameters.
+ */
+int32_t fann_clear_scaling_params(struct fann *ann)
+{
+	unsigned cur_neuron;
+
+	if(ann->scale_mean_out == NULL)
+		fann_allocate_scale(ann);
+	
+	if(ann->scale_mean_out == NULL)
+		return -1;
+	
+	SCALE_RESET( scale_mean,		in,	0.0 )
+	SCALE_RESET( scale_deviation,	in,	1.0 )
+	SCALE_RESET( scale_new_min,		in,	-1.0 )
+	SCALE_RESET( scale_factor,		in,	1.0 )
+
+	SCALE_RESET( scale_mean,		out,	0.0 )
+	SCALE_RESET( scale_deviation,	out,	1.0 )
+	SCALE_RESET( scale_new_min,		out,	-1.0 )
+	SCALE_RESET( scale_factor,		out,	1.0 )
+	
+	return 0;
+}
+
+#endif
 
 int32_t fann_check_input_output_sizes(struct fann *ann, struct fann_train_data *data)
 {
