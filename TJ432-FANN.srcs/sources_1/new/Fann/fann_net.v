@@ -84,8 +84,13 @@ assign Address_Wire = ( neure_cnt << 4 ) + ( neure_cnt << 1 );
 //    genvar i;
 
 //endgenerate
+
+/* Q24 -16777216~16777215 */
 reg [24:0] Neure_Buff_A[ 0 : MAX_BANDWIDTH - 1 ];
 reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
+
+/* Q17 -131072~131071 */
+
 
 always @( posedge CLK or negedge RST_n ) begin
 	if ( !RST_n ) begin

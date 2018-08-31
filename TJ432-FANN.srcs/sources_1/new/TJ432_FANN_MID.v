@@ -1,13 +1,13 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: Wuhan university of technology
+// Engineer: RUIGE LEE
 // 
-// Create Date: 2018/08/29 14:25:32
+// Create Date: 2018/08/31 17:19:12
 // Design Name: 
-// Module Name: TJ432-FANN-TOP
-// Project Name: 
-// Target Devices: 
+// Module Name: TJ432_FANN_MID
+// Project Name: TJ432-FANN
+// Target Devices: XC7A35T
 // Tool Versions: 
 // Description: 
 // 
@@ -20,12 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module TJ432_FANN_TOP(
-    input i_sysclk
-
-
+module TJ432_FANN_MID(
+    input CLK,
+    input RST_n
     );
-
-
-
 endmodule
