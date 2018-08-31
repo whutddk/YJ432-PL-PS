@@ -40,8 +40,13 @@
 
 module fann_net (
 	input CLK,    // Clock
-	input RST_n  // Asynchronous reset active low
+	input RST_n,  // Asynchronous reset active low
 	
+	output reg [15:0] Activation_ROM_Addr,
+	output reg [8:0] Weight_ROM_Addr,
+	output reg [2399:0] Mult_C_BUS_Reg,
+
+	input [2399:0] Mult_P_BUS
 );
 
 parameter INIT_STATE = 1'b0;
