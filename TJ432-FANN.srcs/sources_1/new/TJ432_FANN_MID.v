@@ -27,41 +27,57 @@ module TJ432_FANN_MID(
 	
 wire [24:0] Activation_Fun_Y_Wire; 
 wire [899:0] Weight_BUS_Wire;
-wire [2399:0] Mult_C_BUS_Wire;
-wire [2399:0] Mult_P_BUS_Wire;
+(* DONT_TOUCH = "TRUE" *)wire [2399:0] Mult_C_BUS_Wire;
+(* DONT_TOUCH = "TRUE" *)wire [2399:0] Mult_P_BUS_Wire;
 
 
-mult_add_wrapper i_mult_adder_0(
-	.A_0(Activation_Fun_Y_Wire),				//[24:0]
-	.B_0(Weight_BUS_Wire[17:0]),				//[17:0]
-	.C_0(Mult_C_BUS_Wire[47:0]),				//[47:0]
-	.P_0(Mult_P_BUS_Wire[47:0]),				//[47:0]
-	.SUBTRACT_0(1'b0)
-);
+//mult_add_wrapper i_mult_adder_0(
+//	.A_0(Activation_Fun_Y_Wire),				//[24:0]
+//	.B_0(Weight_BUS_Wire[17:0]),				//[17:0]
+//	.C_0(Mult_C_BUS_Wire[47:0]),				//[47:0]
+//	.P_0(Mult_P_BUS_Wire[47:0]),				//[47:0]
+//	.SUBTRACT_0(1'b0)
+//);
 
-mult_add_wrapper i_mult_adder_1(
-	.A_0(Activation_Fun_Y_Wire),				//[24:0]
-	.B_0(Weight_BUS_Wire[35:18]),				//[17:0]
-	.C_0(Mult_C_BUS_Wire[95:48]),				//[47:0]
-	.P_0(Mult_P_BUS_Wire[95:48]),				//[47:0]
-	.SUBTRACT_0(1'b0)
-);
+//mult_add_wrapper i_mult_adder_1(
+//	.A_0(Activation_Fun_Y_Wire),				//[24:0]
+//	.B_0(Weight_BUS_Wire[35:18]),				//[17:0]
+//	.C_0(Mult_C_BUS_Wire[95:48]),				//[47:0]
+//	.P_0(Mult_P_BUS_Wire[95:48]),				//[47:0]
+//	.SUBTRACT_0(1'b0)
+//);
 
-mult_add_wrapper i_mult_adder_2(
-	.A_0(Activation_Fun_Y_Wire),				//[24:0]
-	.B_0(Weight_BUS_Wire[53:36]),				//[17:0]
-	.C_0(Mult_C_BUS_Wire[143:96]),				//[47:0]
-	.P_0(Mult_P_BUS_Wire[143:96]),				//[47:0]
-	.SUBTRACT_0(1'b0)
-);
+//mult_add_wrapper i_mult_adder_2(
+//	.A_0(Activation_Fun_Y_Wire),				//[24:0]
+//	.B_0(Weight_BUS_Wire[53:36]),				//[17:0]
+//	.C_0(Mult_C_BUS_Wire[143:96]),				//[47:0]
+//	.P_0(Mult_P_BUS_Wire[143:96]),				//[47:0]
+//	.SUBTRACT_0(1'b0)
+//);
 
-mult_add_wrapper i_mult_adder_3(
-	.A_0(Activation_Fun_Y_Wire),				//[24:0]
-	.B_0(Weight_BUS_Wire[71:54]),				//[17:0]
-	.C_0(Mult_C_BUS_Wire[191:144]),				//[47:0]
-	.P_0(Mult_P_BUS_Wire[191:144]),				//[47:0]
-	.SUBTRACT_0(1'b0)
-);
+//mult_add_wrapper i_mult_adder_3(
+//	.A_0(Activation_Fun_Y_Wire),				//[24:0]
+//	.B_0(Weight_BUS_Wire[71:54]),				//[17:0]
+//	.C_0(Mult_C_BUS_Wire[191:144]),				//[47:0]
+//	.P_0(Mult_P_BUS_Wire[191:144]),				//[47:0]
+//	.SUBTRACT_0(1'b0)
+//);
+
+
+
+generate
+genvar i;
+    for ( i = 0 ;i < 4 ;i = i+1 ) begin:GEN_MULT
+    mult_add_wrapper i_mult_adder_G(
+        .A_0(Activation_Fun_Y_Wire),				//[24:0]
+        .B_0(Weight_BUS_Wire[18*(i+1) - 1 : 18 * i]),				//[17:0]
+        .C_0(Mult_C_BUS_Wire[48*(i+1) - 1 : 48*i]),				//[47:0]
+        .P_0(Mult_P_BUS_Wire[48*(i+1) - 1 : 48*i]),				//[47:0]
+        .SUBTRACT_0(1'b0)
+    );
+    end
+    
+endgenerate
 
 
 wire [15:0] Activation_ROM_Addr_Wire;
