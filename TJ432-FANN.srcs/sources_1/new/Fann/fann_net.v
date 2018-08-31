@@ -59,10 +59,10 @@ reg [7:0] neure_cnt = 8'd0;
 
 
 /* USER Patameter */
-`define LAYER_NUM  8'd9 //10 layer
+parameter LAYER_NUM=8'd9; //10 layer
 
-`define NEURE_LAY0 8'd8	//input layer:number of input
-`define NEURE_LAY1 8'd50
+parameter NEURE_LAY0=8'd8;	//input layer:number of input
+parameter NEURE_LAY1= 8'd50;
 `define NEURE_LAY2 8'd50
 `define NEURE_LAY3 8'd50
 `define NEURE_LAY4 8'd50
@@ -72,12 +72,12 @@ reg [7:0] neure_cnt = 8'd0;
 `define NEURE_LAY8 8'd50
 `define NEURE_LAY9 8'd4	//output layer:number of output
 
-`define MAX_BANDWIDTH 	50
+//`define MAX_BANDWIDTH 	50
 
-//放在一起方便寻址
+//放在�?起方便寻�?
 // reg [17:0] Weight_Lay[0:400 + 2500 * 7 + 200 - 1];
 
-/*打一拍直接把下一拍需要的所有数据读出来 18bit*50 */
+/*打一拍直接把下一拍需要的�?有数据读出来 18bit*50 */
 reg [900:0] Weight_Lay;
 
 wire [7:0] Address_Wire;
@@ -91,8 +91,8 @@ assign Address_Wire = ( neure_cnt << 4 ) + ( neure_cnt << 1 );
 //endgenerate
 
 /* Q24 -16777216~16777215 */
-reg [24:0] Neure_Buff_A[ 0 : MAX_BANDWIDTH - 1 ];
-reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
+reg [24:0] Neure_Buff_A[ 0 : 49 ];
+reg [24:0] Neure_Buff_B[ 0 : 49 ];
 
 /* Q17 -131072~131071 */
 
@@ -122,18 +122,18 @@ always @( posedge CLK or negedge RST_n ) begin
 			end // else if ( layer_cnt == LAYER_NUM ) //Final Layer
 
 			else begin // Hiden Layer
-				if ( layer_cnt[0]  == 1'b0 ) begin // 偶数层
-					//上一层神经元装在A buff中
-					//本层神经元装在B buff中
+				if ( layer_cnt[0]  == 1'b0 ) begin // 偶数�?
+					//上一层神经元装在A buff�?
+					//本层神经元装在B buff�?
 					
 
 
 
-				end // if ( layer_cnt[0]  == 1'b0 )偶数层
+				end // if ( layer_cnt[0]  == 1'b0 )偶数�?
 
-				else begin	//奇数层
-					/*上一层神经元装在B buff中*/
-					/*本层神经元装在A buff中*/
+				else begin	//奇数�?
+					/*上一层神经元装在B buff�?*/
+					/*本层神经元装在A buff�?*/
 					
 					/*乘和累加*/
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire]
@@ -149,7 +149,7 @@ always @( posedge CLK or negedge RST_n ) begin
 					//layer_cnt <= layer_cnt + 8'd1
 					//neure_cnt <= 8'd0;
 					
-					/* 激活  建议Q级数查表法 */
+					/* �?�?  建议Q级数查表�? */
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] * Sign_ROM
 					//Neure_Buff_B[1] <= Neure_Buff_B[0] * Sign_ROM
 					//...
@@ -157,7 +157,7 @@ always @( posedge CLK or negedge RST_n ) begin
 					//end
 
 
-				end // else 奇数层
+				end // else 奇数�?
 
 			end // else // Hiden Layer
 
