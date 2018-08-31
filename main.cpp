@@ -10,59 +10,49 @@ extern void itac_app();
 
 //上位机任务
 Thread FC_thread(osPriorityBelowNormal);
+
 extern void FC_app();
-
-//实时控制
-Thread CTL_thread(osPriorityRealtime);
-extern void CTL_app();
-
-
 extern void YJ_FB_init();
-extern int flexbus_test();
-
+extern void play_mp3(char* filename);
 
 extern Serial fc;
 
 
 
-uint32_t flexbus_data[5];
+SDHCBlockDevice sd;
+FATFileSystem fs("fs");
 
 
 
+//天际系列
 int main(void)
 {
-	// buzzer = 0;
 
-	YJ_FB_init();
+	fs.mount(&sd);
+
+	// buzzer = 0;
+	wait_fpga_init();
+	wait(1);
+
+	YJ_FB_init();	
 	fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
 	ITAC_thread.start(itac_app);
-	FC_thread.start(FC_app);
+	// FC_thread.start(FC_app);
+
+	*(LED_FRE_REG) = 50000;
+	*(BZ_FRE_REG) = 1000000000;
+	*(RED_DUTY_REG) = 30000;
+	*(GREEN_DUTY_REG) = 20000;
+	*(BLUE_DUTY_REG) = 40000;
 
 	bz_set(ready);
 
-	CTL_thread.start(CTL_app);
-
-	// *(bzled_reg + 0) = 50000;
-	// *(bzled_reg + 1) = 50000;
-	// *(bzled_reg + 2) = 50000;
-	// *(bzled_reg + 3) = 70000;
-	// *(bzled_reg + 4) = 20000;
-	// 
-	// wait(0.05);
-	// 	*(pwm0_reg + 0) = 10000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 1) = 9000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 2) = 8000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 3) = 7000;
-	// 	wait(0.05);
-	// 	*(pwm0_reg + 4) = 6000;
+	play_mp3("mist.mp3");
 	while(1)
 	{		
 		//bz_set(datarec);
-		
+
 
 		wait(1);
 

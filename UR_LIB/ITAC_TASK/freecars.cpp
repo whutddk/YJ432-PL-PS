@@ -58,29 +58,6 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-	ctl.motto.Kp_s = UartData[0];
-	ctl.motto.Kd_s = UartData[1];
-	ctl.motto.Kp_m = UartData[2];
-	ctl.motto.Kd_m = UartData[3];
-	ctl.motto.Kp_b = UartData[4];
-	ctl.motto.Kd_b = UartData[5];
-
-	// ctl.pend.Kp_m = 6;//UartData[2]; 
-	// ctl.pend.Kd_m = 208;//UartData[3];
-		
-	// ctl.pend.Kp_b = 6;//UartData[4]; 
-	// ctl.pend.Kd_b = 208;//UartData[5];
-
-	ctl.pend.aim =(int32_t)( UartData[6]*1000);
-
-	ctl.pend.Kp_s = ctl.pend.Kp_m = ctl.pend.Kp_b = UartData[7];
-	ctl.pend.Kd_s = ctl.pend.Kd_m = ctl.pend.Kd_b = UartData[8];
-
-	// ctl.motto.Kp_m = UartData[2];
-	// ctl.motto.Kd_m = UartData[3];
-
-	// ctl.motto.Kp_b = UartData[4];
-	// ctl.motto.Kd_b = UartData[5];
 
 	bz_set(datarec);
 }
@@ -97,10 +74,10 @@ static void UartCmd(uint8_t cmdnum,uint8_t cmddata)///
 		case(11):break;//F11
 		case(12):break;//F12
 		case(100):break;//PAUSE
-		case(101):ctl.flag_end = 0;break;//HOME
+		case(101):break;//HOME
 		case(102):break;//PG UP
 		case(103):break;//PF DN
-		case(104):ctl.flag_end = 1;break;//END
+		case(104):break;//END
 // #if FUZZY
 //     case(105):send_rule();break;
 //     case(106):send_delta();break;
