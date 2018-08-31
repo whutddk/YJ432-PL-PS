@@ -127,8 +127,9 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	uint32_t connections_per_neuron, allocated_connections;
 	uint32_t random_number, found_connection, tmp_con;
 
+#ifdef FIXEDFANN
 	uint32_t multiplier;
-
+#endif
 	if(connection_rate > 1)
 	{
 		connection_rate = 1;
@@ -146,11 +147,12 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	}
 
 	ann->connection_rate = connection_rate;
-
+#ifdef FIXEDFANN
 	multiplier = ann->multiplier;
 
 	/*提前算好步长有少量log和浮点运算*/
 	fann_update_stepwise(ann);
+#endif
 
 	/* determine how many neurons there should be in each layer */
 	i = 0;
@@ -208,7 +210,11 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 			layer_it->first_neuron[i].last_con = ann->total_connections + allocated_connections;
 
 			layer_it->first_neuron[i].activation_function = FANN_SIGMOID_STEPWISE;
+#ifdef FIXEDFANN
 			layer_it->first_neuron[i].activation_steepness = ann->multiplier / 2;
+#else
+			layer_it->first_neuron[i].activation_steepness = 0.5;
+#endif
 
 			if(allocated_connections < (num_connections * (i + 1)) / num_neurons_out)
 			{
@@ -433,8 +439,9 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 	uint32_t i;
 	uint32_t num_neurons_in, num_neurons_out;
 
+#ifdef FIXEDFANN
 	uint32_t multiplier;
-
+#endif
 	fann_seed_rand();
 
 	/* allocate the general structure */
@@ -447,9 +454,10 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 
 	ann->connection_rate = 1;
 	ann->network_type = FANN_NETTYPE_SHORTCUT;
-
+#ifdef FIXEDFANN
 	multiplier = ann->multiplier;
 	fann_update_stepwise(ann);
+#endif
 
 	/* determine how many neurons there should be in each layer */
 	i = 0;
@@ -500,8 +508,11 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 			layer_it->first_neuron[i].last_con = ann->total_connections;
 
 			layer_it->first_neuron[i].activation_function = FANN_SIGMOID_STEPWISE;
-
+#ifdef FIXEDFANN
 			layer_it->first_neuron[i].activation_steepness = ann->multiplier / 2;
+#else
+			layer_it->first_neuron[i].activation_steepness = 0.5;
+#endif
 		}
 
 #ifdef DEBUG
