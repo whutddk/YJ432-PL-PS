@@ -44,9 +44,9 @@ module fann_net (
 	
 	output reg [15:0] Activation_ROM_Addr,
 	output reg [8:0] Weight_ROM_Addr,
-	output reg [2399:0] Mult_C_BUS_Reg,
 
-	input [2399:0] Mult_P_BUS
+	output reg [48 * MAX_BANDWIDTH - 1:0] Mult_C_BUS_Reg,
+	input [48 * MAX_BANDWIDTH - 1:0] Mult_P_BUS
 );
 
 parameter INIT_STATE = 1'b0;
@@ -58,37 +58,11 @@ reg [7:0] layer_cnt = 8'd0;
 reg [7:0] neure_cnt = 8'd0;
 
 
-/* USER Patameter */
-parameter LAYER_NUM=8'd9; //10 layer
-
-parameter NEURE_LAY0=8'd8;	//input layer:number of input
-parameter NEURE_LAY1= 8'd50;
-`define NEURE_LAY2 8'd50
-`define NEURE_LAY3 8'd50
-`define NEURE_LAY4 8'd50
-`define NEURE_LAY5 8'd50
-`define NEURE_LAY6 8'd50
-`define NEURE_LAY7 8'd50
-`define NEURE_LAY8 8'd50
-`define NEURE_LAY9 8'd4	//output layer:number of output
-
-//`define MAX_BANDWIDTH 	50
-
-//放在�?起方便寻�?
-// reg [17:0] Weight_Lay[0:400 + 2500 * 7 + 200 - 1];
-
-/*打一拍直接把下一拍需要的�?有数据读出来 18bit*50 */
-reg [900:0] Weight_Lay;
-
-wire [7:0] Address_Wire;
-
-assign Address_Wire = ( neure_cnt << 4 ) + ( neure_cnt << 1 );
 
 
-//generate
-//    genvar i;
+/* GET ALL Connection of a neure in one tick */
+reg [18 * MAX_BANDWIDTH - 1 : 0] Weight_Lay;
 
-//endgenerate
 
 /* Q24 -16777216~16777215 */
 reg [24:0] Neure_Buff_A[ 0 : 49 ];
@@ -122,20 +96,20 @@ always @( posedge CLK or negedge RST_n ) begin
 			end // else if ( layer_cnt == LAYER_NUM ) //Final Layer
 
 			else begin // Hiden Layer
-				if ( layer_cnt[0]  == 1'b0 ) begin // 偶数�?
-					//上一层神经元装在A buff�?
-					//本层神经元装在B buff�?
+				if ( layer_cnt[0]  == 1'b0 ) begin // even layer
+					// last layer neure data has been put in buff A
+					// this layer neure data should be put into buff B
 					
 
 
 
 				end // if ( layer_cnt[0]  == 1'b0 )偶数�?
 
-				else begin	//奇数�?
-					/*上一层神经元装在B buff�?*/
-					/*本层神经元装在A buff�?*/
+				else begin	// odd LAYER
+					/* last layer neure data has been put in buff A*/
+					/* this layer neure data should be put into buff B*/
 					
-					/*乘和累加*/
+					/* mult and add�*/
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire]
 					// ...
 					//Neure_Buff_B[49] <= Neure_Buff_B[49] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire + 49]
@@ -149,7 +123,7 @@ always @( posedge CLK or negedge RST_n ) begin
 					//layer_cnt <= layer_cnt + 8'd1
 					//neure_cnt <= 8'd0;
 					
-					/* �?�?  建议Q级数查表�? */
+					/* activation through lookup table */
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] * Sign_ROM
 					//Neure_Buff_B[1] <= Neure_Buff_B[0] * Sign_ROM
 					//...
@@ -157,7 +131,7 @@ always @( posedge CLK or negedge RST_n ) begin
 					//end
 
 
-				end // else 奇数�?
+				end // else odd layer
 
 			end // else // Hiden Layer
 
