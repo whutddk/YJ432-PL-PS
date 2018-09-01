@@ -132,10 +132,36 @@ always @( posedge CLK or negedge RST_n ) begin
 					if ( neure_cnt == NEURE_LAYx_num + 1 && layer_cnt == 
 						|| neure_cnt == && 
 						|| ) begin
-						Neure_Buff_B[0] <= Mult_P_BUS[:];
-								...
-						Neure_Buff_B[49] <= Mult_P_BUS[:];
 
+						generate
+
+							genvar i;
+
+							for ( i = 0; i < MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+								// Neure_Buff_B[i] <= Mult_P_BUS[:];
+								// 		...
+								// Neure_Buff_B[49] <= Mult_P_BUS[:];
+								// 
+								
+								// if ( Mult_P_BUS[47:41] == 7'b1111111 || Mult_P_BUS[47:41] == 7'b0 ) begin
+								// 	Neure_Buff_B[0] <= { Mult_P_BUS[47] , Mult_P_BUS[40:17] };
+								// end
+
+								// else begin //overflow
+								// 	Neure_Buff_B[0] <= { Mult_P_BUS[47] , { 24{ ~Mult_P_BUS[47] } } }
+								// end // else overflow
+								
+								if ( Mult_P_BUS[ 48 * i + 47 : 48 * i + 41 ] == 7'b1111111 || Mult_P_BUS[ 48 * (i+1) - 1 : 48 * i + 41 ] == 7'b0 ) begin
+									Neure_Buff_B[i] <= { Mult_P_BUS[48 * i + 47] , Mult_P_BUS[48 * i + 40 : 48 * i + 17] };
+								end
+
+								else begin //overflow
+									Neure_Buff_B[i] <= { Mult_P_BUS[48 * i + 47] , { 24{ ~Mult_P_BUS[48 * i + 47] } } }
+								end // else overflow 
+								
+							end
+
+						endgenerate
 						neure_cnt <= 8'd0;
 
 						layer_cnt <= layer_cnt + 7'd1;	//it 's in hidden layer ,so it unnecessary to check if is the output layer
@@ -144,7 +170,7 @@ always @( posedge CLK or negedge RST_n ) begin
 
 
 
-					/* mult and add */
+					/* mult and add?*/
 					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire]
 					// ...
 					//Neure_Buff_B[49] <= Neure_Buff_B[49] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire + 49]
