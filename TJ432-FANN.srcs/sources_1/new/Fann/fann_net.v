@@ -70,8 +70,8 @@ reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
 
 /* Q17 -131072~131071 */
 
-wire [8:0] LAYER_NEURE_OFFSET;
-assign  LAYER_NEURE_OFFSET = + + + ;
+reg [8:0] LAYER_NEURE_OFFSET = 9'd0;
+
 
 always @( posedge CLK or negedge RST_n ) begin
 	if ( !RST_n ) begin
@@ -79,6 +79,8 @@ always @( posedge CLK or negedge RST_n ) begin
 		init_cnt <= 32'd0;
 		layer_cnt <= 8'd0;
 		neure_cnt <= 8'd0;
+		LAYER_NEURE_OFFSET <= 9'd0; //assistant register
+
 	end // if ( !RST_n )
 
 	else begin
@@ -89,23 +91,30 @@ always @( posedge CLK or negedge RST_n ) begin
 		else begin //( state_initialize == WORK_STATE )
 
 			/* Layer state machine Start*/
+
+			/****************** Input Layer*********************/
 			if ( layer_cnt == 8'd0 ) begin	//input layer 
 
 			end // if ( layer_cnt == 8'd0 )
+
+			/******************output Layer*********************/
 
 			else if ( layer_cnt >= LAYER_NUM ) begin //Final Layer
 
 			end // else if ( layer_cnt == LAYER_NUM ) //Final Layer
 
+			/****************** Hidden Layer*********************/
+
 			else begin // Hiden Layer
+
+				/****************** EVEN Hidden Layer*********************/
 				if ( layer_cnt[0]  == 1'b0 ) begin // even layer
 					// last layer neure data has been put in buff A
 					// this layer neure data should be put into buff B
 					
-
-
-
 				end // if ( layer_cnt[0]  == 1'b0 ) even layer
+
+				/****************** Odd Hidden Layer*********************/
 
 				else begin	// odd LAYER
 					/* last layer neure data has been put in buff A*/
@@ -113,7 +122,7 @@ always @( posedge CLK or negedge RST_n ) begin
 					
 					neure_cnt <= neure_cnt + 8'd1;
 
-					begin:  DEAL_WITH_ROM_ADDRESS
+					begin: DEAL_WITH_ROM_ADDRESS
 						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
 							Activation_ROM_Addr <= Neure_Buff_A[LAYER_NEURE_OFFSET + neure_cnt];
 							Weight_ROM_Addr <= LAYER_NEURE_OFFSET + neure_cnt;
@@ -129,9 +138,12 @@ always @( posedge CLK or negedge RST_n ) begin
 						end
 					end
 
-					if ( neure_cnt == NEURE_LAYx_num + 1 && layer_cnt == 
-						|| neure_cnt == && 
-						|| ) begin
+					/*************** final neure in this layer ******************/
+					if ( neure_cnt == NEURE_LAY1 + 9'd1 && layer_cnt == 8'd1
+						|| neure_cnt == NEURE_LAY3 + 9'd1 && layer_cnt == 8'd3
+						|| neure_cnt == NEURE_LAY5 + 9'd1 && layer_cnt == 8'd5
+						|| neure_cnt == NEURE_LAY7 + 9'd1 && layer_cnt == 8'd7
+						) begin
 
 						generate
 							genvar i;
@@ -151,31 +163,8 @@ always @( posedge CLK or negedge RST_n ) begin
 						neure_cnt <= 8'd0;
 
 						layer_cnt <= layer_cnt + 7'd1;	//it 's in hidden layer ,so it unnecessary to check if is the output layer
+						LAYER_NEURE_OFFSET <= LAYER_NEURE_OFFSET + NEURE_LAYx_num;
 					end
-
-
-
-
-					/* mult and add?*/
-					//Neure_Buff_B[0] <= Neure_Buff_B[0] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire]
-					// ...
-					//Neure_Buff_B[49] <= Neure_Buff_B[49] + Neure_Buff_A[neure_cnt] * Weight_Lay[Address_Wire + 49]
-
-					//neure_cnt <= neure_cnt + 8'd1;
-
-					//if ( neure_cnt == NEURE_LAY1 && layer_cnt == 1 
-					//	|| neure_cnt == NEURE_LAY2 && layer_cnt == 2
-					//	|| ...
-					//	|| ...) begin
-					//layer_cnt <= layer_cnt + 8'd1
-					//neure_cnt <= 8'd0;
-					
-					/* activation through lookup table */
-					//Neure_Buff_B[0] <= Neure_Buff_B[0] * Sign_ROM
-					//Neure_Buff_B[1] <= Neure_Buff_B[0] * Sign_ROM
-					//...
-					//Neure_Buff_B[49] <= Neure_Buff_B[49] * Sign_ROM
-					//end
 
 
 				end // else odd layer
