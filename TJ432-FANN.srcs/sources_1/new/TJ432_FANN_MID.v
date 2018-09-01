@@ -48,11 +48,11 @@ generate
 endgenerate
 
 
-wire [15:0] Activation_ROM_Addr_Wire;
+wire [24:0] Activation_ROM_Addr_Wire;
 wire [8:0] Weight_ROM_Wire;
 
 Activation_ROM_wrapper i_Activation_ROM(
-	.BRAM_PORTA_0_addr(Activation_ROM_Addr_Wire),		//[15:0]
+	.BRAM_PORTA_0_addr(Activation_ROM_Addr_Wire[24:13]),		
 	.BRAM_PORTA_0_clk(SYSCLK),
 	.BRAM_PORTA_0_dout(Activation_Fun_Y_Wire)		//[24:0]
  );
