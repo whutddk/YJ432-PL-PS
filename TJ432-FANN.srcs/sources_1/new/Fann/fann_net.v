@@ -42,11 +42,28 @@ module fann_net (
 	input CLK,    // Clock
 	input RST_n,  // Asynchronous reset active low
 	
-	output reg [15:0] Activation_ROM_Addr,
+	output reg [24:0] Activation_ROM_Addr,
 	output reg [8:0] Weight_ROM_Addr,
 
 	output reg [48 * MAX_BANDWIDTH - 1:0] Mult_C_BUS_Reg,
-	input [48 * MAX_BANDWIDTH - 1:0] Mult_P_BUS
+	input [48 * MAX_BANDWIDTH - 1:0] Mult_P_BUS,
+
+
+	input [24:0] NEURE_INPUT0,
+	input [24:0] NEURE_INPUT1,
+	input [24:0] NEURE_INPUT2,
+	input [24:0] NEURE_INPUT3,
+	input [24:0] NEURE_INPUT4,
+	input [24:0] NEURE_INPUT5,
+	input [24:0] NEURE_INPUT6,
+	input [24:0] NEURE_INPUT7,
+
+	output reg [24:0] NEURE_OUTPUT0,
+	output reg [24:0] NEURE_OUTPUT1,
+	output reg [24:0] NEURE_OUTPUT2,
+	output reg [24:0] NEURE_OUTPUT3
+
+
 );
 
 parameter INIT_STATE = 1'b0;
@@ -86,20 +103,47 @@ always @( posedge CLK or negedge RST_n ) begin
 	else begin
 		if ( state_initialize == INIT_STATE ) begin
 
+			state_initialize <= WORK_STATE;
+			layer_cnt <= 8'd0;
+			neure_cnt <= 8'd0;
+			LAYER_NEURE_OFFSET <= 9'd0;
+
 		end // if ( state_initialize == INIT_STATE )
 
 		else begin //( state_initialize == WORK_STATE )
 
-			/* Layer state machine Start*/
+			/* Layer state machine Start */
 
 			/****************** Input Layer*********************/
 			if ( layer_cnt == 8'd0 ) begin	//input layer 
 
+				LAYER_NEURE_OFFSET <= NEURE_LAY0;	//NEURE OFFSET Initialization 
+				layer_cnt <= layer_cnt + 7'd1;
+
+				Neure_Buff_A[0] <= NEURE_INPUT0;
+				Neure_Buff_A[1] <= NEURE_INPUT1;
+				Neure_Buff_A[2] <= NEURE_INPUT2;
+				Neure_Buff_A[3] <= NEURE_INPUT3;
+				Neure_Buff_A[4] <= NEURE_INPUT4;
+				Neure_Buff_A[5] <= NEURE_INPUT5;
+				Neure_Buff_A[6] <= NEURE_INPUT6;
+				Neure_Buff_A[7] <= NEURE_INPUT7;
+
+				//For the Weight can be set as 0 at the place where no neure exist,so it make no sense to reset them. 
+
 			end // if ( layer_cnt == 8'd0 )
 
-			/******************output Layer*********************/
+			/****************** output Laye r*********************/
 
 			else if ( layer_cnt >= LAYER_NUM ) begin //Final Layer
+
+				NEURE_OUTPUT0 <= Neure_Buff_A[0];
+				NEURE_OUTPUT1 <= Neure_Buff_A[1];
+				NEURE_OUTPUT2 <= Neure_Buff_A[2];
+				NEURE_OUTPUT3 <= Neure_Buff_A[3];
+
+				// 1 cycle is finished now , prepar for next cycle
+				state_initialize <= INIT_STATE;
 
 			end // else if ( layer_cnt == LAYER_NUM ) //Final Layer
 
@@ -108,10 +152,59 @@ always @( posedge CLK or negedge RST_n ) begin
 			else begin // Hiden Layer
 
 				/****************** EVEN Hidden Layer*********************/
-				if ( layer_cnt[0]  == 1'b0 ) begin // even layer
+				if ( layer_cnt[0] == 1'b0 ) begin // even layer
 					// last layer neure data has been put in buff A
 					// this layer neure data should be put into buff B
 					
+					neure_cnt <= neure_cnt + 8'd1;
+
+					begin: DEAL_WITH_ROM_ADDRESS_B
+						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
+							LAYER_NEURE_OFFSET <= LAYER_NEURE_OFFSET + 9'd1;
+							Activation_ROM_Addr <= Neure_Buff_B[neure_cnt];
+							Weight_ROM_Addr <= LAYER_NEURE_OFFSET;
+						end
+					end
+
+					begin: CALCULATE_B
+						if ( neure_cnt == 8'd0 ) begin
+							Mult_C_BUS_Reg <= {48 * MAX_BANDWIDTH{1'b0}};
+						end
+						else begin
+							Mult_C_BUS_Reg <= Mult_P_BUS; //adder sum reload 
+						end
+					end
+
+					/*************** final neure in this layer ******************/
+					if ( ( neure_cnt == ( NEURE_LAY2 + 9'd1 ) ) && ( layer_cnt == 8'd2 )
+						|| ( neure_cnt == ( NEURE_LAY4 + 9'd1 ) ) && ( layer_cnt == 8'd4 )
+						|| ( neure_cnt == ( NEURE_LAY6 + 9'd1 ) ) && ( layer_cnt == 8'd6 )
+						|| ( neure_cnt == ( NEURE_LAY8 + 9'd1 ) ) && ( layer_cnt == 8'd8 )
+						) begin
+
+						generate
+							genvar i;
+							for ( i = 0; i < MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+								
+								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
+									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
+								end
+
+								else begin //overflow
+									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+								end // else overflow 								
+							end
+						endgenerate
+
+
+						neure_cnt <= 8'd0;
+
+						layer_cnt <= layer_cnt + 7'd1;	//it 's in hidden layer ,so it unnecessary to check if is the output layer
+
+					end
+
+
+
 				end // if ( layer_cnt[0]  == 1'b0 ) even layer
 
 				/****************** Odd Hidden Layer*********************/
@@ -122,14 +215,15 @@ always @( posedge CLK or negedge RST_n ) begin
 					
 					neure_cnt <= neure_cnt + 8'd1;
 
-					begin: DEAL_WITH_ROM_ADDRESS
+					begin: DEAL_WITH_ROM_ADDRESS_A
 						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
-							Activation_ROM_Addr <= Neure_Buff_A[LAYER_NEURE_OFFSET + neure_cnt];
-							Weight_ROM_Addr <= LAYER_NEURE_OFFSET + neure_cnt;
+							LAYER_NEURE_OFFSET <= LAYER_NEURE_OFFSET + 9'd1;
+							Activation_ROM_Addr <= Neure_Buff_A[neure_cnt];
+							Weight_ROM_Addr <= LAYER_NEURE_OFFSET;
 						end
 					end
 
-					begin: CALCULATE
+					begin: CALCULATE_A
 						if ( neure_cnt == 8'd0 ) begin
 							Mult_C_BUS_Reg <= {48 * MAX_BANDWIDTH{1'b0}};
 						end
@@ -139,10 +233,10 @@ always @( posedge CLK or negedge RST_n ) begin
 					end
 
 					/*************** final neure in this layer ******************/
-					if ( neure_cnt == NEURE_LAY1 + 9'd1 && layer_cnt == 8'd1
-						|| neure_cnt == NEURE_LAY3 + 9'd1 && layer_cnt == 8'd3
-						|| neure_cnt == NEURE_LAY5 + 9'd1 && layer_cnt == 8'd5
-						|| neure_cnt == NEURE_LAY7 + 9'd1 && layer_cnt == 8'd7
+					if ( ( neure_cnt == ( NEURE_LAY1 + 9'd1 ) ) && ( layer_cnt == 8'd1 )
+						|| ( neure_cnt == ( NEURE_LAY3 + 9'd1 ) ) && ( layer_cnt == 8'd3 )
+						|| ( neure_cnt == ( NEURE_LAY5 + 9'd1 ) ) && ( layer_cnt == 8'd5 )
+						|| ( neure_cnt == ( NEURE_LAY7 + 9'd1 ) ) && ( layer_cnt == 8'd7 )
 						) begin
 
 						generate
@@ -163,7 +257,7 @@ always @( posedge CLK or negedge RST_n ) begin
 						neure_cnt <= 8'd0;
 
 						layer_cnt <= layer_cnt + 7'd1;	//it 's in hidden layer ,so it unnecessary to check if is the output layer
-						LAYER_NEURE_OFFSET <= LAYER_NEURE_OFFSET + NEURE_LAYx_num;
+
 					end
 
 
@@ -173,12 +267,7 @@ always @( posedge CLK or negedge RST_n ) begin
 
 			/* Layer state machine End */
 
-
-
 		end // else ( state_initialize == WORK_STATE )
-
-
-
 
 	end // else (RST_n)
 end
