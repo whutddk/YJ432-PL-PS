@@ -55,7 +55,7 @@ parameter WORK_STATE = 1'b1;
 reg state_initialize = INIT_STATE;
 reg [31:0] init_cnt = 32'd0;
 reg [7:0] layer_cnt = 8'd0;
-reg [7:0] neure_cnt = 8'd0;
+reg [8:0] neure_cnt = 9'd0;
 
 
 
@@ -70,6 +70,8 @@ reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
 
 /* Q17 -131072~131071 */
 
+wire [8:0] LAYER_NEURE_OFFSET;
+assign  LAYER_NEURE_OFFSET = + + + ;
 
 always @( posedge CLK or negedge RST_n ) begin
 	if ( !RST_n ) begin
@@ -109,14 +111,12 @@ always @( posedge CLK or negedge RST_n ) begin
 					/* last layer neure data has been put in buff A*/
 					/* this layer neure data should be put into buff B*/
 					
-					
-
 					neure_cnt <= neure_cnt + 8'd1;
 
 					begin:  DEAL_WITH_ROM_ADDRESS
 						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
-							Activation_ROM_Addr <= Neure_Buff_A[LAYERX_NEURE_OFFSET + neure_cnt];
-							Weight_ROM_Addr <= LAYERX_NEURE_OFFSET + neure_cnt;
+							Activation_ROM_Addr <= Neure_Buff_A[LAYER_NEURE_OFFSET + neure_cnt];
+							Weight_ROM_Addr <= LAYER_NEURE_OFFSET + neure_cnt;
 						end
 					end
 
@@ -134,34 +134,20 @@ always @( posedge CLK or negedge RST_n ) begin
 						|| ) begin
 
 						generate
-
 							genvar i;
-
 							for ( i = 0; i < MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
-								// Neure_Buff_B[i] <= Mult_P_BUS[:];
-								// 		...
-								// Neure_Buff_B[49] <= Mult_P_BUS[:];
-								// 
 								
-								// if ( Mult_P_BUS[47:41] == 7'b1111111 || Mult_P_BUS[47:41] == 7'b0 ) begin
-								// 	Neure_Buff_B[0] <= { Mult_P_BUS[47] , Mult_P_BUS[40:17] };
-								// end
-
-								// else begin //overflow
-								// 	Neure_Buff_B[0] <= { Mult_P_BUS[47] , { 24{ ~Mult_P_BUS[47] } } }
-								// end // else overflow
-								
-								if ( Mult_P_BUS[ 48 * i + 47 : 48 * i + 41 ] == 7'b1111111 || Mult_P_BUS[ 48 * (i+1) - 1 : 48 * i + 41 ] == 7'b0 ) begin
-									Neure_Buff_B[i] <= { Mult_P_BUS[48 * i + 47] , Mult_P_BUS[48 * i + 40 : 48 * i + 17] };
+								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
+									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
 								end
 
 								else begin //overflow
-									Neure_Buff_B[i] <= { Mult_P_BUS[48 * i + 47] , { 24{ ~Mult_P_BUS[48 * i + 47] } } }
-								end // else overflow 
-								
+									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+								end // else overflow 								
 							end
-
 						endgenerate
+
+
 						neure_cnt <= 8'd0;
 
 						layer_cnt <= layer_cnt + 7'd1;	//it 's in hidden layer ,so it unnecessary to check if is the output layer
