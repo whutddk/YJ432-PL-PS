@@ -26,16 +26,16 @@ module TJ432_FANN_MID(
 );
 	
 wire [24:0] Activation_Fun_Y_Wire; 
-wire [18 * MAX_BANDWIDTH - 1:0] Weight_BUS_Wire;
-(* DONT_TOUCH = "TRUE" *)wire [48 * MAX_BANDWIDTH - 1:0] Mult_C_BUS_Wire;
-(* DONT_TOUCH = "TRUE" *)wire [48 * MAX_BANDWIDTH - 1:0] Mult_P_BUS_Wire;
+wire [18 * `MAX_BANDWIDTH - 1:0] Weight_BUS_Wire;
+(* DONT_TOUCH = "TRUE" *)wire [48 * `MAX_BANDWIDTH - 1:0] Mult_C_BUS_Wire;
+(* DONT_TOUCH = "TRUE" *)wire [48 * `MAX_BANDWIDTH - 1:0] Mult_P_BUS_Wire;
 
 
 generate
 
 	genvar i;
 
-	for ( i = 0 ;i < MAX_BANDWIDTH ;i = i + 1 ) begin:GEN_MULT
+	for ( i = 0 ;i < `MAX_BANDWIDTH ;i = i + 1 ) begin:GEN_MULT
 	mult_add_wrapper i_mult_adder_G(
 		.A_0(Activation_Fun_Y_Wire),				//[24:0]
 		.B_0(Weight_BUS_Wire[18*(i+1) - 1 : 18 * i]),				//[17:0]

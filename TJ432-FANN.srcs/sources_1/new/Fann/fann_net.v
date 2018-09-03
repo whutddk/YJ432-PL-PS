@@ -184,19 +184,19 @@ always @( posedge CLK or negedge RST_n ) begin
 						) begin
 						
                         
-//						generate
-//							genvar i;
-//							for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+						generate
+							genvar i;
+							for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
 								
-//								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
-//									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
-//								end
+								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
+									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
+								end
 
-//								else begin //overflow
-//									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
-//								end // else overflow 								
-//							end
-//						endgenerate
+								else begin //overflow
+									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+								end // else overflow 								
+							end
+						endgenerate
 
 
 						neure_cnt <= 8'd0;
@@ -241,19 +241,19 @@ always @( posedge CLK or negedge RST_n ) begin
 						|| ( neure_cnt == ( `NEURE_LAY7 + 9'd1 ) ) && ( layer_cnt == 8'd7 )
 						) begin
 
-//						generate
-//							genvar i;
-//							for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+						generate
+							genvar i;
+							for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
 								
-//								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
-//									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
-//								end
+								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
+									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
+								end
 
-//								else begin //overflow
-//									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
-//								end // else overflow 								
-//							end
-//						endgenerate
+								else begin //overflow
+									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+								end // else overflow 								
+							end
+						endgenerate
 
 
 						neure_cnt <= 8'd0;
