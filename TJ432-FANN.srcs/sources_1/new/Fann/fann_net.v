@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+`include "ann_para.v"
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Wuhan university of technology
 // Engineer: Ruige Lee
@@ -45,8 +46,8 @@ module fann_net (
 	output reg [24:0] Activation_ROM_Addr,
 	output reg [8:0] Weight_ROM_Addr,
 
-	output reg [48 * MAX_BANDWIDTH - 1:0] Mult_C_BUS_Reg,
-	input [48 * MAX_BANDWIDTH - 1:0] Mult_P_BUS,
+	output reg [48 * `MAX_BANDWIDTH - 1:0] Mult_C_BUS_Reg,
+	input [48 * `MAX_BANDWIDTH - 1:0] Mult_P_BUS,
 
 
 	input [24:0] NEURE_INPUT0,
@@ -78,12 +79,12 @@ reg [8:0] neure_cnt = 9'd0;
 
 
 /* GET ALL Connection of a neure in one tick */
-reg [18 * MAX_BANDWIDTH - 1 : 0] Weight_Lay;
+reg [18 * `MAX_BANDWIDTH - 1 : 0] Weight_Lay;
 
 
 /* Q24 -16777216~16777215 */
-reg [24:0] Neure_Buff_A[ 0 : MAX_BANDWIDTH - 1 ];
-reg [24:0] Neure_Buff_B[ 0 : MAX_BANDWIDTH - 1 ];
+reg [24:0] Neure_Buff_A[ 0 : `MAX_BANDWIDTH - 1 ];
+reg [24:0] Neure_Buff_B[ 0 : `MAX_BANDWIDTH - 1 ];
 
 /* Q17 -131072~131071 */
 
@@ -117,7 +118,7 @@ always @( posedge CLK or negedge RST_n ) begin
 			/****************** Input Layer*********************/
 			if ( layer_cnt == 8'd0 ) begin	//input layer 
 
-				LAYER_NEURE_OFFSET <= NEURE_LAY0;	//NEURE OFFSET Initialization 
+				LAYER_NEURE_OFFSET <= `NEURE_LAY0;	//NEURE OFFSET Initialization 
 				layer_cnt <= layer_cnt + 7'd1;
 
 				Neure_Buff_A[0] <= NEURE_INPUT0;
@@ -135,7 +136,7 @@ always @( posedge CLK or negedge RST_n ) begin
 
 			/****************** output Laye r*********************/
 
-			else if ( layer_cnt >= LAYER_NUM ) begin //Final Layer
+			else if ( layer_cnt >= `LAYER_NUM ) begin //Final Layer
 
 				NEURE_OUTPUT0 <= Neure_Buff_A[0];
 				NEURE_OUTPUT1 <= Neure_Buff_A[1];
@@ -158,17 +159,17 @@ always @( posedge CLK or negedge RST_n ) begin
 					
 					neure_cnt <= neure_cnt + 8'd1;
 
-					begin: DEAL_WITH_ROM_ADDRESS_B
-						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
+					begin//: DEAL_WITH_ROM_ADDRESS_B
+						if ( neure_cnt <= `LAYERX_NEURE_NUM ) begin
 							LAYER_NEURE_OFFSET <= LAYER_NEURE_OFFSET + 9'd1;
 							Activation_ROM_Addr <= Neure_Buff_B[neure_cnt];
 							Weight_ROM_Addr <= LAYER_NEURE_OFFSET;
 						end
 					end
 
-					begin: CALCULATE_B
+					begin//: CALCULATE_B
 						if ( neure_cnt == 8'd0 ) begin
-							Mult_C_BUS_Reg <= {48 * MAX_BANDWIDTH{1'b0}};
+							Mult_C_BUS_Reg <= {48 * `MAX_BANDWIDTH{1'b0}};
 						end
 						else begin
 							Mult_C_BUS_Reg <= Mult_P_BUS; //adder sum reload 
@@ -176,25 +177,26 @@ always @( posedge CLK or negedge RST_n ) begin
 					end
 
 					/*************** final neure in this layer ******************/
-					if ( ( neure_cnt == ( NEURE_LAY2 + 9'd1 ) ) && ( layer_cnt == 8'd2 )
-						|| ( neure_cnt == ( NEURE_LAY4 + 9'd1 ) ) && ( layer_cnt == 8'd4 )
-						|| ( neure_cnt == ( NEURE_LAY6 + 9'd1 ) ) && ( layer_cnt == 8'd6 )
-						|| ( neure_cnt == ( NEURE_LAY8 + 9'd1 ) ) && ( layer_cnt == 8'd8 )
+					if ( ( neure_cnt == ( `NEURE_LAY2 + 9'd1 ) ) && ( layer_cnt == 8'd2 )
+						|| ( neure_cnt == ( `NEURE_LAY4 + 9'd1 ) ) && ( layer_cnt == 8'd4 )
+						|| ( neure_cnt == ( `NEURE_LAY6 + 9'd1 ) ) && ( layer_cnt == 8'd6 )
+						|| ( neure_cnt == ( `NEURE_LAY8 + 9'd1 ) ) && ( layer_cnt == 8'd8 )
 						) begin
-
-						generate
-							genvar i;
-							for ( i = 0; i < MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+						
+                        
+//						generate
+//							genvar i;
+//							for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
 								
-								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
-									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
-								end
+//								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
+//									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
+//								end
 
-								else begin //overflow
-									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
-								end // else overflow 								
-							end
-						endgenerate
+//								else begin //overflow
+//									Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+//								end // else overflow 								
+//							end
+//						endgenerate
 
 
 						neure_cnt <= 8'd0;
@@ -215,17 +217,17 @@ always @( posedge CLK or negedge RST_n ) begin
 					
 					neure_cnt <= neure_cnt + 8'd1;
 
-					begin: DEAL_WITH_ROM_ADDRESS_A
-						if ( neure_cnt <= LAYERX_NEURE_NUM ) begin
+					begin//: DEAL_WITH_ROM_ADDRESS_A
+						if ( neure_cnt <= `LAYERX_NEURE_NUM ) begin
 							LAYER_NEURE_OFFSET <= LAYER_NEURE_OFFSET + 9'd1;
 							Activation_ROM_Addr <= Neure_Buff_A[neure_cnt];
 							Weight_ROM_Addr <= LAYER_NEURE_OFFSET;
 						end
 					end
 
-					begin: CALCULATE_A
+					begin//: CALCULATE_A
 						if ( neure_cnt == 8'd0 ) begin
-							Mult_C_BUS_Reg <= {48 * MAX_BANDWIDTH{1'b0}};
+							Mult_C_BUS_Reg <= {48 * `MAX_BANDWIDTH{1'b0}};
 						end
 						else begin
 							Mult_C_BUS_Reg <= Mult_P_BUS; //adder sum reload 
@@ -233,25 +235,25 @@ always @( posedge CLK or negedge RST_n ) begin
 					end
 
 					/*************** final neure in this layer ******************/
-					if ( ( neure_cnt == ( NEURE_LAY1 + 9'd1 ) ) && ( layer_cnt == 8'd1 )
-						|| ( neure_cnt == ( NEURE_LAY3 + 9'd1 ) ) && ( layer_cnt == 8'd3 )
-						|| ( neure_cnt == ( NEURE_LAY5 + 9'd1 ) ) && ( layer_cnt == 8'd5 )
-						|| ( neure_cnt == ( NEURE_LAY7 + 9'd1 ) ) && ( layer_cnt == 8'd7 )
+					if ( ( neure_cnt == ( `NEURE_LAY1 + 9'd1 ) ) && ( layer_cnt == 8'd1 )
+						|| ( neure_cnt == ( `NEURE_LAY3 + 9'd1 ) ) && ( layer_cnt == 8'd3 )
+						|| ( neure_cnt == ( `NEURE_LAY5 + 9'd1 ) ) && ( layer_cnt == 8'd5 )
+						|| ( neure_cnt == ( `NEURE_LAY7 + 9'd1 ) ) && ( layer_cnt == 8'd7 )
 						) begin
 
-						generate
-							genvar i;
-							for ( i = 0; i < MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+//						generate
+//							genvar i;
+//							for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
 								
-								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
-									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
-								end
+//								if ( (Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 47 : 48*i + 41 ] == 7'b0 ) ) begin
+//									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 40 : 48*i + 17] };
+//								end
 
-								else begin //overflow
-									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
-								end // else overflow 								
-							end
-						endgenerate
+//								else begin //overflow
+//									Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+//								end // else overflow 								
+//							end
+//						endgenerate
 
 
 						neure_cnt <= 8'd0;
