@@ -1,6 +1,6 @@
 
 /* USER Patameter */
-`define LAYER_NUM 8'd9; //10 layer
+`define LAYER_NUM 8'd9 //10 layer
 
 `define NEURE_LAY0 8'd8	//input layer:number of input
 `define NEURE_LAY1 8'd50
