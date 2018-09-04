@@ -25,24 +25,24 @@ module TJ432_FANN_MID(
 	input SYSCLK,
 	input RST_n,
 	input [24:0] i_NEURE_INPUT0,
-    input [24:0] i_NEURE_INPUT1,
-    input [24:0] i_NEURE_INPUT2,
-    input [24:0] i_NEURE_INPUT3,
-    input [24:0] i_NEURE_INPUT4,
-    input [24:0] i_NEURE_INPUT5,
-    input [24:0] i_NEURE_INPUT6,
-    input [24:0] i_NEURE_INPUT7,
-    
-    output [24:0] i_NEURE_OUTPUT0,
-    output [24:0] i_NEURE_OUTPUT1,
-    output [24:0] i_NEURE_OUTPUT2,
-    output [24:0] i_NEURE_OUTPUT3
+	input [24:0] i_NEURE_INPUT1,
+	input [24:0] i_NEURE_INPUT2,
+	input [24:0] i_NEURE_INPUT3,
+	input [24:0] i_NEURE_INPUT4,
+	input [24:0] i_NEURE_INPUT5,
+	input [24:0] i_NEURE_INPUT6,
+	input [24:0] i_NEURE_INPUT7,
+	
+	output [24:0] i_NEURE_OUTPUT0,
+	output [24:0] i_NEURE_OUTPUT1,
+	output [24:0] i_NEURE_OUTPUT2,
+	output [24:0] i_NEURE_OUTPUT3
 );
 	
 wire [24:0] Activation_Fun_Y_Wire; 
 wire [18 * `MAX_BANDWIDTH - 1:0] Weight_BUS_Wire;
-(* DONT_TOUCH = "TRUE" *)wire [48 * `MAX_BANDWIDTH - 1:0] Mult_C_BUS_Wire;
-(* DONT_TOUCH = "TRUE" *)wire [48 * `MAX_BANDWIDTH - 1:0] Mult_P_BUS_Wire;
+wire [48 * `MAX_BANDWIDTH - 1:0] Mult_C_BUS_Wire;
+wire [48 * `MAX_BANDWIDTH - 1:0] Mult_P_BUS_Wire;
 
 
 generate
@@ -89,18 +89,18 @@ fann_net i_fann_net(
 	.Mult_P_BUS(Mult_P_BUS_Wire),
 	
 	.NEURE_INPUT0(i_NEURE_INPUT0),
-    .NEURE_INPUT1(i_NEURE_INPUT1),
-    .NEURE_INPUT2(i_NEURE_INPUT2),
-    .NEURE_INPUT3(i_NEURE_INPUT3),
-    .NEURE_INPUT4(i_NEURE_INPUT4),
-    .NEURE_INPUT5(i_NEURE_INPUT5),
-    .NEURE_INPUT6(i_NEURE_INPUT6),
-    .NEURE_INPUT7(i_NEURE_INPUT7),
-    
-    .NEURE_OUTPUT0(i_NEURE_OUTPUT0),
-    .NEURE_OUTPUT1(i_NEURE_OUTPUT1),
-    .NEURE_OUTPUT2(i_NEURE_OUTPUT2),
-    .NEURE_OUTPUT3(i_NEURE_OUTPUT3)
+	.NEURE_INPUT1(i_NEURE_INPUT1),
+	.NEURE_INPUT2(i_NEURE_INPUT2),
+	.NEURE_INPUT3(i_NEURE_INPUT3),
+	.NEURE_INPUT4(i_NEURE_INPUT4),
+	.NEURE_INPUT5(i_NEURE_INPUT5),
+	.NEURE_INPUT6(i_NEURE_INPUT6),
+	.NEURE_INPUT7(i_NEURE_INPUT7),
+	
+	.NEURE_OUTPUT0(i_NEURE_OUTPUT0),
+	.NEURE_OUTPUT1(i_NEURE_OUTPUT1),
+	.NEURE_OUTPUT2(i_NEURE_OUTPUT2),
+	.NEURE_OUTPUT3(i_NEURE_OUTPUT3)
 );
 
 endmodule

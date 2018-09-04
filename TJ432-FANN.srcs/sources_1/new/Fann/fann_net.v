@@ -114,7 +114,6 @@ always @( posedge CLK or negedge RST_n ) begin
 		layer_cnt <= 8'd0;
 		neure_cnt <= 8'd0;
 		LAYER_NEURE_OFFSET <= 9'd0; //assistant register
-		LayerX_Neure_num <= 9'd0;
 
 	end // if ( !RST_n )
 
