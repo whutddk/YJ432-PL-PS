@@ -11,7 +11,7 @@
 # Clock signal 100 MHz
 
 set_property -dict {PACKAGE_PIN N11 IOSTANDARD LVCMOS33} [get_ports i_sysclk]
-create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_ports i_sysclk]
+create_clock -period 20.000 -name sys_clk_pin -waveform {0.000 10.000} -add [get_ports i_sysclk]
 
 #create_generated_clock -name sys_clk_div2 -source [get_ports clkin] -edges {2 4 6 };
 

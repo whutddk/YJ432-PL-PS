@@ -2,7 +2,7 @@
 /* USER Patameter */
 `define LAYER_NUM 8'd9 //10 layer
 
-`define NEURE_LAY0 8'd8	//input layer:number of input
+`define NEURE_LAY0 8'd4	//input layer:number of input
 `define NEURE_LAY1 8'd50
 `define NEURE_LAY2 8'd50
 `define NEURE_LAY3 8'd50
@@ -11,7 +11,7 @@
 `define NEURE_LAY6 8'd50
 `define NEURE_LAY7 8'd50
 `define NEURE_LAY8 8'd50
-`define NEURE_LAY9 8'd4	//output layer:number of output
+`define NEURE_LAY9 8'd1	//output layer:number of output
 
 `define MAX_BANDWIDTH 	50
 
