@@ -54,21 +54,18 @@ module fann_net (
 	input [24:0] NEURE_INPUT1,
 	input [24:0] NEURE_INPUT2,
 	input [24:0] NEURE_INPUT3,
-	input [24:0] NEURE_INPUT4,
-	input [24:0] NEURE_INPUT5,
-	input [24:0] NEURE_INPUT6,
-	input [24:0] NEURE_INPUT7,
+
 
 	output reg [24:0] NEURE_OUTPUT0,
-	output reg [24:0] NEURE_OUTPUT1,
-	output reg [24:0] NEURE_OUTPUT2,
-	output reg [24:0] NEURE_OUTPUT3
 
 
+	output state 
 );
 
 parameter INIT_STATE = 1'b0;
 parameter WORK_STATE = 1'b1;
+
+
 
 reg state_initialize = INIT_STATE;
 reg [31:0] init_cnt = 32'd0;
@@ -90,6 +87,8 @@ reg [24:0] Neure_Buff_B[ 0 : `MAX_BANDWIDTH - 1 ];
 
 reg [8:0] LAYER_NEURE_OFFSET = 9'd0;
 reg [8:0] LayerX_Neure_num;
+
+assign state = state_initialize;
 
 always @( layer_cnt ) begin
 	case( layer_cnt ) 
@@ -142,10 +141,7 @@ always @( posedge CLK or negedge RST_n ) begin
 				Neure_Buff_A[1] <= NEURE_INPUT1;
 				Neure_Buff_A[2] <= NEURE_INPUT2;
 				Neure_Buff_A[3] <= NEURE_INPUT3;
-				Neure_Buff_A[4] <= NEURE_INPUT4;
-				Neure_Buff_A[5] <= NEURE_INPUT5;
-				Neure_Buff_A[6] <= NEURE_INPUT6;
-				Neure_Buff_A[7] <= NEURE_INPUT7;
+
 
 				//For the Weight can be set as 0 at the place where no neure exist,so it make no sense to reset them. 
 
@@ -156,9 +152,7 @@ always @( posedge CLK or negedge RST_n ) begin
 			else if ( layer_cnt >= `LAYER_NUM ) begin //Final Layer
 
 				NEURE_OUTPUT0 <= Neure_Buff_A[0];
-				NEURE_OUTPUT1 <= Neure_Buff_A[1];
-				NEURE_OUTPUT2 <= Neure_Buff_A[2];
-				NEURE_OUTPUT3 <= Neure_Buff_A[3];
+
 
 				// 1 cycle is finished now , prepar for next cycle
 				state_initialize <= INIT_STATE;
@@ -194,10 +188,10 @@ always @( posedge CLK or negedge RST_n ) begin
 					end
 
 					/*************** final neure in this layer ******************/
-					if ( ( neure_cnt == ( `NEURE_LAY2 + 9'd1 ) ) && ( layer_cnt == 8'd2 )
-						|| ( neure_cnt == ( `NEURE_LAY4 + 9'd1 ) ) && ( layer_cnt == 8'd4 )
-						|| ( neure_cnt == ( `NEURE_LAY6 + 9'd1 ) ) && ( layer_cnt == 8'd6 )
-						|| ( neure_cnt == ( `NEURE_LAY8 + 9'd1 ) ) && ( layer_cnt == 8'd8 )
+					if ( ( neure_cnt == `NEURE_LAY2 ) && ( layer_cnt == 8'd2 )
+						|| ( neure_cnt == `NEURE_LAY4 ) && ( layer_cnt == 8'd4 )
+						|| ( neure_cnt == `NEURE_LAY6 ) && ( layer_cnt == 8'd6 )
+						|| ( neure_cnt == `NEURE_LAY8 ) && ( layer_cnt == 8'd8 )
 						) begin
 						
                         
@@ -252,10 +246,10 @@ always @( posedge CLK or negedge RST_n ) begin
 					end
 
 					/*************** final neure in this layer ******************/
-					if ( ( neure_cnt == ( `NEURE_LAY1 + 9'd1 ) ) && ( layer_cnt == 8'd1 )
-						|| ( neure_cnt == ( `NEURE_LAY3 + 9'd1 ) ) && ( layer_cnt == 8'd3 )
-						|| ( neure_cnt == ( `NEURE_LAY5 + 9'd1 ) ) && ( layer_cnt == 8'd5 )
-						|| ( neure_cnt == ( `NEURE_LAY7 + 9'd1 ) ) && ( layer_cnt == 8'd7 )
+					if ( ( neure_cnt == `NEURE_LAY1 ) && ( layer_cnt == 8'd1 )
+						|| ( neure_cnt == `NEURE_LAY3 ) && ( layer_cnt == 8'd3 )
+						|| ( neure_cnt == `NEURE_LAY5 ) && ( layer_cnt == 8'd5 )
+						|| ( neure_cnt == `NEURE_LAY7 ) && ( layer_cnt == 8'd7 )
 						) begin
 
 
