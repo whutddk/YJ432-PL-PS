@@ -204,14 +204,14 @@ always @( posedge CLK or negedge RST_n ) begin
                         
 
 							
-						for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+						for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEUREA
 							
 							if ( (Mult_P_BUS[ 48*i + 41 +: 7 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 41 +: 7 ] == 7'b0 ) ) begin
 								Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 17 +: 24 ] };
 							end
 
 							else begin //overflow
-								Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+								Neure_Buff_A[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } };
 							end // else overflow 								
 						end
 
@@ -260,14 +260,14 @@ always @( posedge CLK or negedge RST_n ) begin
 						) begin
 
 
-						for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEURE
+						for ( i = 0; i < `MAX_BANDWIDTH ; i = i + 1 ) begin: LOAD_NEUREB
 							
 							if ( (Mult_P_BUS[ 48*i + 41 +: 7 ] == 7'b1111111) || ( Mult_P_BUS[ 48*i + 41 +: 7 ] == 7'b0 ) ) begin
 								Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , Mult_P_BUS[48*i + 17 +: 24] };
 							end
 
 							else begin //overflow
-								Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } }
+								Neure_Buff_B[i] <= { Mult_P_BUS[48*i + 47] , { 24{ ~Mult_P_BUS[48*i + 47] } } };
 							end // else overflow 								
 						end
 
