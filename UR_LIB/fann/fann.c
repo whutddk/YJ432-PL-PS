@@ -127,9 +127,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	uint32_t connections_per_neuron, allocated_connections;
 	uint32_t random_number, found_connection, tmp_con;
 
-#ifdef FIXEDFANN
-	uint32_t multiplier;
-#endif
+
 	if(connection_rate > 1)
 	{
 		connection_rate = 1;
@@ -147,12 +145,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	}
 
 	ann->connection_rate = connection_rate;
-#ifdef FIXEDFANN
-	multiplier = ann->multiplier;
 
-	/*提前算好步长有少量log和浮点运算*/
-	fann_update_stepwise(ann);
-#endif
 
 	/* determine how many neurons there should be in each layer */
 	i = 0;
@@ -210,11 +203,8 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 			layer_it->first_neuron[i].last_con = ann->total_connections + allocated_connections;
 
 			layer_it->first_neuron[i].activation_function = FANN_SIGMOID_STEPWISE;
-#ifdef FIXEDFANN
-			layer_it->first_neuron[i].activation_steepness = ann->multiplier / 2;
-#else
+
 			layer_it->first_neuron[i].activation_steepness = 0.5;
-#endif
 
 			if(allocated_connections < (num_connections * (i + 1)) / num_neurons_out)
 			{
@@ -439,9 +429,6 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 	uint32_t i;
 	uint32_t num_neurons_in, num_neurons_out;
 
-#ifdef FIXEDFANN
-	uint32_t multiplier;
-#endif
 	fann_seed_rand();
 
 	/* allocate the general structure */
@@ -454,10 +441,6 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 
 	ann->connection_rate = 1;
 	ann->network_type = FANN_NETTYPE_SHORTCUT;
-#ifdef FIXEDFANN
-	multiplier = ann->multiplier;
-	fann_update_stepwise(ann);
-#endif
 
 	/* determine how many neurons there should be in each layer */
 	i = 0;
@@ -508,11 +491,9 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 			layer_it->first_neuron[i].last_con = ann->total_connections;
 
 			layer_it->first_neuron[i].activation_function = FANN_SIGMOID_STEPWISE;
-#ifdef FIXEDFANN
-			layer_it->first_neuron[i].activation_steepness = ann->multiplier / 2;
-#else
+
 			layer_it->first_neuron[i].activation_steepness = 0.5;
-#endif
+
 		}
 
 #ifdef DEBUG
@@ -573,19 +554,9 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 	/* store some variabels local for fast access */
 	struct fann_neuron *first_neuron = ann->first_layer->first_neuron;
 
-#ifdef FIXEDFANN
-	int32_tmultiplier = ann->multiplier;
-	uint32_t decimal_point = ann->decimal_point;
 
-	/* values used for the stepwise linear sigmoid function */
-	fann_type r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0, r6 = 0;
-	fann_type v1 = 0, v2 = 0, v3 = 0, v4 = 0, v5 = 0, v6 = 0;
-
-	fann_type last_steepness = 0;
-	uint32_t last_activation_function = 0;
-#else
 	fann_type max_sum = 0;	
-#endif
+
 
 	/* first set the input */
 	num_input = ann->num_input;
@@ -594,27 +565,12 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 
 		/*检验输入是否溢出*/
 
-#ifdef FIXEDFANN
-
-		if(fann_abs(input[i]) > multiplier)
-		{
-			printf
-				("Warning input number %d is out of range -%d - %d with value %d, integer overflow may occur.\n",
-				 i, multiplier, multiplier, input[i]);
-		}
-#endif
 		first_neuron[i].value = input[i];
 	}
 	/* Set the bias neuron in the input layer */
-#ifdef FIXEDFANN
-	(ann->first_layer->last_neuron - 1)->value = multiplier;
 
-
-	/*算力集中在这里*/
-
-#else
 	(ann->first_layer->last_neuron - 1)->value = 1;
-#endif
+
 
 	last_layer = ann->last_layer;
 	/*遍历除输入层之外的所有层*/
@@ -627,11 +583,9 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 			if(neuron_it->first_con == neuron_it->last_con)
 			{
 				/* bias neurons */
-#ifdef FIXEDFANN
-				neuron_it->value = multiplier;
-#else
+
 				neuron_it->value = 1;
-#endif
+
 				continue;
 			}
 
@@ -715,92 +669,7 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 				}
 			}
 
-#ifdef FIXEDFANN
-			neuron_it->sum = fann_mult(steepness, neuron_sum);
 
-			/*激活函数和步进值跟上一层不同，则刷新参数*/
-			if(activation_function != last_activation_function || steepness != last_steepness)
-			{
-				switch (activation_function)
-				{
-					case FANN_SIGMOID:
-					case FANN_SIGMOID_STEPWISE:
-						r1 = ann->sigmoid_results[0];
-						r2 = ann->sigmoid_results[1];
-						r3 = ann->sigmoid_results[2];
-						r4 = ann->sigmoid_results[3];
-						r5 = ann->sigmoid_results[4];
-						r6 = ann->sigmoid_results[5];
-						v1 = ann->sigmoid_values[0] / steepness;
-						v2 = ann->sigmoid_values[1] / steepness;
-						v3 = ann->sigmoid_values[2] / steepness;
-						v4 = ann->sigmoid_values[3] / steepness;
-						v5 = ann->sigmoid_values[4] / steepness;
-						v6 = ann->sigmoid_values[5] / steepness;
-						break;
-					case FANN_SIGMOID_SYMMETRIC:
-					case FANN_SIGMOID_SYMMETRIC_STEPWISE:
-						r1 = ann->sigmoid_symmetric_results[0];
-						r2 = ann->sigmoid_symmetric_results[1];
-						r3 = ann->sigmoid_symmetric_results[2];
-						r4 = ann->sigmoid_symmetric_results[3];
-						r5 = ann->sigmoid_symmetric_results[4];
-						r6 = ann->sigmoid_symmetric_results[5];
-						v1 = ann->sigmoid_symmetric_values[0] / steepness;
-						v2 = ann->sigmoid_symmetric_values[1] / steepness;
-						v3 = ann->sigmoid_symmetric_values[2] / steepness;
-						v4 = ann->sigmoid_symmetric_values[3] / steepness;
-						v5 = ann->sigmoid_symmetric_values[4] / steepness;
-						v6 = ann->sigmoid_symmetric_values[5] / steepness;
-						break;
-					case FANN_THRESHOLD:
-						break;
-				}
-			}
-
-			/*核心算力*/
-			switch (activation_function)
-			{
-				case FANN_SIGMOID:
-				case FANN_SIGMOID_STEPWISE:
-					neuron_it->value =
-						(fann_type) fann_stepwise(v1, v2, v3, v4, v5, v6, r1, r2, r3, r4, r5, r6, 0,
-												  multiplier, neuron_sum);
-					break;
-				case FANN_SIGMOID_SYMMETRIC:
-				case FANN_SIGMOID_SYMMETRIC_STEPWISE:
-					neuron_it->value =
-						(fann_type) fann_stepwise(v1, v2, v3, v4, v5, v6, r1, r2, r3, r4, r5, r6,
-												  -multiplier, multiplier, neuron_sum);
-					break;
-				case FANN_THRESHOLD:
-					neuron_it->value = (fann_type) ((neuron_sum < 0) ? 0 : multiplier);
-					break;
-				case FANN_THRESHOLD_SYMMETRIC:
-					neuron_it->value = (fann_type) ((neuron_sum < 0) ? -multiplier : multiplier);
-					break;
-				case FANN_LINEAR:
-					neuron_it->value = neuron_sum;
-					break;
-				case FANN_LINEAR_PIECE:
-					neuron_it->value = (fann_type)((neuron_sum < 0) ? 0 : (neuron_sum > multiplier) ? multiplier : neuron_sum);
-					break;
-				case FANN_LINEAR_PIECE_SYMMETRIC:
-					neuron_it->value = (fann_type)((neuron_sum < -multiplier) ? -multiplier : (neuron_sum > multiplier) ? multiplier : neuron_sum);
-					break;
-				case FANN_ELLIOT:
-				case FANN_ELLIOT_SYMMETRIC:
-				case FANN_GAUSSIAN:
-				case FANN_GAUSSIAN_SYMMETRIC:
-				case FANN_GAUSSIAN_STEPWISE:
-				case FANN_SIN_SYMMETRIC:
-				case FANN_COS_SYMMETRIC:
-					fann_error((struct fann_error *) ann, FANN_E_CANT_USE_ACTIVATION);
-					break;
-			}
-			last_steepness = steepness;
-			last_activation_function = activation_function;
-#else
 			neuron_sum = fann_mult(steepness, neuron_sum);
 			
 			max_sum = 150/steepness;
@@ -812,7 +681,6 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 			neuron_it->sum = neuron_sum;
 
 			fann_activation_switch(activation_function, neuron_sum, neuron_it->value);
-#endif
 		}
 	}
 
@@ -991,14 +859,6 @@ struct fann* fann_copy(struct fann* orig)
     /* user_data is not deep copied.  user should use fann_copy_with_user_data() for that */
     copy->user_data = orig->user_data;
 
-#ifdef FIXEDFANN
-    copy->decimal_point = orig->decimal_point;
-    copy->multiplier = orig->multiplier;
-    memcpy(copy->sigmoid_results,orig->sigmoid_results,6*sizeof(fann_type));
-    memcpy(copy->sigmoid_values,orig->sigmoid_values,6*sizeof(fann_type));
-    memcpy(copy->sigmoid_symmetric_results,orig->sigmoid_symmetric_results,6*sizeof(fann_type));
-    memcpy(copy->sigmoid_symmetric_values,orig->sigmoid_symmetric_values,6*sizeof(fann_type));
-#endif
 
 
     /* copy layer sizes, prepare for fann_allocate_neurons */
@@ -1153,22 +1013,18 @@ void fann_print_connections(struct fann *ann)
 			{
 				if(ann->weights[i] < 0)
 				{
-#ifdef FIXEDFANN
-					value = (int) ((ann->weights[i] / (double) ann->multiplier) - 0.5);
-#else
+
 					value = (int) ((ann->weights[i]) - 0.5);
-#endif
+
 					if(value < -25)
 						value = -25;
 					neurons[ann->connections[i] - ann->first_layer->first_neuron] = (char)('a' - value);
 				}
 				else
 				{
-#ifdef FIXEDFANN
-					value = (int) ((ann->weights[i] / (double) ann->multiplier) + 0.5);
-#else
+
 					value = (int) ((ann->weights[i]) + 0.5);
-#endif
+
 					if(value > 25)
 						value = 25;
 					neurons[ann->connections[i] - ann->first_layer->first_neuron] = (char)('A' + value);
@@ -1191,9 +1047,6 @@ void fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 	struct fann_layer *layer_it;
 	struct fann_neuron *neuron_it, *last_neuron, *bias_neuron;
 
-#ifdef FIXEDFANN
-	uint32_t multiplier = ann->multiplier;
-#endif
 	float scale_factor;
 
 	for(smallest_inp = largest_inp = train_data->input[0][0]; dat < train_data->num_data; dat++)
@@ -1236,20 +1089,15 @@ void fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 			{
 				if(bias_neuron == ann->connections[num_connect])
 				{
-#ifdef FIXEDFANN
-					ann->weights[num_connect] =
-						(fann_type) fann_rand(-scale_factor, scale_factor * multiplier);
-#else
+
 					ann->weights[num_connect] = (fann_type) fann_rand(-scale_factor, scale_factor);
-#endif
+
 				}
 				else
 				{
-#ifdef FIXEDFANN
-					ann->weights[num_connect] = (fann_type) fann_rand(0, scale_factor * multiplier);
-#else
+
 					ann->weights[num_connect] = (fann_type) fann_rand(0, scale_factor);
-#endif
+
 				}
 			}
 		}
@@ -1289,17 +1137,11 @@ void fann_print_parameters(struct fann *ann)
 	printf("Total connections                    :%4d\n", ann->total_connections);
 	printf("Connection rate                      :%8.3f\n", ann->connection_rate);
 	printf("Network type                         :   %s\n", FANN_NETTYPE_NAMES[ann->network_type]);
-#ifdef FIXEDFANN
-	printf("Decimal point                        :%4d\n", ann->decimal_point);
-	printf("Multiplier                           :%4d\n", ann->multiplier);
-#else
+
 	printf("Training algorithm                   :   %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
 	printf("Training error function              :   %s\n", FANN_ERRORFUNC_NAMES[ann->train_error_function]);
 	printf("Training stop function               :   %s\n", FANN_STOPFUNC_NAMES[ann->train_stop_function]);
-#endif
-#ifdef FIXEDFANN
-	printf("Bit fail limit                       :%4d\n", ann->bit_fail_limit);
-#else
+
 	printf("Bit fail limit                       :%8.3f\n", ann->bit_fail_limit);
 	printf("Learning rate                        :%8.3f\n", ann->learning_rate);
 	printf("Learning momentum                    :%8.3f\n", ann->learning_momentum);
@@ -1330,7 +1172,7 @@ void fann_print_parameters(struct fann *ann)
 	printf("Cascade no. of candidates            :%4d\n", fann_get_cascade_num_candidates(ann));
 	
 	/* TODO: dump scale parameters */
-#endif
+
 }
 
 FANN_GET(uint32_t, num_input)
@@ -1522,58 +1364,6 @@ void fann_set_weights(struct fann *ann, fann_type *weights)
 
 FANN_GET_SET(void *, user_data)
 
-#ifdef FIXEDFANN
-
-FANN_GET(uint32_t, decimal_point)
-FANN_GET(uint32_t, multiplier)
-
-/* INTERNAL FUNCTION
-   Adjust the steepwise functions (if used)
-*/
-void fann_update_stepwise(struct fann *ann)
-{
-	uint32_t i = 0;
-
-	/* Calculate the parameters for the stepwise linear
-	 * sigmoid function fixed point.
-	 * Using a rewritten sigmoid function.
-	 * results 0.005, 0.05, 0.25, 0.75, 0.95, 0.995
-	 */
-	ann->sigmoid_results[0] = fann_max((fann_type) (ann->multiplier / 200.0 + 0.5), 1);
-	ann->sigmoid_results[1] = fann_max((fann_type) (ann->multiplier / 20.0 + 0.5), 1);
-	ann->sigmoid_results[2] = fann_max((fann_type) (ann->multiplier / 4.0 + 0.5), 1);
-	ann->sigmoid_results[3] = fann_min(ann->multiplier - (fann_type) (ann->multiplier / 4.0 + 0.5), ann->multiplier - 1);
-	ann->sigmoid_results[4] = fann_min(ann->multiplier - (fann_type) (ann->multiplier / 20.0 + 0.5), ann->multiplier - 1);
-	ann->sigmoid_results[5] = fann_min(ann->multiplier - (fann_type) (ann->multiplier / 200.0 + 0.5), ann->multiplier - 1);
-
-	ann->sigmoid_symmetric_results[0] = fann_max((fann_type) ((ann->multiplier / 100.0) - ann->multiplier - 0.5),
-				                                 (fann_type) (1 - (fann_type) ann->multiplier));
-	ann->sigmoid_symmetric_results[1] =	fann_max((fann_type) ((ann->multiplier / 10.0) - ann->multiplier - 0.5),
-				                                 (fann_type) (1 - (fann_type) ann->multiplier));
-	ann->sigmoid_symmetric_results[2] =	fann_max((fann_type) ((ann->multiplier / 2.0) - ann->multiplier - 0.5),
-                                				 (fann_type) (1 - (fann_type) ann->multiplier));
-	ann->sigmoid_symmetric_results[3] = fann_min(ann->multiplier - (fann_type) (ann->multiplier / 2.0 + 0.5),
-				 							     ann->multiplier - 1);
-	ann->sigmoid_symmetric_results[4] = fann_min(ann->multiplier - (fann_type) (ann->multiplier / 10.0 + 0.5),
-				 							     ann->multiplier - 1);
-	ann->sigmoid_symmetric_results[5] = fann_min(ann->multiplier - (fann_type) (ann->multiplier / 100.0 + 1.0),
-				 							     ann->multiplier - 1);
-
-	for(i = 0; i < 6; i++)
-	{
-		ann->sigmoid_values[i] =
-			(fann_type) (((log(ann->multiplier / (float) ann->sigmoid_results[i] - 1) *
-						   (float) ann->multiplier) / -2.0) * (float) ann->multiplier);
-		ann->sigmoid_symmetric_values[i] =
-			(fann_type) (((log
-						   ((ann->multiplier -
-							 (float) ann->sigmoid_symmetric_results[i]) /
-							((float) ann->sigmoid_symmetric_results[i] +
-							 ann->multiplier)) * (float) ann->multiplier) / -2.0) *
-						 (float) ann->multiplier);
-	}
-}
-#endif
 
 
 /* INTERNAL FUNCTION
@@ -1709,12 +1499,7 @@ struct fann *fann_allocate_structure(uint32_t num_layers)
  
 	fann_init_error_data((struct fann_error *) ann);
 
-#ifdef FIXEDFANN
-	/* these values are only boring defaults, and should really
-	 * never be used, since the real values are always loaded from a file. */
-	ann->decimal_point = 8;
-	ann->multiplier = 256;
-#endif
+
 
 	/* allocate room for the layers */
 	ann->first_layer = (struct fann_layer *) calloc(num_layers, sizeof(struct fann_layer));

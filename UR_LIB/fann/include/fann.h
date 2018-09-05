@@ -38,11 +38,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
 #ifndef FANN_INCLUDE
 /* just to allow for inclusion of fann.h in normal stuations where only floats are needed */ 
-#ifdef FIXEDFANN
-#include "fixedfann.h"
-#else
+
 #include "floatfann.h"
-#endif	/* FIXEDFANN  */
+
 	
 #else
 	
@@ -550,44 +548,6 @@ void fann_disable_seed_rand();
 void fann_enable_seed_rand();
 
 
-#ifdef FIXEDFANN
-	
-/* Function: fann_get_decimal_point
-
-	Returns the position of the decimal point in the ann.
-
-	This function is only available when the ANN is in fixed point mode.
-
-	The decimal point is described in greater detail in the tutorial <Fixed Point Usage>.
-
-	See also:
-		<Fixed Point Usage>, <fann_get_multiplier>, <fann_save_to_fixed>, <fann_save_train_to_fixed>
-
-	This function appears in FANN >= 1.0.0.
-*/ 
-uint32_t fann_get_decimal_point(struct fann *ann);
-
-
-/* Function: fann_get_multiplier
-
-    returns the multiplier that fix point data is multiplied with.
-
-	This function is only available when the ANN is in fixed point mode.
-
-	The multiplier is the used to convert between floating point and fixed point notation. 
-	A floating point number is multiplied with the multiplier in order to get the fixed point
-	number and visa versa.
-
-	The multiplier is described in greater detail in the tutorial <Fixed Point Usage>.
-
-	See also:
-		<Fixed Point Usage>, <fann_get_decimal_point>, <fann_save_to_fixed>, <fann_save_train_to_fixed>
-
-	This function appears in FANN >= 1.0.0.
-*/ 
-uint32_t fann_get_multiplier(struct fann *ann);
-
-#endif	/* FIXEDFANN */
 
 #ifdef __cplusplus
 #ifndef __cplusplus

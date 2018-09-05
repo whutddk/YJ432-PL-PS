@@ -541,28 +541,6 @@ struct fann
 	 */
 	enum fann_train_enum training_algorithm;
 
-#ifdef FIXEDFANN
-	/* the decimal_point, used for shifting the fix point
-	 * in fixed point integer operatons.
-	 */
-	unsigned int decimal_point;
-
-	/* the multiplier, used for multiplying the fix point
-	 * in fixed point integer operatons.
-	 * Only used in special cases, since the decimal_point is much faster.
-	 */
-	unsigned int multiplier;
-
-	/* When in choosen (or in fixed point), the sigmoid function is
-	 * calculated as a stepwise linear function. In the
-	 * activation_results array, the result is saved, and in the
-	 * two values arrays, the values that gives the results are saved.
-	 */
-	fann_type sigmoid_results[6];
-	fann_type sigmoid_values[6];
-	fann_type sigmoid_symmetric_results[6];
-	fann_type sigmoid_symmetric_values[6];
-#endif
 
 	/* Total number of connections.
 	 * very useful, because the actual connections
