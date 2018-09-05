@@ -97,7 +97,7 @@ float fann_test_data(struct fann *ann, struct fann_train_data *data)
 	return fann_get_MSE(ann);
 }
 
-#ifndef FIXEDFANN
+
 
 /*
  * Internal train function 
@@ -312,7 +312,7 @@ void fann_train_on_file(struct fann *ann, const char *filename,
 	fann_destroy_train(data);
 }
 
-#endif
+
 
 /*
  * shuffles training data, randomizing the order 
@@ -741,9 +741,9 @@ int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, c
 	uint32_t i, j;
 	int32_t retval = 0;
 
-#ifndef FIXEDFANN
+
 	uint32_t multiplier = 1 << decimal_point;
-#endif
+
 
 	fprintf(file, "%u %u %u\n", data->num_data, data->num_input, data->num_output);
 
@@ -751,7 +751,7 @@ int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, c
 	{
 		for(j = 0; j < num_input; j++)
 		{
-#ifndef FIXEDFANN
+
 			if(save_as_fixed)
 			{
 				fprintf(file, "%d ", (int) (data->input[i][j] * multiplier));
@@ -768,15 +768,13 @@ int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, c
 					fprintf(file, "%f ", data->input[i][j]);
 				}
 			}
-#else
-			fprintf(file, FANNPRINTF " ", data->input[i][j]);
-#endif
+
 		}
 		fprintf(file, "\n");
 
 		for(j = 0; j < num_output; j++)
 		{
-#ifndef FIXEDFANN
+
 			if(save_as_fixed)
 			{
 				fprintf(file, "%d ", (int) (data->output[i][j] * multiplier));
@@ -793,9 +791,7 @@ int32_t fann_save_train_internal_fd(struct fann_train_data *data, FILE * file, c
 					fprintf(file, "%f ", data->output[i][j]);
 				}
 			}
-#else
-			fprintf(file, FANNPRINTF " ", data->output[i][j]);
-#endif
+
 		}
 		fprintf(file, "\n");
 	}
@@ -1013,7 +1009,7 @@ int32_t fann_desired_error_reached(struct fann *ann, float desired_error)
 	return -1;
 }
 
-#ifndef FIXEDFANN
+
 /*
  * Scale data in input vector before feed it to ann based on previously calculated parameters.
  */
@@ -1319,7 +1315,7 @@ int32_t fann_clear_scaling_params(struct fann *ann)
 	return 0;
 }
 
-#endif
+
 
 int32_t fann_check_input_output_sizes(struct fann *ann, struct fann_train_data *data)
 {

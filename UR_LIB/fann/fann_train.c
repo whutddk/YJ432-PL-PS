@@ -28,7 +28,7 @@
 
 /*#define DEBUGTRAIN*/
 
-#ifndef FIXEDFANN
+
 /* INTERNAL FUNCTION
   Calculates the derived of a value, given an activation function
    and a steepness
@@ -101,7 +101,7 @@ void fann_train(struct fann *ann, fann_type * input,
 
 	fann_update_weights(ann);
 }
-#endif
+
 
 
 /* INTERNAL FUNCTION
@@ -210,7 +210,7 @@ void fann_reset_MSE(struct fann *ann)
 	ann->num_bit_fail = 0;
 }
 
-#ifndef FIXEDFANN
+
 
 /* INTERNAL FUNCTION
     compute the error at the network output
@@ -842,7 +842,7 @@ void fann_update_weights_sarprop(struct fann *ann, uint32_t epoch, uint32_t firs
 	}
 }
 
-#endif
+
 
 FANN_GET_SET(enum fann_train_enum, training_algorithm)
 FANN_GET_SET(float, learning_rate)

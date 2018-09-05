@@ -88,16 +88,16 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 	struct fann_neuron **connected_neurons;
 	uint32_t i = 0;
 
-#ifndef FIXEDFANN
+
 	/* variabels for use when saving floats as fixed point variabels */
 	uint32_t decimal_point = 0;
 	uint32_t fixed_multiplier = 0;
 	fann_type max_possible_value = 0;
 	uint32_t bits_used_for_max = 0;
 	fann_type current_max_value = 0;
-#endif
 
-#ifndef FIXEDFANN
+
+
 	if(save_as_fixed)
 	{
 		/* save the version information */
@@ -108,12 +108,9 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 		/* save the version information */
 		fprintf(conf, FANN_FLO_VERSION "\n");
 	}
-#else
-	/* save the version information */
-	fprintf(conf, FANN_FIX_VERSION "\n");
-#endif
 
-#ifndef FIXEDFANN
+
+
 	if(save_as_fixed)
 	{
 		/* calculate the maximal possible shift value */
@@ -168,11 +165,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 		/* save the decimal_point on a seperate line */
 		fprintf(conf, "decimal_point=%u\n", decimal_point);
 	}
-#else
-	/* save the decimal_point on a seperate line */
-	fprintf(conf, "decimal_point=%u\n", ann->decimal_point);
 
-#endif
 
 	/* Save network parameters */
 	fprintf(conf, "num_layers=%d\n", (int)(ann->last_layer - ann->first_layer));
@@ -201,7 +194,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 	fprintf(conf, "cascade_min_cand_epochs=%u\n", ann->cascade_min_cand_epochs);	
 	fprintf(conf, "cascade_num_candidate_groups=%u\n", ann->cascade_num_candidate_groups);
 
-#ifndef FIXEDFANN
+
 	if(save_as_fixed)
 	{
 		fprintf(conf, "bit_fail_limit=%u\n", (int) floor((ann->bit_fail_limit * fixed_multiplier) + 0.5));
@@ -209,7 +202,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 		fprintf(conf, "cascade_weight_multiplier=%u\n", (int) floor((ann->cascade_weight_multiplier * fixed_multiplier) + 0.5));
 	}
 	else
-#endif	
+
 	{
 		fprintf(conf, "bit_fail_limit="FANNPRINTF"\n", ann->bit_fail_limit);
 		fprintf(conf, "cascade_candidate_limit="FANNPRINTF"\n", ann->cascade_candidate_limit);
@@ -226,11 +219,11 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 	fprintf(conf, "cascade_activation_steepnesses=");
 	for(i = 0; i < ann->cascade_activation_steepnesses_count; i++)
 	{
-#ifndef FIXEDFANN
+
 		if(save_as_fixed)
 			fprintf(conf, "%u ", (int) floor((ann->cascade_activation_steepnesses[i] * fixed_multiplier) + 0.5));
 		else
-#endif	
+
 			fprintf(conf, FANNPRINTF" ", ann->cascade_activation_steepnesses[i]);
 	}
 	fprintf(conf, "\n");
@@ -243,7 +236,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 	}
 	fprintf(conf, "\n");
 
-#ifndef FIXEDFANN
+
 	/* 2.1 */
 	#define SCALE_SAVE( what, where )										\
 		fprintf( conf, #what "_" #where "=" );								\
@@ -270,7 +263,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 			fprintf(conf, "scale_included=0\n");
 	}
 #undef SCALE_SAVE
-#endif	
+
 
 	/* 2.0 */
 	fprintf(conf, "neurons (num_inputs, activation_function, activation_steepness)=");
@@ -279,7 +272,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 		/* the neurons */
 		for(neuron_it = layer_it->first_neuron; neuron_it != layer_it->last_neuron; neuron_it++)
 		{
-#ifndef FIXEDFANN
+
 			if(save_as_fixed)
 			{
 				fprintf(conf, "(%u, %u, %u) ", neuron_it->last_con - neuron_it->first_con,
@@ -291,10 +284,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 				fprintf(conf, "(%u, %u, " FANNPRINTF ") ", neuron_it->last_con - neuron_it->first_con,
 						neuron_it->activation_function, neuron_it->activation_steepness);
 			}
-#else
-			fprintf(conf, "(%u, %u, " FANNPRINTF ") ", neuron_it->last_con - neuron_it->first_con,
-					neuron_it->activation_function, neuron_it->activation_steepness);
-#endif
+
 		}
 	}
 	fprintf(conf, "\n");
@@ -315,7 +305,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 	fprintf(conf, "connections (connected_to_neuron, weight)=");
 	for(i = 0; i < ann->total_connections; i++)
 	{
-#ifndef FIXEDFANN
+
 		if(save_as_fixed)
 		{
 			/* save the connection "(source weight) " */
@@ -328,10 +318,7 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 			/* save the connection "(source weight) " */
 			fprintf(conf, "(%d, " FANNPRINTF ") ", (int)(connected_neurons[i] - first_neuron), weights[i]);
 		}
-#else
-		/* save the connection "(source weight) " */
-		fprintf(conf, "(%d, " FANNPRINTF ") ", (int)(connected_neurons[i] - first_neuron), weights[i]);
-#endif
+
 
 	}
 	fprintf(conf, "\n");
@@ -402,14 +389,11 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 			return fann_create_from_fd_1_1(conf, configuration_file);
 		}
 
-#ifndef FIXEDFANN
+
 		/* Maintain compatibility with 2.0 version that doesnt have scale parameters. */
 		if(strncmp(read_version, "FANN_FLO_2.0\n", strlen("FANN_FLO_2.0\n")) != 0 &&
 		   strncmp(read_version, "FANN_FLO_2.1\n", strlen("FANN_FLO_2.1\n")) != 0)
-#else
-		if(strncmp(read_version, "FANN_FIX_2.0\n", strlen("FANN_FIX_2.0\n")) != 0 &&
-		   strncmp(read_version, "FANN_FIX_2.1\n", strlen("FANN_FIX_2.1\n")) != 0)
-#endif
+
 		{
 			free(read_version);
 			fann_error(NULL, FANN_E_WRONG_CONFIG_VERSION, configuration_file);
@@ -556,7 +540,7 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 		ann->num_output--;
 	}
 
-#ifndef FIXEDFANN
+
 #define SCALE_LOAD( what, where )											\
 	fann_skip( #what "_" #where "=" );									\
 	for(i = 0; i < ann->num_##where##put; i++)								\
@@ -583,7 +567,7 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 		SCALE_LOAD( scale_factor,		out )
 	}
 #undef SCALE_LOAD
-#endif
+
 	
 	/* allocate room for the actual neurons */
 	fann_allocate_neurons(ann);

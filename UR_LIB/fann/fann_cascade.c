@@ -21,7 +21,7 @@
 #include "fann.h"
 #include "string.h"
 
-#ifndef FIXEDFANN
+
 
 /* #define CASCADE_DEBUG */
 /* #define CASCADE_DEBUG_FULL */
@@ -969,7 +969,7 @@ void fann_install_candidate(struct fann *ann)
 	return;
 }
 
-#endif /* FIXEDFANN */
+
 
 uint32_t fann_get_cascade_num_candidates(struct fann *ann)
 {
