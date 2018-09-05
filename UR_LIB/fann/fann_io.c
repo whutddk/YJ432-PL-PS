@@ -368,11 +368,9 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 {
 	uint32_t num_layers, layer_size, input_neuron, i, num_connections;
 	uint32_t tmpVal;
-#ifdef FIXEDFANN
-	uint32_t decimal_point, multiplier;
-#else
+
 	uint32_t scale_included;
-#endif
+
 	struct fann_neuron *first_neuron, *neuron_it, *last_neuron, **connected_neurons;
 	fann_type *weights;
 	struct fann_layer *layer_it;
@@ -396,13 +394,10 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 	/* compares the version information */
 	if(strncmp(read_version, FANN_CONF_VERSION "\n", strlen(FANN_CONF_VERSION "\n")) != 0)
 	{
-#ifdef FIXEDFANN
-		if(strncmp(read_version, "FANN_FIX_1.1\n", strlen("FANN_FIX_1.1\n")) == 0)
-		{
-#else
+
 		if(strncmp(read_version, "FANN_FLO_1.1\n", strlen("FANN_FLO_1.1\n")) == 0)
 		{
-#endif
+
 			free(read_version);
 			return fann_create_from_fd_1_1(conf, configuration_file);
 		}
@@ -425,10 +420,7 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 
 	free(read_version);
 
-#ifdef FIXEDFANN
-	fann_scanf("%u", "decimal_point", &decimal_point);
-	multiplier = 1 << decimal_point;
-#endif
+
 
 	fann_scanf("%u", "num_layers", &num_layers);
 
@@ -521,14 +513,8 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 		}
 	}
 
-#ifdef FIXEDFANN
-	ann->decimal_point = decimal_point;
-	ann->multiplier = multiplier;
-#endif
 
-#ifdef FIXEDFANN
-	fann_update_stepwise(ann);
-#endif
+
 
 #ifdef DEBUG
 	printf("creating network with %d layers\n", num_layers);
@@ -662,9 +648,7 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 {
 	uint32_t num_layers, layer_size, input_neuron, i, network_type, num_connections;
 	uint32_t activation_function_hidden, activation_function_output;
-#ifdef FIXEDFANN
-	uint32_t decimal_point, multiplier;
-#endif
+
 	fann_type activation_steepness_hidden, activation_steepness_output;
 	float learning_rate, connection_rate;
 	struct fann_neuron *first_neuron, *neuron_it, *last_neuron, **connected_neurons;
@@ -672,14 +656,6 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 	struct fann_layer *layer_it;
 	struct fann *ann;
 
-#ifdef FIXEDFANN
-	if(fscanf(conf, "%u\n", &decimal_point) != 1)
-	{
-		fann_error(NULL, FANN_E_CANT_READ_CONFIG, "decimal_point", configuration_file);
-		return NULL;
-	}
-	multiplier = 1 << decimal_point;
-#endif
 
 	if(fscanf(conf, "%u %f %f %u %u %u " FANNSCANF " " FANNSCANF "\n", &num_layers, &learning_rate,
 		&connection_rate, &network_type, &activation_function_hidden,
@@ -699,14 +675,8 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 	ann->network_type = (enum fann_nettype_enum)network_type;
 	ann->learning_rate = learning_rate;
 
-#ifdef FIXEDFANN
-	ann->decimal_point = decimal_point;
-	ann->multiplier = multiplier;
-#endif
 
-#ifdef FIXEDFANN
-	fann_update_stepwise(ann);
-#endif
+
 
 #ifdef DEBUG
 	printf("creating network with learning rate %f\n", learning_rate);

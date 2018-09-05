@@ -30,11 +30,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define FANN_FIX_VERSION "FANN_FIX_2.0"
 #define FANN_FLO_VERSION "FANN_FLO_2.1"
 
-#ifdef FIXEDFANN
-#define FANN_CONF_VERSION FANN_FIX_VERSION
-#else
+
 #define FANN_CONF_VERSION FANN_FLO_VERSION
-#endif
+
 
 #define FANN_GET(type, name) \
 type fann_get_ ## name(struct fann *ann) \
@@ -136,20 +134,12 @@ void fann_scale_data_to_range(fann_type ** data, uint32_t num_data, uint32_t num
 
 #define fann_abs(value) (((value) > 0) ? (value) : -(value))
 
-#ifdef FIXEDFANN
 
-#define fann_mult(x,y) ((x*y) >> decimal_point)
-#define fann_div(x,y) (((x) << decimal_point)/y)
-#define fann_random_weight() (fann_type)(fann_rand(0,multiplier/10))
-#define fann_random_bias_weight() (fann_type)(fann_rand((0-multiplier)/10,multiplier/10))
-
-#else
 
 #define fann_mult(x,y) (x*y)
 #define fann_div(x,y) (x/y)
 #define fann_random_weight() (fann_rand(-0.1f,0.1f))
 #define fann_random_bias_weight() (fann_rand(-0.1f,0.1f))
 
-#endif
 
 #endif

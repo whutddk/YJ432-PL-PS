@@ -1704,57 +1704,6 @@ namespace FANN {
             return fann_get_total_connections(ann);
         }
 
-#ifdef FIXEDFANN
-        /* Method: get_decimal_point
-
-            Returns the position of the decimal point in the ann.
-
-            This function is only available when the ANN is in fixed point mode.
-
-            The decimal point is described in greater detail in the tutorial <Fixed Point Usage>.
-
-            See also:
-                <Fixed Point Usage>, <get_multiplier>, <save_to_fixed>,
-                <training_data::save_train_to_fixed>, <fann_get_decimal_point>
-
-            This function appears in FANN >= 1.0.0.
-        */
-        unsigned int get_decimal_point()
-        {
-            if (ann == NULL)
-            {
-                return 0;
-            }
-            return fann_get_decimal_point(ann);
-        }
-
-        /* Method: get_multiplier
-
-            Returns the multiplier that fix point data is multiplied with.
-
-            This function is only available when the ANN is in fixed point mode.
-
-            The multiplier is the used to convert between floating point and fixed point notation.
-            A floating point number is multiplied with the multiplier in order to get the fixed point
-            number and visa versa.
-
-            The multiplier is described in greater detail in the tutorial <Fixed Point Usage>.
-
-            See also:
-                <Fixed Point Usage>, <get_decimal_point>, <save_to_fixed>,
-                <training_data::save_train_to_fixed>, <fann_get_multiplier>
-
-            This function appears in FANN >= 1.0.0.
-        */ 
-        unsigned int get_multiplier()
-        {
-            if (ann == NULL)
-            {
-                return 0;
-            }
-            return fann_get_multiplier(ann);
-        }
-#endif /* FIXEDFANN */
 
         /*********************************************************************/
 
