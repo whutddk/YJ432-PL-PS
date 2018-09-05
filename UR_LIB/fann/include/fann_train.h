@@ -67,7 +67,7 @@ struct fann_train_data
 
 /* Group: Training */
 
-#ifndef FIXEDFANN
+
 /* Function: fann_train
 
    Train one iteration with a set of inputs, and a set of desired outputs.
@@ -87,7 +87,7 @@ struct fann_train_data
 void fann_train(struct fann *ann, fann_type * input,
 									   fann_type * desired_output);
 
-#endif	/* NOT FIXEDFANN */
+
 	
 /* Function: fann_test
    Test with a set of inputs, and a set of desired outputs.
@@ -147,7 +147,7 @@ void fann_reset_MSE(struct fann *ann);
 
 /* Group: Training Data Training */
 
-#ifndef FIXEDFANN
+
 	
 /* Function: fann_train_on_data
 
@@ -212,7 +212,7 @@ void fann_train_on_file(struct fann *ann, const char *filename,
 	This function appears in FANN >= 1.2.0.
  */ 
 float fann_train_epoch(struct fann *ann, struct fann_train_data *data);
-#endif	/* NOT FIXEDFANN */
+
 
 /* Function: fann_test_data
   
@@ -372,7 +372,7 @@ fann_type * fann_get_train_output(struct fann_train_data * data, uint32_t positi
  */ 
 void fann_shuffle_train_data(struct fann_train_data *train_data);
 
-#ifndef FIXEDFANN
+
 
 /* Function: fann_get_min_train_input
 
@@ -575,7 +575,7 @@ void fann_descale_input( struct fann *ann, fann_type *input_vector );
  */
 void fann_descale_output( struct fann *ann, fann_type *output_vector );
 
-#endif
+
 
 /* Function: fann_scale_input_train_data
    

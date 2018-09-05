@@ -691,7 +691,7 @@ namespace FANN {
             return fixpoint;
         }
 
-#ifndef FIXEDFANN
+
 
         /* Method: train
 
@@ -791,7 +791,7 @@ namespace FANN {
             }
         }
 
-#endif /* NOT FIXEDFANN */
+
 
         /* Method: test
 
@@ -868,7 +868,7 @@ namespace FANN {
             }
         }
 
-#ifndef FIXEDFANN
+
 
         /* Method: set_callback
            
@@ -902,7 +902,7 @@ namespace FANN {
             }
         }
 
-#endif  /* NOT FIXEDFANN */
+
 
         /* Method: print_parameters
 
@@ -2003,7 +2003,7 @@ namespace FANN {
             return bit_fail;
         }
 
-#ifndef FIXEDFANN
+
         /*********************************************************************/
 
         /* Method: cascadetrain_on_data
@@ -2740,7 +2740,6 @@ namespace FANN {
             }
         }
 
-#endif /* FIXEDFANN */
 
         /*********************************************************************/
 
@@ -2859,7 +2858,7 @@ namespace FANN {
             neural_net *net; // This pointer for the neural network
         } user_context;
 
-#ifndef FIXEDFANN
+
 
         // Internal callback used to convert from pointers to class references
         static int internal_callback(struct fann *ann, struct fann_train_data *train,
@@ -2882,7 +2881,7 @@ namespace FANN {
             }
         }
 
-#endif  /* NOT FIXEDFANN */
+
 
     protected:
         // Pointer the encapsulated fann neural net structure

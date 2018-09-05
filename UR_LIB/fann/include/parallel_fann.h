@@ -18,7 +18,7 @@ extern "C"
 #endif
 #endif	/* __cplusplus */
 
-#ifndef FIXEDFANN
+
 float fann_train_epoch_batch_parallel(struct fann *ann, struct fann_train_data *data, const unsigned int threadnumb);
 
 float fann_train_epoch_irpropm_parallel(struct fann *ann, struct fann_train_data *data, const unsigned int threadnumb);
@@ -30,7 +30,7 @@ float fann_train_epoch_sarprop_parallel(struct fann *ann, struct fann_train_data
 float fann_train_epoch_incremental_mod(struct fann *ann, struct fann_train_data *data);
 
 float fann_test_data_parallel(struct fann *ann, struct fann_train_data *data, const unsigned int threadnumb);
-#endif /* FIXEDFANN */
+
 
 #ifdef __cplusplus
 #ifndef __cplusplus

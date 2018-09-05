@@ -743,7 +743,7 @@ struct fann
 	 */
 	fann_type *prev_weights_deltas;
 	
-#ifndef FIXEDFANN
+
 	/* Arithmetic mean used to remove steady component in input data.  */
 	float *scale_mean_in;
 
@@ -775,7 +775,7 @@ struct fann
 	 * Resulting data values may be greater than user-defined maximum. 
 	 */
 	float *scale_factor_out;
-#endif
+
 };
 
 /* Type: fann_connection

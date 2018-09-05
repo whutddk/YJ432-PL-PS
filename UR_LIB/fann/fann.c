@@ -714,7 +714,7 @@ void fann_destroy(struct fann *ann)
 	fann_safe_free(ann->cascade_activation_steepnesses);
 	fann_safe_free(ann->cascade_candidate_scores);
 	
-#ifndef FIXEDFANN
+
 	fann_safe_free( ann->scale_mean_in );
 	fann_safe_free( ann->scale_deviation_in );
 	fann_safe_free( ann->scale_new_min_in );
@@ -724,7 +724,7 @@ void fann_destroy(struct fann *ann)
 	fann_safe_free( ann->scale_deviation_out );
 	fann_safe_free( ann->scale_new_min_out );
 	fann_safe_free( ann->scale_factor_out );
-#endif
+
 	
 	fann_safe_free(ann);
 }
@@ -741,12 +741,12 @@ void fann_randomize_weights(struct fann *ann, fann_type min_weight,
 		*weights = (fann_type) (fann_rand(min_weight, max_weight));
 	}
 
-#ifndef FIXEDFANN
+
 	if(ann->prev_train_slopes != NULL)
 	{
 		fann_clear_train_arrays(ann);
 	}
-#endif
+
 }
 
 /* deep copy of the fann structure */
@@ -792,7 +792,7 @@ struct fann* fann_copy(struct fann* orig)
 	copy->training_algorithm = orig->training_algorithm;
     copy->callback = orig->callback;
 	copy->user_data = orig->user_data;
-#ifndef FIXEDFANN
+
     copy->cascade_output_change_fraction = orig->cascade_output_change_fraction;
     copy->cascade_output_stagnation_epochs = orig->cascade_output_stagnation_epochs;
     copy->cascade_candidate_change_fraction = orig->cascade_candidate_change_fraction;
@@ -846,7 +846,7 @@ struct fann* fann_copy(struct fann* orig)
         }
         memcpy(copy->cascade_candidate_scores,orig->cascade_candidate_scores,fann_get_cascade_num_candidates(copy) * sizeof(fann_type));
     }
-#endif /* FIXEDFANN */
+
 
     copy->quickprop_decay = orig->quickprop_decay;
     copy->quickprop_mu = orig->quickprop_mu;
@@ -875,7 +875,7 @@ struct fann* fann_copy(struct fann* orig)
 
 
     /* copy scale parameters, when used */
-#ifndef FIXEDFANN
+
     if (orig->scale_mean_in != NULL)
     {
         fann_allocate_scale(copy);
@@ -892,7 +892,7 @@ struct fann* fann_copy(struct fann* orig)
             copy->scale_factor_out[i] = orig->scale_factor_out[i];
         }
     }
-#endif
+
 
     /* copy the neurons */
     fann_allocate_neurons(copy);
@@ -1103,20 +1103,20 @@ void fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 		}
 	}
 
-#ifndef FIXEDFANN
+
 	if(ann->prev_train_slopes != NULL)
 	{
 		fann_clear_train_arrays(ann);
 	}
-#endif
+
 }
 
 void fann_print_parameters(struct fann *ann)
 {
 	struct fann_layer *layer_it;
-#ifndef FIXEDFANN
+
 	uint32_t i;
-#endif
+
 
 	printf("Input layer                          :%4d neurons, 1 bias\n", ann->num_input);
 	for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer - 1; layer_it++)
@@ -1416,7 +1416,7 @@ struct fann *fann_allocate_structure(uint32_t num_layers)
 	ann->weights = NULL;
 	ann->connections = NULL;
 	ann->output = NULL;
-#ifndef FIXEDFANN
+
 	ann->scale_mean_in = NULL;
 	ann->scale_deviation_in = NULL;
 	ann->scale_new_min_in = NULL;
@@ -1425,7 +1425,7 @@ struct fann *fann_allocate_structure(uint32_t num_layers)
 	ann->scale_deviation_out = NULL;
 	ann->scale_new_min_out = NULL;
 	ann->scale_factor_out = NULL;
-#endif	
+
 	
 	/* variables used for cascade correlation (reasonable defaults) */
 	ann->cascade_output_change_fraction = 0.01f;
@@ -1521,7 +1521,7 @@ struct fann *fann_allocate_structure(uint32_t num_layers)
 int32_t fann_allocate_scale(struct fann *ann)
 {
 	/* todo this should only be allocated when needed */
-#ifndef FIXEDFANN
+
 	uint32_t i = 0;
 #define SCALE_ALLOCATE( what, where, default_value )		    			\
 		ann->what##_##where = (float *)calloc(								\
@@ -1547,7 +1547,7 @@ int32_t fann_allocate_scale(struct fann *ann)
 	SCALE_ALLOCATE( scale_new_min,	out,	-1.0 )
 	SCALE_ALLOCATE( scale_factor,		out,	1.0 )
 #undef SCALE_ALLOCATE
-#endif	
+
 	return 0;
 }
 
