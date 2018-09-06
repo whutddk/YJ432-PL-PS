@@ -29,8 +29,8 @@ data  £ºÊý¾Ý-32768~32767
 */
 void push(uint8_t chanel,uint16_t data)
 {
-		uSendBuf[chanel*2] = data / 256;
-		uSendBuf[chanel*2+1] = data % 256;
+	uSendBuf[chanel*2] = data / 256;
+	uSendBuf[chanel*2+1] = data % 256;
 }
 
 
@@ -73,17 +73,17 @@ static void UartDebug()
 
 	// * ( po3PID0_CUR_REG ) = (uint32_t)(-(int32_t)UartData[0]);
 	
-	* ( po3PID0_KPS_REG ) = (uint32_t)((int32_t)UartData[1]);
+	// * ( po3PID0_KPS_REG ) = (uint32_t)((int32_t)UartData[1]);
 
-	* ( po3PID0_KDS_REG ) = (uint32_t)((int32_t)UartData[2]);
+	// * ( po3PID0_KDS_REG ) = (uint32_t)((int32_t)UartData[2]);
 	
-	* ( po3PID0_KPM_REG ) = (uint32_t)((int32_t)UartData[3]);
+	// * ( po3PID0_KPM_REG ) = (uint32_t)((int32_t)UartData[3]);
 
-	* ( po3PID0_KDM_REG ) = (uint32_t)((int32_t)UartData[4]);
+	// * ( po3PID0_KDM_REG ) = (uint32_t)((int32_t)UartData[4]);
 	
-	* ( po3PID0_KPB_REG ) = (uint32_t)((int32_t)UartData[5]);
+	// * ( po3PID0_KPB_REG ) = (uint32_t)((int32_t)UartData[5]);
 
-	* ( po3PID0_KDB_REG ) = (uint32_t)((int32_t)UartData[6]);
+	// * ( po3PID0_KDB_REG ) = (uint32_t)((int32_t)UartData[6]);
 
 
 	bz_set(datarec);
@@ -101,10 +101,10 @@ static void UartCmd(uint8_t cmdnum,uint8_t cmddata)///
 		case(11):break;//F11
 		case(12):break;//F12
 		case(100):break;//PAUSE
-		case(101):ctl.flag_end = 0;break;//HOME
+		case(101):break;//HOME
 		case(102):break;//PG UP
 		case(103):break;//PF DN
-		case(104):ctl.flag_end = 1;break;//END
+		case(104):break;//END
 // #if FUZZY
 //     case(105):send_rule();break;
 //     case(106):send_delta();break;

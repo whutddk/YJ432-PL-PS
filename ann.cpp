@@ -219,7 +219,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 			}
 			
 			fc.printf("result is %f\n\r", qval_p[0]);
-			fc.printf("Index: %d\n", action);
+			fc.printf("Index: %d\n\r", action);
 		}
 
 
@@ -230,7 +230,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 		
 		//waiting for user reward!
 		fann_type reward = 0.0;
-		fc.printf("Reinforce now!\n");
+		fc.printf("Reinforce now!\n\r");
 
 		if ( auto_checkout(action) )
 		{
@@ -246,7 +246,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 
 		//display reward decision
 
-		fc.printf("reward: %f\n", reward);
+		fc.printf("reward: %f\n\r", reward);
 
 		//fill array with new state
 		ann_getLEDsWithOld(new_in_p);
@@ -264,7 +264,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 
 		//debug outputs
 
-		fc.printf("MaxNewQ: %f\n", maxQ);
+		fc.printf("MaxNewQ: %f\n\r", maxQ);
 
 		//set the old values as train data (output) - use new max in equation
 
@@ -288,7 +288,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 		}
 	}
 
-	fann_save(ann, "/fs/ann01");
+	//fann_save(ann, "/fs/ann01");
 
 	//mark that we go to the execution state
 

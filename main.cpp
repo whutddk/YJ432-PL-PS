@@ -38,8 +38,8 @@ int main(void)
 	// fc.printf("flexbus INITIALIZATION COMPLETE!");
 	
 	ITAC_thread.start(itac_app);
-	FC_thread.start(FC_app);
-
+	// FC_thread.start(FC_app);
+	CTL_thread.start(CTL_app);
 	bz_set(ready);
 
 
