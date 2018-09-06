@@ -9,7 +9,7 @@ void CTL_app()
 	fs.mount(&sd);
 
 
-	ann_start_qlearning(200000, 0.01, 1.0);
+	ann_start_qlearning(200000, 0.9, 1.0);
 
 }
 
