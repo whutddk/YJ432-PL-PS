@@ -288,7 +288,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 		}
 	}
 
-	fann_save(ann, const char *configuration_file);
+	fann_save(ann, "/fs/ann01");
 
 	//mark that we go to the execution state
 
