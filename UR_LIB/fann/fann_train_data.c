@@ -254,12 +254,12 @@ void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
 	int32_t desired_error_reached;
 
 #ifdef DEBUG
-	printf("Training with %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
+	//printf("Training with %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
 #endif
 
 	if(epochs_between_reports && ann->callback == NULL)
 	{
-		printf("Max epochs %8d. Desired error: %.10f.\n", max_epochs, desired_error);
+		//printf("Max epochs %8d. Desired error: %.10f.\n", max_epochs, desired_error);
 	}
 
 	for(i = 1; i <= max_epochs; i++)
@@ -279,8 +279,8 @@ void fann_train_on_data(struct fann *ann, struct fann_train_data *data,
 		{
 			if(ann->callback == NULL)
 			{
-				printf("Epochs     %8d. Current error: %.10f. Bit fail %d.\n", i, error,
-					   ann->num_bit_fail);
+				//printf("Epochs     %8d. Current error: %.10f. Bit fail %d.\n", i, error,
+					   // ann->num_bit_fail);
 			}
 			else if(((*ann->callback)(ann, data, max_epochs, epochs_between_reports, 
 									  desired_error, i)) == -1)
