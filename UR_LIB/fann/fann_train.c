@@ -246,7 +246,7 @@ void fann_compute_MSE(struct fann *ann, fann_type * desired_output)
 	error_begin = ann->train_errors;
 
 #ifdef DEBUGTRAIN
-	printf("\ncalculate errors\n");
+	//printf("\ncalculate errors\n");
 #endif
 	/* calculate the error and place it in the output layer */
 	error_it = error_begin + (last_layer_begin - first_neuron);
@@ -394,14 +394,14 @@ void fann_update_weights(struct fann *ann)
 	}
 
 #ifdef DEBUGTRAIN
-	printf("\nupdate weights\n");
+	//printf("\nupdate weights\n");
 #endif
 	deltas_begin = ann->prev_weights_deltas;
 	prev_neurons = first_neuron;
 	for(layer_it = (first_layer + 1); layer_it != last_layer; layer_it++)
 	{
 #ifdef DEBUGTRAIN
-		printf("layer[%d]\n", layer_it - first_layer);
+		//printf("layer[%d]\n", layer_it - first_layer);
 #endif
 		last_neuron = layer_it->last_neuron;
 		if(ann->connection_rate >= 1)
@@ -486,7 +486,7 @@ void fann_update_slopes_batch(struct fann *ann, struct fann_layer *layer_begin,
 	slope_begin = ann->train_slopes;
 
 #ifdef DEBUGTRAIN
-	printf("\nupdate slopes\n");
+	//printf("\nupdate slopes\n");
 #endif
 
 	prev_neurons = first_neuron;
@@ -494,7 +494,7 @@ void fann_update_slopes_batch(struct fann *ann, struct fann_layer *layer_begin,
 	for(; layer_begin <= layer_end; layer_begin++)
 	{
 #ifdef DEBUGTRAIN
-		printf("layer[%d]\n", layer_begin - ann->first_layer);
+		//printf("layer[%d]\n", layer_begin - ann->first_layer);
 #endif
 		last_neuron = layer_begin->last_neuron;
 		if(ann->connection_rate >= 1)

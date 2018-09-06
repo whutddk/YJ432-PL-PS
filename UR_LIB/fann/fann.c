@@ -173,9 +173,9 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	}
 
 #ifdef DEBUG
-	printf("creating network with connection rate %f\n", connection_rate);
-	printf("input\n");
-	printf("  layer       : %d neurons, 1 bias\n",(int32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
+	//printf("creating network with connection rate %f\n", connection_rate);
+	//printf("input\n");
+	//printf("  layer       : %d neurons, 1 bias\n",(int32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
 #endif
 
 	num_neurons_in = ann->num_input;
@@ -261,7 +261,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 #endif
 			prev_layer = layer_it;
 #ifdef DEBUG
-			printf("  layer       : %d neurons, 1 bias\n", prev_layer_size - 1);
+			//printf("  layer       : %d neurons, 1 bias\n", prev_layer_size - 1);
 #endif
 		}
 	}
@@ -364,7 +364,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 			}
 
 #ifdef DEBUG
-			printf("  layer       : %d neurons, 1 bias\n", num_neurons_out);
+			//printf("  layer       : %d neurons, 1 bias\n", num_neurons_out);
 #endif
 		}
 
@@ -374,7 +374,7 @@ struct fann *fann_create_sparse_array(float connection_rate, uint32_t num_layers
 	}
 
 #ifdef DEBUG
-	printf("output\n");
+	//printf("output\n");
 #endif
 
 	return ann;
@@ -471,10 +471,10 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 	}
 
 #ifdef DEBUG
-	printf("creating fully shortcut connected network.\n");
-	printf("input\n");
-	printf("  layer       : %d neurons, 1 bias\n",
-		   (int32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
+	//printf("creating fully shortcut connected network.\n");
+	//printf("input\n");
+	//printf("  layer       : %d neurons, 1 bias\n",
+		   // (int32_t)(ann->first_layer->last_neuron - ann->first_layer->first_neuron - 1));
 #endif
 
 	num_neurons_in = ann->num_input;
@@ -497,7 +497,7 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 		}
 
 #ifdef DEBUG
-		printf("  layer       : %d neurons, 0 bias\n", num_neurons_out);
+		//printf("  layer       : %d neurons, 0 bias\n", num_neurons_out);
 #endif
 		/* used in the next run of the loop */
 		num_neurons_in += num_neurons_out;
@@ -535,7 +535,7 @@ struct fann *fann_create_shortcut_array(uint32_t num_layers, const uint32_t *lay
 	}
 
 #ifdef DEBUG
-	printf("output\n");
+	//printf("output\n");
 #endif
 
 	return ann;
@@ -637,7 +637,7 @@ fann_type *fann_run(struct fann * ann, fann_type * input)
 
 				/*
 				 * for(i = 0;i != num_connections; i++){
-				 * printf("%f += %f*%f, ", neuron_sum, weights[i], neurons[i].value);
+				 * //printf("%f += %f*%f, ", neuron_sum, weights[i], neurons[i].value);
 				 * neuron_sum += fann_mult(weights[i], neurons[i].value);
 				 * }
 				 */
@@ -996,12 +996,12 @@ void fann_print_connections(struct fann *ann)
 	}
 	neurons[num_neurons] = 0;
 
-	printf("Layer / Neuron ");
+	//printf("Layer / Neuron ");
 	for(i = 0; i < num_neurons; i++)
 	{
-		printf("%d", i % 10);
+		//printf("%d", i % 10);
 	}
-	printf("\n");
+	//printf("\n");
 
 	for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer; layer_it++)
 	{
@@ -1030,8 +1030,8 @@ void fann_print_connections(struct fann *ann)
 					neurons[ann->connections[i] - ann->first_layer->first_neuron] = (char)('A' + value);
 				}
 			}
-			printf("L %3d / N %4d %s\n", (int)(layer_it - ann->first_layer),
-				   (int)(neuron_it - ann->first_layer->first_neuron), neurons);
+			//printf("L %3d / N %4d %s\n", (int)(layer_it - ann->first_layer),
+				   // (int)(neuron_it - ann->first_layer->first_neuron), neurons);
 		}
 	}
 
@@ -1070,7 +1070,7 @@ void fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 																		 smallest_inp));
 
 #ifdef DEBUG
-	printf("Initializing weights with scale factor %f\n", scale_factor);
+	//printf("Initializing weights with scale factor %f\n", scale_factor);
 #endif
 	bias_neuron = ann->first_layer->last_neuron - 1;
 	for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer; layer_it++)
@@ -1118,58 +1118,59 @@ void fann_print_parameters(struct fann *ann)
 	uint32_t i;
 
 
-	printf("Input layer                          :%4d neurons, 1 bias\n", ann->num_input);
+	//printf("Input layer                          :%4d neurons, 1 bias\n", ann->num_input);
 	for(layer_it = ann->first_layer + 1; layer_it != ann->last_layer - 1; layer_it++)
 	{
 		if(ann->network_type == FANN_NETTYPE_SHORTCUT)
 		{
-			printf("  Hidden layer                       :%4d neurons, 0 bias\n",
-				   (int)(layer_it->last_neuron - layer_it->first_neuron));
+			//printf("  Hidden layer                       :%4d neurons, 0 bias\n",
+				   // (int)(layer_it->last_neuron - layer_it->first_neuron));
 		}
 		else
 		{
-			printf("  Hidden layer                       :%4d neurons, 1 bias\n",
-				   (int)(layer_it->last_neuron - layer_it->first_neuron - 1));
+			//printf("  Hidden layer                       :%4d neurons, 1 bias\n",
+				   // (int)(layer_it->last_neuron - layer_it->first_neuron - 1));
 		}
 	}
-	printf("Output layer                         :%4d neurons\n", ann->num_output);
-	printf("Total neurons and biases             :%4d\n", fann_get_total_neurons(ann));
-	printf("Total connections                    :%4d\n", ann->total_connections);
-	printf("Connection rate                      :%8.3f\n", ann->connection_rate);
-	printf("Network type                         :   %s\n", FANN_NETTYPE_NAMES[ann->network_type]);
+	//printf("Output layer                         :%4d neurons\n", ann->num_output);
+	//printf("Total neurons and biases             :%4d\n", fann_get_total_neurons(ann));
+	//printf("Total connections                    :%4d\n", ann->total_connections);
+	//printf("Connection rate                      :%8.3f\n", ann->connection_rate);
+	//printf("Network type                         :   %s\n", FANN_NETTYPE_NAMES[ann->network_type]);
 
-	printf("Training algorithm                   :   %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
-	printf("Training error function              :   %s\n", FANN_ERRORFUNC_NAMES[ann->train_error_function]);
-	printf("Training stop function               :   %s\n", FANN_STOPFUNC_NAMES[ann->train_stop_function]);
+	//printf("Training algorithm                   :   %s\n", FANN_TRAIN_NAMES[ann->training_algorithm]);
+	//printf("Training error function              :   %s\n", FANN_ERRORFUNC_NAMES[ann->train_error_function]);
+	//printf("Training stop function               :   %s\n", FANN_STOPFUNC_NAMES[ann->train_stop_function]);
 
-	printf("Bit fail limit                       :%8.3f\n", ann->bit_fail_limit);
-	printf("Learning rate                        :%8.3f\n", ann->learning_rate);
-	printf("Learning momentum                    :%8.3f\n", ann->learning_momentum);
-	printf("Quickprop decay                      :%11.6f\n", ann->quickprop_decay);
-	printf("Quickprop mu                         :%8.3f\n", ann->quickprop_mu);
-	printf("RPROP increase factor                :%8.3f\n", ann->rprop_increase_factor);
-	printf("RPROP decrease factor                :%8.3f\n", ann->rprop_decrease_factor);
-	printf("RPROP delta min                      :%8.3f\n", ann->rprop_delta_min);
-	printf("RPROP delta max                      :%8.3f\n", ann->rprop_delta_max);
-	printf("Cascade output change fraction       :%11.6f\n", ann->cascade_output_change_fraction);
-	printf("Cascade candidate change fraction    :%11.6f\n", ann->cascade_candidate_change_fraction);
-	printf("Cascade output stagnation epochs     :%4d\n", ann->cascade_output_stagnation_epochs);
-	printf("Cascade candidate stagnation epochs  :%4d\n", ann->cascade_candidate_stagnation_epochs);
-	printf("Cascade max output epochs            :%4d\n", ann->cascade_max_out_epochs);
-	printf("Cascade min output epochs            :%4d\n", ann->cascade_min_out_epochs);
-	printf("Cascade max candidate epochs         :%4d\n", ann->cascade_max_cand_epochs);
-	printf("Cascade min candidate epochs         :%4d\n", ann->cascade_min_cand_epochs);
-	printf("Cascade weight multiplier            :%8.3f\n", ann->cascade_weight_multiplier);
-	printf("Cascade candidate limit              :%8.3f\n", ann->cascade_candidate_limit);
+	//printf("Bit fail limit                       :%8.3f\n", ann->bit_fail_limit);
+	//printf("Learning rate                        :%8.3f\n", ann->learning_rate);
+	//printf("Learning momentum                    :%8.3f\n", ann->learning_momentum);
+	//printf("Quickprop decay                      :%11.6f\n", ann->quickprop_decay);
+	//printf("Quickprop mu                         :%8.3f\n", ann->quickprop_mu);
+	//printf("RPROP increase factor                :%8.3f\n", ann->rprop_increase_factor);
+	//printf("RPROP decrease factor                :%8.3f\n", ann->rprop_decrease_factor);
+	//printf("RPROP delta min                      :%8.3f\n", ann->rprop_delta_min);
+	//printf("RPROP delta max                      :%8.3f\n", ann->rprop_delta_max);
+	//printf("Cascade output change fraction       :%11.6f\n", ann->cascade_output_change_fraction);
+	//printf("Cascade candidate change fraction    :%11.6f\n", ann->cascade_candidate_change_fraction);
+	//printf("Cascade output stagnation epochs     :%4d\n", ann->cascade_output_stagnation_epochs);
+	//printf("Cascade candidate stagnation epochs  :%4d\n", ann->cascade_candidate_stagnation_epochs);
+	//printf("Cascade max output epochs            :%4d\n", ann->cascade_max_out_epochs);
+	//printf("Cascade min output epochs            :%4d\n", ann->cascade_min_out_epochs);
+	//printf("Cascade max candidate epochs         :%4d\n", ann->cascade_max_cand_epochs);
+	//printf("Cascade min candidate epochs         :%4d\n", ann->cascade_min_cand_epochs);
+	//printf("Cascade weight multiplier            :%8.3f\n", ann->cascade_weight_multiplier);
+	//printf("Cascade candidate limit              :%8.3f\n", ann->cascade_candidate_limit);
 	for(i = 0; i < ann->cascade_activation_functions_count; i++)
-		printf("Cascade activation functions[%d]      :   %s\n", i,
-			FANN_ACTIVATIONFUNC_NAMES[ann->cascade_activation_functions[i]]);
+		//printf("Cascade activation functions[%d]      :   %s\n", i,
+		//	FANN_ACTIVATIONFUNC_NAMES[ann->cascade_activation_functions[i]]);
 	for(i = 0; i < ann->cascade_activation_steepnesses_count; i++)
-		printf("Cascade activation steepnesses[%d]    :%8.3f\n", i,
-			ann->cascade_activation_steepnesses[i]);
-		
-	printf("Cascade candidate groups             :%4d\n", ann->cascade_num_candidate_groups);
-	printf("Cascade no. of candidates            :%4d\n", fann_get_cascade_num_candidates(ann));
+	{
+		//printf("Cascade activation steepnesses[%d]    :%8.3f\n", i,
+		//	ann->cascade_activation_steepnesses[i]);
+	}	
+	//printf("Cascade candidate groups             :%4d\n", ann->cascade_num_candidate_groups);
+	//printf("Cascade no. of candidates            :%4d\n", fann_get_cascade_num_candidates(ann));
 	
 	/* TODO: dump scale parameters */
 
@@ -1376,7 +1377,7 @@ struct fann *fann_allocate_structure(uint32_t num_layers)
 	if(num_layers < 2)
 	{
 #ifdef DEBUG
-		printf("less than 2 layers - ABORTING.\n");
+		//printf("less than 2 layers - ABORTING.\n");
 #endif
 		return NULL;
 	}
@@ -1651,7 +1652,7 @@ void fann_seed_rand()
 		gettimeofday(&t, NULL);
 		foo = t.tv_usec;
 #ifdef DEBUG
-		printf("unable to open /dev/urandom\n");
+		//printf("unable to open /dev/urandom\n");
 #endif
 	}
 	else
@@ -1661,7 +1662,7 @@ void fann_seed_rand()
   		       gettimeofday(&t, NULL);
 		       foo = t.tv_usec;
 #ifdef DEBUG
-		       printf("unable to read from /dev/urandom\n");
+		       //printf("unable to read from /dev/urandom\n");
 #endif		      
 		}
 		fclose(fp);

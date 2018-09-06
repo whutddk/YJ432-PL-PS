@@ -158,8 +158,8 @@ int32_t fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configu
 		fixed_multiplier = 1 << decimal_point;
 
 #ifdef DEBUG
-		printf("calculated_decimal_point=%d, decimal_point=%u, bits_used_for_max=%u\n",
-			   calculated_decimal_point, decimal_point, bits_used_for_max);
+		//printf("calculated_decimal_point=%d, decimal_point=%u, bits_used_for_max=%u\n",
+			   // calculated_decimal_point, decimal_point, bits_used_for_max);
 #endif
 
 		/* save the decimal_point on a seperate line */
@@ -501,8 +501,8 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 
 
 #ifdef DEBUG
-	printf("creating network with %d layers\n", num_layers);
-	printf("input\n");
+	// printf("creating network with %d layers\n", num_layers);
+	// printf("input\n");
 #endif
 
 	fann_skip("layer_sizes=");
@@ -523,11 +523,11 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 #ifdef DEBUG
 		if(ann->network_type == FANN_NETTYPE_SHORTCUT && layer_it != ann->first_layer)
 		{
-			printf("  layer       : %d neurons, 0 bias\n", layer_size);
+			// printf("  layer       : %d neurons, 0 bias\n", layer_size);
 		}
 		else
 		{
-			printf("  layer       : %d neurons, 1 bias\n", layer_size - 1);
+			// printf("  layer       : %d neurons, 1 bias\n", layer_size - 1);
 		}
 #endif
 	}
@@ -619,7 +619,7 @@ struct fann *fann_create_from_fd(FILE * conf, const char *configuration_file)
 	}
 
 #ifdef DEBUG
-	printf("output\n");
+	// printf("output\n");
 #endif
 	return ann;
 }
@@ -663,8 +663,8 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 
 
 #ifdef DEBUG
-	printf("creating network with learning rate %f\n", learning_rate);
-	printf("input\n");
+	// printf("creating network with learning rate %f\n", learning_rate);
+	// printf("input\n");
 #endif
 
 	/* determine how many neurons there should be in each layer */
@@ -684,11 +684,11 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 #ifdef DEBUG
 		if(ann->network_type == FANN_NETTYPE_SHORTCUT && layer_it != ann->first_layer)
 		{
-			printf("  layer       : %d neurons, 0 bias\n", layer_size);
+			// printf("  layer       : %d neurons, 0 bias\n", layer_size);
 		}
 		else
 		{
-			printf("  layer       : %d neurons, 1 bias\n", layer_size - 1);
+			// printf("  layer       : %d neurons, 1 bias\n", layer_size - 1);
 		}
 #endif
 	}
@@ -751,7 +751,7 @@ struct fann *fann_create_from_fd_1_1(FILE * conf, const char *configuration_file
 	fann_set_activation_function_output(ann, (enum fann_activationfunc_enum)activation_function_output);
 
 #ifdef DEBUG
-	printf("output\n");
+	// printf("output\n");
 #endif
 	return ann;
 }
