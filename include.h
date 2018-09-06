@@ -8,7 +8,13 @@
 #include "CTL.h"
 #include "PL_DEF.h"
 
+#include "SDHCBlockDevice.h"
+#include "FATFileSystem.h"
+
 #include "fann.h"
+
+extern SDHCBlockDevice sd;
+extern FATFileSystem fs;
 
 #endif
 

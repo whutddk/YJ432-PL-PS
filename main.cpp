@@ -5,7 +5,8 @@
 
 #include "include.h"
 
-
+SDHCBlockDevice sd;
+FATFileSystem fs("fs");
 
 //人机交互任务
 Thread ITAC_thread(osPriorityLow);
