@@ -85,7 +85,7 @@ static void ann_setLEDs(int index)
 	LEDSIT[7] = 0;
 
 	//to switch all LEDs short time off -> if the same LED lights up
-	wait(0.3);
+	// wait(0.1);
 
 	switch(index)
 	{
@@ -131,7 +131,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 	//create ann -> 1 hidden layer with 4 neurons
 
 
-	struct fann *ann = fann_create_standard(10, num_inputs, 50, 50, 50, 50, 50, 50, 50, 50, num_outputs);
+	struct fann *ann = fann_create_standard(10, num_inputs, 25, 25, 25, 25, 25, 25, 25, 25, num_outputs);
 
 	//stepwise is more then two times faster
 
@@ -158,6 +158,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 
 	for(int i = 0; i < epochs; i++ )
 	{
+		fc.printf("now i = %d\r\n",i);
 		int action;
 		//run ann network
 		fann_type *qval_p = fann_run(ann, old_in_p);
@@ -242,7 +243,7 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 			reward = -1.0;
 			fc.printf("veto!\n\r");
 		}
-		wait(0.1);
+		// wait(0.1);
 
 		//display reward decision
 
@@ -274,7 +275,9 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 		//fann_set_training_algorithm has no effect!
 		//or same as fann_set_training_algorithm = incremental and train epoch
 		//train ann   , input, desired outputs
+		
 		fann_train(ann, old_in_p, qval);
+
 
 		//switch pointer -> new data, to old data
 		fann_type *temp = old_in_p;
@@ -286,9 +289,10 @@ void ann_start_qlearning(int epochs, float gamma, float epsilon)
 		{
 			epsilon -= ( 1.0 / epochs );
 		}
+
 	}
 
-	//fann_save(ann, "/fs/ann01");
+	fann_save(ann, "/fs/ann01");
 
 	//mark that we go to the execution state
 
