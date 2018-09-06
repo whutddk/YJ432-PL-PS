@@ -5,7 +5,7 @@ int auto_checkout(int lednum)
 {
 	static int pre_num = 0;
 
-	if ( ( 		lednum == 0 && pre_num == 1 ) 
+	if ( (	lednum == 0 && pre_num == 1 ) 
 		|| ( 	lednum == 1 && pre_num == 2 )
 		|| ( 	lednum == 2 && pre_num == 3 )
 		|| ( 	lednum == 3 && pre_num == 4 ) 
