@@ -94,11 +94,8 @@ void fann_train(struct fann *ann, fann_type * input,
 									   fann_type * desired_output)
 {
 	fann_run(ann, input);
-
 	fann_compute_MSE(ann, desired_output);
-
 	fann_backpropagate_MSE(ann);
-
 	fann_update_weights(ann);
 }
 
