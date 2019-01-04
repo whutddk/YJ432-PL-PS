@@ -1,4 +1,12 @@
-#include "mbed.h"
+/*
+* @File Name main.cpp
+* @File Path M:\MAS2\mbed\YJ432-PS\main.cpp
+* @Author: WUT_Ruige_Lee
+* @Date:   2019-01-04 19:54:48
+* @Last Modified by:   WUT_Ruige_Lee
+* @Last Modified time: 2019-01-04 20:10:20
+* @Email: 295054118@whut.edu.cn"
+*/#include "mbed.h"
 
 #include "ITAC.h"
 
@@ -29,7 +37,7 @@ extern Serial fc;
 int main(void)
 {
 	// buzzer = 0;
-	
+	FPGA_PROG = 1;
 	//boot fpga here
 	#if SPI_CFG
 
@@ -38,10 +46,21 @@ int main(void)
 	
 	#endif
 
-	// YJ_FB_init();
+	YJ_FB_init();
 	fc.printf("flexbus INITIALIZATION IGNORE!");
 
 	bz_set(ready);
+
+	*(bzled_reg + 0) = 1000000;
+    wait(0.05);
+    *(bzled_reg + 1) = 1000000;
+    wait(0.05);
+    *(bzled_reg + 2) = 600000;
+    wait(0.05);
+    *(bzled_reg + 3) = 700000;
+    wait(0.05);
+    *(bzled_reg + 4) = 600000;
+	wait(0.05);
 
 	while(1)
 	{		
