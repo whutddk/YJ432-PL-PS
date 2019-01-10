@@ -23,65 +23,6 @@
 #define INITIAL_SP              (0x10008000UL)
 #endif
 
-#elif defined(TARGET_TEENSY3_1)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20008000UL)
-#endif
-
-#elif defined(TARGET_MCU_K22F)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20010000UL)
-#endif
-
-#elif defined(TARGET_K66F)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20030000UL)
-#endif
-
-#elif defined(TARGET_KL27Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20003000UL)
-#endif
-
-#elif defined(TARGET_KL43Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20006000UL)
-#endif
-
-#elif defined(TARGET_KL05Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20000C00UL)
-#endif
-
-#elif defined(TARGET_KL25Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20003000UL)
-#endif
-
-#elif defined(TARGET_KL26Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20003000UL)
-#endif
-
-#elif defined(TARGET_KL46Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20006000UL)
-#endif
-
-#elif defined(TARGET_KL82Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20012000UL)
-#endif
 
 #elif defined(TARGET_K64F)
 
@@ -89,31 +30,19 @@
 #define INITIAL_SP              (0x20030000UL)
 #endif
 
-#elif defined(TARGET_SDT64B)
+#elif defined(TARGET_K64USB)
 
 #ifndef INITIAL_SP
 #define INITIAL_SP              (0x20030000UL)
 #endif
 
-#elif defined(TARGET_KW24D)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20008000UL)
-#endif
-
-#elif defined(TARGET_KW41Z)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20018000UL)
-#endif
-
-#elif defined(TARGET_K82F)
+#elif defined(TARGET_K64WUT135)
 
 #ifndef INITIAL_SP
 #define INITIAL_SP              (0x20030000UL)
 #endif
 
-#elif defined(TARGET_RO359B)
+#elif defined(TARGET_K64YJ432)
 
 #ifndef INITIAL_SP
 #define INITIAL_SP              (0x20030000UL)
