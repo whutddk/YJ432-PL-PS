@@ -4,9 +4,11 @@
 * @Author: WUT_Ruige_Lee
 * @Date:   2019-01-10 22:04:28
 * @Last Modified by:   WUT_Ruige_Lee
-* @Last Modified time: 2019-01-11 10:39:38
+* @Last Modified time: 2019-01-11 14:16:15
 * @Email: 295054118@whut.edu.cn"
-*//* mbed Microcontroller Library
+*/
+
+/* mbed Microcontroller Library
  * Copyright (c) 2016 ARM Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,21 +24,6 @@
  * limitations under the License.
  */
 
-#ifndef MBED_MBED_RTX_H
-#define MBED_MBED_RTX_H
-
-#if defined(TARGET_K20D50M)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x10008000UL)
-#endif
-
-
-#elif defined(TARGET_K64F)
-
-#ifndef INITIAL_SP
-#define INITIAL_SP              (0x20030000UL)
-#endif
 
 #elif defined(TARGET_K64USB)
 
@@ -56,6 +43,3 @@
 #define INITIAL_SP              (0x20030000UL)
 #endif
 
-#endif
-
-#endif  // MBED_MBED_RTX_H
