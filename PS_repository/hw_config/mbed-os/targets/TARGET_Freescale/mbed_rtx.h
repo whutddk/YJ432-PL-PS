@@ -1,4 +1,12 @@
-/* mbed Microcontroller Library
+/*
+* @File Name mbed_rtx.h
+* @File Path M:\MAS2\YJ432-PL-PS\PS_repository\hw_config\mbed-os\targets\TARGET_Freescale\mbed_rtx.h
+* @Author: WUT_Ruige_Lee
+* @Date:   2019-01-10 22:04:28
+* @Last Modified by:   WUT_Ruige_Lee
+* @Last Modified time: 2019-01-11 10:39:38
+* @Email: 295054118@whut.edu.cn"
+*//* mbed Microcontroller Library
  * Copyright (c) 2016 ARM Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +50,7 @@
 #define INITIAL_SP              (0x20030000UL)
 #endif
 
-#elif defined(TARGET_K64YJ432)
+#elif defined(TARGET_K64ARM4FPGA)
 
 #ifndef INITIAL_SP
 #define INITIAL_SP              (0x20030000UL)
