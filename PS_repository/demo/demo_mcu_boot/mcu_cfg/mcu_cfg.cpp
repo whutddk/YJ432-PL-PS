@@ -4,7 +4,7 @@
 * @Author: WUT_Ruige_Lee
 * @Date:   2019-01-11 10:56:50
 * @Last Modified by:   WUT_Ruige_Lee
-* @Last Modified time: 2019-01-11 11:22:01
+* @Last Modified time: 2019-01-11 14:05:54
 * @Email: 295054118@whut.edu.cn"
 */
 
@@ -20,7 +20,7 @@ DigitalOut FPGA_PROG(PROG_IO);
 
 void wait_fpga_init()
 {
-	//make sure FPGA reset is High
+	//make sure fpga prog is high or FPGA may stack in un-config state
 	FPGA_PROG = 1;
 
 	//Wait until Done Goes HIGH
@@ -61,9 +61,9 @@ void spi_cfg_fpga()
 	}
 
 	spi_config.format(8, 0);
-	spi_config.frequency(5000000);
 
-
+	//set frequece to 10M 
+	spi_config.frequency(10000000);
 
 	//Pull Down PROG to Reset FPGA
 	FPGA_PROG = 0;
@@ -74,7 +74,6 @@ void spi_cfg_fpga()
 	//Pull Up PROG
 
 	FPGA_PROG = 1;
-
 
 	//Wait until INIT Goes HIGH
 	// while(!FPGA_INIT);
@@ -96,9 +95,6 @@ void spi_cfg_fpga()
 	}
 	//File close
 	fclose(fd);
-
-
-	wait_fpga_init();
 
 }
 
