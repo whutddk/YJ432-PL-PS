@@ -2,6 +2,7 @@
 
 ARM+FPGA borad demo
 
+-----------------------------
 
 ## how to config target of mbed-os
 
@@ -46,3 +47,6 @@ ARM+FPGA borad demo
     - PeripheralPins.c
     - PinNames.h
 
+* copy ***.mbed*** from ***PS_repository/Template*** to your mbed workspace
+
+-----------------------------------
