@@ -1,3 +1,13 @@
+/*
+* @File Name PeripheralPins.c
+* @File Path M:\MAS2\YJ432-PL-PS\PS_repository\hw_config\mbed-os\targets\TARGET_Freescale\TARGET_MCUXpresso_MCUS\TARGET_MCU_K64F\TARGET_WUT435\PeripheralPins.c
+* @Author: WUT_Ruige_Lee
+* @Date:   2019-01-11 10:24:59
+* @Last Modified by:   WUT_Ruige_Lee
+* @Last Modified time: 2019-01-11 10:30:59
+* @Email: 295054118@whut.edu.cn"
+*/
+
 /* mbed Microcontroller Library
  * Copyright (c) 2006-2013 ARM Limited
  *
@@ -42,10 +52,6 @@ const PinMap PinMap_ADC[] = {
     {PTD1,  ADC0_SE5b, 0},
     {PTD5,  ADC0_SE6b, 0},
     {PTD6,  ADC0_SE7b, 0},
-    {PTE0,  ADC1_SE4a, 0},
-    {PTE1,  ADC1_SE5a, 0},
-    {PTE2,  ADC1_SE6a, 0},
-    {PTE3,  ADC1_SE7a, 0},
     //{PTE24, ADC0_SE17, 0}, //I2C pull up
     //{PTE25, ADC0_SE18, 0}, //I2C pull up
     {NC   , NC       , 0}
@@ -65,7 +71,6 @@ const PinMap PinMap_I2C_SDA[] = {
     {PTC11, I2C_1, 2},
     {PTA13, I2C_2, 5},
     {PTD3 , I2C_0, 7},
-    {PTE0 , I2C_1, 6},
     {NC   , NC   , 0}
 };
 
@@ -77,7 +82,6 @@ const PinMap PinMap_I2C_SCL[] = {
     {PTA12, I2C_2, 5},
     {PTA14, I2C_2, 5},
     {PTD2 , I2C_0, 7},
-    {PTE1 , I2C_1, 6},
     {NC   , NC   , 0}
 };
 
@@ -92,15 +96,11 @@ const PinMap PinMap_UART_TX[] = {
     {PTB11, UART_3, 3},
     {PTA14, UART_0, 3},
     {PTE24, UART_4, 3},
-    {PTE4 , UART_3, 3},
-    {PTE0,  UART_1, 3},
     {NC  ,  NC    , 0}
 };
 
 const PinMap PinMap_UART_RX[] = {
     {PTB16, UART_0, 3},
-    {PTE1 , UART_1, 3},
-    {PTE5 , UART_3, 3},
     {PTE25, UART_4, 3},
     {PTA15, UART_0, 3},
     {PTC16, UART_3, 3},
@@ -114,9 +114,7 @@ const PinMap PinMap_UART_RX[] = {
 
 const PinMap PinMap_UART_CTS[] = {
     {PTB13, UART_3, 2},
-    {PTE2 , UART_1, 3},
     {PTE6 , UART_3, 3},
-    {PTE26, UART_4, 3},
     {PTA0 , UART_0, 2},
     {PTA16, UART_0, 3},
     {PTB3 , UART_0, 3},
@@ -131,9 +129,7 @@ const PinMap PinMap_UART_CTS[] = {
 
 const PinMap PinMap_UART_RTS[] = {
     {PTB12, UART_3, 2},
-    {PTE3 , UART_1, 3},
     {PTE7 , UART_3, 3},
-    {PTE27, UART_4, 3},
     {PTA17, UART_0, 3},
     {PTB8 , UART_3, 3},
     {PTC1 , UART_1, 3},
@@ -149,7 +145,6 @@ const PinMap PinMap_UART_RTS[] = {
 /************SPI***************/
 const PinMap PinMap_SPI_SCLK[] = {
     {PTD1 , SPI_0, 2},
-    {PTE2 , SPI_1, 2},
     {PTA15, SPI_0, 2},
     {PTB11, SPI_1, 2},
     {PTB21, SPI_2, 2},
@@ -161,8 +156,6 @@ const PinMap PinMap_SPI_SCLK[] = {
 
 const PinMap PinMap_SPI_MOSI[] = {
     {PTD2 , SPI_0, 2},
-    {PTE1 , SPI_1, 2},
-    {PTE3 , SPI_1, 7},
     {PTA16, SPI_0, 2},
     {PTB16, SPI_1, 2},
     {PTB22, SPI_2, 2},
@@ -174,8 +167,6 @@ const PinMap PinMap_SPI_MOSI[] = {
 
 const PinMap PinMap_SPI_MISO[] = {
     {PTD3 , SPI_0, 2},
-    {PTE1 , SPI_1, 7},
-    {PTE3 , SPI_1, 2},
     {PTA17, SPI_0, 2},
     {PTB17, SPI_1, 2},
     {PTB23, SPI_2, 2},
@@ -187,7 +178,6 @@ const PinMap PinMap_SPI_MISO[] = {
 
 const PinMap PinMap_SPI_SSEL[] = {
     {PTD0 , SPI_0, 2},
-    {PTE4 , SPI_1, 2},
     {PTA14, SPI_0, 2},
     {PTB10, SPI_1, 2},
     {PTB20, SPI_2, 2},
@@ -206,8 +196,6 @@ const PinMap PinMap_PWM[] = {
     {PTA3 , PWM_1 , 3},
     {PTA4 , PWM_2 , 3},
     {PTA5 , PWM_3 , 3},
-    {PTA6 , PWM_4 , 3},
-    {PTA7 , PWM_5 , 3},
     {PTA8 , PWM_9 , 3},
     {PTA9 , PWM_10, 3},
     {PTA10, PWM_17, 3},
@@ -239,8 +227,6 @@ const PinMap PinMap_PWM[] = {
     {PTD6 , PWM_7 , 4},
     {PTD4 , PWM_5 , 4},
     {PTD7 , PWM_8 , 4},
-
-    {PTE5 , PWM_25, 6},
     {PTE6 , PWM_26, 6},
 
     {NC   , NC    , 0}

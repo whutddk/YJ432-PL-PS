@@ -99,11 +99,11 @@
         "device_name": "MK64FX512xxx12",
         "bootloader_supported": true
     },
-    "K64YJ432": {
+    "K64ARM4FPGA": {
         "supported_form_factors": ["ARDUINO"],
         "core": "Cortex-M4F",
         "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
-        "extra_labels": ["Freescale", "MCUXpresso_MCUS", "KSDK2_MCUS", "YJ432", "KPSDK_MCUS", "KPSDK_CODE", "MCU_K64F", "Freescale_EMAC"],
+        "extra_labels": ["Freescale", "MCUXpresso_MCUS", "KSDK2_MCUS", "ARM4FPGA", "KPSDK_MCUS", "KPSDK_CODE", "MCU_K64F", "Freescale_EMAC"],
         "is_disk_virtual": true,
         "macros": ["CPU_MK64FX512VMD12", "FSL_RTOS_MBED"],
         "inherits": ["Target"],
