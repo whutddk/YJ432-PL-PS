@@ -1,0 +1,53 @@
+
+
+
+    "K64USB": {
+        "supported_form_factors": ["ARDUINO"],
+        "core": "Cortex-M4F",
+        "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "extra_labels": ["Freescale", "MCUXpresso_MCUS", "KSDK2_MCUS", "USB31", "KPSDK_MCUS", "KPSDK_CODE", "MCU_K64F"],
+        "is_disk_virtual": true,
+        "macros": ["CPU_MK64FX512VDC12", "FSL_RTOS_MBED"],
+        "inherits": ["Target"],
+        "detect_code": ["0240"],
+        "device_has": ["ANALOGIN", "ANALOGOUT", "I2C", "I2CSLAVE", "INTERRUPTIN", "LOWPOWERTIMER", "PORTIN", "PORTINOUT", "PORTOUT", "PWMOUT", "RTC", "SERIAL", "SERIAL_FC", "SERIAL_ASYNCH", "SLEEP", "SPI", "SPI_ASYNCH", "SPISLAVE", "STDIO_MESSAGES", "STORAGE", "TRNG", "FLASH"],
+        "features": ["LWIP", "STORAGE"],
+        "release_versions": ["2", "5"],
+        "device_name": "MK64FX512xxx12",
+        "bootloader_supported": true
+    }
+
+
+
+    "K64WUT135": {
+        "supported_form_factors": ["ARDUINO"],
+        "core": "Cortex-M4F",
+        "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "extra_labels": ["Freescale", "MCUXpresso_MCUS", "KSDK2_MCUS", "WUT135", "KPSDK_MCUS", "KPSDK_CODE", "MCU_K64F"],
+        "is_disk_virtual": true,
+        "macros": ["CPU_MK64FX512VMD12", "FSL_RTOS_MBED"],
+        "inherits": ["Target"],
+        "detect_code": ["0240"],
+        "device_has": ["ANALOGIN", "ANALOGOUT", "I2C", "I2CSLAVE", "INTERRUPTIN", "LOWPOWERTIMER", "PORTIN", "PORTINOUT", "PORTOUT", "PWMOUT", "RTC", "SERIAL", "SERIAL_FC", "SERIAL_ASYNCH", "SLEEP", "SPI", "SPI_ASYNCH", "SPISLAVE", "STDIO_MESSAGES", "STORAGE", "TRNG", "FLASH"],
+        "features": ["LWIP", "STORAGE"],
+        "release_versions": ["2", "5"],
+        "device_name": "MK64FX512xxx12",
+        "bootloader_supported": true
+    }
+
+
+
+    "K64ARM4FPGA": {
+        "core": "Cortex-M4F",
+        "supported_toolchains": ["ARM", "GCC_ARM", "IAR"],
+        "extra_labels": ["Freescale", "MCUXpresso_MCUS", "KSDK2_MCUS", "ARM4FPGA", "KPSDK_MCUS", "KPSDK_CODE", "MCU_K64F"],
+        "is_disk_virtual": true,
+        "macros": ["CPU_MK64FX512VMD12", "FSL_RTOS_MBED"],
+        "inherits": ["Target"],
+        "detect_code": ["0240"],
+        "device_has": ["USTICKER", "LPTICKER", "RTC", "CRC", "ANALOGIN", "ANALOGOUT", "I2C", "I2CSLAVE", "INTERRUPTIN", "PORTIN", "PORTINOUT", "PORTOUT", "PWMOUT", "SERIAL", "SERIAL_FC", "SERIAL_ASYNCH", "SLEEP", "SPI", "SPI_ASYNCH", "SPISLAVE", "STDIO_MESSAGES", "STORAGE", "TRNG", "FLASH"],
+        "features": ["STORAGE"],
+        "release_versions": ["2", "5"],
+        "device_name": "MK64FX512xxx12",
+        "bootloader_supported": true
+    }
