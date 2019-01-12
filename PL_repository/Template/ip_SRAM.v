@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Company:  WUT
+// Company: WUT  
 // Engineer: WUT RUIGE LEE
-// Create Date: 2018/06/21 17:44:39
+// Create Date: 2018/06/21 10:07:43
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:16:26
+// Last Modified time: 2019-01-12 16:28:13
 // Email: 295054118@whut.edu.cn
 // Design Name:   
-// Module Name: FB_SWKEY
+// Module Name: ip_SRAM
 // Project Name:   
 // Target Devices:   
 // Tool Versions:   
@@ -24,7 +24,8 @@
 `timescale 1ns / 1ps
 
 
-module FB_SWKEY(
-	
-    );
+module perip_SRAM(    
+);
+    
+    
 endmodule

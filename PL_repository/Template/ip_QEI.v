@@ -3,10 +3,10 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:18:18
+// Last Modified time: 2019-01-12 16:28:05
 // Email: 295054118@whut.edu.cn
 // Design Name:   
-// Module Name: FB_QEI
+// Module Name: ip_QEI
 // Project Name:   
 // Target Devices:   
 // Tool Versions:   
@@ -24,7 +24,7 @@
 `timescale 1ns / 1ps
 
 
-module QEI(
+module perip_QEI(
 
 	CLK,
 	RST_n,

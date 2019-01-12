@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Company: WUT
+// Company:  WUT
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:15:51
+// Last Modified time: 2019-01-12 16:28:17
 // Email: 295054118@whut.edu.cn
 // Design Name:   
-// Module Name: FB_XADC
+// Module Name: ip_SWKEY
 // Project Name:   
 // Target Devices:   
 // Tool Versions:   
@@ -23,7 +23,8 @@
 
 `timescale 1ns / 1ps
 
-module FB_XADC(
 
+module perip_SWKEY(
+	
     );
 endmodule

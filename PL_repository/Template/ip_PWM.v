@@ -3,10 +3,10 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:19:03
+// Last Modified time: 2019-01-12 16:28:01
 // Email: 295054118@whut.edu.cn
 // Design Name:   
-// Module Name: FB_PWM
+// Module Name: ip_PWM
 // Project Name:   
 // Target Devices:   
 // Tool Versions:   
@@ -25,46 +25,9 @@
 `timescale 1ns / 1ps
 
 
-//寄存器读写
-//外部读出
-always@( negedge BUS_CS or negedge RST_n )
-    if ( !RST_n ) begin
-        BUS_DATA_REG <= 32'b0;
-    end
-    
-    else begin
-        if ( ADD_COMF ) begin        //仲裁通过
-            if ( BUS_read == 1'b1 ) begin
-                case(BUS_ADDR[21:0])
-                    22'b000000:
-                        BUS_DATA_REG[31:0] <= FREQ_Cnt_Reg[31:0];
-                    22'b000100:
-                        BUS_DATA_REG[31:0] <= CH0_duty_Reg[31:0];
-                    22'b001000:
-                        BUS_DATA_REG[31:0] <= CH1_duty_Reg[31:0];
-                    22'b001100:
-                        BUS_DATA_REG[31:0] <= CH2_duty_Reg[31:0];
-                    22'b010000:
-                        BUS_DATA_REG[31:0] <= CH3_duty_Reg[31:0];
-                    22'b010100:
-                        BUS_DATA_REG[31:0] <= CH4_duty_Reg[31:0];
-                    22'b011000:
-                        BUS_DATA_REG[31:0] <= CH5_duty_Reg[31:0];
-                    22'b011100:
-                        BUS_DATA_REG[31:0] <= CH6_duty_Reg[31:0];
-                    22'b100000:
-                        BUS_DATA_REG[31:0] <= CH7_duty_Reg[31:0];
-                    default:
-                        BUS_DATA_REG[31:0] <=32'hffffffff;
-                endcase
-            end
-        end
-    end
-
-endmodule
 
 
-module PWM(
+module perip_PWM(
 
 	CLK,
 	RST_n,
