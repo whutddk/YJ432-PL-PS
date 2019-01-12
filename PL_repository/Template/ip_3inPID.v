@@ -3,7 +3,7 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:27:03
+// Last Modified time: 2019-01-12 16:37:05
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_3inPID
@@ -27,5 +27,5 @@
 
 module perip_3inPID(
 
-    );
+	);
 endmodule

@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:34:25
+// Last Modified time: 2019-01-12 16:37:58
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -33,10 +33,10 @@ module perip_flexbus(
 	input FB_RW,
 	input FB_CS,
 	input FB_ALE,
-//    input FB_BE31_24,
-//    input FB_BE23_16,
-//    input FB_BE15_8,
-//    input FB_BE7_0,
+	// input FB_BE31_24,
+	// input FB_BE23_16,
+	// input FB_BE15_8,
+	// input FB_BE7_0,
 	inout [31:0] FB_AD,
 	
 
@@ -59,7 +59,7 @@ reg [31:0] ip_ADDR = 32'b0;
 
 assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);      
 assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
-   
+
 
 
 always@( negedge FB_CLK or negedge RST_n )  begin

@@ -3,7 +3,7 @@
 // Engineer: Ruige Lee
 // Create Date: 2018/02/02 16:02:17
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:27:42
+// Last Modified time: 2019-01-12 16:38:21
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_I2S
@@ -26,17 +26,17 @@
 
 
 module perip_I2S16bit(
-    input CLK,
-    input RST_n, 
-    input [15:0] data_input,
+	input CLK,
+	input RST_n, 
+	input [15:0] data_input,
 
-    output MCLK,
-    output LCRK,
-    output BSCK,
-    output TXD,
-    output DATA_CLK //LCRK对齐的下跳沿请求数据
-    );
-    
+	output MCLK,
+	output LCRK,
+	output BSCK,
+	output TXD,
+	output DATA_CLK //LCRK对齐的下跳沿请求数据
+	);
+	
 //CLK输入12MHZ
 //MCLK CLK（8.4672M）1分频
 //BSCK（CLK）12分频
@@ -62,24 +62,24 @@ reg [7:0] bsck_div = 8'd0;
 
 always@( posedge CLK or negedge RST_n ) //产生BCLK
 begin
-    if ( !RST_n )
-    begin
-        bsck_div <= 8'd0;
-        bsck_reg <= 1'b1;
-    end
-    else
-    begin
-        if ( bsck_div == 8'd3 )
-        begin
-            bsck_div <= 8'd0;
-            bsck_reg <= ~bsck_reg;
-        end
-        else
-        begin
-            bsck_div <= bsck_div + 8'd1;
-            bsck_reg <= bsck_reg;
-        end
-    end
+	if ( !RST_n )
+	begin
+		bsck_div <= 8'd0;
+		bsck_reg <= 1'b1;
+	end
+	else
+	begin
+		if ( bsck_div == 8'd3 )
+		begin
+			bsck_div <= 8'd0;
+			bsck_reg <= ~bsck_reg;
+		end
+		else
+		begin
+			bsck_div <= bsck_div + 8'd1;
+			bsck_reg <= bsck_reg;
+		end
+	end
 end
 
 reg [7:0] bsck_cnt = 8'd0; 
@@ -87,43 +87,43 @@ reg [7:0] bsck_cnt = 8'd0;
 
 always@ ( negedge BSCK or negedge RST_n ) //产生LRCK
 begin
-    if ( !RST_n )
-    begin
-        bsck_cnt <= 8'd0;
-        lcrk_reg <= 1'b1;
-        txd_reg <= 1'b0;
-        data_clk_reg <= 1'b0;
+	if ( !RST_n )
+	begin
+		bsck_cnt <= 8'd0;
+		lcrk_reg <= 1'b1;
+		txd_reg <= 1'b0;
+		data_clk_reg <= 1'b0;
 
-        i2s_data <= 16'd0;
-    end
-    else
-    begin
-        if ( bsck_cnt < 8'd16 ) //0-15
-        begin
-            bsck_cnt <= bsck_cnt + 8'd1;    
-            lcrk_reg <= lcrk_reg;
-            data_clk_reg <= 1'b0;
-            txd_reg <= i2s_data[8'd15 - bsck_cnt];//放数据
-            i2s_data <= i2s_data ;
-        end
-        else if ( bsck_cnt == 8'd23 )//反转LCRK
-        begin
-            bsck_cnt <= 8'd0;
-            lcrk_reg <= ~lcrk_reg;
-            data_clk_reg <= 1'b0;   //上跳沿读取数据
-            txd_reg <= 1'b0;          
-            i2s_data <= data_input;
-        end
-        else//16-21
-        begin
-            bsck_cnt <= bsck_cnt + 8'd1;
-            lcrk_reg <= lcrk_reg;
-            data_clk_reg <= 1'b1;   //下跳沿请求数据，并保持
-            txd_reg <= 1'b0;
-            i2s_data <= i2s_data ;
-        end
-         
-    end
+		i2s_data <= 16'd0;
+	end
+	else
+	begin
+		if ( bsck_cnt < 8'd16 ) //0-15
+		begin
+			bsck_cnt <= bsck_cnt + 8'd1;    
+			lcrk_reg <= lcrk_reg;
+			data_clk_reg <= 1'b0;
+			txd_reg <= i2s_data[8'd15 - bsck_cnt];//放数据
+			i2s_data <= i2s_data ;
+		end
+		else if ( bsck_cnt == 8'd23 )//反转LCRK
+		begin
+			bsck_cnt <= 8'd0;
+			lcrk_reg <= ~lcrk_reg;
+			data_clk_reg <= 1'b0;   //上跳沿读取数据
+			txd_reg <= 1'b0;          
+			i2s_data <= data_input;
+		end
+		else//16-21
+		begin
+			bsck_cnt <= bsck_cnt + 8'd1;
+			lcrk_reg <= lcrk_reg;
+			data_clk_reg <= 1'b1;   //下跳沿请求数据，并保持
+			txd_reg <= 1'b0;
+			i2s_data <= i2s_data ;
+		end
+		 
+	end
 end
 
 

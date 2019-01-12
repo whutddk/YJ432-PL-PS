@@ -3,7 +3,7 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:29:12
+// Last Modified time: 2019-01-12 16:38:32
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_LED
@@ -114,8 +114,8 @@ reg [31:0] BZ_Cnt = 32'd0;
 
 always@( posedge CLK or negedge RST_n ) begin
 	if ( !RST_n ) begin
-        BZ_Cnt <= 32'd0;
-        BZ_reg <= 1'b0;
+		BZ_Cnt <= 32'd0;
+		BZ_reg <= 1'b0;
 	end
 	else begin
 		if ( BZ_Cnt >= BZ_Puty_Set ) begin

@@ -3,7 +3,7 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:27:24
+// Last Modified time: 2019-01-12 16:37:17
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_3poPID
@@ -154,37 +154,37 @@ reg signed [31:0] PID_NERB_REG = 32'd0;
 reg clk_pre = 1'b0;
 
 always@ ( posedge CLK or negedge RST_n ) begin
-    if ( !RST_n ) begin
-        clk_pre <= 1'b0;
-    end
-    else begin
-        clk_pre <= ~clk_pre;
-    end  
+	if ( !RST_n ) begin
+		clk_pre <= 1'b0;
+	end
+	else begin
+		clk_pre <= ~clk_pre;
+	end  
 end
 
 always@ ( posedge clk_pre or negedge RST_n )begin
 	if ( !RST_n ) begin 
 		ctl_cnt <= 32'd0;
-        ERROR[0] <= 32'd0;
-        ERROR[1] <= 32'd0;
-        ERROR[2] <= 32'd0;
+		ERROR[0] <= 32'd0;
+		ERROR[1] <= 32'd0;
+		ERROR[2] <= 32'd0;
 
-        PID_NERS_REG <= 32'd0;
-        PID_NERM_REG <= 32'd0;
-        PID_NERB_REG <= 32'd0;
+		PID_NERS_REG <= 32'd0;
+		PID_NERM_REG <= 32'd0;
+		PID_NERB_REG <= 32'd0;
 	end
 
 	else begin		
 		if ( ctl_cnt == 32'd0 ) begin //first tick 1£º calculate error and calculate the negetive of error border
 			ctl_cnt <= ctl_cnt + 32'd1;
-	       
-            ERROR[0][31:0] <= PID_CUR_REG[31:0] - PID_AIM_REG[31:0];
-            ERROR[1][31:0] <= ERROR[0][31:0];
-            ERROR[2][31:0] <= ERROR[1][31:0];
-            
-            PID_NERS_REG <= -PID_ERS_REG;
-            PID_NERM_REG <= -PID_ERM_REG;
-            PID_NERB_REG <= -PID_ERB_REG;
+		   
+			ERROR[0][31:0] <= PID_CUR_REG[31:0] - PID_AIM_REG[31:0];
+			ERROR[1][31:0] <= ERROR[0][31:0];
+			ERROR[2][31:0] <= ERROR[1][31:0];
+			
+			PID_NERS_REG <= -PID_ERS_REG;
+			PID_NERM_REG <= -PID_ERM_REG;
+			PID_NERB_REG <= -PID_ERB_REG;
 					
 		end // if ( ctl_cnt == 32'd0 )end
 		else if ( ctl_cnt == 32'd1 ) begin    //second tick 3 : calculate different of error and decide which parameter to use
@@ -194,22 +194,22 @@ always@ ( posedge clk_pre or negedge RST_n )begin
 
 			if (  ERROR[0] > PID_ERB_REG || ERROR[0] < PID_NERB_REG ) begin
 			
-			     KP_CAL32_REG <= PID_KPB_REG;
-			     KD_CAL32_REG <= PID_KDB_REG;
+				 KP_CAL32_REG <= PID_KPB_REG;
+				 KD_CAL32_REG <= PID_KDB_REG;
 			end
 
 			else if ( ERROR[0] > PID_ERM_REG || ERROR[0] < PID_NERM_REG ) begin
-                 KP_CAL32_REG <= PID_KPM_REG;
-                 KD_CAL32_REG <= PID_KDM_REG;
+				 KP_CAL32_REG <= PID_KPM_REG;
+				 KD_CAL32_REG <= PID_KDM_REG;
 			end
 
 			else if ( ERROR[0] > PID_ERS_REG || ERROR[0] < PID_NERS_REG )begin
-                 KP_CAL32_REG <= PID_KPS_REG;
-                 KD_CAL32_REG <= PID_KDS_REG;
+				 KP_CAL32_REG <= PID_KPS_REG;
+				 KD_CAL32_REG <= PID_KDS_REG;
 			end
 			else begin
-                KP_CAL32_REG <= 32'b0;
-                KD_CAL32_REG <= 32'b0;
+				KP_CAL32_REG <= 32'b0;
+				KD_CAL32_REG <= 32'b0;
 			end
 
 		end // else if ( ctl_cnt == 32'd1 )
