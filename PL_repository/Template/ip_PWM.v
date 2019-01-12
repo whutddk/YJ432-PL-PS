@@ -3,7 +3,7 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:28:01
+// Last Modified time: 2019-01-12 16:38:39
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_PWM
@@ -34,25 +34,25 @@ module perip_PWM(
 
 //Register
 	FREQ_Cnt_Set,	//作为计数目标，自己外部计算
-    CH0_duty_Set,
+	CH0_duty_Set,
 	CH1_duty_Set,
 	CH2_duty_Set,
 	CH3_duty_Set,
 	CH4_duty_Set,
-    CH5_duty_Set,
-    CH6_duty_Set,
-    CH7_duty_Set,
+	CH5_duty_Set,
+	CH6_duty_Set,
+	CH7_duty_Set,
 
 
 //OUTPUT
-    PWM_CH0,
-    PWM_CH1,
-    PWM_CH2,
-    PWM_CH3,
-    PWM_CH4,
-    PWM_CH5,
-    PWM_CH6,
-    PWM_CH7
+	PWM_CH0,
+	PWM_CH1,
+	PWM_CH2,
+	PWM_CH3,
+	PWM_CH4,
+	PWM_CH5,
+	PWM_CH6,
+	PWM_CH7
 
 
 	);
