@@ -7,7 +7,6 @@ ARM+FPGA borad demo
 
 * firstly **synthesiz**-**implementation**-**generate bitstream** of your project
 
----------------
 
 ### JTAG mode
 * switch your jumpter to any mode
@@ -17,9 +16,8 @@ ARM+FPGA borad demo
 * click **Program device**
 * select the bitstream file (*.bit*) your generate and click **Program**
 
-#### be careful, if your mcu will reset the artix-7 (draw **FPGA_INIT** Pin low) when booting, the bitstream you download will be earsed
+###### be careful, if your mcu will reset the artix-7 (draw **FPGA_INIT** Pin low) when booting, the bitstream you downloaded will be earsed
 
-------------
 
 ### QSPI mode
 
@@ -35,7 +33,6 @@ ARM+FPGA borad demo
 * select the *.bin* file and comfirm to config
 * push the fpga reset butoon to boot fpga
 
------------------------
 
 ### CPU mode
 
