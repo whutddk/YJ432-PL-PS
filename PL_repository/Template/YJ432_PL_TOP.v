@@ -3,7 +3,7 @@
 // Engineer: WUT Ruige Lee
 // Create Date: 2018/06/22 19:34:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:39:27
+// Last Modified time: 2019-01-12 16:55:28
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: YJ432_PL_TOP
@@ -29,7 +29,6 @@ module YJ432_PL_TOP(
 	i_sysclk,
 	i_fb_clk,
 
-	i_fb_oen,
 	i_fb_rw,
 	i_fb_csn,
 	i_fb_ale,
@@ -38,16 +37,13 @@ module YJ432_PL_TOP(
 	i_BZ_IO,
 	i_LEDR_IO,
 	i_LEDG_IO,
-	i_LEDB_IO,  
-
-
+	i_LEDB_IO  
 	
 );
 	
 	input i_sysclk;
 	input i_fb_clk;
 
-	input i_fb_oen;
 	input i_fb_rw;
 	input i_fb_csn;
 	input i_fb_ale;
@@ -58,37 +54,43 @@ module YJ432_PL_TOP(
 	output i_LEDG_IO;
 	output i_LEDB_IO;   
 
-	
-ip_flexbus i_flexbus(
+
+
+wire [31:0] LED_FREQ_wire;
+wire [31:0] BZ_FREQ_wire;
+wire [31:0] LEDR_Puty_wire;
+wire [31:0] LEDG_Puty_wire;
+wire [31:0] LEDB_Puty_wire;	
+
+
+perip_flexbus # (
+	.FB_BASE(32'h60000000)
+	) i_flexbus
+(
 	.FB_CLK(i_fb_clk),
 	.RST_n(1'b1),
-	.FB_OE(i_fb_oen),
+
 	.FB_RW(i_fb_rw),
 	.FB_CS(i_fb_csn),
 	.FB_ALE(i_fb_ale),
 	.FB_AD(i_fb_ad),
 	
-	
-	.ip_ADDR(i_bus_addr),
-	.ip_DATA(i_bus_data),     
-	.ip_Read( i_bus_read ),
-	.ip_Write( i_bus_write )
+	.LED_FREQ_Reg(LED_FREQ_wire),
+	.BZ_FREQ_Reg(BZ_FREQ_wire),
+	.LEDR_Puty_Reg(LEDR_Puty_wire),
+	.LEDG_Puty_Reg(LEDG_Puty_wire),
+	.LEDB_Puty_Reg(LEDB_Puty_wire)
 );
 
-wire [31:0] LED_FREQ_Cnt_wire;
-wire [31:0] BZ_Puty_wire;
-wire [31:0] LEDR_Puty_wire;
-wire [31:0] LEDG_Puty_wire;
-wire [31:0] LEDB_Puty_wire;
 
 
-
-BZLED i_bzled(
-	.RST_n(1'b1),
+perip_BZLED i_bzled(
+	
 	.CLK(i_sysclk),
+	.RST_n(1'b1),
 		
-	.FREQ_Cnt_Set(LED_FREQ_Cnt_wire),	//作为计数目标，自己外部计算
-	.BZ_Puty_Set(BZ_Puty_wire),
+	.FREQ_Cnt_Set(LED_FREQ_wire),	//作为计数目标，自己外部计算
+	.BZ_Puty_Set(BZ_FREQ_wire),
 	.LEDR_Puty_Set(LEDR_Puty_wire),
 	.LEDG_Puty_Set(LEDG_Puty_wire),
 	.LEDB_Puty_Set(LEDB_Puty_wire),
