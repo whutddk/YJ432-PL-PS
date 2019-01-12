@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:37:58
+// Last Modified time: 2019-01-12 16:54:17
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -24,9 +24,10 @@
 `timescale 1ns / 1ps
 
 
-module perip_flexbus(
-	input [31:0] FB_BASE,
-
+module perip_flexbus # (
+	parameter [31:0] FB_BASE = 32'h60000000
+)
+(
 	input FB_CLK,
 	input RST_n,
 	// input FB_OE,
@@ -39,10 +40,8 @@ module perip_flexbus(
 	// input FB_BE7_0,
 	inout [31:0] FB_AD,
 	
-
-
-	output reg [31:0] FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
-	output reg [31:0] BZ_Puty_Reg,
+	output reg [31:0] LED_FREQ_Reg,
+	output reg [31:0] BZ_FREQ_Reg,
 	output reg [31:0] LEDR_Puty_Reg,
 	output reg [31:0] LEDG_Puty_Reg,
 	output reg [31:0] LEDB_Puty_Reg
@@ -71,8 +70,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		FB_AD_reg[31:0] <= 32'b0;
  
 		//register       
-		FREQ_Cnt_Reg <= 32'b0;
-		BZ_Puty_Reg <= 32'b0;
+		LED_FREQ_Reg <= 32'b0;
+		BZ_FREQ_Reg <= 32'b0;
 		LEDR_Puty_Reg <= 32'b0;
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;  
@@ -86,8 +85,8 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 
 		ADD_COMF <= ADD_COMF;
 
-		FREQ_Cnt_Reg <= FREQ_Cnt_Reg;
-		BZ_Puty_Reg <= BZ_Puty_Reg;
+		LED_FREQ_Reg <= LED_FREQ_Reg;
+		BZ_FREQ_Reg <= BZ_FREQ_Reg;
 		LEDR_Puty_Reg <= LEDR_Puty_Reg;
 		LEDG_Puty_Reg <= LEDG_Puty_Reg;
 		LEDB_Puty_Reg <= LEDB_Puty_Reg;
@@ -117,10 +116,10 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 						casez( ip_ADDR & 32'h0fffffff )
 												
 							32'b00000: begin
-								FREQ_Cnt_Reg[31:0] <= FB_AD[31:0];
+								LED_FREQ_Reg[31:0] <= FB_AD[31:0];
 							end
 							32'b00100:begin
-								BZ_Puty_Reg[31:0] <= FB_AD[31:0];
+								BZ_FREQ_Reg[31:0] <= FB_AD[31:0];
 							end
 							32'b01000:begin
 								LEDR_Puty_Reg[31:0] <= FB_AD[31:0];
@@ -147,10 +146,10 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 						
 						casez( ip_ADDR & 32'h0fffffff )
 							32'b00000: begin
-								FB_AD_reg[31:0] <= FREQ_Cnt_Reg[31:0];
+								FB_AD_reg[31:0] <= LED_FREQ_Reg[31:0];
 							end // 32'b00000:
 							32'b00100:begin
-								FB_AD_reg[31:0] <= BZ_Puty_Reg[31:0];
+								FB_AD_reg[31:0] <= BZ_FREQ_Reg[31:0];
 							end // 32'b00100:
 							32'b01000:begin
 								FB_AD_reg[31:0] <= LEDR_Puty_Reg[31:0];
