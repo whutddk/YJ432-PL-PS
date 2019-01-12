@@ -89,8 +89,8 @@ perip_BZLED i_bzled(
 	.CLK(i_sysclk),
 	.RST_n(1'b1),
 		
-	.FREQ_Cnt_Set(LED_FREQ_wire),	//作为计数目标，自己外部计算
-	.BZ_Puty_Set(BZ_FREQ_wire),
+	.LED_FREQ_Set(LED_FREQ_wire),	//作为计数目标，自己外部计算
+	.BZ_FREQ_Set(BZ_FREQ_wire),
 	.LEDR_Puty_Set(LEDR_Puty_wire),
 	.LEDG_Puty_Set(LEDG_Puty_wire),
 	.LEDB_Puty_Set(LEDB_Puty_wire),
