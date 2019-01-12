@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:27:36
+// Last Modified time: 2019-01-12 16:34:25
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -41,14 +41,11 @@ module perip_flexbus(
 	
 
 
-
-
-
 	output reg [31:0] FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
 	output reg [31:0] BZ_Puty_Reg,
 	output reg [31:0] LEDR_Puty_Reg,
 	output reg [31:0] LEDG_Puty_Reg,
-	output reg [31:0] LEDB_Puty_Reg,
+	output reg [31:0] LEDB_Puty_Reg
 	
 	
 	);
@@ -67,7 +64,7 @@ assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
 
 always@( negedge FB_CLK or negedge RST_n )  begin
 	if ( !RST_n ) begin
-//        AD_TRI <= 1'b1;
+
 		ip_ADDR[31:0] <= 32'b0;
 		ADD_COMF <= 1'b0;
 		
