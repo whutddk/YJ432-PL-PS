@@ -18,15 +18,18 @@ create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_
 set_property -dict {PACKAGE_PIN D13 IOSTANDARD LVCMOS33} [get_ports i_fb_clk];
 create_clock -period 33.333 -name fb_clk_pin -waveform {0.000 16.666} -add [get_ports i_fb_clk];
 
+# asynchronous
+set_clock_groups -name async_sys_fb -asynchronous -group sys_clk_pin -group fb_clk_pin
+
 ## FB_OE
-set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen];
+#set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen];
 
 ## FB_RW
 set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33} [get_ports i_fb_rw];
 
 ## FB_CS
 set_property -dict {PACKAGE_PIN D16 IOSTANDARD LVCMOS33} [get_ports i_fb_csn];
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets i_fb_csn_IBUF];
+
 ## FB_ALE
 set_property -dict {PACKAGE_PIN G15 IOSTANDARD LVCMOS33} [get_ports i_fb_ale];
 
