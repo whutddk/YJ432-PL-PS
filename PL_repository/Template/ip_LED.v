@@ -3,7 +3,7 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:14:13
+// Last Modified time: 2019-01-12 16:29:12
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_LED
@@ -24,7 +24,7 @@
 `timescale 1ns / 1ps
 
 
-module BZLED(
+module perip_BZLED(
 	RST_n,
 	CLK,
 	FREQ_Cnt_Set,	//作为计数目标，自己外部计算

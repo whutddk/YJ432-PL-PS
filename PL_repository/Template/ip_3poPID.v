@@ -3,10 +3,10 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:20:11
+// Last Modified time: 2019-01-12 16:27:24
 // Email: 295054118@whut.edu.cn
 // Design Name:   
-// Module Name: FB_3poPID
+// Module Name: ip_3poPID
 // Project Name:   
 // Target Devices:   
 // Tool Versions:   
@@ -24,77 +24,9 @@
 `timescale 1ns / 1ps
 
 
-//寄存器读写
-//外部读出
-always@( negedge BUS_CS or negedge RST_n )
-    if ( !RST_n ) begin
-        BUS_DATA_REG <= 32'b0;
-    end // if ( !RST_n )
-    
-    else begin
-        if ( ADD_COMF ) begin       //仲裁通过
-            if ( BUS_read == 1'b1 ) begin
-                case(BUS_ADDR[21:0])
-                	22'b0000000:begin 
-						BUS_DATA_REG[31:0] <= CTL_FREQ_REG[31:0];
-					end
-					22'b0000100:begin
-						BUS_DATA_REG[31:0] <= PID_AIM_REG[31:0];
-					end
-					22'b0001000:begin
-						BUS_DATA_REG[31:0] <= PID_CUR_REG[31:0];
-					end
-					22'b0001100:begin
-						BUS_DATA_REG[31:0] <= PID_ERS_REG[31:0];
-					end
-					22'b0010000:begin
-						BUS_DATA_REG[31:0] <= PID_KPS_REG[31:0];
-					end
-					22'b0010100:begin
-//						BUS_DATA_REG[31:0] <= PID_KIS_REG[31:0];
-					end
-					22'b0011000:begin
-						BUS_DATA_REG[31:0] <= PID_KDS_REG[31:0];
-					end
-					22'b0011100:begin
-						BUS_DATA_REG[31:0] <= PID_ERM_REG[31:0];
-					end
-					22'b0100000:begin
-						BUS_DATA_REG[31:0] <= PID_KPM_REG[31:0];
-					end
-					22'b0100100:begin
-//						BUS_DATA_REG[31:0] <= PID_KIM_REG[31:0];
-					end
-					22'b0101000:begin
-						BUS_DATA_REG[31:0] <= PID_KDM_REG[31:0];
-					end
-					22'b0101100:begin
-						BUS_DATA_REG[31:0] <= PID_ERB_REG[31:0];
-					end
-					22'b0110000:begin
-						BUS_DATA_REG[31:0] <= PID_KPB_REG[31:0];
-					end
-					22'b0110100:begin
-//						BUS_DATA_REG[31:0] <= PID_KIB_REG[31:0];
-					end
-					22'b0111000:begin
-						BUS_DATA_REG[31:0] <= PID_KDB_REG[31:0];
-					end
-					22'b0111100:begin
-					   BUS_DATA_REG[31:0] <= PID_OUT_REG[31:0];
-					end
-                    default:
-                        BUS_DATA_REG[31:0] <= 32'hffffffff;
-                endcase
-            end // if ( BUS_read == 1'b1 )
-        end // if ( ADD_COMF )
-    end // else
-
-endmodule
 
 
-
-module po3PID(
+module perip_po3PID(
 
 	CLK,
 	RST_n,

@@ -3,10 +3,10 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 15:50:17
+// Last Modified time: 2019-01-12 16:27:36
 // Email: 295054118@whut.edu.cn
 // Design Name: 
-// Module Name: flexbus_comm
+// Module Name: ip_flexbus
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -24,7 +24,7 @@
 `timescale 1ns / 1ps
 
 
-module flexbus_comm(
+module perip_flexbus(
 	input [31:0] FB_BASE,
 
 	input FB_CLK,
