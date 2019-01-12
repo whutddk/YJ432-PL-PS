@@ -1,10 +1,10 @@
 /*
 * @File Name mcu_cfg.cpp
-* @File Path M:\MAS2\YJ432-PL-PS\PS_repository\demo\demo_flexbus_register\mcu_cfg\mcu_cfg.cpp
+* @File Path M:\MAS2\YJ432-PL-PS\PS_repository\demo\demo_mcu_boot\mcu_cfg\mcu_cfg.cpp
 * @Author: WUT_Ruige_Lee
 * @Date:   2019-01-11 10:56:50
 * @Last Modified by:   WUT_Ruige_Lee
-* @Last Modified time: 2019-01-11 16:17:31
+* @Last Modified time: 2019-01-12 19:24:33
 * @Email: 295054118@whut.edu.cn"
 */
 
