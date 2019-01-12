@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:54:17
+// Last Modified time: 2019-01-12 19:29:25
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -50,7 +50,7 @@ module perip_flexbus # (
 	);
 
 
-wire AD_TRI_n ;//高阻状态标志位,posedge logic
+wire AD_TRI_n ;
 reg ADD_COMF = 1'b0;
 
 (* DONT_TOUCH = "TRUE" *) reg [31:0] FB_AD_reg = 32'b0;
@@ -69,7 +69,7 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		
 		FB_AD_reg[31:0] <= 32'b0;
  
-		//register       
+      
 		LED_FREQ_Reg <= 32'b0;
 		BZ_FREQ_Reg <= 32'b0;
 		LEDR_Puty_Reg <= 32'b0;

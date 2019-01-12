@@ -3,7 +3,7 @@
 // Engineer: WUT RUIGE LEE
 // Create Date: 2018/06/21 17:44:39
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 17:37:31
+// Last Modified time: 2019-01-12 19:30:26
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: ip_LED
@@ -104,7 +104,7 @@ always @(posedge CLK or negedge RST_n) begin
 	end
 end
 
-//BZ ·äÃùÆ÷¿ØÖÆ²¿·Ö
+
 
 reg [31:0] BZ_Cnt = 32'd0;
 
