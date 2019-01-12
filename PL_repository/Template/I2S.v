@@ -1,23 +1,28 @@
-`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: Wuhan University of Technology 
+// Company:  Wuhan University of Technology  
 // Engineer: Ruige Lee
-// 
 // Create Date: 2018/02/02 16:02:17
-// Design Name: 
-// Module Name: I2S16bit
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
+// Last Modified by:   WUT_Ruige_Lee
+// Last Modified time: 2019-01-12 16:21:06
+// Email: 295054118@whut.edu.cn
+// Design Name:   
+// Module Name: I2S
+// Project Name:   
+// Target Devices:   
+// Tool Versions:   
+// Description:   
 // 
-// Dependencies: 
+// Dependencies:   
 // 
-// Revision:
+// Revision:  
 // Revision 0.01 - File Created
-// Additional Comments:
+// Additional Comments:  
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
+
+
+`timescale 1ns / 1ps
 
 
 module I2S16bit(

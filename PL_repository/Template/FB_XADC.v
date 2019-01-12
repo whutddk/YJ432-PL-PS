@@ -1,24 +1,27 @@
-`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: WUT
 // Engineer: WUT RUIGE LEE
-// 
 // Create Date: 2018/06/21 17:44:39
-// Design Name: 
+// Last Modified by:   WUT_Ruige_Lee
+// Last Modified time: 2019-01-12 16:15:51
+// Email: 295054118@whut.edu.cn
+// Design Name:   
 // Module Name: FB_XADC
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
+// Project Name:   
+// Target Devices:   
+// Tool Versions:   
+// Description:   
 // 
-// Dependencies: 
+// Dependencies:   
 // 
-// Revision:
+// Revision:  
 // Revision 0.01 - File Created
-// Additional Comments:
+// Additional Comments:  
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+
+`timescale 1ns / 1ps
 
 module FB_XADC(
 

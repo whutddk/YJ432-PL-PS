@@ -1,23 +1,28 @@
-`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company:  WUT 
+// Engineer: WUT Ruige Lee
 // Create Date: 2018/06/22 19:34:39
-// Design Name: 
+// Last Modified by:   WUT_Ruige_Lee
+// Last Modified time: 2019-01-12 16:21:43
+// Email: 295054118@whut.edu.cn
+// Design Name:   
 // Module Name: YJ431_PLTOP
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
+// Project Name:   
+// Target Devices:   
+// Tool Versions:   
+// Description:   
 // 
-// Dependencies: 
+// Dependencies:   
 // 
-// Revision:
+// Revision:  
 // Revision 0.01 - File Created
-// Additional Comments:
+// Additional Comments:  
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
+
+`timescale 1ns / 1ps
+
 
 
 module YJ431_PLTOP(
