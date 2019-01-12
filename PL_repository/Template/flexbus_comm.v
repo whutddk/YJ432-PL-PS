@@ -1,9 +1,10 @@
-`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: wuhan university of technology
 // Engineer: RUIGE LEE
-// 
 // Create Date: 2018/07/19 10:35:01
+// Last Modified by:   WUT_Ruige_Lee
+// Last Modified time: 2019-01-12 15:50:17
+// Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: flexbus_comm
 // Project Name: 
@@ -18,7 +19,9 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+ 
 
+`timescale 1ns / 1ps
 
 
 module flexbus_comm(
@@ -37,39 +40,19 @@ module flexbus_comm(
 	inout [31:0] FB_AD,
 	
 
+
+
+
+
 	output reg [31:0] FREQ_Cnt_Reg,	//作为计数目标，自己外部计算
 	output reg [31:0] BZ_Puty_Reg,
 	output reg [31:0] LEDR_Puty_Reg,
 	output reg [31:0] LEDG_Puty_Reg,
 	output reg [31:0] LEDB_Puty_Reg,
 	
-	 
-	output reg [31:0] MIBUF_DATA_Reg,
-	output reg [5:0] MIBUF_ADDR_Reg,
-
-	// output reg [3:0] vindex,
-	// output reg b,
-	
-	output reg [11:0] vbuf_offset,
-
-	output reg dest_offset,
-	output reg [11:0] vindex_offset,
-	output reg oddBlock,
-	
-	output reg [2:0] subband_state,
-
-	input POLY_Done,
-	input FDCT_Done,
-
-	input Is_Empty_Wire
 	
 	);
 
-parameter ST_IDLE = 3'd0;
-parameter ST_MIBUF = 3'd1;
-parameter ST_FDCT = 3'd2;
-parameter ST_FBRAM = 3'd3;
-parameter ST_PLOY = 3'd4;
 
 wire AD_TRI_n ;//高阻状态标志位,posedge logic
 reg ADD_COMF = 1'b0;
@@ -97,17 +80,6 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= 32'b0;
 		LEDB_Puty_Reg <= 32'b0;  
 		
-		subband_state <= ST_IDLE;
-
-		vbuf_offset <= 12'd0;
-
-		dest_offset <= 1'b1;
-		vindex_offset <= 12'd0;
-		oddBlock <= 1'b0;
-
-		MIBUF_DATA_Reg <= 32'd0;
-		MIBUF_ADDR_Reg <= 6'd0;
-
 	end
 	else begin
 
@@ -123,17 +95,10 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 		LEDG_Puty_Reg <= LEDG_Puty_Reg;
 		LEDB_Puty_Reg <= LEDB_Puty_Reg;
 
-		MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
-		MIBUF_ADDR_Reg <= MIBUF_ADDR_Reg;
-
-		subband_state <= subband_state;
-
-		vbuf_offset <= vbuf_offset;
- 
+		 
 		if ( FB_ALE == 1'b1 ) begin  //flexbus_address latch enable
 //            AD_TRI <= 1'b1; //  FB_ALE == 1'B1 && FB_CS = X && FB_RW == X && ADD_COMF == X
 
-			// FIFO_CLK <= 1'b1;
 
 			if ( (FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 ) ) begin// check base address 
 				ADD_COMF <= 1'b1;
@@ -172,45 +137,9 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							
 							
 							32'h0780zzzz:begin
-								// STEAM_DATA[31:0] <= FB_AD[31:0];
-								// FIFO_CLK <= 1'b0;
 								
-								if ( (ip_ADDR[13:2]) < 12'd100 ) begin
-								
-									MIBUF_DATA_Reg[31:0] <= FB_AD[31:0];
-									MIBUF_ADDR_Reg[5:0] <= ip_ADDR[7:2];
-
-									subband_state <= ST_MIBUF;
-								end // if ( (ip_ADDR[13:2]) < 12'd3000 )
-								else begin
-									MIBUF_DATA_Reg <= MIBUF_DATA_Reg;
-									MIBUF_ADDR_Reg[5:0] <= MIBUF_ADDR_Reg[5:0];
-
-									subband_state <= ST_MIBUF;
-								end // else
 							end
 
-							32'h07810004:begin
-								subband_state <= ST_IDLE;
-								vbuf_offset[11:0] <= FB_AD[11:0];							
-
-							end // 32'h07800004:
-
-							32'h07810008:begin
-								subband_state <= ST_PLOY;
-
-							end // 32'h07810008:
-							
-							32'h0781000c:begin
-								vindex_offset[11:0] <= FB_AD[11:0];
-								subband_state <= ST_IDLE;
-							end // 32'h0781000c:
-
-							32'h07810010:begin
-								dest_offset <= FB_AD[1];
-								oddBlock <= FB_AD[0];
-								subband_state <= ST_FDCT;
-							end // 32'h07810010:
 							default:begin
 							end // default:
 						endcase
@@ -235,10 +164,6 @@ always@( negedge FB_CLK or negedge RST_n )  begin
 							32'b10000:begin
 								FB_AD_reg[31:0] <= LEDB_Puty_Reg[31:0];
 							end // 32'b10000:
-							
-							32'h07810000:begin
-								FB_AD_reg[31:0] <= {29'b0,FDCT_Done,POLY_Done,Is_Empty_Wire};
-							end // 32'h07810000:
 
 							default:begin
 							end // default:
