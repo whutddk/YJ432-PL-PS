@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 19:29:25
+// Last Modified time: 2019-01-16 16:14:30
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -40,24 +40,127 @@ module perip_flexbus # (
 	// input FB_BE7_0,
 	inout [31:0] FB_AD,
 	
-	output reg [31:0] LED_FREQ_Reg,
-	output reg [31:0] BZ_FREQ_Reg,
-	output reg [31:0] LEDR_Puty_Reg,
-	output reg [31:0] LEDG_Puty_Reg,
-	output reg [31:0] LEDB_Puty_Reg
+	output [31:0] LED_FREQ_Qout,
+	output [31:0] BZ_FREQ_Qout,
+	output [31:0] LEDR_Puty_Qout,
+	output [31:0] LEDG_Puty_Qout,
+	output [31:0] LEDB_Puty_Qout
 	
 	
 	);
 
 
 wire AD_TRI_n ;
-reg ADD_COMF = 1'b0;
+// reg ADD_COMF = 1'b0;
 
-(* DONT_TOUCH = "TRUE" *) reg [31:0] FB_AD_reg = 32'b0;
-reg [31:0] ip_ADDR = 32'b0;
+// (* DONT_TOUCH = "TRUE" *) reg [31:0] FB_AD_reg = 32'b0;
+// reg [31:0] ip_ADDR = 32'b0;
 
-assign AD_TRI_n = (~FB_ALE) & (ADD_COMF) & (~FB_CS) & (FB_RW);      
-assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_reg[31:0] : 32'bz;
+assign AD_TRI_n = (~FB_ALE) & (ADD_COMF_Qout) & (~FB_CS) & (FB_RW);      
+assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_Qout[31:0] : 32'bz;
+
+
+wire ADDR_COMF_Din;
+wire ADDR_COMF_Qout;
+basic_reg # (1)
+	ADDR_COMF
+	(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (ADDR_COMF_Din),
+	.qout(ADDR_COMF_Qout)
+);
+
+wire [31:0] FB_AD_Din;
+wire [31:0] FB_AD_Qout;
+basic_reg # (32)
+	FB_AD
+	(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (FB_AD_Din),
+	.qout(FB_AD_Qout)
+);
+
+wire [31:0] ip_ADDR_Din;
+wire [31:0] ip_ADDR_Qout;
+basic_reg # (32)
+	ip_ADDR(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (ip_ADDR_Din),
+	.qout(ip_ADDR_Qout)
+);
+
+
+//////////////////////////////////////////
+
+
+wire [31:0] LED_FREQ_Din;
+basic_reg # (32)
+	LED_FREQ(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (LED_FREQ_Din),
+	.qout(LED_FREQ_Qout)
+);
+
+
+wire [31:0] BZ_FREQ_Din;
+basic_reg # (32)
+	BZ_FREQ(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (BZ_FREQ_Din),
+	.qout(BZ_FREQ_Qout)
+);
+
+
+wire [31:0] LEDR_Puty_Din;
+basic_reg # (32)
+	LEDR_Puty(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (LEDR_Puty_Din),
+	.qout(LEDR_Puty_Qout)
+);
+
+
+wire [31:0] LEDG_Puty_Din;
+basic_reg # (32)
+	LEDG_Puty(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (LEDG_Puty_Din),
+	.qout(LEDG_Puty_Qout)
+);
+
+
+wire [31:0] LEDB_Puty_Din;
+basic_reg # (32)
+	LEDB_Puty(
+	.CLK(FB_CLK),
+	.RSTn(RST_n),
+
+	.din (LEDB_Puty_Din),
+	.qout(LEDB_Puty_Qout)
+);
+
+
+
+
+
+
+
+
+
 
 
 
