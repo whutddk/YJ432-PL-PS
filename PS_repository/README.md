@@ -4,7 +4,7 @@ ARM+FPGA borad demo
 
 -----------------------------
 
-## how to config target of mbed-os
+## How to Setup Target of Mbed-os
 
 * checkout mbed-os to latest release 
     -  **mbed-os-5.11.1**
@@ -47,6 +47,18 @@ ARM+FPGA borad demo
     - PeripheralPins.c
     - PinNames.h
 
-* copy ***.mbed*** from ***PS_repository/Template*** to your mbed workspace
-
 -----------------------------------
+
+## How to Compile multiple Project
+
+* cd to ***PS_repository/demo***
+* type 
+> mbed compile --source \[projectName\] --source mbed-os --build BUILD/\[projectName\]
+
+----------------------
+
+
+
+
+
+

@@ -1,6 +1,3 @@
-[submodule "PS_repository/demo/demo_flexbus_register/mbed-os"]
-	path = PS_repository/demo/demo_flexbus_register/mbed-os
-	url = https://github.com/ARMmbed/mbed-os.git
-[submodule "PS_repository/demo/demo_mcu_boot/mbed-os"]
-	path = PS_repository/demo/demo_mcu_boot/mbed-os
-	url = https://github.com/ARMmbed/mbed-os.git
+[submodule "PS_repository/demo/mbed-os"]
+	path = PS_repository/demo/mbed-os
+	url = https://github.com/whutddk/mbed-os.git
