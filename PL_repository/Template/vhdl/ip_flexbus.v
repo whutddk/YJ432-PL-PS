@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-22 11:42:17
+// Last Modified time: 2019-01-22 11:55:32
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -200,55 +200,63 @@ assign ADDR_COMF_Din = (
 							)
 						);
 
-always @(*) begin 
-	if((~FB_ALE & ADD_COMF & ~FB_CS & FB_RW))
-		casez( ip_ADDR & 32'h0fffffff )
-			32'b00000: begin
-				FB_AD_Din <= LED_FREQ_Qout;
-			end // 32'b00000:
-			32'b00100:begin
-				FB_AD_Din <= BZ_FREQ_Qout;
-			end // 32'b00100:
-			32'b01000:begin
-				FB_AD_Din <= LEDR_Puty_Qout;
-			end // 32'b01000:
-			32'b01100:begin
-				FB_AD_Din <= LEDG_Puty_Qout;
-			end // 32'b01100:
-			32'b10000:begin
-				FB_AD_Din <= LEDB_Puty_Qout;
-			end // 32'b10000:
 
-			default:begin
-			end			
-		endcase
 
-	else
-		FB_AD_Din <= FB_AD_Qout;
-end
+assign LED_FREQ_SEL  = (ip_ADDR & 32'h0fffffff == 32'b00000) ? 1'b1:1'b0;
+assign BZ_FREQ_SEL   = (ip_ADDR & 32'h0fffffff == 32'b00100) ? 1'b1:1'b0;
+assign LEDR_Puty_SEL = (ip_ADDR & 32'h0fffffff == 32'b01000) ? 1'b1:1'b0;
+assign LEDG_Puty_SEL = (ip_ADDR & 32'h0fffffff == 32'b01100) ? 1'b1:1'b0;
+assign LEDB_Puty_SEL = (ip_ADDR & 32'h0fffffff == 32'b10000) ? 1'b1:1'b0;
+
+assign FB_AD_Din = (
+						{32{(~FB_ALE &  ADD_COMF & ~FB_CS &  FB_RW)}} & 
+						(
+							({32{LED_FREQ_SEL}} & LED_FREQ_Qout)
+							|
+							({32{BZ_FREQ_SEL}} & BZ_FREQ_Qout)
+							|
+							({32{LEDR_Puty_SEL}} & LEDR_Puty_Qout)
+							|
+							({32{LEDG_Puty_SEL}} & LEDG_Puty_Qout)
+							|
+							({32{LEDB_Puty_SEL}} & LEDB_Puty_Qout)
+							|
+							(
+								32'b0
+							)
+
+						)
+					)
+					|
+					(
+						{32{( FB_ALE | ~ADD_COMF |  FB_CS | ~FB_RW)}} &
+						(
+							FB_AD_Qout
+						)
+					);
 
 assign LED_FREQ_Din = ( (~FB_ALE & ADD_COMF & ~FB_CS & ~FB_RW) & 
-						(ip_ADDR & 32'h0fffffff == 32'b00000) )
+						(LED_FREQ_SEL) )
 						? FB_AD
 						: LED_FREQ_Qout;
 
 assign BZ_FREQ_Din  = ( (~FB_ALE & ADD_COMF & ~FB_CS & ~FB_RW) & 
-						(ip_ADDR & 32'h0fffffff == 32'b00100) )
+						(BZ_FREQ_SEL) )
 						? FB_AD
 						: BZ_FREQ_Qout;					
 
 assign LEDR_Puty_Din = ( (~FB_ALE & ADD_COMF & ~FB_CS & ~FB_RW) & 
-						(ip_ADDR & 32'h0fffffff == 32'b01000) )
+						(LEDR_Puty_SEL) )
 						? FB_AD
 						: LEDR_Puty_Qout;
 
 assign LEDG_Puty_Din = ( (~FB_ALE & ADD_COMF & ~FB_CS & ~FB_RW) & 
-						(ip_ADDR & 32'h0fffffff == 32'b01100) )
+						(LEDG_Puty_SEL) )
 						? FB_AD
 						: LEDG_Puty_Qout;
 
 assign LEDB_Puty_Din = 	( (~FB_ALE & ADD_COMF & ~FB_CS & ~FB_RW) & 
-						(ip_ADDR & 32'h0fffffff == 32'b10000) )
+						(LEDB_Puty_SEL) )
 						? FB_AD
 						: LEDB_Puty_Qout;			
 
