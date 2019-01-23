@@ -25,7 +25,7 @@ ARM+FPGA borad demo
 >        "bootloader_supported": true
     }
 
-* cd to ***mbed-os/targets/TARGET_Freescale*** and add the floowing code into **mbed_rtx.h***
+* cd to ***mbed-os/targets/TARGET_Freescale*** and add the floowing code into **mbed_rtx.h**
 > #elif defined(TARGET_K64ARM4FPGA)
 
 > #ifndef INITIAL_SP
@@ -56,6 +56,48 @@ ARM+FPGA borad demo
 > mbed compile --source \[projectName\] --source mbed-os --build BUILD/\[projectName\]
 
 ----------------------
+
+## How to Download PS based on openocd
+
+* copy two file in ***PS_repository/hw_config/download-debug/openocd*** into an acceptable place of openocd
+    - check your environment variable
+    - check the path in files
+
+----------------------------------------
+
+### Cmsis-Dap
+* make sure the fireware in **.hex** has been written into the downloader
+* copy ***PS_repository/hw_config/download-debug/CMSIS-DAP/cmsis-dap.cfg*** into a acceptable place of openocd
+* uncomment the first line of ***mk64f.cfg*** to select Cmsis-dap interface to be enable
+
+### FT2232
+* copy ***PS_repository/hw_config/download-debug/FT2232/ft2232D.cfg*** into an acceptable place of openocd
+* uncomment the first line of ***mk64f.cfg*** to select FT2232D interface to be enable
+* make sure the EEPROM has already been flash.
+    - ***FT_Prog*** provided by [FTDI](https://www.ftdichip.com/) can be used to flash the EEPROM of FT2232 
+    - If FT2232**D** is used, the **Hardware** of channel 0 (port A) must be set as **245 FIFO** and the driver must be set as **D2XX Direct**, to function as JTAG.The **Hardware** of channel 1 (port B) must be set as **RS232 UART** and the dirver must be set as **Virtual COM Port** to function as Serial COM Port 
+    - Select  **USB Device Descriptor** and change the **Product ID** depending on your setting in **ft2232D.cfg**
+    - flash the EEPROM using ***FT_Prog***
+* replace the **channel 0** driver firmware of FT2232D to **libusbk**
+
+--------------
+* connect your download board to your target board
+
+* launch openocd,if the perious work is correct, openocd will listen loaclhost:3333
+
+* copy **.bin** file which contain your fireware to download into an acceptable place of openocd
+
+* launch gnu and connect to openocd (loaclhost:3333)
+
+* type monitor program **[program].bin** can download the program into PS
+
+* the debug way of please refer the User [Manual of GUN (arm)](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm)
+
+
+
+------------------------------------------
+
+
 
 
 
