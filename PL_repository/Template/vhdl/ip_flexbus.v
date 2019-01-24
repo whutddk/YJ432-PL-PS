@@ -56,8 +56,7 @@ wire AD_TRI_n ;
 // (* DONT_TOUCH = "TRUE" *) reg [31:0] FB_AD_reg = 32'b0;
 // reg [31:0] ip_ADDR = 32'b0;
 
-assign AD_TRI_n = (~FB_ALE) & (ADD_COMF_Qout) & (~FB_CS) & (FB_RW);      
-assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_Qout[31:0] : 32'bz;
+
 
 
 wire ADDR_COMF_Din;
@@ -74,7 +73,7 @@ basic_reg # (1)
 wire [31:0] FB_AD_Din;
 wire [31:0] FB_AD_Qout;
 basic_reg # (32)
-	FB_AD
+	FB_AD_Reg
 	(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
@@ -145,6 +144,9 @@ basic_reg # (32)
 	.qout(LEDB_Puty_Qout)
 );
 
+assign AD_TRI_n = (~FB_ALE) & (ADDR_COMF_Qout) & (~FB_CS) & (FB_RW);      
+assign FB_AD[31:0] = ( AD_TRI_n ) ? FB_AD_Qout[31:0] : 32'bz;
+
 wire baseAddressCheck;
 assign baseAddressCheck = ((FB_AD[31:0] & 32'hf0000000) == ( FB_BASE[31:0] & 32'hf0000000 )) ? 1'b1:1'b0;
 
@@ -154,12 +156,12 @@ assign ip_ADDR_Din = (
 						(
 							{32{baseAddressCheck}} &
 							(
-								FB_AD[31:0];
+								FB_AD[31:0]
 							)
 							|
 							{32{~baseAddressCheck}} &
 							(
-								32'b0;
+								32'b0
 							)
 						)
 					)
@@ -167,7 +169,7 @@ assign ip_ADDR_Din = (
 					(
 						{32{~FB_ALE}} &
 						(
-							ip_ADDR_Qout;
+							ip_ADDR_Qout
 						)
 					);
 
@@ -181,7 +183,7 @@ assign ADDR_COMF_Din = (
 								|
 								(~baseAddressCheck) &
 								(
-									1'b0;
+									1'b0
 								)
 							)
 						)
@@ -194,11 +196,11 @@ assign ADDR_COMF_Din = (
 
 
 
-assign LED_FREQ_SEL  = (ip_ADDR_Qout & 32'h0fffffff == 32'b00000) ? 1'b1:1'b0;
-assign BZ_FREQ_SEL   = (ip_ADDR_Qout & 32'h0fffffff == 32'b00100) ? 1'b1:1'b0;
-assign LEDR_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b01000) ? 1'b1:1'b0;
-assign LEDG_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b01100) ? 1'b1:1'b0;
-assign LEDB_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b10000) ? 1'b1:1'b0;
+wire LED_FREQ_SEL  = (ip_ADDR_Qout & 32'h0fffffff == 32'b00000) ? 1'b1:1'b0;
+wire BZ_FREQ_SEL   = (ip_ADDR_Qout & 32'h0fffffff == 32'b00100) ? 1'b1:1'b0;
+wire LEDR_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b01000) ? 1'b1:1'b0;
+wire LEDG_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b01100) ? 1'b1:1'b0;
+wire LEDB_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b10000) ? 1'b1:1'b0;
 
 assign FB_AD_Din = (
 						{32{(~FB_ALE & ADDR_COMF_Qout & ~FB_CS &  FB_RW)}} & 
