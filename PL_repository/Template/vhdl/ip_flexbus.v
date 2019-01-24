@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-22 14:52:05
+// Last Modified time: 2019-01-24 18:07:50
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -61,7 +61,7 @@ wire AD_TRI_n ;
 
 wire ADDR_COMF_Din;
 wire ADDR_COMF_Qout;
-basic_reg # (1)
+basic_reg_clk_n # (1)
 	ADDR_COMF
 	(
 	.CLK(FB_CLK),
@@ -72,7 +72,7 @@ basic_reg # (1)
 
 wire [31:0] FB_AD_Din;
 wire [31:0] FB_AD_Qout;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	FB_AD_Reg
 	(
 	.CLK(FB_CLK),
@@ -83,7 +83,7 @@ basic_reg # (32)
 
 wire [31:0] ip_ADDR_Din;
 wire [31:0] ip_ADDR_Qout;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	ip_ADDR(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
@@ -96,7 +96,7 @@ basic_reg # (32)
 
 
 wire [31:0] LED_FREQ_Din;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	LED_FREQ(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
@@ -106,7 +106,7 @@ basic_reg # (32)
 
 
 wire [31:0] BZ_FREQ_Din;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	BZ_FREQ(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
@@ -116,7 +116,7 @@ basic_reg # (32)
 
 
 wire [31:0] LEDR_Puty_Din;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	LEDR_Puty(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
@@ -126,7 +126,7 @@ basic_reg # (32)
 
 
 wire [31:0] LEDG_Puty_Din;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	LEDG_Puty(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
@@ -136,7 +136,7 @@ basic_reg # (32)
 
 
 wire [31:0] LEDB_Puty_Din;
-basic_reg # (32)
+basic_reg_clk_n # (32)
 	LEDB_Puty(
 	.CLK(FB_CLK),
 	.RSTn(RST_n),
