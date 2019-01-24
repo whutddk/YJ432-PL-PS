@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Company:   
+// Company:  Wuhan university of technology  
 // Engineer: Ruige_Lee
 // Create Date: 2019-01-24 15:16:29
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-24 15:27:54
+// Last Modified time: 2019-01-24 17:52:53
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: flexbusSim
