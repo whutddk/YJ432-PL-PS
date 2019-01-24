@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-01-24 15:16:29
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-24 17:52:53
+// Last Modified time: 2019-01-24 18:16:37
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: flexbusSim
@@ -42,8 +42,8 @@ module flexbusSim (
 	wire [31:0] LEDG_Puty_Qout;
 	wire [31:0] LEDB_Puty_Qout;
 
-wire read_n_write_p;
-assign FB_AD_Wire =  read_n_write_p  ? FB_AD_REG : 32'bz;
+reg read_n_write_p;
+assign FB_AD_Wire =  read_n_write_p ? FB_AD_REG : 32'bz;
 
 perip_flexbus # (
 	.FB_BASE(32'h60000000)
@@ -67,5 +67,97 @@ perip_flexbus # (
 	
 	
 	);
+
+initial begin
+
+CLK = 1'b0;
+RST_n = 1'b0;
+
+FB_RW = 1'b0;
+FB_CS = 1'b0;
+FB_ALE = 1'b0;
+
+FB_AD_REG = 32'b0;
+read_n_write_p = 1'b1;
+
+#1
+
+RST_n = 1'b1;
+
+end
+
+
+//write 0
+
+#30 clk = 1'b1; 
+FB_RW = 0;
+FB_CS = 1;
+FB_ALE = 1;
+FB_AD_REG = 32'h60000000;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+
+#30 clk = 1'b1;
+FB_RW = 0;
+FB_CS = 0;
+FB_ALE = 0;
+FB_AD_REG = 32'd1000;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+#30 clk = 1'b1;
+FB_RW = 0;
+FB_CS = 1;
+FB_ALE = 0;
+FB_AD_REG = 32'd1001;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+
+//write 1
+
+#30 clk = 1'b1; 
+FB_RW = 0;
+FB_CS = 1;
+FB_ALE = 1;
+FB_AD_REG = 32'b00100;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+
+#30 clk = 1'b1;
+FB_RW = 0;
+FB_CS = 0;
+FB_ALE = 0;
+FB_AD_REG = 32'd2000;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+#30 clk = 1'b1;
+FB_RW = 0;
+FB_CS = 1;
+FB_ALE = 0;
+FB_AD_REG = 32'd2001;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+
+
+
+
+
 endmodule
 
