@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-01-24 15:16:29
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-24 18:16:37
+// Last Modified time: 2019-01-24 18:22:16
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: flexbusSim
@@ -127,7 +127,7 @@ read_n_write_p = 1;
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 1;
-FB_AD_REG = 32'b00100;
+FB_AD_REG = 32'h60000004;
 read_n_write_p = 1;
 
 #30 clk = 1'b0;
@@ -155,7 +155,71 @@ read_n_write_p = 1;
 
 
 
+//read 0
 
+#30 clk = 1'b1; 
+FB_RW = 1;
+FB_CS = 1;
+FB_ALE = 1;
+FB_AD_REG = 32'h60000000;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+
+#30 clk = 1'b1;
+FB_RW = 1;
+FB_CS = 0;
+FB_ALE = 0;
+FB_AD_REG = 32'd4000;
+read_n_write_p = 0;
+
+#30 clk = 1'b0;
+
+
+#30 clk = 1'b1;
+FB_RW = 1;
+FB_CS = 1;
+FB_ALE = 0;
+FB_AD_REG = 32'd4001;
+read_n_write_p = 0;
+
+#30 clk = 1'b0;
+
+
+
+//read 1
+
+#30 clk = 1'b1; 
+FB_RW = 1;
+FB_CS = 1;
+FB_ALE = 1;
+FB_AD_REG = 32'h60000004;
+read_n_write_p = 1;
+
+#30 clk = 1'b0;
+
+
+
+#30 clk = 1'b1;
+FB_RW = 1;
+FB_CS = 0;
+FB_ALE = 0;
+FB_AD_REG = 32'd3000;
+read_n_write_p = 0;
+
+#30 clk = 1'b0;
+
+
+#30 clk = 1'b1;
+FB_RW = 1;
+FB_CS = 1;
+FB_ALE = 0;
+FB_AD_REG = 32'd3001;
+read_n_write_p = 0;
+
+#30 clk = 1'b0;
 
 
 
