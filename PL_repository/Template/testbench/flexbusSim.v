@@ -84,143 +84,144 @@ read_n_write_p = 1'b1;
 
 RST_n = 1'b1;
 
-end
+
 
 
 //write 0
 
-#30 clk = 1'b1; 
+#30 CLK = 1'b1; 
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 1;
 FB_AD_REG = 32'h60000000;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 0;
 FB_CS = 0;
 FB_ALE = 0;
 FB_AD_REG = 32'd1000;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 0;
 FB_AD_REG = 32'd1001;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
 //write 1
 
-#30 clk = 1'b1; 
+#30 CLK = 1'b1; 
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 1;
 FB_AD_REG = 32'h60000004;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 0;
 FB_CS = 0;
 FB_ALE = 0;
 FB_AD_REG = 32'd2000;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 0;
 FB_AD_REG = 32'd2001;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
 //read 0
 
-#30 clk = 1'b1; 
+#30 CLK = 1'b1; 
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 1;
 FB_AD_REG = 32'h60000000;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 1;
 FB_CS = 0;
 FB_ALE = 0;
 FB_AD_REG = 32'd4000;
 read_n_write_p = 0;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 0;
 FB_AD_REG = 32'd4001;
 read_n_write_p = 0;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
 //read 1
 
-#30 clk = 1'b1; 
+#30 CLK = 1'b1; 
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 1;
 FB_AD_REG = 32'h60000004;
 read_n_write_p = 1;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 1;
 FB_CS = 0;
 FB_ALE = 0;
 FB_AD_REG = 32'd3000;
 read_n_write_p = 0;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
 
-#30 clk = 1'b1;
+#30 CLK = 1'b1;
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 0;
 FB_AD_REG = 32'd3001;
 read_n_write_p = 0;
 
-#30 clk = 1'b0;
+#30 CLK = 1'b0;
 
+end
 
 
 endmodule
