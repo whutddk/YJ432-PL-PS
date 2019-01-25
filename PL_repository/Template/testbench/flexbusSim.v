@@ -90,6 +90,7 @@ RST_n = 1'b1;
 //write 0
 
 #30 CLK = 1'b1; 
+#3
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 1;
@@ -97,10 +98,11 @@ FB_AD_REG = 32'h60000000;
 read_n_write_p = 1;
 
 #30 CLK = 1'b0;
-
+#3
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 0;
 FB_CS = 0;
 FB_ALE = 0;
@@ -111,6 +113,7 @@ read_n_write_p = 1;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 0;
@@ -124,6 +127,7 @@ read_n_write_p = 1;
 //write 1
 
 #30 CLK = 1'b1; 
+#3
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 1;
@@ -135,6 +139,7 @@ read_n_write_p = 1;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 0;
 FB_CS = 0;
 FB_ALE = 0;
@@ -145,6 +150,7 @@ read_n_write_p = 1;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 0;
 FB_CS = 1;
 FB_ALE = 0;
@@ -158,6 +164,7 @@ read_n_write_p = 1;
 //read 0
 
 #30 CLK = 1'b1; 
+#3
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 1;
@@ -169,6 +176,7 @@ read_n_write_p = 1;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 1;
 FB_CS = 0;
 FB_ALE = 0;
@@ -179,6 +187,7 @@ read_n_write_p = 0;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 0;
@@ -192,6 +201,7 @@ read_n_write_p = 0;
 //read 1
 
 #30 CLK = 1'b1; 
+#3
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 1;
@@ -203,6 +213,7 @@ read_n_write_p = 1;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 1;
 FB_CS = 0;
 FB_ALE = 0;
@@ -213,6 +224,7 @@ read_n_write_p = 0;
 
 
 #30 CLK = 1'b1;
+#3
 FB_RW = 1;
 FB_CS = 1;
 FB_ALE = 0;
