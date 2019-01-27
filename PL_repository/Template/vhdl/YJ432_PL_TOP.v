@@ -2,8 +2,8 @@
 // Company:  WUT 
 // Engineer: WUT Ruige Lee
 // Create Date: 2018/06/22 19:34:39
-// Last Modified by:   WUT_Ruige_Lee
-// Last Modified time: 2019-01-12 16:55:28
+// Last Modified by:   Ruige_Lee
+// Last Modified time: 2019-01-27 16:26:52
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: YJ432_PL_TOP
@@ -75,11 +75,11 @@ perip_flexbus # (
 	.FB_ALE(i_fb_ale),
 	.FB_AD(i_fb_ad),
 	
-	.LED_FREQ_Reg(LED_FREQ_wire),
-	.BZ_FREQ_Reg(BZ_FREQ_wire),
-	.LEDR_Puty_Reg(LEDR_Puty_wire),
-	.LEDG_Puty_Reg(LEDG_Puty_wire),
-	.LEDB_Puty_Reg(LEDB_Puty_wire)
+	.LED_FREQ_Qout(LED_FREQ_wire),
+	.BZ_FREQ_Qout(BZ_FREQ_wire),
+	.LEDR_Puty_Qout(LEDR_Puty_wire),
+	.LEDG_Puty_Qout(LEDG_Puty_wire),
+	.LEDB_Puty_Qout(LEDB_Puty_wire)
 );
 
 
