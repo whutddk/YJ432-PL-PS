@@ -1,25 +1,24 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Company: wuhan university of technology
-// Engineer: RUIGE LEE
+// Company:  wuhan University of Technology 
+// Engineer: Ruige_Lee
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-27 16:15:57
+// Last Modified time: 2019-01-27 17:13:25
 // Email: 295054118@whut.edu.cn
-// Design Name: 
+// Design Name:   
 // Module Name: ip_flexbus
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
+// Project Name:   
+// Target Devices:   
+// Tool Versions:   
+// Description:   
 // 
-// Dependencies: 
+// Dependencies:   
 // 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
+// Revision:  1.1.1
+// Revision:  1.1.1  -  PL-risc-v-Coding-Style 
+// Additional Comments:  
 // 
 //////////////////////////////////////////////////////////////////////////////////
- 
 
 `timescale 1ns / 1ps
 
