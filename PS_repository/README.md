@@ -23,7 +23,8 @@ ARM+FPGA borad demo
 >        "release_versions": ["2", "5"],
 >        "device_name": "MK64FX512xxx12",
 >        "bootloader_supported": true
-    }
+>    }
+
 
 * cd to ***mbed-os/targets/TARGET_Freescale*** and add the floowing code into **mbed_rtx.h**
 > #elif defined(TARGET_K64ARM4FPGA)
