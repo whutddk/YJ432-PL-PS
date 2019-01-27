@@ -3,7 +3,7 @@
 // Engineer: RUIGE LEE
 // Create Date: 2018/07/19 10:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-24 18:07:50
+// Last Modified time: 2019-01-27 16:15:57
 // Email: 295054118@whut.edu.cn
 // Design Name: 
 // Module Name: ip_flexbus
@@ -196,11 +196,11 @@ assign ADDR_COMF_Din = (
 
 
 
-wire LED_FREQ_SEL  = (ip_ADDR_Qout & 32'h0fffffff == 32'b00000) ? 1'b1:1'b0;
-wire BZ_FREQ_SEL   = (ip_ADDR_Qout & 32'h0fffffff == 32'b00100) ? 1'b1:1'b0;
-wire LEDR_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b01000) ? 1'b1:1'b0;
-wire LEDG_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b01100) ? 1'b1:1'b0;
-wire LEDB_Puty_SEL = (ip_ADDR_Qout & 32'h0fffffff == 32'b10000) ? 1'b1:1'b0;
+wire LED_FREQ_SEL  = ((ip_ADDR_Qout & 32'h0fffffff) == 32'b00000) ? 1'b1:1'b0;
+wire BZ_FREQ_SEL   = ((ip_ADDR_Qout & 32'h0fffffff) == 32'b00100) ? 1'b1:1'b0;
+wire LEDR_Puty_SEL = ((ip_ADDR_Qout & 32'h0fffffff) == 32'b01000) ? 1'b1:1'b0;
+wire LEDG_Puty_SEL = ((ip_ADDR_Qout & 32'h0fffffff) == 32'b01100) ? 1'b1:1'b0;
+wire LEDB_Puty_SEL = ((ip_ADDR_Qout & 32'h0fffffff) == 32'b10000) ? 1'b1:1'b0;
 
 assign FB_AD_Din = (
 						{32{(~FB_ALE & ADDR_COMF_Qout & ~FB_CS &  FB_RW)}} & 
