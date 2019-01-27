@@ -41,7 +41,7 @@ ARM+FPGA borad demo
     - fsl_sdhc.c
     - fsl_sdhc.h
 
-* cd to ***mbed-os/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/TARGET_ARM4FPGA*** and replace 5 config file by the file in ***PS_repository/hw_config/mbed-os/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/TRAGET_ARM4FPGA***
+* cd to ***mbed-os/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/TARGET_ARM4FPGA*** and replace 5 config file by the file in ***PS_repository/hw_config/mbed-os/targets/TARGET_Freescale/TARGET_MCUXpresso_MCUS/TARGET_MCU_K64F/TARGET_ARM4FPGA***
     - fsl_clock_config.c
     - fsl_clock_config.h
     - PeripheralNames.h
