@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Company:   
-// Engineer: WUT_Ruige_Lee
-// Create Date: 2019-01-16 15:52:29
+// Engineer: Ruige_Lee
+// Create Date: 2019-01-16 17:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-01-27 16:23:26
+// Last Modified time: 2019-02-25 22:38:41
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: basic_element
@@ -15,13 +15,19 @@
 // Dependencies:   
 // 
 // Revision:  
-// Revision 0.01 - File Created
+// Revision:    -   
 // Additional Comments:  
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module basic_reg_clk_p # (
+//mainly refer to risc-V e203
+
+
+
+
+
+module yj_basic_reg_clk_p # (
 		parameter DW = 32
 	)
 	(
@@ -48,12 +54,10 @@ always @( posedge CLK or negedge RSTn ) begin
 
 end
 
-
-
 endmodule
 
 
-module basic_reg_clk_n # (
+module yj_basic_reg_clk_n # (
 		parameter DW = 32
 	)
 	(
@@ -83,3 +87,30 @@ end
 
 
 endmodule
+
+
+
+
+module yj_basic_signal_2lever_sync # 
+	(
+		parameter DW = 32
+	) 
+	(
+	input	RSTn, 
+	input	CLK,
+	input  [DW-1:0] din,
+	output [DW-1:0] dout
+
+
+);
+
+	wire [DW-1:0] sync_dat [1:0];
+    
+    yj_basic_reg_clk_p #(DW) sync_1lever(CLK, RSTn, din, sync_dat[0]);
+    yj_basic_reg_clk_p #(DW) sync_2lever(CLK, RSTn, sync_dat[0], sync_dat[1]);
+
+
+	assign dout = sync_dat[1];
+  
+endmodule
+
