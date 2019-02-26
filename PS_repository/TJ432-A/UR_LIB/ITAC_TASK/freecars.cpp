@@ -58,7 +58,6 @@ void sendDataToScope()
 uint8_t flag_receive = 0;
 static void UartDebug()
 {
-<<<<<<< HEAD:PS_repository/TJ432-A/UR_LIB/ITAC_TASK/freecars.cpp
 	// ctl.motto.Kp_s = UartData[0];
 	// ctl.motto.Kd_s = UartData[1];
 	// ctl.motto.Kp_m = UartData[2];
@@ -86,8 +85,6 @@ static void UartDebug()
 
 	// * ( po3PID0_KDB_REG ) = (uint32_t)((int32_t)UartData[6]);
 
-=======
->>>>>>> c27bca7... open TJ-B seial:UR_LIB/ITAC_TASK/freecars.cpp
 
 	bz_set(datarec);
 }

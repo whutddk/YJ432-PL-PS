@@ -19,11 +19,7 @@ set_property -dict {PACKAGE_PIN D13 IOSTANDARD LVCMOS33} [get_ports i_fb_clk];
 create_clock -period 33.333 -name fb_clk_pin -waveform {0.000 16.666} -add [get_ports i_fb_clk];
 
 ## FB_OE
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
 set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen];
-=======
-#set_property -dict {PACKAGE_PIN C9 IOSTANDARD LVCMOS33} [get_ports i_fb_oen]
->>>>>>> f96ff61... 开始布线测试:TJ432.xdc
 
 ## FB_RW
 set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33} [get_ports i_fb_rw];
@@ -97,38 +93,9 @@ set_property -dict {PACKAGE_PIN R16 IOSTANDARD LVCMOS33} [get_ports i_QEI0_CH0_P
 
 #set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { btn[1] }]; #IO_L19P_T3_16 Sch=btn[1]
 
-# PMOD1
-set_property -dict {PACKAGE_PIN P6 IOSTANDARD LVCMOS33} [get_ports i_I2SMCLK]
-set_property -dict {PACKAGE_PIN T5 IOSTANDARD LVCMOS33} [get_ports i_I2SLRCK]
-set_property -dict {PACKAGE_PIN R5 IOSTANDARD LVCMOS33} [get_ports i_I2SBSCK]
-set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD]
 
-#set_property -dict {PACKAGE_PIN P8 IOSTANDARD LVCMOS33} [get_ports PMOD1_7];    #BANK14
-#set_property -dict {PACKAGE_PIN T7 IOSTANDARD LVCMOS33} [get_ports PMOD1_8];    #BANK14
-#set_property -dict {PACKAGE_PIN R7 IOSTANDARD LVCMOS33} [get_ports PMOD1_9];    #BANK14
-#set_property -dict {PACKAGE_PIN R6 IOSTANDARD LVCMOS33} [get_ports PMOD1_10];    #BANK14
 
-# PMOD2
-#set_property -dict {PACKAGE_PIN T3 IOSTANDARD LVCMOS33} [get_ports PMOD2_1];    #BANK34
-#set_property -dict {PACKAGE_PIN R3 IOSTANDARD LVCMOS33} [get_ports PMOD2_2];    #BANK34
-#set_property -dict {PACKAGE_PIN T2 IOSTANDARD LVCMOS33} [get_ports PMOD2_3];    #BANK34
-#set_property -dict {PACKAGE_PIN R2 IOSTANDARD LVCMOS33} [get_ports PMOD2_4];    #BANK34
 
-#set_property -dict {PACKAGE_PIN T4 IOSTANDARD LVCMOS33} [get_ports PMOD2_7];    #BANK34
-#set_property -dict {PACKAGE_PIN M5 IOSTANDARD LVCMOS33} [get_ports PMOD2_8];    #BANK34
-#set_property -dict {PACKAGE_PIN N3 IOSTANDARD LVCMOS33} [get_ports PMOD2_9];    #BANK34
-#set_property -dict {PACKAGE_PIN M4 IOSTANDARD LVCMOS33} [get_ports PMOD2_10];    #BANK34
-
-## PMOD3
-#set_property -dict {PACKAGE_PIN N2 IOSTANDARD LVCMOS33} [get_ports PMOD3_1];    #BANK34
-#set_property -dict {PACKAGE_PIN N1 IOSTANDARD LVCMOS33} [get_ports PMOD3_2];    #BANK34
-#set_property -dict {PACKAGE_PIN M2 IOSTANDARD LVCMOS33} [get_ports PMOD3_3];    #BANK34
-#set_property -dict {PACKAGE_PIN M1 IOSTANDARD LVCMOS33} [get_ports PMOD3_4];    #BANK34
-
-#set_property -dict {PACKAGE_PIN R1 IOSTANDARD LVCMOS33} [get_ports PMOD3_7];    #BANK34
-#set_property -dict {PACKAGE_PIN P4 IOSTANDARD LVCMOS33} [get_ports PMOD3_8];    #BANK34
-#set_property -dict {PACKAGE_PIN P3 IOSTANDARD LVCMOS33} [get_ports PMOD3_9];    #BANK34
-#set_property -dict {PACKAGE_PIN P1 IOSTANDARD LVCMOS33} [get_ports PMOD3_10];    #BANK34
 
 # Analog XADC Pins
 
@@ -141,6 +108,138 @@ set_property -dict {PACKAGE_PIN M6 IOSTANDARD LVCMOS33} [get_ports i_I2STXD]
 #set_property -dict { PACKAGE_PIN J2    IOSTANDARD LVCMOS33 } [get_ports { xa_n[1] }]; #IO_L2N_T0_AD12N_35 Sch=ain_n[16]
 
 #set_property -dict { PACKAGE_PIN H2    IOSTANDARD LVCMOS33 } [get_ports { xa_p[1] }]; #IO_L2P_T0_AD12P_35 Sch=ain_p[16]
+
+
+
+
+
+## GPIO Pins
+
+## Pins 15 and 16 should remain commented if using them as analog inputs
+
+#set_property -dict { PACKAGE_PIN M3    IOSTANDARD LVCMOS33 } [get_ports { pio }]; #IO_L8N_T1_AD14N_35 Sch=pio[01]
+
+#set_property -dict { PACKAGE_PIN L3    IOSTANDARD LVCMOS33 } [get_ports { data_out[0] }]; #IO_L8P_T1_AD14P_35 Sch=pio[02]
+
+#set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVCMOS33 } [get_ports { data_out[1] }]; #IO_L12P_T1_MRCC_16 Sch=pio[03]
+
+#set_property -dict { PACKAGE_PIN K3    IOSTANDARD LVCMOS33 } [get_ports { data_out[2] }]; #IO_L7N_T1_AD6N_35 Sch=pio[04]
+
+#set_property -dict { PACKAGE_PIN C15   IOSTANDARD LVCMOS33 } [get_ports { data_out[3] }]; #IO_L11P_T1_SRCC_16 Sch=pio[05]
+
+#set_property -dict { PACKAGE_PIN H1    IOSTANDARD LVCMOS33 } [get_ports { pio[06] }]; #IO_L3P_T0_DQS_AD5P_35 Sch=pio[06]
+
+#set_property -dict { PACKAGE_PIN A15   IOSTANDARD LVCMOS33 } [get_ports { pio[07] }]; #IO_L6N_T0_VREF_16 Sch=pio[07]
+
+#set_property -dict { PACKAGE_PIN B15   IOSTANDARD LVCMOS33 } [get_ports { pio[08] }]; #IO_L11N_T1_SRCC_16 Sch=pio[08]
+
+#set_property -dict { PACKAGE_PIN A14   IOSTANDARD LVCMOS33 } [get_ports { pio[09] }]; #IO_L6P_T0_16 Sch=pio[09]
+
+#set_property -dict { PACKAGE_PIN J3    IOSTANDARD LVCMOS33 } [get_ports { pio[10] }]; #IO_L7P_T1_AD6P_35 Sch=pio[10]
+
+#set_property -dict { PACKAGE_PIN J1    IOSTANDARD LVCMOS33 } [get_ports { pio[11] }]; #IO_L3N_T0_DQS_AD5N_35 Sch=pio[11]
+
+#set_property -dict { PACKAGE_PIN K2    IOSTANDARD LVCMOS33 } [get_ports { pio[12] }]; #IO_L5P_T0_AD13P_35 Sch=pio[12]
+
+#set_property -dict { PACKAGE_PIN L1    IOSTANDARD LVCMOS33 } [get_ports { pio[13] }]; #IO_L6N_T0_VREF_35 Sch=pio[13]
+
+#set_property -dict { PACKAGE_PIN L2    IOSTANDARD LVCMOS33 } [get_ports { pio[14] }]; #IO_L5N_T0_AD13N_35 Sch=pio[14]
+
+#set_property -dict { PACKAGE_PIN M1    IOSTANDARD LVCMOS33 } [get_ports { pio[17] }]; #IO_L9N_T1_DQS_AD7N_35 Sch=pio[17]
+
+#set_property -dict { PACKAGE_PIN N3    IOSTANDARD LVCMOS33 } [get_ports { pio[18] }]; #IO_L12P_T1_MRCC_35 Sch=pio[18]
+
+#set_property -dict { PACKAGE_PIN P3    IOSTANDARD LVCMOS33 } [get_ports { pio[19] }]; #IO_L12N_T1_MRCC_35 Sch=pio[19]
+
+#set_property -dict { PACKAGE_PIN M2    IOSTANDARD LVCMOS33 } [get_ports { pio[20] }]; #IO_L9P_T1_DQS_AD7P_35 Sch=pio[20]
+
+#set_property -dict { PACKAGE_PIN N1    IOSTANDARD LVCMOS33 } [get_ports { pio[21] }]; #IO_L10N_T1_AD15N_35 Sch=pio[21]
+
+#set_property -dict { PACKAGE_PIN N2    IOSTANDARD LVCMOS33 } [get_ports { pio[22] }]; #IO_L10P_T1_AD15P_35 Sch=pio[22]
+
+#set_property -dict { PACKAGE_PIN P1    IOSTANDARD LVCMOS33 } [get_ports { pio[23] }]; #IO_L19N_T3_VREF_35 Sch=pio[23]
+
+#set_property -dict { PACKAGE_PIN R3    IOSTANDARD LVCMOS33 } [get_ports { pio[26] }]; #IO_L2P_T0_34 Sch=pio[26]
+
+#set_property -dict { PACKAGE_PIN T3    IOSTANDARD LVCMOS33 } [get_ports { pio[27] }]; #IO_L2N_T0_34 Sch=pio[27]
+
+#set_property -dict { PACKAGE_PIN R2    IOSTANDARD LVCMOS33 } [get_ports { pio[28] }]; #IO_L1P_T0_34 Sch=pio[28]
+
+#set_property -dict { PACKAGE_PIN T1    IOSTANDARD LVCMOS33 } [get_ports { pio[29] }]; #IO_L3P_T0_DQS_34 Sch=pio[29]
+
+#set_property -dict { PACKAGE_PIN T2    IOSTANDARD LVCMOS33 } [get_ports { pio[30] }]; #IO_L1N_T0_34 Sch=pio[30]
+
+#set_property -dict { PACKAGE_PIN U1    IOSTANDARD LVCMOS33 } [get_ports { pio[31] }]; #IO_L3N_T0_DQS_34 Sch=pio[31]
+
+#set_property -dict { PACKAGE_PIN W2    IOSTANDARD LVCMOS33 } [get_ports { pio[32] }]; #IO_L5N_T0_34 Sch=pio[32]
+
+#set_property -dict { PACKAGE_PIN V2    IOSTANDARD LVCMOS33 } [get_ports { pio[33] }]; #IO_L5P_T0_34 Sch=pio[33]
+
+#set_property -dict { PACKAGE_PIN W3    IOSTANDARD LVCMOS33 } [get_ports { pio[34] }]; #IO_L6N_T0_VREF_34 Sch=pio[34]
+
+#set_property -dict { PACKAGE_PIN V3    IOSTANDARD LVCMOS33 } [get_ports { pio[35] }]; #IO_L6P_T0_34 Sch=pio[35]
+
+#set_property -dict { PACKAGE_PIN W5    IOSTANDARD LVCMOS33 } [get_ports { pio[36] }]; #IO_L12P_T1_MRCC_34 Sch=pio[36]
+
+#set_property -dict { PACKAGE_PIN V4    IOSTANDARD LVCMOS33 } [get_ports { pio[37] }]; #IO_L11N_T1_SRCC_34 Sch=pio[37]
+
+#set_property -dict { PACKAGE_PIN U4    IOSTANDARD LVCMOS33 } [get_ports { pio[38] }]; #IO_L11P_T1_SRCC_34 Sch=pio[38]
+
+#set_property -dict { PACKAGE_PIN V5    IOSTANDARD LVCMOS33 } [get_ports { pio[39] }]; #IO_L16N_T2_34 Sch=pio[39]
+
+#set_property -dict { PACKAGE_PIN W4    IOSTANDARD LVCMOS33 } [get_ports { pio[40] }]; #IO_L12N_T1_MRCC_34 Sch=pio[40]
+
+#set_property -dict { PACKAGE_PIN U5    IOSTANDARD LVCMOS33 } [get_ports { pio[41] }]; #IO_L16P_T2_34 Sch=pio[41]
+
+#set_property -dict { PACKAGE_PIN U2    IOSTANDARD LVCMOS33 } [get_ports { pio[42] }]; #IO_L9N_T1_DQS_34 Sch=pio[42]
+
+#set_property -dict { PACKAGE_PIN W6    IOSTANDARD LVCMOS33 } [get_ports { pio[43] }]; #IO_L13N_T2_MRCC_34 Sch=pio[43]
+
+#set_property -dict { PACKAGE_PIN U3    IOSTANDARD LVCMOS33 } [get_ports { pio[44] }]; #IO_L9P_T1_DQS_34 Sch=pio[44]
+
+#set_property -dict { PACKAGE_PIN U7    IOSTANDARD LVCMOS33 } [get_ports { pio[45] }]; #IO_L19P_T3_34 Sch=pio[45]
+
+#set_property -dict { PACKAGE_PIN W7    IOSTANDARD LVCMOS33 } [get_ports { pio[46] }]; #IO_L13P_T2_MRCC_34 Sch=pio[46]
+
+#set_property -dict { PACKAGE_PIN U8    IOSTANDARD LVCMOS33 } [get_ports { pio[47] }]; #IO_L14P_T2_SRCC_34 Sch=pio[47]
+
+#set_property -dict { PACKAGE_PIN V8    IOSTANDARD LVCMOS33 } [get_ports { pio[48] }]; #IO_L14N_T2_SRCC_34 Sch=pio[48]
+
+
+
+
+
+## UART
+
+#set_property -dict { PACKAGE_PIN J18   IOSTANDARD LVCMOS33 } [get_ports { uart_rxd_out }]; #IO_L7N_T1_D10_14 Sch=uart_rxd_out
+
+#set_property -dict { PACKAGE_PIN J17   IOSTANDARD LVCMOS33 } [get_ports { uart_txd_in  }]; #IO_L7P_T1_D09_14 Sch=uart_txd_in
+
+
+
+
+
+## Crypto 1 Wire Interface
+
+#set_property -dict { PACKAGE_PIN D17   IOSTANDARD LVCMOS33 } [get_ports { crypto_sda }]; #IO_0_14 Sch=crypto_sda
+
+
+
+
+
+## QSPI
+
+#set_property -dict { PACKAGE_PIN K19   IOSTANDARD LVCMOS33 } [get_ports { qspi_cs    }]; #IO_L6P_T0_FCS_B_14 Sch=qspi_cs
+
+#set_property -dict { PACKAGE_PIN D18   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[0] }]; #IO_L1P_T0_D00_MOSI_14 Sch=qspi_dq[0]
+
+#set_property -dict { PACKAGE_PIN D19   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[1] }]; #IO_L1N_T0_D01_DIN_14 Sch=qspi_dq[1]
+
+#set_property -dict { PACKAGE_PIN G18   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[2] }]; #IO_L2P_T0_D02_14 Sch=qspi_dq[2]
+
+#set_property -dict { PACKAGE_PIN F18   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[3] }]; #IO_L2N_T0_D03_14 Sch=qspi_dq[3]
+
+
 
 
 
@@ -213,198 +312,3 @@ set_property CONFIG_MODE SPIx4 [current_design]
 
 
 
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-=======
-
-
-set_property SLEW FAST [get_ports {i_fb_ad[31]}]
-set_property SLEW FAST [get_ports {i_fb_ad[30]}]
-set_property SLEW FAST [get_ports {i_fb_ad[29]}]
-set_property SLEW FAST [get_ports {i_fb_ad[28]}]
-set_property SLEW FAST [get_ports {i_fb_ad[27]}]
-set_property SLEW FAST [get_ports {i_fb_ad[26]}]
-set_property SLEW FAST [get_ports {i_fb_ad[25]}]
-set_property SLEW FAST [get_ports {i_fb_ad[24]}]
-set_property SLEW FAST [get_ports {i_fb_ad[23]}]
-set_property SLEW FAST [get_ports {i_fb_ad[22]}]
-set_property SLEW FAST [get_ports {i_fb_ad[21]}]
-set_property SLEW FAST [get_ports {i_fb_ad[20]}]
-set_property SLEW FAST [get_ports {i_fb_ad[19]}]
-set_property SLEW FAST [get_ports {i_fb_ad[18]}]
-set_property SLEW FAST [get_ports {i_fb_ad[17]}]
-set_property SLEW FAST [get_ports {i_fb_ad[16]}]
-set_property SLEW FAST [get_ports {i_fb_ad[15]}]
-set_property SLEW FAST [get_ports {i_fb_ad[14]}]
-set_property SLEW FAST [get_ports {i_fb_ad[13]}]
-set_property SLEW FAST [get_ports {i_fb_ad[12]}]
-set_property SLEW FAST [get_ports {i_fb_ad[11]}]
-set_property SLEW FAST [get_ports {i_fb_ad[10]}]
-set_property SLEW FAST [get_ports {i_fb_ad[9]}]
-set_property SLEW FAST [get_ports {i_fb_ad[8]}]
-set_property SLEW FAST [get_ports {i_fb_ad[7]}]
-set_property SLEW FAST [get_ports {i_fb_ad[6]}]
-set_property SLEW FAST [get_ports {i_fb_ad[5]}]
-set_property SLEW FAST [get_ports {i_fb_ad[4]}]
-set_property SLEW FAST [get_ports {i_fb_ad[3]}]
-set_property SLEW FAST [get_ports {i_fb_ad[2]}]
-set_property SLEW FAST [get_ports {i_fb_ad[1]}]
-set_property SLEW FAST [get_ports {i_fb_ad[0]}]
-
-
-set_property CONFIG_VOLTAGE 3.3 [current_design]
-set_property CFGBVS VCCO [current_design]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
->>>>>>> 45c08ed... 芯片配置电压:TJ432.xdc
-=======
-
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-=======
->>>>>>> b871821... 重新排版，fifo_cnt提早跳变，找不到原因:TJ432.xdc
-
-
-
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-
-create_debug_core u_ila_0 ila
-set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
-set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
-set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-set_property C_DATA_DEPTH 4096 [get_debug_cores u_ila_0]
-=======
-set_property C_DATA_DEPTH 16384 [get_debug_cores u_ila_0]
->>>>>>> b871821... 重新排版，fifo_cnt提早跳变，找不到原因:TJ432.xdc
-=======
-set_property C_DATA_DEPTH 8192 [get_debug_cores u_ila_0]
->>>>>>> dee9854... 这一步状态机正常，但这是else的问题还是dont touch的问题？:TJ432.xdc
-=======
-set_property C_DATA_DEPTH 2048 [get_debug_cores u_ila_0]
->>>>>>> 45c7484... RAM地址滞后poly_cnt一拍:TJ432.xdc
-=======
-set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
->>>>>>> edceec4... 乘和累加器负数计算故障，准备换ip乘法器:TJ432.xdc
-set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0]
-set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
-set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
-set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
-set_property port_width 1 [get_debug_ports u_ila_0/clk]
-connect_debug_port u_ila_0/clk [get_nets [list i_fb_clk_IBUF_BUFG]]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-set_property port_width 32 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {i_mp3/i_ROM/Rom_dataB_wire[0]} {i_mp3/i_ROM/Rom_dataB_wire[1]} {i_mp3/i_ROM/Rom_dataB_wire[2]} {i_mp3/i_ROM/Rom_dataB_wire[3]} {i_mp3/i_ROM/Rom_dataB_wire[4]} {i_mp3/i_ROM/Rom_dataB_wire[5]} {i_mp3/i_ROM/Rom_dataB_wire[6]} {i_mp3/i_ROM/Rom_dataB_wire[7]} {i_mp3/i_ROM/Rom_dataB_wire[8]} {i_mp3/i_ROM/Rom_dataB_wire[9]} {i_mp3/i_ROM/Rom_dataB_wire[10]} {i_mp3/i_ROM/Rom_dataB_wire[11]} {i_mp3/i_ROM/Rom_dataB_wire[12]} {i_mp3/i_ROM/Rom_dataB_wire[13]} {i_mp3/i_ROM/Rom_dataB_wire[14]} {i_mp3/i_ROM/Rom_dataB_wire[15]} {i_mp3/i_ROM/Rom_dataB_wire[16]} {i_mp3/i_ROM/Rom_dataB_wire[17]} {i_mp3/i_ROM/Rom_dataB_wire[18]} {i_mp3/i_ROM/Rom_dataB_wire[19]} {i_mp3/i_ROM/Rom_dataB_wire[20]} {i_mp3/i_ROM/Rom_dataB_wire[21]} {i_mp3/i_ROM/Rom_dataB_wire[22]} {i_mp3/i_ROM/Rom_dataB_wire[23]} {i_mp3/i_ROM/Rom_dataB_wire[24]} {i_mp3/i_ROM/Rom_dataB_wire[25]} {i_mp3/i_ROM/Rom_dataB_wire[26]} {i_mp3/i_ROM/Rom_dataB_wire[27]} {i_mp3/i_ROM/Rom_dataB_wire[28]} {i_mp3/i_ROM/Rom_dataB_wire[29]} {i_mp3/i_ROM/Rom_dataB_wire[30]} {i_mp3/i_ROM/Rom_dataB_wire[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 9 [get_debug_ports u_ila_0/probe1]
-connect_debug_port u_ila_0/probe1 [get_nets [list {i_mp3/Rom_addrA_wire[0]} {i_mp3/Rom_addrA_wire[1]} {i_mp3/Rom_addrA_wire[2]} {i_mp3/Rom_addrA_wire[3]} {i_mp3/Rom_addrA_wire[4]} {i_mp3/Rom_addrA_wire[5]} {i_mp3/Rom_addrA_wire[6]} {i_mp3/Rom_addrA_wire[7]} {i_mp3/Rom_addrA_wire[8]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
-set_property port_width 32 [get_debug_ports u_ila_0/probe2]
-connect_debug_port u_ila_0/probe2 [get_nets [list {i_mp3/Rom_dataA_wire[0]} {i_mp3/Rom_dataA_wire[1]} {i_mp3/Rom_dataA_wire[2]} {i_mp3/Rom_dataA_wire[3]} {i_mp3/Rom_dataA_wire[4]} {i_mp3/Rom_dataA_wire[5]} {i_mp3/Rom_dataA_wire[6]} {i_mp3/Rom_dataA_wire[7]} {i_mp3/Rom_dataA_wire[8]} {i_mp3/Rom_dataA_wire[9]} {i_mp3/Rom_dataA_wire[10]} {i_mp3/Rom_dataA_wire[11]} {i_mp3/Rom_dataA_wire[12]} {i_mp3/Rom_dataA_wire[13]} {i_mp3/Rom_dataA_wire[14]} {i_mp3/Rom_dataA_wire[15]} {i_mp3/Rom_dataA_wire[16]} {i_mp3/Rom_dataA_wire[17]} {i_mp3/Rom_dataA_wire[18]} {i_mp3/Rom_dataA_wire[19]} {i_mp3/Rom_dataA_wire[20]} {i_mp3/Rom_dataA_wire[21]} {i_mp3/Rom_dataA_wire[22]} {i_mp3/Rom_dataA_wire[23]} {i_mp3/Rom_dataA_wire[24]} {i_mp3/Rom_dataA_wire[25]} {i_mp3/Rom_dataA_wire[26]} {i_mp3/Rom_dataA_wire[27]} {i_mp3/Rom_dataA_wire[28]} {i_mp3/Rom_dataA_wire[29]} {i_mp3/Rom_dataA_wire[30]} {i_mp3/Rom_dataA_wire[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
-set_property port_width 9 [get_debug_ports u_ila_0/probe3]
-connect_debug_port u_ila_0/probe3 [get_nets [list {i_mp3/Rom_addrB_wire[0]} {i_mp3/Rom_addrB_wire[1]} {i_mp3/Rom_addrB_wire[2]} {i_mp3/Rom_addrB_wire[3]} {i_mp3/Rom_addrB_wire[4]} {i_mp3/Rom_addrB_wire[5]} {i_mp3/Rom_addrB_wire[6]} {i_mp3/Rom_addrB_wire[7]} {i_mp3/Rom_addrB_wire[8]}]]
-=======
-set_property port_width 3 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {i_mp3/i_polyhpase/MC2S_cnt[1]} {i_mp3/i_polyhpase/MC2S_cnt[2]} {i_mp3/i_polyhpase/MC2S_cnt[3]}]]
-=======
-set_property port_width 9 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {i_flexbus/MC2S_sub_cnt_reg[8]_0[0]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[1]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[2]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[3]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[4]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[5]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[6]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[7]} {i_flexbus/MC2S_sub_cnt_reg[8]_0[8]}]]
->>>>>>> dee9854... 这一步状态机正常，但这是else的问题还是dont touch的问题？:TJ432.xdc
-=======
-set_property port_width 4 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {i_mp3/i_polyhpase/MC2S_cnt[0]} {i_mp3/i_polyhpase/MC2S_cnt[1]} {i_mp3/i_polyhpase/MC2S_cnt[2]} {i_mp3/i_polyhpase/MC2S_cnt[3]}]]
->>>>>>> 45c7484... RAM地址滞后poly_cnt一拍:TJ432.xdc
-=======
-set_property port_width 9 [get_debug_ports u_ila_0/probe0]
-connect_debug_port u_ila_0/probe0 [get_nets [list {i_mp3/i_polyhpase/MC2S_sub_cnt[0]} {i_mp3/i_polyhpase/MC2S_sub_cnt[1]} {i_mp3/i_polyhpase/MC2S_sub_cnt[2]} {i_mp3/i_polyhpase/MC2S_sub_cnt[3]} {i_mp3/i_polyhpase/MC2S_sub_cnt[4]} {i_mp3/i_polyhpase/MC2S_sub_cnt[5]} {i_mp3/i_polyhpase/MC2S_sub_cnt[6]} {i_mp3/i_polyhpase/MC2S_sub_cnt[7]} {i_mp3/i_polyhpase/MC2S_sub_cnt[8]}]]
->>>>>>> edceec4... 乘和累加器负数计算故障，准备换ip乘法器:TJ432.xdc
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 4 [get_debug_ports u_ila_0/probe1]
-connect_debug_port u_ila_0/probe1 [get_nets [list {i_mp3/i_polyhpase/MC2S_cnt[0]} {i_mp3/i_polyhpase/MC2S_cnt[1]} {i_mp3/i_polyhpase/MC2S_cnt[2]} {i_mp3/i_polyhpase/MC2S_cnt[3]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
-set_property port_width 9 [get_debug_ports u_ila_0/probe2]
-connect_debug_port u_ila_0/probe2 [get_nets [list {i_mp3/i_polyhpase/poly_cnt[0]} {i_mp3/i_polyhpase/poly_cnt[1]} {i_mp3/i_polyhpase/poly_cnt[2]} {i_mp3/i_polyhpase/poly_cnt[3]} {i_mp3/i_polyhpase/poly_cnt[4]} {i_mp3/i_polyhpase/poly_cnt[5]} {i_mp3/i_polyhpase/poly_cnt[6]} {i_mp3/i_polyhpase/poly_cnt[7]} {i_mp3/i_polyhpase/poly_cnt[8]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
-set_property port_width 2 [get_debug_ports u_ila_0/probe3]
-connect_debug_port u_ila_0/probe3 [get_nets [list {i_mp3/fifo_cnt_reg[4][0]} {i_mp3/fifo_cnt_reg[4][1]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
-set_property port_width 16 [get_debug_ports u_ila_0/probe4]
-connect_debug_port u_ila_0/probe4 [get_nets [list {PCM_DATA_Wire[0]} {PCM_DATA_Wire[1]} {PCM_DATA_Wire[2]} {PCM_DATA_Wire[3]} {PCM_DATA_Wire[4]} {PCM_DATA_Wire[5]} {PCM_DATA_Wire[6]} {PCM_DATA_Wire[7]} {PCM_DATA_Wire[8]} {PCM_DATA_Wire[9]} {PCM_DATA_Wire[10]} {PCM_DATA_Wire[11]} {PCM_DATA_Wire[12]} {PCM_DATA_Wire[13]} {PCM_DATA_Wire[14]} {PCM_DATA_Wire[15]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-set_property port_width 5 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {i_polyhpase/MC2S_sub_cnt[0]} {i_polyhpase/MC2S_sub_cnt[1]} {i_polyhpase/MC2S_sub_cnt[2]} {i_polyhpase/MC2S_sub_cnt[3]} {i_polyhpase/MC2S_sub_cnt[4]}]]
->>>>>>> b871821... 重新排版，fifo_cnt提早跳变，找不到原因:TJ432.xdc
-=======
-set_property port_width 3 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {subband_state_Wire[0]} {subband_state_Wire[1]} {subband_state_Wire[2]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
-set_property port_width 1 [get_debug_ports u_ila_0/probe6]
-connect_debug_port u_ila_0/probe6 [get_nets [list i_mp3/i_polyhpase/fifo_enable_i_1_n_0]]
->>>>>>> dee9854... 这一步状态机正常，但这是else的问题还是dont touch的问题？:TJ432.xdc
-=======
-set_property port_width 12 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {FB_RAM_ADDR_Wire[0]} {FB_RAM_ADDR_Wire[1]} {FB_RAM_ADDR_Wire[2]} {FB_RAM_ADDR_Wire[3]} {FB_RAM_ADDR_Wire[4]} {FB_RAM_ADDR_Wire[5]} {FB_RAM_ADDR_Wire[6]} {FB_RAM_ADDR_Wire[7]} {FB_RAM_ADDR_Wire[8]} {FB_RAM_ADDR_Wire[9]} {FB_RAM_ADDR_Wire[10]} {FB_RAM_ADDR_Wire[11]}]]
-=======
-set_property port_width 32 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {i_mp3/mult0B[0]} {i_mp3/mult0B[1]} {i_mp3/mult0B[2]} {i_mp3/mult0B[3]} {i_mp3/mult0B[4]} {i_mp3/mult0B[5]} {i_mp3/mult0B[6]} {i_mp3/mult0B[7]} {i_mp3/mult0B[8]} {i_mp3/mult0B[9]} {i_mp3/mult0B[10]} {i_mp3/mult0B[11]} {i_mp3/mult0B[12]} {i_mp3/mult0B[13]} {i_mp3/mult0B[14]} {i_mp3/mult0B[15]} {i_mp3/mult0B[16]} {i_mp3/mult0B[17]} {i_mp3/mult0B[18]} {i_mp3/mult0B[19]} {i_mp3/mult0B[20]} {i_mp3/mult0B[21]} {i_mp3/mult0B[22]} {i_mp3/mult0B[23]} {i_mp3/mult0B[24]} {i_mp3/mult0B[25]} {i_mp3/mult0B[26]} {i_mp3/mult0B[27]} {i_mp3/mult0B[28]} {i_mp3/mult0B[29]} {i_mp3/mult0B[30]} {i_mp3/mult0B[31]}]]
->>>>>>> edceec4... 乘和累加器负数计算故障，准备换ip乘法器:TJ432.xdc
-=======
-set_property port_width 3 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {subband_state_Wire[0]} {subband_state_Wire[1]} {subband_state_Wire[2]}]]
->>>>>>> 857f8c2... 数据流通了，PMOD有波形出来，但没音频出来，怀疑是I2S模块坏了:TJ432.xdc
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
-set_property port_width 1 [get_debug_ports u_ila_0/probe6]
-connect_debug_port u_ila_0/probe6 [get_nets [list Pcm_wden_Wire]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
-set_property port_width 64 [get_debug_ports u_ila_0/probe7]
-connect_debug_port u_ila_0/probe7 [get_nets [list {i_mp3/sum0[0]} {i_mp3/sum0[1]} {i_mp3/sum0[2]} {i_mp3/sum0[3]} {i_mp3/sum0[4]} {i_mp3/sum0[5]} {i_mp3/sum0[6]} {i_mp3/sum0[7]} {i_mp3/sum0[8]} {i_mp3/sum0[9]} {i_mp3/sum0[10]} {i_mp3/sum0[11]} {i_mp3/sum0[12]} {i_mp3/sum0[13]} {i_mp3/sum0[14]} {i_mp3/sum0[15]} {i_mp3/sum0[16]} {i_mp3/sum0[17]} {i_mp3/sum0[18]} {i_mp3/sum0[19]} {i_mp3/sum0[20]} {i_mp3/sum0[21]} {i_mp3/sum0[22]} {i_mp3/sum0[23]} {i_mp3/sum0[24]} {i_mp3/sum0[25]} {i_mp3/sum0[26]} {i_mp3/sum0[27]} {i_mp3/sum0[28]} {i_mp3/sum0[29]} {i_mp3/sum0[30]} {i_mp3/sum0[31]} {i_mp3/sum0[32]} {i_mp3/sum0[33]} {i_mp3/sum0[34]} {i_mp3/sum0[35]} {i_mp3/sum0[36]} {i_mp3/sum0[37]} {i_mp3/sum0[38]} {i_mp3/sum0[39]} {i_mp3/sum0[40]} {i_mp3/sum0[41]} {i_mp3/sum0[42]} {i_mp3/sum0[43]} {i_mp3/sum0[44]} {i_mp3/sum0[45]} {i_mp3/sum0[46]} {i_mp3/sum0[47]} {i_mp3/sum0[48]} {i_mp3/sum0[49]} {i_mp3/sum0[50]} {i_mp3/sum0[51]} {i_mp3/sum0[52]} {i_mp3/sum0[53]} {i_mp3/sum0[54]} {i_mp3/sum0[55]} {i_mp3/sum0[56]} {i_mp3/sum0[57]} {i_mp3/sum0[58]} {i_mp3/sum0[59]} {i_mp3/sum0[60]} {i_mp3/sum0[61]} {i_mp3/sum0[62]} {i_mp3/sum0[63]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
-set_property port_width 32 [get_debug_ports u_ila_0/probe8]
-connect_debug_port u_ila_0/probe8 [get_nets [list {RAM_DATA_OUTA_Wire[0]} {RAM_DATA_OUTA_Wire[1]} {RAM_DATA_OUTA_Wire[2]} {RAM_DATA_OUTA_Wire[3]} {RAM_DATA_OUTA_Wire[4]} {RAM_DATA_OUTA_Wire[5]} {RAM_DATA_OUTA_Wire[6]} {RAM_DATA_OUTA_Wire[7]} {RAM_DATA_OUTA_Wire[8]} {RAM_DATA_OUTA_Wire[9]} {RAM_DATA_OUTA_Wire[10]} {RAM_DATA_OUTA_Wire[11]} {RAM_DATA_OUTA_Wire[12]} {RAM_DATA_OUTA_Wire[13]} {RAM_DATA_OUTA_Wire[14]} {RAM_DATA_OUTA_Wire[15]} {RAM_DATA_OUTA_Wire[16]} {RAM_DATA_OUTA_Wire[17]} {RAM_DATA_OUTA_Wire[18]} {RAM_DATA_OUTA_Wire[19]} {RAM_DATA_OUTA_Wire[20]} {RAM_DATA_OUTA_Wire[21]} {RAM_DATA_OUTA_Wire[22]} {RAM_DATA_OUTA_Wire[23]} {RAM_DATA_OUTA_Wire[24]} {RAM_DATA_OUTA_Wire[25]} {RAM_DATA_OUTA_Wire[26]} {RAM_DATA_OUTA_Wire[27]} {RAM_DATA_OUTA_Wire[28]} {RAM_DATA_OUTA_Wire[29]} {RAM_DATA_OUTA_Wire[30]} {RAM_DATA_OUTA_Wire[31]}]]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
->>>>>>> 45c7484... RAM地址滞后poly_cnt一拍:TJ432.xdc
-=======
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
-set_property port_width 3 [get_debug_ports u_ila_0/probe9]
-connect_debug_port u_ila_0/probe9 [get_nets [list {subband_state_Wire[0]} {subband_state_Wire[1]} {subband_state_Wire[2]}]]
->>>>>>> edceec4... 乘和累加器负数计算故障，准备换ip乘法器:TJ432.xdc
-=======
-set_property port_width 1 [get_debug_ports u_ila_0/probe7]
-connect_debug_port u_ila_0/probe7 [get_nets [list i_fb_clk_IBUF]]
->>>>>>> 857f8c2... 数据流通了，PMOD有波形出来，但没音频出来，怀疑是I2S模块坏了:TJ432.xdc
-set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
-set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
-set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
-connect_debug_port dbg_hub/clk [get_nets i_fb_clk_IBUF_BUFG]
-<<<<<<< HEAD:PL_repository/YJ431-PL/YJ432.xdc
->>>>>>> 6de3416... 又学了一手，不是吗:TJ432.xdc
-=======
->>>>>>> 8d733c6... 状态机有可能溢出了:TJ432.xdc
-=======
->>>>>>> b871821... 重新排版，fifo_cnt提早跳变，找不到原因:TJ432.xdc
-=======
->>>>>>> dc92cc4... 修正，由于缩小的太厉害，能听到歌曲，畸变严重，怀疑某处错误：溢出，运算错误:TJ432.xdc

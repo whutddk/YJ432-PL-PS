@@ -9,7 +9,6 @@
 #define PWM0_BASE   0x00800000U
 #define QEI0_BASE	0x01800000U
 #define PO3PID0_BASE 0x03400000U
-#define PO3PID1_BASE 0x03800000U
 
 extern volatile uint32_t *bzled_reg;
 extern volatile uint32_t *pwm0_reg;
@@ -45,23 +44,6 @@ extern volatile uint32_t *po3PID0_KPB_REG;
 extern volatile uint32_t *po3PID0_KIB_REG;
 extern volatile uint32_t *po3PID0_KDB_REG;
 extern volatile uint32_t *po3PID0_OUT_REG;
-
-extern volatile uint32_t *po3PID1_FREQ_REG;
-extern volatile uint32_t *po3PID1_AIM_REG;
-extern volatile uint32_t *po3PID1_CUR_REG;
-extern volatile uint32_t *po3PID1_ERS_REG;
-extern volatile uint32_t *po3PID1_KPS_REG;
-extern volatile uint32_t *po3PID1_KIS_REG;
-extern volatile uint32_t *po3PID1_KDS_REG;
-extern volatile uint32_t *po3PID1_ERM_REG;
-extern volatile uint32_t *po3PID1_KPM_REG;
-extern volatile uint32_t *po3PID1_KIM_REG;
-extern volatile uint32_t *po3PID1_KDM_REG;
-extern volatile uint32_t *po3PID1_ERB_REG;
-extern volatile uint32_t *po3PID1_KPB_REG;
-extern volatile uint32_t *po3PID1_KIB_REG;
-extern volatile uint32_t *po3PID1_KDB_REG;
-extern volatile uint32_t *po3PID1_OUT_REG;
 
 #endif
 
