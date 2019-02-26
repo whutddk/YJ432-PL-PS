@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-01-16 17:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-02-25 22:38:41
+// Last Modified time: 2019-02-26 11:38:45
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: basic_element
@@ -96,8 +96,8 @@ module yj_basic_signal_2lever_sync #
 		parameter DW = 32
 	) 
 	(
-	input	RSTn, 
 	input	CLK,
+	input	RSTn, 
 	input  [DW-1:0] din,
 	output [DW-1:0] dout
 
