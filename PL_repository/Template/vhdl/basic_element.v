@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-01-16 17:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-03-03 11:53:12
+// Last Modified time: 2019-03-03 16:43:57
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: basic_element
@@ -24,7 +24,7 @@
 //mainly refer to risc-V e203
 
 
-
+`timescale 1 ns / 1 ps
 
 
 module yj_basic_reg_clk_p # (
