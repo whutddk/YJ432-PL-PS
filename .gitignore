@@ -1,1 +1,6 @@
 PS_repository/demo/BUILD/
+*.jou
+*.dcp
+*.wdf
+*.rpt
+*.log

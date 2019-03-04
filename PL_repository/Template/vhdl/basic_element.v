@@ -60,7 +60,7 @@ endmodule
 
 module yj_basic_reg_clk_n # (
 		parameter DW = 32,
-		parameter RSTVAL = 1'b0,
+		parameter RSTVAL = 1'b0
 	)
 	(
 		input CLK,
