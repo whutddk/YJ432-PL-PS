@@ -5,7 +5,7 @@ ARM+FPGA borad demo
 
 * Ensure your vivado path is added into system environment variable
 * cd to ***/PL_repository/Template/tclProject*** and call out **cmd** or **powershell**
-* type order $vivado -mode batch -source YJ432_PL_TOP.tcl$
+* type order ``` vivado -mode batch -source YJ432_PL_TOP.tcl ```
 * Then the **.bit** file and **.bin** file will be create
 
 
