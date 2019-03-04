@@ -1,13 +1,13 @@
 # @Author: Ruige_Lee
 # @Date:   2019-03-04 20:42:08
 # @Last Modified by:   Ruige_Lee
-# @Last Modified time: 2019-03-04 21:11:48
+# @Last Modified time: 2019-03-04 21:19:12
 
 
 
 # define the where output file place
 
-set outputDir ./prjOutput
+set outputDir ./
 
 
 # import verilog source file 

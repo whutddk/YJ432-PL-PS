@@ -1,9 +1,17 @@
 # YJ432-PL
 ARM+FPGA borad demo
 
+## How to simply Compile Project
+
+* Ensure your vivado path is added into system environment variable
+* cd to ***/PL_repository/Template/tclProject*** and call out **cmd** or **powershell**
+* type order $vivado -mode batch -source YJ432_PL_TOP.tcl$
+* Then the **.bit** file and **.bin** file will be create
+
+
 -------------------------------------
 
-## how to config your fpga
+## How to Config your FPGA
 
 * firstly **synthesiz**-**implementation**-**generate bitstream** of your project
 
