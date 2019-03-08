@@ -35,7 +35,7 @@ module perip_SRAM # (
 		input mode_R1_W0,
 		input [ADDRW-1:0] SRAM_ADDR_Stream,
 		input [DATAW-1:0] SRAM_DATA_IN_Stream,
-		output [DATAW-1:0] SRAM_DATA_OUT_Stream
+		output [DATAW-1:0] SRAM_DATA_OUT_Stream,
 
 
 		//driver pin
@@ -99,7 +99,7 @@ yj_basic_reg_clk_p # (
 		.DW(DATAW),
 		.RSTVAL(1'b0)
 	)
-	dataRead_reg
+	dataWrite_reg
 	(
 		.CLK(CLK),
 		.RSTn(RSTn),
