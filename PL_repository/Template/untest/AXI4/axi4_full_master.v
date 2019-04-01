@@ -1,3 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company:   
+// Engineer: Ruige_Lee
+// Create Date: 2019-04-01 17:08:13
+// Last Modified by:   Ruige_Lee
+// Last Modified time: 2019-04-01 17:44:17
+// Email: 295054118@whut.edu.cn
+// Design Name:   
+// Module Name: axi4_full_master
+// Project Name:   
+// Target Devices:   
+// Tool Versions:   
+// Description:   
+// 
+// Dependencies:   
+// 
+// Revision:  
+// Revision:    -   
+// Additional Comments:  
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
 `timescale 1 ns / 1 ps
 
@@ -17,17 +38,7 @@
 		// Width of Address Bus
 		parameter integer C_M_AXI_ADDR_WIDTH	= 32,
 		// Width of Data Bus
-		parameter integer C_M_AXI_DATA_WIDTH	= 32,
-		// Width of User Write Address Bus
-		parameter integer C_M_AXI_AWUSER_WIDTH	= 0,
-		// Width of User Read Address Bus
-		parameter integer C_M_AXI_ARUSER_WIDTH	= 0,
-		// Width of User Write Data Bus
-		parameter integer C_M_AXI_WUSER_WIDTH	= 0,
-		// Width of User Read Data Bus
-		parameter integer C_M_AXI_RUSER_WIDTH	= 0,
-		// Width of User Response Bus
-		parameter integer C_M_AXI_BUSER_WIDTH	= 0
+		parameter integer C_M_AXI_DATA_WIDTH	= 32
 	)
 	(
 		// Users to add ports here
@@ -68,8 +79,6 @@
 		output wire [2 : 0] M_AXI_AWPROT,
 		// Quality of Service, QoS identifier sent for each write transaction.
 		output wire [3 : 0] M_AXI_AWQOS,
-		// Optional User-defined signal in the write address channel.
-		output wire [C_M_AXI_AWUSER_WIDTH-1 : 0] M_AXI_AWUSER,
 		// Write address valid. This signal indicates that
     // the channel is signaling valid write address and control information.
 		output wire  M_AXI_AWVALID,
@@ -84,8 +93,6 @@
 		output wire [C_M_AXI_DATA_WIDTH/8-1 : 0] M_AXI_WSTRB,
 		// Write last. This signal indicates the last transfer in a write burst.
 		output wire  M_AXI_WLAST,
-		// Optional User-defined signal in the write data channel.
-		output wire [C_M_AXI_WUSER_WIDTH-1 : 0] M_AXI_WUSER,
 		// Write valid. This signal indicates that valid write
     // data and strobes are available
 		output wire  M_AXI_WVALID,
@@ -96,8 +103,6 @@
 		input wire [C_M_AXI_ID_WIDTH-1 : 0] M_AXI_BID,
 		// Write response. This signal indicates the status of the write transaction.
 		input wire [1 : 0] M_AXI_BRESP,
-		// Optional User-defined signal in the write response channel
-		input wire [C_M_AXI_BUSER_WIDTH-1 : 0] M_AXI_BUSER,
 		// Write response valid. This signal indicates that the
     // channel is signaling a valid write response.
 		input wire  M_AXI_BVALID,
@@ -128,8 +133,6 @@
 		output wire [2 : 0] M_AXI_ARPROT,
 		// Quality of Service, QoS identifier sent for each read transaction
 		output wire [3 : 0] M_AXI_ARQOS,
-		// Optional User-defined signal in the read address channel.
-		output wire [C_M_AXI_ARUSER_WIDTH-1 : 0] M_AXI_ARUSER,
 		// Write address valid. This signal indicates that
     // the channel is signaling valid read address and control information
 		output wire  M_AXI_ARVALID,
@@ -145,8 +148,6 @@
 		input wire [1 : 0] M_AXI_RRESP,
 		// Read last. This signal indicates the last transfer in a read burst
 		input wire  M_AXI_RLAST,
-		// Optional User-defined signal in the read address channel.
-		input wire [C_M_AXI_RUSER_WIDTH-1 : 0] M_AXI_RUSER,
 		// Read valid. This signal indicates that the channel
     // is signaling the required read data.
 		input wire  M_AXI_RVALID,
@@ -252,14 +253,12 @@
 	assign M_AXI_AWCACHE	= 4'b0010;
 	assign M_AXI_AWPROT	= 3'h0;
 	assign M_AXI_AWQOS	= 4'h0;
-	assign M_AXI_AWUSER	= 'b1;
 	assign M_AXI_AWVALID	= axi_awvalid;
 	//Write Data(W)
 	assign M_AXI_WDATA	= axi_wdata;
 	//All bursts are complete and aligned in this example
 	assign M_AXI_WSTRB	= {(C_M_AXI_DATA_WIDTH/8){1'b1}};
 	assign M_AXI_WLAST	= axi_wlast;
-	assign M_AXI_WUSER	= 'b0;
 	assign M_AXI_WVALID	= axi_wvalid;
 	//Write Response (B)
 	assign M_AXI_BREADY	= axi_bready;
@@ -277,7 +276,6 @@
 	assign M_AXI_ARCACHE	= 4'b0010;
 	assign M_AXI_ARPROT	= 3'h0;
 	assign M_AXI_ARQOS	= 4'h0;
-	assign M_AXI_ARUSER	= 'b1;
 	assign M_AXI_ARVALID	= axi_arvalid;
 	//Read and Read Response (R)
 	assign M_AXI_RREADY	= axi_rready;

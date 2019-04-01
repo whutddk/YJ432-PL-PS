@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-04-01 17:02:49
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-04-01 17:38:48
+// Last Modified time: 2019-04-01 17:44:24
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: axi4_full_slave
@@ -24,33 +24,14 @@
 
 	module axi4_full_temple_v1_0_S00_AXI #
 	(
-		// Users to add parameters here
-
-		// User parameters ends
-		// Do not modify the parameters beyond this line
-
 		// Width of ID for for write address, write data, read address and read data
 		parameter integer C_S_AXI_ID_WIDTH	= 1,
 		// Width of S_AXI data bus
 		parameter integer C_S_AXI_DATA_WIDTH	= 32,
 		// Width of S_AXI address bus
-		parameter integer C_S_AXI_ADDR_WIDTH	= 7,
-// Width of optional user defined signal in write address channel
-// parameter integer C_S_AXI_AWUSER_WIDTH	= 0,
-// Width of optional user defined signal in read address channel
-// parameter integer C_S_AXI_ARUSER_WIDTH	= 0,
-// Width of optional user defined signal in write data channel
-// parameter integer C_S_AXI_WUSER_WIDTH	= 0,
-// Width of optional user defined signal in read data channel
-// parameter integer C_S_AXI_RUSER_WIDTH	= 0,
-// Width of optional user defined signal in write response channel
-// parameter integer C_S_AXI_BUSER_WIDTH	= 0
+		parameter integer C_S_AXI_ADDR_WIDTH	= 7
 	)
 	(
-		// Users to add ports here
-
-		// User ports ends
-		// Do not modify the ports beyond this line
 
 		// Global Clock Signal
 		input wire  S_AXI_ACLK,
@@ -83,8 +64,6 @@
 		// Region identifier. Permits a single physical interface
 		// on a slave to be used for multiple logical interfaces.
 		input wire [3 : 0] S_AXI_AWREGION,
-// Optional User-defined signal in the write address channel.
-// input wire [C_S_AXI_AWUSER_WIDTH-1 : 0] S_AXI_AWUSER,
 		// Write address valid. This signal indicates that
 		// the channel is signaling valid write address and
 		// control information.
@@ -102,8 +81,6 @@
 		// Write last. This signal indicates the last transfer
 		// in a write burst.
 		input wire  S_AXI_WLAST,
-// Optional User-defined signal in the write data channel.
-// input wire [C_S_AXI_WUSER_WIDTH-1 : 0] S_AXI_WUSER,
 		// Write valid. This signal indicates that valid write
 		// data and strobes are available.
 		input wire  S_AXI_WVALID,
@@ -116,8 +93,6 @@
 		// Write response. This signal indicates the status
 		// of the write transaction.
 		output wire [1 : 0] S_AXI_BRESP,
-// Optional User-defined signal in the write response channel.
-// output wire [C_S_AXI_BUSER_WIDTH-1 : 0] S_AXI_BUSER,
 		// Write response valid. This signal indicates that the
 		// channel is signaling a valid write response.
 		output wire  S_AXI_BVALID,
@@ -153,8 +128,6 @@
 		// Region identifier. Permits a single physical interface
 		// on a slave to be used for multiple logical interfaces.
 		input wire [3 : 0] S_AXI_ARREGION,
-// Optional User-defined signal in the read address channel.
-// input wire [C_S_AXI_ARUSER_WIDTH-1 : 0] S_AXI_ARUSER,
 		// Write address valid. This signal indicates that
 		// the channel is signaling valid read address and
 		// control information.
@@ -174,8 +147,6 @@
 		// Read last. This signal indicates the last transfer
 		// in a read burst.
 		output wire  S_AXI_RLAST,
-// Optional User-defined signal in the read address channel.
-// output wire [C_S_AXI_RUSER_WIDTH-1 : 0] S_AXI_RUSER,
 		// Read valid. This signal indicates that the channel
 		// is signaling the required read data.
 		output wire  S_AXI_RVALID,
@@ -189,14 +160,12 @@
 	reg  	axi_awready;
 	reg  	axi_wready;
 	reg [1 : 0] 	axi_bresp;
-// reg [C_S_AXI_BUSER_WIDTH-1 : 0] 	axi_buser;
 	reg  	axi_bvalid;
 	reg [C_S_AXI_ADDR_WIDTH-1 : 0] 	axi_araddr;
 	reg  	axi_arready;
 	reg [C_S_AXI_DATA_WIDTH-1 : 0] 	axi_rdata;
 	reg [1 : 0] 	axi_rresp;
 	reg  	axi_rlast;
-// reg [C_S_AXI_RUSER_WIDTH-1 : 0] 	axi_ruser;
 	reg  	axi_rvalid;
 	// aw_wrap_en determines wrap boundary and enables wrapping
 	wire aw_wrap_en;
@@ -246,13 +215,11 @@
 	assign S_AXI_AWREADY	= axi_awready;
 	assign S_AXI_WREADY	= axi_wready;
 	assign S_AXI_BRESP	= axi_bresp;
-// assign S_AXI_BUSER	= axi_buser;
 	assign S_AXI_BVALID	= axi_bvalid;
 	assign S_AXI_ARREADY	= axi_arready;
 	assign S_AXI_RDATA	= axi_rdata;
 	assign S_AXI_RRESP	= axi_rresp;
 	assign S_AXI_RLAST	= axi_rlast;
-	// assign S_AXI_RUSER	= axi_ruser;
 	assign S_AXI_RVALID	= axi_rvalid;
 	assign S_AXI_BID = S_AXI_AWID;
 	assign S_AXI_RID = S_AXI_ARID;
@@ -399,7 +366,6 @@
 	    begin
 	      axi_bvalid <= 0;
 	      axi_bresp <= 2'b0;
-// axi_buser <= 0;
 	    end 
 	  else
 	    begin    
@@ -466,7 +432,6 @@
 	      axi_arburst <= 0;
 	      axi_arlen <= 0;
 	      axi_rlast <= 1'b0;
-// axi_ruser <= 0;
 	    end 
 	  else
 	    begin    
