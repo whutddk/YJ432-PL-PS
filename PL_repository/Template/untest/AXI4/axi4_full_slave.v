@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-04-01 17:02:49
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-04-01 18:00:48
+// Last Modified time: 2019-04-01 20:48:08
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: axi4_full_slave
@@ -19,6 +19,9 @@
 // Additional Comments:  
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
+// generate from vivado 2018.3
+
 
 `timescale 1 ns / 1 ps
 
