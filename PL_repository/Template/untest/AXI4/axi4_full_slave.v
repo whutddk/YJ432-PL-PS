@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-04-01 17:02:49
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-04-01 17:44:24
+// Last Modified time: 2019-04-01 18:00:48
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: axi4_full_slave
@@ -22,7 +22,7 @@
 
 `timescale 1 ns / 1 ps
 
-	module axi4_full_temple_v1_0_S00_AXI #
+	module axi4_full_slave #
 	(
 		// Width of ID for for write address, write data, read address and read data
 		parameter integer C_S_AXI_ID_WIDTH	= 1,
@@ -32,127 +32,47 @@
 		parameter integer C_S_AXI_ADDR_WIDTH	= 7
 	)
 	(
-
-		// Global Clock Signal
-		input wire  S_AXI_ACLK,
-		// Global Reset Signal. This Signal is Active LOW
-		input wire  S_AXI_ARESETN,
-		// Write Address ID
-		input wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_AWID,
-		// Write address
-		input wire [C_S_AXI_ADDR_WIDTH-1 : 0] S_AXI_AWADDR,
-		// Burst length. The burst length gives the exact number of transfers in a burst
-		input wire [7 : 0] S_AXI_AWLEN,
-		// Burst size. This signal indicates the size of each transfer in the burst
-		input wire [2 : 0] S_AXI_AWSIZE,
-		// Burst type. The burst type and the size information, 
-    	// determine how the address for each transfer within the burst is calculated.
-		input wire [1 : 0] S_AXI_AWBURST,
-		// Lock type. Provides additional information about the
-    	// atomic characteristics of the transfer.
-		input wire  S_AXI_AWLOCK,
-		// Memory type. This signal indicates how transactions
-		// are required to progress through a system.
-		input wire [3 : 0] S_AXI_AWCACHE,
-		// Protection type. This signal indicates the privilege
-		// and security level of the transaction, and whether
-		// the transaction is a data access or an instruction access.
-		input wire [2 : 0] S_AXI_AWPROT,
-		// Quality of Service, QoS identifier sent for each
-		// write transaction.
-		input wire [3 : 0] S_AXI_AWQOS,
-		// Region identifier. Permits a single physical interface
-		// on a slave to be used for multiple logical interfaces.
-		input wire [3 : 0] S_AXI_AWREGION,
-		// Write address valid. This signal indicates that
-		// the channel is signaling valid write address and
-		// control information.
-		input wire  S_AXI_AWVALID,
-		// Write address ready. This signal indicates that
-		// the slave is ready to accept an address and associated
-		// control signals.
-		output wire  S_AXI_AWREADY,
-		// Write Data
-		input wire [C_S_AXI_DATA_WIDTH-1 : 0] S_AXI_WDATA,
-		// Write strobes. This signal indicates which byte
-		// lanes hold valid data. There is one write strobe
-		// bit for each eight bits of the write data bus.
-		input wire [(C_S_AXI_DATA_WIDTH/8)-1 : 0] S_AXI_WSTRB,
-		// Write last. This signal indicates the last transfer
-		// in a write burst.
-		input wire  S_AXI_WLAST,
-		// Write valid. This signal indicates that valid write
-		// data and strobes are available.
-		input wire  S_AXI_WVALID,
-		// Write ready. This signal indicates that the slave
-		// can accept the write data.
-		output wire  S_AXI_WREADY,
-		// Response ID tag. This signal is the ID tag of the
-		// write response.
-		output wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_BID,
-		// Write response. This signal indicates the status
-		// of the write transaction.
-		output wire [1 : 0] S_AXI_BRESP,
-		// Write response valid. This signal indicates that the
-		// channel is signaling a valid write response.
-		output wire  S_AXI_BVALID,
-		// Response ready. This signal indicates that the master
-		// can accept a write response.
-		input wire  S_AXI_BREADY,
-		// Read address ID. This signal is the identification
-		// tag for the read address group of signals.
-		input wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_ARID,
-		// Read address. This signal indicates the initial
-		// address of a read burst transaction.
-		input wire [C_S_AXI_ADDR_WIDTH-1 : 0] S_AXI_ARADDR,
-		// Burst length. The burst length gives the exact number of transfers in a burst
-		input wire [7 : 0] S_AXI_ARLEN,
-		// Burst size. This signal indicates the size of each transfer in the burst
-		input wire [2 : 0] S_AXI_ARSIZE,
-		// Burst type. The burst type and the size information, 
-		// determine how the address for each transfer within the burst is calculated.
-		input wire [1 : 0] S_AXI_ARBURST,
-		// Lock type. Provides additional information about the
-		// atomic characteristics of the transfer.
-		input wire  S_AXI_ARLOCK,
-		// Memory type. This signal indicates how transactions
-		// are required to progress through a system.
-		input wire [3 : 0] S_AXI_ARCACHE,
-		// Protection type. This signal indicates the privilege
-		// and security level of the transaction, and whether
-		// the transaction is a data access or an instruction access.
-		input wire [2 : 0] S_AXI_ARPROT,
-		// Quality of Service, QoS identifier sent for each
-		// read transaction.
-		input wire [3 : 0] S_AXI_ARQOS,
-		// Region identifier. Permits a single physical interface
-		// on a slave to be used for multiple logical interfaces.
-		input wire [3 : 0] S_AXI_ARREGION,
-		// Write address valid. This signal indicates that
-		// the channel is signaling valid read address and
-		// control information.
-		input wire  S_AXI_ARVALID,
-		// Read address ready. This signal indicates that
-		// the slave is ready to accept an address and associated
-	    // control signals.
-		output wire  S_AXI_ARREADY,
-		// Read ID tag. This signal is the identification tag
-		// for the read data group of signals generated by the slave.
-		output wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_RID,
-		// Read Data
-		output wire [C_S_AXI_DATA_WIDTH-1 : 0] S_AXI_RDATA,
-		// Read response. This signal indicates the status of
-		// the read transfer.
-		output wire [1 : 0] S_AXI_RRESP,
-		// Read last. This signal indicates the last transfer
-		// in a read burst.
-		output wire  S_AXI_RLAST,
-		// Read valid. This signal indicates that the channel
-		// is signaling the required read data.
-		output wire  S_AXI_RVALID,
-		// Read ready. This signal indicates that the master can
-		// accept the read data and response information.
-		input wire  S_AXI_RREADY
+		input wire  S_AXI_ACLK,// Global Clock Signal
+		input wire  S_AXI_ARESETN,// Global Reset Signal. This Signal is Active LOW
+		input wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_AWID,// Write Address ID
+		input wire [C_S_AXI_ADDR_WIDTH-1 : 0] S_AXI_AWADDR,// Write address
+		input wire [7 : 0] S_AXI_AWLEN,// Burst length. The burst length gives the exact number of transfers in a burst
+		input wire [2 : 0] S_AXI_AWSIZE,// Burst size. This signal indicates the size of each transfer in the burst
+		input wire [1 : 0] S_AXI_AWBURST,// Burst type. The burst type and the size information, determine how the address for each transfer within the burst is calculated.
+		input wire  S_AXI_AWLOCK,// Lock type. Provides additional information about the atomic characteristics of the transfer.
+		input wire [3 : 0] S_AXI_AWCACHE,// Memory type. This signal indicates how transactions are required to progress through a system.
+		input wire [2 : 0] S_AXI_AWPROT,// Protection type. This signal indicates the privilege and security level of the transaction, and whether the transaction is a data access or an instruction access.
+		input wire [3 : 0] S_AXI_AWQOS,// Quality of Service, QoS identifier sent for each	write transaction.
+		input wire [3 : 0] S_AXI_AWREGION,// Region identifier. Permits a single physical interface on a slave to be used for multiple logical interfaces.
+		input wire  S_AXI_AWVALID,// Write address valid. This signal indicates that the channel is signaling valid write address and control information.
+		output wire  S_AXI_AWREADY,// Write address ready. This signal indicates that the slave is ready to accept an address and associated control signals.
+		input wire [C_S_AXI_DATA_WIDTH-1 : 0] S_AXI_WDATA,// Write Data
+		input wire [(C_S_AXI_DATA_WIDTH/8)-1 : 0] S_AXI_WSTRB,// Write strobes. This signal indicates which byte lanes hold valid data. There is one write strobe bit for each eight bits of the write data bus.
+		input wire  S_AXI_WLAST,// Write last. This signal indicates the last transfer in a write burst.
+		input wire  S_AXI_WVALID,// Write valid. This signal indicates that valid write data and strobes are available.
+		output wire  S_AXI_WREADY,// Write ready. This signal indicates that the slave can accept the write data.
+		output wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_BID,// Response ID tag. This signal is the ID tag of the write response.
+		output wire [1 : 0] S_AXI_BRESP,// Write response. This signal indicates the status of the write transaction.
+		output wire  S_AXI_BVALID,// Write response valid. This signal indicates that the channel is signaling a valid write response.
+		input wire  S_AXI_BREADY,// Response ready. This signal indicates that the master can accept a write response.
+		input wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_ARID,// Read address ID. This signal is the identification tag for the read address group of signals.
+		input wire [C_S_AXI_ADDR_WIDTH-1 : 0] S_AXI_ARADDR,// Read address. This signal indicates the initial address of a read burst transaction.
+		input wire [7 : 0] S_AXI_ARLEN,// Burst length. The burst length gives the exact number of transfers in a burst
+		input wire [2 : 0] S_AXI_ARSIZE,// Burst size. This signal indicates the size of each transfer in the burst
+		input wire [1 : 0] S_AXI_ARBURST,// Burst type. The burst type and the size information, determine how the address for each transfer within the burst is calculated.
+		input wire  S_AXI_ARLOCK,// Lock type. Provides additional information about the atomic characteristics of the transfer.
+		input wire [3 : 0] S_AXI_ARCACHE,// Memory type. This signal indicates how transactions are required to progress through a system.
+		input wire [2 : 0] S_AXI_ARPROT,// Protection type. This signal indicates the privilege and security level of the transaction, and whether the transaction is a data access or an instruction access.
+		input wire [3 : 0] S_AXI_ARQOS,// Quality of Service, QoS identifier sent for each read transaction.
+		input wire [3 : 0] S_AXI_ARREGION,// Region identifier. Permits a single physical interface on a slave to be used for multiple logical interfaces.
+		input wire  S_AXI_ARVALID,// Write address valid. This signal indicates that the channel is signaling valid read address and control information.
+		output wire  S_AXI_ARREADY,// Read address ready. This signal indicates that the slave is ready to accept an address and associated control signals.
+		output wire [C_S_AXI_ID_WIDTH-1 : 0] S_AXI_RID,// Read ID tag. This signal is the identification tag for the read data group of signals generated by the slave.
+		output wire [C_S_AXI_DATA_WIDTH-1 : 0] S_AXI_RDATA,// Read Data
+		output wire [1 : 0] S_AXI_RRESP,// Read response. This signal indicates the status of the read transfer.
+		output wire  S_AXI_RLAST,// Read last. This signal indicates the last transfer in a read burst.
+		output wire  S_AXI_RVALID,// Read valid. This signal indicates that the channel is signaling the required read data.
+		input wire  S_AXI_RREADY// Read ready. This signal indicates that the master can accept the read data and response information.
 	);
 
 	// AXI4FULL signals
