@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-04-01 17:08:13
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-04-02 15:02:56
+// Last Modified time: 2019-04-02 17:09:04
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: axi4_full_master
@@ -540,7 +540,7 @@
 	//----------------------------------
 
 	//Register and hold any data mismatches, or read/write interface errors
-	always @(posedge M_AXI_ACLK) begin
+	always @( posedge M_AXI_ACLK ) begin
 		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
 			error_reg <= 1'b0;
 		end
@@ -592,6 +592,7 @@
 			write_burst_counter <= write_burst_counter;
 		end
 	end
+	
 	// read_burst_counter counter keeps track with the number of burst transaction initiated
 	// against the number of burst transactions the master needs to initiate
 	always @( posedge M_AXI_ACLK ) begin
@@ -609,14 +610,14 @@
 	end
 
 	//implement master command interface state machine
-	always @ ( posedge M_AXI_ACLK) begin
+	always @ ( posedge M_AXI_ACLK ) begin
 		if ( M_AXI_ARESETN == 1'b0 ) begin
 			// reset condition
 			// All the signals are assigned default values under reset condition
-			mst_exec_state      <= IDLE;
+			mst_exec_state <= IDLE;
 			start_single_burst_write <= 1'b0;
-			start_single_burst_read  <= 1'b0;
-			compare_done      <= 1'b0;
+			start_single_burst_read <= 1'b0;
+			compare_done <= 1'b0;
 			ERROR <= 1'b0;
 		end
 		else begin
@@ -674,7 +675,6 @@
 				// This state is responsible to issue the state of comparison
 				// of written data with the read data. If no error flags are set,
 				// compare_done signal will be asseted to indicate success.
-				//if (~error_reg)
 				ERROR <= error_reg;
 				mst_exec_state <= IDLE;
 				compare_done <= 1'b1;
@@ -699,7 +699,7 @@
 			burst_write_active <= 1'b1;
 		end
 		else if ( M_AXI_BVALID && axi_bready ) begin
-		  burst_write_active <= 0;
+			burst_write_active <= 1'b0;
 		end
 	end
 
@@ -713,7 +713,7 @@
 			writes_done <= 1'b0;
 		end
 		//The writes_done should be associated with a bready response
-		else if (M_AXI_BVALID && (write_burst_counter[C_NO_BURSTS_REQ]) && axi_bready) begin
+		else if ( M_AXI_BVALID && (write_burst_counter[C_NO_BURSTS_REQ] ) && axi_bready ) begin
 			writes_done <= 1'b1;
 		end
 		else begin
@@ -732,7 +732,7 @@
 		else if ( start_single_burst_read ) begin
 			burst_read_active <= 1'b1;
 		end
-		else if (M_AXI_RVALID && axi_rready && M_AXI_RLAST) begin
+		else if ( M_AXI_RVALID && axi_rready && M_AXI_RLAST ) begin
 			burst_read_active <= 0;
 		end
 	end
@@ -744,11 +744,11 @@
 	 // committed.
 
 	always @( posedge M_AXI_ACLK ) begin
-		if (M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1) begin
+		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
 			reads_done <= 1'b0;
 		end
 		//The reads_done should be associated with a rready response
-		else if (M_AXI_RVALID && axi_rready && (read_index == C_M_AXI_BURST_LEN-1) && (read_burst_counter[C_NO_BURSTS_REQ])) begin
+		else if ( M_AXI_RVALID && axi_rready && (read_index == C_M_AXI_BURST_LEN-1) && (read_burst_counter[C_NO_BURSTS_REQ])) begin
 			reads_done <= 1'b1;
 		end
 		else begin
@@ -756,8 +756,5 @@
 		end
 	end
 
-	// Add user logic here
-
-	// User logic ends
 
 	endmodule

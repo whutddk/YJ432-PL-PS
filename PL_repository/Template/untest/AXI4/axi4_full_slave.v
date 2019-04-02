@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-04-01 17:02:49
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-04-02 15:42:46
+// Last Modified time: 2019-04-02 16:34:12
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: axi4_full_slave
@@ -163,14 +163,14 @@
 			axi_awv_awr_flag <= 1'b0;
 		end
 		else begin
-			if (~axi_awready && S_AXI_AWVALID && ~axi_awv_awr_flag && ~axi_arv_arr_flag) begin
+			if ( ~axi_awready && S_AXI_AWVALID && ~axi_awv_awr_flag && ~axi_arv_arr_flag ) begin
 				// slave is ready to accept an address and
 				// associated control signals
 				axi_awready <= 1'b1;
 				axi_awv_awr_flag  <= 1'b1; 
 				// used for generation of bresp() and bvalid
 			end
-			else if (S_AXI_WLAST && axi_wready) begin
+			else if ( S_AXI_WLAST && axi_wready ) begin
 			// preparing to accept next address after current write burst tx completion
 				axi_awv_awr_flag  <= 1'b0;
 			end
@@ -200,9 +200,9 @@
 				// start address of transfer
 				axi_awlen_cntr <= 0;
 			end
-			else if((axi_awlen_cntr <= axi_awlen) && axi_wready && S_AXI_WVALID) begin
+			else if( ( axi_awlen_cntr <= axi_awlen ) && axi_wready && S_AXI_WVALID ) begin
 				axi_awlen_cntr <= axi_awlen_cntr + 1;
-				case (axi_awburst)
+				case ( axi_awburst )
 				2'b00: begin// fixed burst
 				// The write address for all the beats in the transaction are fixed
 					axi_awaddr <= axi_awaddr;
@@ -397,13 +397,19 @@
 			end
 		end
 	end
+	
+
+
+
+
 	// ------------------------------------------
 	// -- Example code to access user logic memory region
 	// ------------------------------------------
-
+/*
 	generate
-		if (USER_NUM_MEM >= 1) begin
-			assign mem_select  = 1;
+		if ( USER_NUM_MEM >= 1 ) begin
+			assign mem_select = 1;
+			// 												Read 												write 																neither
 			assign mem_address = ( axi_arv_arr_flag ? axi_araddr[ADDR_LSB + OPT_MEM_ADDR_BITS : ADDR_LSB] : ( axi_awv_awr_flag ? axi_awaddr[ADDR_LSB + OPT_MEM_ADDR_BITS : ADDR_LSB] : 0 ) );
 		end
 	endgenerate
@@ -418,23 +424,23 @@
 			assign mem_rden = axi_arv_arr_flag ;
 		
 			for ( mem_byte_index = 0; mem_byte_index <= ( C_S_AXI_DATA_WIDTH / 8 - 1 ); mem_byte_index = mem_byte_index + 1 ) begin:BYTE_BRAM_GEN
-				wire [8-1 : 0] data_in ;
-				wire [8-1 : 0] data_out;
-				reg  [8-1 : 0] byte_ram [0 : 31];
+				wire [7 : 0] data_in;
+				wire [7 : 0] data_out;
+				reg  [7 : 0] byte_ram [0 : 31];
 				integer  j;
 		 
 				//assigning 8 bit data
 				assign data_in  = S_AXI_WDATA[(mem_byte_index*8+7) -: 8];
 				assign data_out = byte_ram[mem_address];
 		 
-				always @( posedge S_AXI_ACLK ) begin
-					if (mem_wren && S_AXI_WSTRB[mem_byte_index]) begin
+				always @ ( posedge S_AXI_ACLK ) begin
+					if ( mem_wren && S_AXI_WSTRB[mem_byte_index] ) begin
 						byte_ram[mem_address] <= data_in;
 					end
 				end
 		  
 				always @( posedge S_AXI_ACLK ) begin
-					if (mem_rden) begin
+					if ( mem_rden ) begin
 						mem_data_out[i][(mem_byte_index*8+7) -: 8] <= data_out;
 					end   
 				end
@@ -444,7 +450,7 @@
 	//Output register or memory read data
 
 	always @( mem_data_out, axi_rvalid) begin
-		if (axi_rvalid) begin
+		if ( axi_rvalid ) begin
 		  // Read address mux
 			axi_rdata <= mem_data_out[0];
 		end
@@ -453,6 +459,6 @@
 		end       
 	end    
 
-
+*/
 
 	endmodule
