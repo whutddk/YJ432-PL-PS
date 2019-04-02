@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-04-01 17:08:13
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-04-02 17:09:04
+// Last Modified time: 2019-04-02 20:33:54
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: axi4_full_master
@@ -105,53 +105,55 @@
 	localparam integer C_MASTER_LENGTH	= 12;
 	// total number of burst transfers is master length divided by burst length and burst size
 	localparam integer C_NO_BURSTS_REQ = C_MASTER_LENGTH-clogb2((C_M_AXI_BURST_LEN*C_M_AXI_DATA_WIDTH/8)-1);
-	// Example State machine to initialize counter, initialize write transactions, 
-	// initialize read transactions and comparison of read data with the 
-	// written data words.
-	parameter [1:0] IDLE = 2'b00, // This state initiates AXI4Lite transaction 
-		// after the state machine changes state to INIT_WRITE 
-		// when there is 0 to 1 transition on INIT_AXI_TXN
-		INIT_WRITE   = 2'b01, // This state initializes write transaction,
-		// once writes are done, the state machine 
-		// changes state to INIT_READ 
-		INIT_READ = 2'b10, // This state initializes read transaction
-		// once reads are done, the state machine 
-		// changes state to INIT_COMPARE 
-		INIT_COMPARE = 2'b11; // This state issues the status of comparison 
-		// of the written data with the read data	
 
-	reg [1:0] mst_exec_state;
+
+// Example State machine to initialize counter, initialize write transactions, 
+// initialize read transactions and comparison of read data with the 
+// written data words.
+parameter [1:0] IDLE = 2'b00, // This state initiates AXI4Lite transaction 
+// after the state machine changes state to INIT_WRITE 
+// when there is 0 to 1 transition on INIT_AXI_TXN
+INIT_WRITE   = 2'b01, // This state initializes write transaction,
+// once writes are done, the state machine 
+// changes state to INIT_READ 
+INIT_READ = 2'b10, // This state initializes read transaction
+// once reads are done, the state machine 
+// changes state to INIT_COMPARE 
+INIT_COMPARE = 2'b11; // This state issues the status of comparison 
+// of the written data with the read data	
+
+reg [1:0] mst_exec_state;
 
 	// AXI4LITE signals
 	//AXI4 internal temp signals
-	reg [C_M_AXI_ADDR_WIDTH-1 : 0] 	axi_awaddr;
-	reg  	axi_awvalid;
-	reg [C_M_AXI_DATA_WIDTH-1 : 0] 	axi_wdata;
-	reg  	axi_wlast;
-	reg  	axi_wvalid;
-	reg  	axi_bready;
-	reg [C_M_AXI_ADDR_WIDTH-1 : 0] 	axi_araddr;
-	reg  	axi_arvalid;
-	reg  	axi_rready;
+	reg [C_M_AXI_ADDR_WIDTH-1 : 0] axi_awaddr;
+	reg axi_awvalid;
+	reg [C_M_AXI_DATA_WIDTH-1 : 0] axi_wdata;
+	reg axi_wlast;
+	reg axi_wvalid;
+	reg axi_bready;
+	reg [C_M_AXI_ADDR_WIDTH-1 : 0] axi_araddr;
+	reg axi_arvalid;
+	reg axi_rready;
 	//write beat count in a burst
-	reg [C_TRANSACTIONS_NUM : 0] 	write_index;
+	reg [C_TRANSACTIONS_NUM : 0] write_index;
 	//read beat count in a burst
-	reg [C_TRANSACTIONS_NUM : 0] 	read_index;
+	reg [C_TRANSACTIONS_NUM : 0] read_index;
 	//size of C_M_AXI_BURST_LEN length burst in bytes
-	wire [C_TRANSACTIONS_NUM+2 : 0] 	burst_size_bytes;
+	wire [C_TRANSACTIONS_NUM+2 : 0] burst_size_bytes;
 	//The burst counters are used to track the number of burst transfers of C_M_AXI_BURST_LEN burst length needed to transfer 2^C_MASTER_LENGTH bytes of data.
-	reg [C_NO_BURSTS_REQ : 0] 	write_burst_counter;
-	reg [C_NO_BURSTS_REQ : 0] 	read_burst_counter;
-	reg  	start_single_burst_write;
-	reg  	start_single_burst_read;
-	reg  	writes_done;
-	reg  	reads_done;
-	reg  	error_reg;
-	reg  	compare_done;
-	reg  	read_mismatch;
-	reg  	burst_write_active;
-	reg  	burst_read_active;
-	reg [C_M_AXI_DATA_WIDTH-1 : 0] 	expected_rdata;
+	reg [C_NO_BURSTS_REQ : 0] write_burst_counter;
+	reg [C_NO_BURSTS_REQ : 0] read_burst_counter;
+	reg start_single_burst_write;
+	reg start_single_burst_read;
+	reg writes_done;
+	reg reads_done;
+	reg error_reg;
+	reg compare_done;
+reg read_mismatch;
+	reg burst_write_active;
+	reg burst_read_active;
+reg [C_M_AXI_DATA_WIDTH-1 : 0] 	expected_rdata;
 	//Interface response error flags
 	wire  	write_resp_error;
 	wire  	read_resp_error;
@@ -320,7 +322,7 @@
 
 
 
-	//WLAST generation on the MSB of a counter underflow
+	// WLAST generation on the MSB of a counter underflow
 	// WVALID logic, similar to the axi_awvalid always block above
 	always @( posedge M_AXI_ACLK ) begin
 		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
@@ -356,19 +358,19 @@
 		end
 	end
 
-
-	/* Write Data Generator Data pattern is only a simple incrementing count from 0 for each burst  */         
-	always @( posedge M_AXI_ACLK ) begin
-		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
-			axi_wdata <= 'b1;
-		end
-		else if (wnext) begin
-			axi_wdata <= axi_wdata + 1;
-		end
-		else begin
-			axi_wdata <= axi_wdata;
-		end
-	end
+// demo 里axi写入数据只是从0的递增数据
+/* Write Data Generator Data pattern is only a simple incrementing count from 0 for each burst  */
+always @( posedge M_AXI_ACLK ) begin
+if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
+axi_wdata <= 'b1;
+end
+else if (wnext) begin
+axi_wdata <= axi_wdata + 1;
+end
+else begin
+axi_wdata <= axi_wdata;
+end
+end
 
 
 	//----------------------------
@@ -498,59 +500,59 @@
 		// retain the previous value
 	end
 
-	//Check received read data against data generator
-	always @( posedge M_AXI_ACLK ) begin
-		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
-			read_mismatch <= 1'b0;
-		end
-		//Only check data when RVALID is active
-		else if (rnext && (M_AXI_RDATA != expected_rdata)) begin
-			read_mismatch <= 1'b1;
-		end
-		else begin
-			read_mismatch <= 1'b0;
-		end
-	end
+//Check received read data against data generator
+always @( posedge M_AXI_ACLK ) begin
+if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
+read_mismatch <= 1'b0;
+end
+//Only check data when RVALID is active
+else if (rnext && (M_AXI_RDATA != expected_rdata)) begin
+read_mismatch <= 1'b1;
+end
+else begin
+read_mismatch <= 1'b0;
+end
+end
 
 	//Flag any read response errors
 	assign read_resp_error = axi_rready & M_AXI_RVALID & M_AXI_RRESP[1];
 
 
-	//----------------------------------------
-	//Example design read check data generator
-	//-----------------------------------------
+//----------------------------------------
+//Example design read check data generator
+//-----------------------------------------
 
-	//Generate expected read data to check against actual read data
+//Generate expected read data to check against actual read data
 
-	always @(posedge M_AXI_ACLK) begin
-		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
-			expected_rdata <= 'b1;
-		end
-		else if ( M_AXI_RVALID && axi_rready ) begin
-			expected_rdata <= expected_rdata + 1;
-		end
-		else begin
-			expected_rdata <= expected_rdata;
-		end
-	end
+always @(posedge M_AXI_ACLK) begin
+if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
+expected_rdata <= 'b1;
+end
+else if ( M_AXI_RVALID && axi_rready ) begin
+expected_rdata <= expected_rdata + 1;
+end
+else begin
+expected_rdata <= expected_rdata;
+end
+end
 
 
-	//----------------------------------
-	//Example design error register
-	//----------------------------------
+//----------------------------------
+//Example design error register
+//----------------------------------
 
-	//Register and hold any data mismatches, or read/write interface errors
-	always @( posedge M_AXI_ACLK ) begin
-		if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
-			error_reg <= 1'b0;
-		end
-		else if ( read_mismatch || write_resp_error || read_resp_error ) begin
-			error_reg <= 1'b1;
-		end
-		else begin
-			error_reg <= error_reg;
-		end
-	end
+//Register and hold any data mismatches, or read/write interface errors
+always @( posedge M_AXI_ACLK ) begin
+if ( M_AXI_ARESETN == 0 || init_txn_pulse == 1'b1 ) begin
+error_reg <= 1'b0;
+end
+else if ( read_mismatch || write_resp_error || read_resp_error ) begin
+error_reg <= 1'b1;
+end
+else begin
+error_reg <= error_reg;
+end
+end
 
 
 	//--------------------------------
