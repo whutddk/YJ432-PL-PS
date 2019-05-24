@@ -27,13 +27,46 @@ module PartialReconfigurationTop (
 	input CLK,
 	input RST_n,
 	
-
-
+	
+    output BZ,
+    output LED_R,
+    output LED_G,
+    output LED_B
 
 );
 
 
+	
+	
+PRpwm1to4 i_cfg1(
+	.CLK(CLK),
+	.RST_n(RST_n),
 
+
+	.BZ(BZ),
+	.LED_R(LED_R),
+	.LED_G(LED_G),
+	.LED_B(LED_B)
+
+	
+);
+	
+	
+perip_BZLED i_cfg2(
+	.CLK(CLK),
+	.RST_n(RST_n),
+	
+	.LED_FREQ_Set(10000),	
+	.BZ_FREQ_Set(10000),
+	.LEDR_Puty_Set(1000),
+	.LEDG_Puty_Set(1000),
+	.LEDB_Puty_Set(1000),
+
+	.BZ(BZ),
+	.LED_R(LED_R),
+	.LED_G(LED_G),
+	.LED_B(LED_B)
+	);
 
 
 endmodule
