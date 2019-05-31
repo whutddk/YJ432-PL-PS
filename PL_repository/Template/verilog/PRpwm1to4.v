@@ -47,9 +47,13 @@ perip_PWM i_pwm_cfg(
 		.PWM_CHn(LED_B)
 	);
 
-assign BZ = 1'b0;
-assign LED_R = 1'b0;
-assign LED_G = 1'b0;
+reg BZ_reg = 1'b0;
+reg R_reg = 1'b1;
+reg G_reg = 1'b1;
+
+assign BZ = BZ_reg;
+assign LED_R = R_reg;
+assign LED_G = G_reg;
 
 
 
