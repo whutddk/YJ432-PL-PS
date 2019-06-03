@@ -23,39 +23,37 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module PRpwm1to4 (
+module reconfig (
 	input CLK,
 	input RST_n,
 
+	output [3:0] data
 
-	output BZ,
-	output LED_R,
-	output LED_G,
-	output LED_B
 
 	
 );
 
-
-perip_PWM i_pwm_cfg(
-		.CLK(CLK),
-		.RST_n(RST_n),
-
-		.FREQ_Cnt_Set(10000),
-		.Chn_duty_Set(1000),
-
-		.PWM_CHn(LED_B)
-	);
-
-reg BZ_reg = 1'b0;
-reg R_reg = 1'b1;
-reg G_reg = 1'b1;
-
-assign BZ = BZ_reg;
-assign LED_R = R_reg;
-assign LED_G = G_reg;
+reg [3:0] data_Reg;
+reg [2:0] cnt_Reg;
 
 
+always @ (posedge CLK) begin
+if ( !RST_n )begin
+    data_Reg <= 4'b0;
+    cnt_Reg <= 3'd0;
+end
+else begin
+    cnt_Reg <= cnt_Reg + 3'd1;
 
+    if ( cnt_Reg[0] == 1'b1 ) begin
+        data_Reg <= data_Reg << 1 | 4'b1 ;
+    end
+    else begin
+        data_Reg <= data_Reg << 1;
+    end
+end
+end
+
+assign data = data_Reg;
 
 endmodule

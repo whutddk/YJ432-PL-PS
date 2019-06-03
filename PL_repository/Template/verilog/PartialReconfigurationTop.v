@@ -35,20 +35,33 @@ module PartialReconfigurationTop (
 
 );
 
+wire [3:0] dataWire;
 
+assign {BZ,LED_R,LED_G,LED_B} = ~dataWire;
+
+reg [31:0] clk_cnt = 32'd0;
+reg clk_div = 1'd0;
+
+always @ (posedge i_sysclk ) begin
+if ( clk_cnt == 32'd50000000 ) begin
+    clk_cnt <= 32'd0;
+    clk_div <= ~clk_div;
+end
+else begin
+clk_cnt <= clk_cnt + 32'd1;
+
+end
+
+end
 	
 	
-PRpwm1to4 i_cfg1(
-	.CLK(i_sysclk),
+reconfig i_cfg1(
+	.CLK(clk_div),
 	.RST_n(1'b1),
 
 
-	.BZ(BZ),
-	.LED_R(LED_R),
-	.LED_G(LED_G),
-	.LED_B(LED_B)
+	.data(dataWire)
 
-	
 );
 	
 endmodule
