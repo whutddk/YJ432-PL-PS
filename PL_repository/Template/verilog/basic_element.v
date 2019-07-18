@@ -3,7 +3,7 @@
 // Engineer: Ruige_Lee
 // Create Date: 2019-01-16 17:35:01
 // Last Modified by:   Ruige_Lee
-// Last Modified time: 2019-02-26 11:38:45
+// Last Modified time: 2019-03-03 16:43:57
 // Email: 295054118@whut.edu.cn
 // Design Name:   
 // Module Name: basic_element
@@ -24,11 +24,12 @@
 //mainly refer to risc-V e203
 
 
-
+`timescale 1 ns / 1 ps
 
 
 module yj_basic_reg_clk_p # (
-		parameter DW = 32
+		parameter DW = 32,
+		parameter RSTVAL = 1'b0
 	)
 	(
 		input CLK,
@@ -45,7 +46,7 @@ assign qout = qout_Reg;
 always @( posedge CLK or negedge RSTn ) begin
 
 	if ( !RSTn ) begin
-		qout_Reg <= { DW { 1'b0 } };
+		qout_Reg <= { DW { RSTVAL } };
 	end
 
 	else begin
@@ -58,7 +59,8 @@ endmodule
 
 
 module yj_basic_reg_clk_n # (
-		parameter DW = 32
+		parameter DW = 32,
+		parameter RSTVAL = 1'b0
 	)
 	(
 		input CLK,
@@ -75,7 +77,7 @@ assign qout = qout_Reg;
 always @( negedge CLK or negedge RSTn ) begin
 
 	if ( !RSTn ) begin
-		qout_Reg <= { DW { 1'b0 } };
+		qout_Reg <= { DW { RSTVAL } };
 	end
 
 	else begin
@@ -106,8 +108,8 @@ module yj_basic_signal_2lever_sync #
 
 	wire [DW-1:0] sync_dat [1:0];
     
-    yj_basic_reg_clk_p #(DW) sync_1lever(CLK, RSTn, din, sync_dat[0]);
-    yj_basic_reg_clk_p #(DW) sync_2lever(CLK, RSTn, sync_dat[0], sync_dat[1]);
+    yj_basic_reg_clk_p #(.DW(DW),.RSTVAL(1'b0)) sync_1lever(CLK, RSTn, din, sync_dat[0]);
+    yj_basic_reg_clk_p #(.DW(DW),.RSTVAL(1'b0)) sync_2lever(CLK, RSTn, sync_dat[0], sync_dat[1]);
 
 
 	assign dout = sync_dat[1];
