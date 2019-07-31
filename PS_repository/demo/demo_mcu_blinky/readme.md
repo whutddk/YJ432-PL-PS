@@ -1,6 +1,6 @@
 # Demo-mcu-blinky
 
-- Demonstration of dip switch Control led Lamp and Key Control Buzzer
+- Demonstration of dip switch Control led Lamp and Key Control the Buzzer
 
 ***
 
