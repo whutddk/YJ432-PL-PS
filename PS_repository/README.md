@@ -8,7 +8,7 @@ ARM+FPGA borad demo
 
 * checkout mbed-os to latest release 
     -  **mbed-os-5.13.1**
-    -  commit id : c966348d3f9ca80843be7cdc9b748f06ea73ced0
+    -  commit id : 5941d1718339116cd12914238ec331c84da3d08f
 * cd to ***mbed-os/targets*** and add the following code into ***targets.json***
 ```
 "K64ARM4FPGA": {
