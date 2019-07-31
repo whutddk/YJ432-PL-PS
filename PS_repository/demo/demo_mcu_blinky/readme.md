@@ -12,7 +12,6 @@
 - GDB debugging
 
 ### What's the use
-- When sw1 is pressed, led1 is on. 
 - When sw1 is pressed, led1 is on.
 - When sw2 is pressed, led2 is on.
 - Press s3 and the buzzer will sound.
